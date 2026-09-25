@@ -53,6 +53,11 @@ the same tests in real Chromium.
   logic tests use factories (to control edge cases).
 - No snapshots of markup. ARIA snapshots (`toMatchAriaSnapshot`) are allowed for
   landmark/nav structure. Visual screenshots only in the `@visual` Playwright tag.
+- `expect.element(...).toHaveTextContent()` in Vitest browser mode takes a **string** and
+  matches the **whole** normalised text, not a substring or a RegExp (TypeScript rejects a
+  RegExp). For partial checks read `element().textContent` and use `toContain`/`toMatch`.
+- Measuring layout right after a keyboard focus change: wait two animation frames first —
+  WebKit scrolls the focused element into view asynchronously.
 - Network: none at runtime today. If a form posts somewhere, MSW 2 handlers in
   `src/testing/msw/handlers.ts`, `onUnhandledRequest: 'error'`.
 - Time: `vi.useFakeTimers()` + `vi.setSystemTime()` when a date matters ("depuis sept.

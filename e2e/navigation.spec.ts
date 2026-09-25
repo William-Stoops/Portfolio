@@ -33,6 +33,7 @@ test.describe('main navigation', () => {
     { link: 'Projets', heading: 'Projets', hash: 'projets' },
     { link: 'IA', heading: 'IA\u00A0: pratique personnelle et travaux académiques', hash: 'ia' },
     { link: 'Compétences', heading: 'Compétences et formation', hash: 'competences' },
+    { link: 'Contact', heading: 'Contact', hash: 'contact' },
   ]) {
     test(`brings the ${link} section into view`, async ({ page }) => {
       await page.goto('/');

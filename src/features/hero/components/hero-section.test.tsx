@@ -39,12 +39,12 @@ describe('HeroSection', () => {
     await expect.element(screen.getByText(HERO_CONTENT.tagline)).toBeVisible();
   });
 
-  it('offers to get in touch by e-mail', async () => {
+  it('leads to the contact section', async () => {
     const screen = await renderHero();
 
     await expect
       .element(screen.getByRole('link', { name: 'Me contacter' }))
-      .toHaveAttribute('href', 'mailto:william.stoops@epitech.eu');
+      .toHaveAttribute('href', '/#contact');
   });
 
   it('offers the CV as a download, stating format and weight', async () => {

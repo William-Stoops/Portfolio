@@ -10,4 +10,5 @@ export const NAV_ITEMS: readonly NavItem[] = [
   { label: 'Projets', href: `${PATHS.home}#${SECTION_IDS.projects}` },
   { label: 'IA', href: `${PATHS.home}#${SECTION_IDS.aiPractice}` },
   { label: 'Compétences', href: `${PATHS.home}#${SECTION_IDS.skills}` },
+  { label: 'Contact', href: `${PATHS.home}#${SECTION_IDS.contact}` },
 ];

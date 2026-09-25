@@ -65,8 +65,12 @@ features/contact/
 - Submission result is a discriminated union
   (`{ status: 'idle' | 'success' } | { status: 'error'; message: string }`), never a thrown
   error crossing components.
-- Where the message goes (third-party form endpoint vs serverless function) is an open
-  question decided in the contact PR by ADR. Until then, contact = `mailto:` + LinkedIn.
+- Where the message goes: **decided** — the contact form builds a `mailto:` link
+  (`buildContactMailto`, RFC 6068: CRLF, `%20`) and hands it to the visitor's mail client
+  (`openInMailClient`, injected so tests observe it). No server, no third party. Revisit
+  only with a hosting decision and an ADR.
+- Types: `zodResolver` accepts `zod/mini` schemas (Zod 4 detected through `_zod`). Submit
+  handlers take React 19's `SubmitEvent` (`FormEvent` is deprecated in the types).
 
 ## Tests
 

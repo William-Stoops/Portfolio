@@ -1,6 +1,40 @@
-import { expect, test } from '@playwright/test';
+import { expect, type Page, test } from '@playwright/test';
 
 import { isMobileLayout, openMenuIfCollapsed, pressTab } from './support/interactions.ts';
+
+// Every focusable stop of the home page, in DOM order (= visual order).
+function expectedFocusOrderFor(page: Page): readonly string[] {
+  const header = isMobileLayout(page)
+    ? ['Menu']
+    : [
+        'À propos',
+        'Parcours',
+        'Projets',
+        'IA',
+        'Compétences',
+        'Contact',
+        'Thème du système',
+        'Thème clair',
+        'Thème sombre',
+      ];
+  return [
+    'Aller au contenu principal',
+    'William Stoops',
+    ...header,
+    'Me contacter',
+    'Télécharger le CV (PDF, 56 Ko)',
+    'Lire la vidéo : Pitch de STAXX au concours Epitech Summit',
+    'Ouvrir la vidéo sur YouTube (nouvel onglet)',
+    'william.stoops@epitech.eu',
+    'LinkedIn (nouvel onglet)',
+    'Nom',
+    'E-mail',
+    'Message',
+    'Préparer l’e-mail',
+    'william.stoops@epitech.eu',
+    'LinkedIn (nouvel onglet)',
+  ];
+}
 
 test.describe('keyboard navigation', () => {
   test('starts with a visible skip link that moves focus to the main content', async ({
@@ -18,35 +52,13 @@ test.describe('keyboard navigation', () => {
     await expect(page.getByRole('main')).toBeFocused();
   });
 
-  test('follows the visual order: skip link, header, calls to action, video, footer', async ({
+  test('follows the visual order through header, sections, contact form and footer', async ({
     page,
     browserName,
   }) => {
     await page.goto('/');
 
-    const header = isMobileLayout(page)
-      ? ['Menu']
-      : [
-          'À propos',
-          'Parcours',
-          'Projets',
-          'IA',
-          'Compétences',
-          'Thème du système',
-          'Thème clair',
-          'Thème sombre',
-        ];
-    const expectedFocusOrder = [
-      'Aller au contenu principal',
-      'William Stoops',
-      ...header,
-      'Me contacter',
-      'Télécharger le CV (PDF, 56 Ko)',
-      'Lire la vidéo : Pitch de STAXX au concours Epitech Summit',
-      'Ouvrir la vidéo sur YouTube (nouvel onglet)',
-      'william.stoops@epitech.eu',
-      'LinkedIn (nouvel onglet)',
-    ];
+    const expectedFocusOrder = expectedFocusOrderFor(page);
     for (const name of expectedFocusOrder) {
       await pressTab(page, browserName);
       await expect(page.locator(':focus')).toHaveAccessibleName(name);
@@ -59,19 +71,29 @@ test.describe('keyboard navigation', () => {
   }) => {
     await page.goto('/');
 
-    for (let step = 0; step < (isMobileLayout(page) ? 9 : 16); step += 1) {
+    for (let step = 0; step < expectedFocusOrderFor(page).length; step += 1) {
       await pressTab(page, browserName);
-      const focusState = await page.evaluate(() => {
+      const focusState = await page.evaluate(async () => {
+        // WebKit scrolls to the focused element asynchronously: measure once it settled.
+        await new Promise((resolve) => {
+          requestAnimationFrame(() => {
+            requestAnimationFrame(resolve);
+          });
+        });
         const element = document.activeElement;
         if (!(element instanceof HTMLElement)) {
           return null;
         }
         const style = getComputedStyle(element);
         const box = element.getBoundingClientRect();
-        const topElement = document.elementFromPoint(
-          box.left + box.width / 2,
-          box.top + box.height / 2,
-        );
+        // WCAG 2.4.11 (AA): the focused control must not be *entirely* hidden. Probe the
+        // middle of its visible part (a tall textarea is scrolled only to its caret).
+        const visibleTop = Math.max(box.top, 0);
+        const visibleBottom = Math.min(box.bottom, window.innerHeight);
+        const topElement =
+          visibleBottom > visibleTop
+            ? document.elementFromPoint(box.left + box.width / 2, (visibleTop + visibleBottom) / 2)
+            : null;
         return {
           name: element.textContent,
           hasOutline: style.outlineStyle === 'solid' && Number.parseFloat(style.outlineWidth) >= 2,

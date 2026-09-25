@@ -42,6 +42,8 @@ export default mergeConfig(
               // Only main.tsx imports it, but coverage analyses untested files too.
               'react-router/dom',
               'zod/mini',
+              'react-hook-form',
+              '@hookform/resolvers/zod',
               'lucide-react',
               'axe-core',
               'vitest-browser-react',
