@@ -89,7 +89,9 @@ usually appear:
 - Explicit return types on exported functions of `utils/`, `lib/`, `hooks/` (public
   contracts); inferred elsewhere.
 - Prefer `type` aliases; `interface` only when declaration merging is intended (never).
-- Import types with `import { type X }`.
+- Import types with `import { type X }` — **except** in files that Node scripts run directly
+  (`scripts/` imports them): use `import type { X }`. Node's type stripping keeps an empty
+  `import {} from '@/…'` for inline specifiers and cannot resolve the alias.
 
 ## Errors
 

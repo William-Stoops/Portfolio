@@ -167,6 +167,7 @@ pnpm build          # build de prod + pré-rendu HTML (dist/index.html, dist/404
 pnpm knip           # code mort : fichiers, exports, types, dépendances inutilisés
 pnpm knip:production # idem sur le seul code livré, dépendances de prod strictes
 pnpm size           # budget de bundle (size-limit)
+pnpm images         # régénère public/images depuis docs/content/images (puis commiter)
 pnpm verify         # tout ce qui précède, identique à la CI
 ```
 
