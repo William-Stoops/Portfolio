@@ -92,6 +92,16 @@
       }
     },
     {
+      // The player is cross-origin (youtube-nocookie.com): allow-same-origin only keeps its
+      // own origin, which it needs to run, so the scripts + same-origin escape concern (a
+      // same-origin frame removing its sandbox) does not apply. The sandbox still blocks
+      // forms, top navigation and modals.
+      "files": ["src/components/ui/youtube-facade.tsx"],
+      "rules": {
+        "react/iframe-missing-sandbox": "off"
+      }
+    },
+    {
       // Browser actions on one page are sequential by nature.
       "files": ["e2e/**"],
       "rules": {
