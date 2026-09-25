@@ -14,5 +14,6 @@ fois accepté** : on ne le réécrit pas, on le remplace par un nouvel ADR qui l
 | 0006 | [Stratégie responsive : mobile-first, container queries, tokens fluides](0006-responsive-strategy.md) | Accepté |
 | 0007 | [UI : Tailwind v4 + shadcn sur Base UI](0007-ui-kit.md)                                               | Accepté |
 | 0008 | [TypeScript 6.0 strict, sans `any` ni `unknown`](0008-typescript-strictness.md)                       | Accepté |
+| 0009 | [Thèmes par `light-dark()` et palette de couleurs fermée](0009-theme-light-dark-closed-palette.md)    | Accepté |
 
 Modèle : copier [template.md](template.md).

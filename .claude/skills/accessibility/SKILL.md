@@ -73,15 +73,15 @@ text (≥ 4.5:1) and carry white text (≥ 4.5:1)**. Therefore, in the dark them
 primary button is light orange with **dark** text. The validated tokens live in
 `design-system`; never introduce a colour outside them.
 
-| Pair (dark theme)                               | Ratio | Verdict       |
-| ----------------------------------------------- | ----- | ------------- |
-| `--text` `#E6E8EF` on `--bg` `#1B1F2A`          | 13.44 | AAA           |
-| `--text-muted` `#A9B0C2` on `--bg`              | 7.58  | AAA           |
-| `--accent-text` `#FF8A5B` on `--bg`             | 7.08  | AAA           |
-| `--on-accent` `#12151C` on `--accent` `#FF7A45` | 7.06  | AAA           |
-| `--focus` `#FF9466` on `--bg`                   | 7.59  | ≥ 3:1 ✓       |
-| `--border-input` `#7D869C` on `--surface`       | 3.98  | ≥ 3:1 ✓       |
-| white on `#FF7A45`                              | 2.59  | **forbidden** |
+| Pair (dark theme)                           | Ratio | Verdict       |
+| ------------------------------------------- | ----- | ------------- |
+| `fg` `#E6E8EF` on `canvas` `#1B1F2A`        | 13.44 | AAA           |
+| `fg-muted` `#A9B0C2` on `canvas`            | 7.58  | AAA           |
+| `accent-fg` `#FF8A5B` on `canvas`           | 7.08  | AAA           |
+| `on-accent` `#12151C` on `accent` `#FF7A45` | 7.06  | AAA           |
+| `focus` `#FF9466` on `canvas`               | 7.59  | ≥ 3:1 ✓       |
+| `border-input` `#7D869C` on `surface`       | 3.98  | ≥ 3:1 ✓       |
+| white on `#FF7A45`                          | 2.59  | **forbidden** |
 
 - Any opacity (`/50`), gradient or `backdrop-blur` behind text ⇒ recompute on the
   composited colour, add the pair to the contrast unit test (`design-system` §tests).

@@ -1,1 +1,134 @@
 @import 'tailwindcss';
+@import '@fontsource-variable/inter';
+@import '@fontsource-variable/sora';
+
+/* Short screens (landscape phones, 400 % zoom): see the responsive-design skill. */
+@custom-variant short (@media (max-height: 30rem));
+
+@theme {
+  /*
+   * Closed palette. Tailwind's default colours are removed: a utility such as `bg-red-500`
+   * does not exist in this project. Each token holds its light and dark value; the used
+   * `color-scheme` picks one. Every foreground/background pair is contrast-checked by
+   * src/styles/color-tokens.test.ts (docs/adr/0005).
+   */
+  --color-*: initial;
+  --color-canvas: light-dark(#fafaf7, #1b1f2a);
+  --color-surface: light-dark(#ffffff, #242938);
+  --color-surface-raised: light-dark(#f1f2f5, #2e3446);
+  --color-fg: light-dark(#1b1f2a, #e6e8ef);
+  --color-fg-muted: light-dark(#5a6278, #a9b0c2);
+  --color-fg-subtle: light-dark(#687083, #8b93a7);
+  --color-accent: light-dark(#b93e0b, #ff7a45);
+  --color-accent-hover: light-dark(#9a3412, #ff9466);
+  --color-accent-fg: light-dark(#b93e0b, #ff8a5b);
+  --color-accent-tint: light-dark(#fcede6, #3d2d2e);
+  --color-on-accent: light-dark(#ffffff, #12151c);
+  --color-focus: light-dark(#9a3412, #ff9466);
+  --color-border: light-dark(#e2e4ea, #3a4052);
+  --color-border-input: light-dark(#767d8f, #7d869c);
+  --color-error: light-dark(#b91c1c, #fca5a5);
+  --color-success: light-dark(#166534, #4ade80);
+
+  --font-*: initial;
+  --font-display: 'Sora Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+
+  /* Fluid scale: every clamp() mixes rem and vw so text still grows with browser zoom. */
+  --text-*: initial;
+  --text-display: clamp(2.5rem, 1.5rem + 4vw, 4.5rem);
+  --text-display--line-height: 1.05;
+  --text-h1: clamp(2.25rem, 1.6rem + 2.6vw, 3.5rem);
+  --text-h1--line-height: 1.1;
+  --text-h2: clamp(1.75rem, 1.25rem + 2vw, 2.75rem);
+  --text-h2--line-height: 1.15;
+  --text-h3: clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem);
+  --text-h3--line-height: 1.3;
+  --text-lead: clamp(1.125rem, 1rem + 0.5vw, 1.375rem);
+  --text-lead--line-height: 1.55;
+  --text-body: clamp(1rem, 0.95rem + 0.2vw, 1.125rem);
+  --text-body--line-height: 1.6;
+  --text-small: 0.875rem;
+  --text-small--line-height: 1.5;
+
+  --spacing-section: clamp(4rem, 2.5rem + 6vw, 8rem);
+  --spacing-gutter: clamp(1rem, 0.5rem + 3vw, 2.5rem);
+
+  --radius-*: initial;
+  --radius-sm: 0.375rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1.25rem;
+
+  /* On a dark canvas elevation comes from lighter surfaces; one shadow for overlays only. */
+  --shadow-*: initial;
+  --shadow-overlay: 0 1.5rem 3rem -1rem rgb(0 0 0 / 0.45);
+
+  --ease-*: initial;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --animate-*: initial;
+}
+
+@layer base {
+  :root {
+    color-scheme: light dark;
+  }
+
+  html {
+    background-color: var(--color-canvas);
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+    text-size-adjust: 100%;
+  }
+
+  /* Repeated on body: WebKit-based contrast checkers do not read the root background. */
+  body {
+    min-height: 100svh;
+    background-color: var(--color-canvas);
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Links in prose are identified by more than colour (WCAG 1.4.1). */
+  a {
+    color: var(--color-accent-fg);
+    text-decoration-line: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  /*
+   * Outline, not box-shadow: it survives Windows forced-colours mode. The offset keeps the
+   * canvas between the ring and an accent-filled control (WCAG 2.4.7, 2.4.11, 2.4.13).
+   */
+  :focus-visible {
+    outline: 3px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background-color: var(--color-accent-tint);
+    color: var(--color-fg);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}

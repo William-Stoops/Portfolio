@@ -30,109 +30,118 @@ width (1.75), sized to the text.
 
 ## Colour tokens
 
-Validated by computation (WCAG 2.x ratios, see `accessibility` §3). **No colour outside
-this table.** Tokens are CSS custom properties exposed to Tailwind through `@theme inline`,
-so utilities are `bg-bg`, `text-text-muted`, `bg-accent`, `outline-focus`…
+Source of truth: `src/styles/globals.css` `@theme`. **The palette is closed**: `--color-*:
+initial` removes Tailwind's default colours, so `bg-red-500` simply does not exist. Each
+token is declared once with `light-dark(<light>, <dark>)`; utilities are named after the
+token (`bg-canvas`, `text-fg-muted`, `text-accent-fg`, `bg-accent`, `text-on-accent`,
+`border-border-input`, `outline-focus`…).
 
-### Dark theme (default rendering of the mockup)
+`src/styles/color-tokens.test.ts` is the palette's contract: it parses every token from
+the stylesheet source, requires `light-dark()` on all of them, and checks every allowed
+foreground/background pair in both themes (4.5:1 text, 3:1 non-text). **Using a new pair
+in the UI means adding it to that test first.**
 
-| Token            | Hex       | Role                              | Key ratios                                 |
-| ---------------- | --------- | --------------------------------- | ------------------------------------------ |
-| `--bg`           | `#1B1F2A` | Page background                   | —                                          |
-| `--surface`      | `#242938` | Cards, header on scroll           | —                                          |
-| `--surface-2`    | `#2E3446` | Inputs, secondary buttons         | —                                          |
-| `--text`         | `#E6E8EF` | Body text                         | 13.44 on bg (AAA)                          |
-| `--text-muted`   | `#A9B0C2` | Secondary text                    | 7.58 on bg (AAA), 5.71 on surface-2        |
-| `--text-subtle`  | `#8B93A7` | Metadata, placeholder             | 5.35 on bg — **never on surface-2** (4.03) |
-| `--accent-text`  | `#FF8A5B` | Accent text, links (underlined)   | 7.08 on bg, 5.33 on surface-2              |
-| `--accent`       | `#FF7A45` | Primary button fill, ring         | 6.36 vs bg (1.4.11 ✓)                      |
-| `--on-accent`    | `#12151C` | Text on accent                    | 7.06 (AAA)                                 |
-| `--accent-hover` | `#FF9466` | Primary button hover              | `#1B1F2A` on it: 7.59                      |
-| `--focus`        | `#FF9466` | Focus outline (3 px, offset 2 px) | 7.59 on bg                                 |
-| `--border`       | `#3A4052` | Decorative separators only        | 1.59 — never a control boundary            |
-| `--border-input` | `#7D869C` | Input and control borders         | 4.52 on bg, 3.98 on surface                |
-| `--error`        | `#FCA5A5` | Error text + icon                 | 8.67 on bg                                 |
-| `--success`      | `#4ADE80` | Success text + icon               | 9.44 on bg                                 |
-| `--accent-tint`  | `#3D2D2E` | Tinted badge background           | `#FFA07A` on it: 6.55                      |
+| Token            | Light     | Dark      | Role                                                 |
+| ---------------- | --------- | --------- | ---------------------------------------------------- |
+| `canvas`         | `#FAFAF7` | `#1B1F2A` | Page background (html **and** body)                  |
+| `surface`        | `#FFFFFF` | `#242938` | Cards, header on scroll                              |
+| `surface-raised` | `#F1F2F5` | `#2E3446` | Inputs, secondary buttons                            |
+| `fg`             | `#1B1F2A` | `#E6E8EF` | Body text                                            |
+| `fg-muted`       | `#5A6278` | `#A9B0C2` | Secondary text                                       |
+| `fg-subtle`      | `#687083` | `#8B93A7` | Metadata — **never on `surface-raised`**             |
+| `accent`         | `#B93E0B` | `#FF7A45` | Primary button fill, portrait ring                   |
+| `accent-hover`   | `#9A3412` | `#FF9466` | Primary button hover                                 |
+| `accent-fg`      | `#B93E0B` | `#FF8A5B` | Accent text, links (underlined)                      |
+| `accent-tint`    | `#FCEDE6` | `#3D2D2E` | Tinted badge background, text selection              |
+| `on-accent`      | `#FFFFFF` | `#12151C` | Text on `accent` / `accent-hover`                    |
+| `focus`          | `#9A3412` | `#FF9466` | Focus outline (3 px, offset 2 px)                    |
+| `border`         | `#E2E4EA` | `#3A4052` | Decorative separators only — never a control outline |
+| `border-input`   | `#767D8F` | `#7D869C` | Input and control borders (≥ 3:1)                    |
+| `error`          | `#B91C1C` | `#FCA5A5` | Error text + icon                                    |
+| `success`        | `#166534` | `#4ADE80` | Success text + icon                                  |
 
-**White text on any orange is forbidden in the dark theme** (max 2.59:1).
-
-### Light theme
-
-| Token                                | Hex                               | Notes                                                      |
-| ------------------------------------ | --------------------------------- | ---------------------------------------------------------- |
-| `--bg` / `--surface` / `--surface-2` | `#FAFAF7` / `#FFFFFF` / `#F1F2F5` |                                                            |
-| `--text` / `--text-muted`            | `#1B1F2A` / `#5A6278`             | 15.74 / 5.82                                               |
-| `--accent` = `--accent-text`         | `#B93E0B`                         | Text 5.35 on bg; white on it 5.59 → `--on-accent: #FFFFFF` |
-| `--focus`                            | `#9A3412`                         | 6.99                                                       |
-| `--border-input`                     | `#767D8F`                         | 3.94                                                       |
+**Dark theme: text on orange is dark (`on-accent` `#12151C`), never white** (max 2.59:1).
 
 ### Theming mechanics
 
-- `data-theme="dark" | "light"` on `<html>`, set before first paint by an inline script
-  in `index.html` (stored choice → `prefers-color-scheme` fallback). `color-scheme` set
-  accordingly so native controls and scrollbars match.
-- `@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));`
+- `:root { color-scheme: light dark }` → `light-dark()` follows the system preference with
+  **zero JavaScript and no flash**. No `dark:` variant is needed for colours.
+- The manual toggle (app-shell PR) will set `data-theme` on `<html>` and a CSS rule will
+  map it to `color-scheme: light | dark`; an inline script in `index.html` restores the
+  stored choice before first paint.
+- In production Lightning CSS transpiles `light-dark()` for older browsers (fallback
+  variables keyed on `color-scheme`); `e2e/theme.spec.ts` checks both schemes resolve to
+  the tokens on the real build.
 - Any colour with opacity, gradient or blur behind text must be recomputed and added to
   the contrast test.
 
 ## Typography
 
-| Role               | Family (proposal, validated in the design-system PR) | Why                                                    |
-| ------------------ | ---------------------------------------------------- | ------------------------------------------------------ |
-| Display / headings | **Sora Variable** (`@fontsource-variable/sora`)      | Geometric like the mockup, more character than Poppins |
-| Body / UI          | **Inter Variable** (`@fontsource-variable/inter`)    | Legibility at small sizes, tabular figures             |
-| Metrics / code     | **JetBrains Mono Variable**                          | Numbers and technical labels                           |
+| Role               | Family                                            | Status                              |
+| ------------------ | ------------------------------------------------- | ----------------------------------- |
+| Display / headings | **Sora Variable** (`@fontsource-variable/sora`)   | Installed                           |
+| Body / UI          | **Inter Variable** (`@fontsource-variable/inter`) | Installed                           |
+| Metrics / code     | **JetBrains Mono Variable**                       | Added with the first metric (about) |
 
-- Self-hosted via Fontsource (no Google Fonts request), `font-display: swap`, Latin
-  subset preloaded for the two faces used above the fold. Fallback stacks with
-  `size-adjust`-matched system fonts to limit CLS.
-- Fluid scale (`clamp()` with rem + vw — see `responsive-design` §3): `--text-display`,
-  `--text-h1`, `--text-h2`, `--text-h3`, `--text-body`, `--text-small`, `--text-metric`.
-- Body line-height 1.6, headings 1.1–1.2; prose max 65ch; `font-variant-numeric:
-tabular-nums` on metrics.
+- Self-hosted via Fontsource (no third-party request), `font-display: swap`,
+  `unicode-range` subsets so only the needed files download. Preloading and metric-matched
+  fallbacks are added **only if Lighthouse shows font-driven LCP or CLS** (measure first).
+- Fluid scale in `@theme` (`--text-*: initial` then `display`, `h1`, `h2`, `h3`, `lead`,
+  `body`, `small`, each with its `--line-height`): utilities `text-display`, `text-h2`,
+  `text-lead`… Tailwind's default `text-sm`/`text-xl` do not exist.
+- Base layer: headings in the display font with `text-wrap: balance`, paragraphs
+  `text-wrap: pretty`, body line-height 1.6; prose max 65ch.
 - Heading level ≠ visual size: pick the semantic level, style with the token.
 
 ## Space, radius, elevation, layers
 
-- Spacing: Tailwind's 0.25rem scale + fluid `--spacing-section` and `--spacing-gutter`.
-  No arbitrary `px` values in class names.
-- Radius: `--radius-sm` 0.375rem (badges), `--radius-md` 0.75rem (buttons, inputs),
-  `--radius-lg` 1.25rem (cards), `--radius-full` (avatar ring, pills). Nothing else.
-- Elevation on dark: surfaces get lighter (`surface` → `surface-2`), not shadowed. One
-  shadow token for overlays only.
-- z-index scale in `@theme`: `--z-header`, `--z-overlay`, `--z-skip-link` — no magic
-  numbers.
+- Spacing: Tailwind's 0.25rem scale + fluid `--spacing-section` and `--spacing-gutter`,
+  exposed as utilities `py-section`, `px-gutter`. No arbitrary `px` values in class names.
+- Radius (`--radius-*: initial`): `rounded-sm` 0.375rem (badges), `rounded-md` 0.75rem
+  (buttons, inputs), `rounded-lg` 1.25rem (cards), `rounded-full` (portrait ring, pills).
+- Elevation on dark: surfaces get lighter (`surface` → `surface-raised`), not shadowed.
+  One shadow token, `shadow-overlay`, for overlays only (`--shadow-*: initial`).
+- z-index: named tokens (`--z-header`, `--z-overlay`, `--z-skip-link`) are introduced with
+  the app shell, the first code that stacks layers — no magic numbers.
 
 ## Motion
 
-- Tokens: `--duration-fast` 150ms, `--duration-base` 250ms, `--duration-slow` 450ms;
-  `--ease-out` `cubic-bezier(0.22, 1, 0.36, 1)`.
+- Easing: `ease-out` = `cubic-bezier(0.22, 1, 0.36, 1)` (`--ease-*: initial`); durations use
+  Tailwind's `duration-150` / `duration-250` / `duration-450` only. `--animate-*: initial`:
+  no stock keyframe animation (spin, ping, bounce) is available.
 - Motion explains (a section entering, a menu opening); it never decorates in a loop.
   Entrance animations: opacity + ≤ 16px translate, once, `motion-safe` only.
-- Library: Motion (`motion/react`) with `LazyMotion` + `m` + `domAnimation`, root
-  `<MotionConfig reducedMotion="user">`. CSS transitions for hover/focus.
+- The global `prefers-reduced-motion: reduce` reset lives in the base layer of
+  `globals.css`. Motion (`motion/react`, `LazyMotion` + `m` + `domAnimation`, root
+  `<MotionConfig reducedMotion="user">`) is installed with the first animated component.
 
 ## UI primitives (shadcn on Base UI)
 
-- `pnpm dlx shadcn@latest add <component>` **only when a feature needs it**, then adapt
-  the copy in `src/components/ui/` in the same PR:
+**Primitives ship with the first feature that renders them**, never ahead of time: an
+unused primitive is dead code for Knip (`--production`), and a primitive designed without
+a real use case gets the wrong API.
+
+- `pnpm dlx shadcn@latest add <component>` then adapt the copy in `src/components/ui/` in
+  the same PR:
   1. rename to our conventions (kebab-case file, named exports, no `any`),
-  2. replace colours with our tokens,
-  3. replace `focus-visible:ring-*` by
-     `focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-focus`,
+  2. replace colours with our tokens (the closed palette makes leftovers fail to compile
+     into any style),
+  3. remove `focus-visible:ring-*`: the global `:focus-visible` outline applies,
   4. check target sizes (icon buttons `size-11`),
   5. write its tests (render, variants, keyboard, axe).
-- Variants with `cva`, merged with `cn()` (`clsx` + `tailwind-merge`) from `src/lib/cn.ts`.
-- Planned primitives: `button`, `link` (internal via React Router, external with new-tab
-  semantics), `badge`, `card`, `section-heading`, `metric`, `responsive-image`,
-  `visually-hidden`, `theme-toggle`, `separator`.
+- Variants with `cva`, merged with `cn()` (`clsx` + `tailwind-merge`) from `src/lib/cn.ts`
+  — both added with the first primitive that needs them.
+- Expected primitives and the PR that introduces them: `button` + `link` (hero),
+  `badge` (hero tech list), `metric` (about), `card` (experience), `visually-hidden` and
+  `theme-toggle` (app-shell), `responsive-image` (hero portrait).
 
 ## Tests
 
-- `src/styles/contrast.test.ts` parses the token values from `globals.css` and asserts
-  every declared foreground/background pair meets its ratio (4.5 text, 3 UI). Adding a
-  token means adding its pairs.
-- Each primitive: variant rendering, accessible name, keyboard, axe.
-- Visual regression of a `/design-system` story-like route? **No** — primitives are
-  covered through the sections' screenshots; no dead demo route in production.
+- `src/styles/color-tokens.test.ts` (unit, Node): palette contract, both themes. The
+  unit project lets `?raw` CSS through the Vite pipeline (`css.include` in
+  `vitest.config.ts`) — Vitest blanks CSS by default.
+- `src/styles/base-styles.test.tsx` (browser): fonts really load, headings and body use
+  their families, keyboard focus draws the 3 px outline, links are underlined.
+- `src/testing/wcag-contrast.ts`: the WCAG ratio helper, test-only, itself unit-tested.
+- `e2e/theme.spec.ts`: both colour schemes resolve to the tokens on the production build;
+  `e2e/a11y.spec.ts` runs axe in both schemes on all device projects.
