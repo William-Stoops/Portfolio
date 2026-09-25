@@ -9,15 +9,15 @@
 
 ## Identité
 
-| Champ        | Valeur                                                                  |
-| ------------ | ----------------------------------------------------------------------- |
-| Nom          | William Stoops                                                          |
-| Titre        | Software Engineer & AI Engineer                                         |
-| Sous-titre   | Full stack TypeScript · Python · C++ · Systèmes de calcul               |
-| Localisation | Paris — ouvert à Paris, Lille ou full remote                            |
-| E-mail       | william.stoops@epitech.eu                                               |
-| LinkedIn     | https://www.linkedin.com/in/william-stoops-a1029b233                    |
-| Téléphone    | **Jamais affiché sur le site** (décision de William, 2026-09-25)        |
+| Champ        | Valeur                                                                                   |
+| ------------ | ---------------------------------------------------------------------------------------- |
+| Nom          | William Stoops                                                                           |
+| Titre        | Software Engineer & AI Engineer                                                          |
+| Sous-titre   | Full stack TypeScript · Python · C++ · Systèmes de calcul                                |
+| Localisation | Paris — ouvert à Paris, Lille ou full remote                                             |
+| E-mail       | william.stoops@epitech.eu                                                                |
+| LinkedIn     | https://www.linkedin.com/in/william-stoops-a1029b233                                     |
+| Téléphone    | **Jamais affiché sur le site** (décision de William, 2026-09-25)                         |
 | CV PDF       | Téléchargeable : `public/cv/william-stoops-cv-fr.pdf` (copie de `WILLIAM-STOOPS-FR.pdf`) |
 
 Mots-clés d'en-tête : TypeScript · Python · C++ · Rust · NestJS · React · PostgreSQL ·
@@ -31,12 +31,12 @@ full stack en TypeScript, et je travaille tous les jours avec des agents et des 
 
 ## Chiffres clés (section « À propos », équivalent des stats de la maquette)
 
-| Valeur    | Libellé                                                         | Source dans le CV    |
-| --------- | --------------------------------------------------------------- | -------------------- |
-| 10 h → 5 min | Cycle de calcul de volatilité implicite après refonte        | IT-Finance           |
-| −99 %     | Latence sur la majorité des requêtes du service d'actualités    | IT-Finance           |
-| 3 ans     | D'expérience en entreprise                                      | Profil               |
-| 1er       | Concours Epitech Summit (STAXX), pitché devant 300 personnes    | Projets              |
+| Valeur       | Libellé                                                      | Source dans le CV |
+| ------------ | ------------------------------------------------------------ | ----------------- |
+| 10 h → 5 min | Cycle de calcul de volatilité implicite après refonte        | IT-Finance        |
+| −99 %        | Latence sur la majorité des requêtes du service d'actualités | IT-Finance        |
+| 3 ans        | D'expérience en entreprise                                   | Profil            |
+| 1er          | Concours Epitech Summit (STAXX), pitché devant 300 personnes | Projets           |
 
 ## Expérience professionnelle
 
@@ -96,10 +96,10 @@ https://www.youtube.com/watch?v=K_TsQ0Itoek&t=3741s (démarre à 1:02:21).
 
 ## Compétences techniques
 
-| Catégorie  | Éléments                                                                                                                                           |
-| ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Langages   | TypeScript, Python, C++, Rust, SQL                                                                                                                 |
-| Plateforme | NestJS, Node.js, React, PostgreSQL, Prisma, Drizzle, Docker, CI/CD                                                                                 |
+| Catégorie  | Éléments                                                                                                                                               |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Langages   | TypeScript, Python, C++, Rust, SQL                                                                                                                     |
+| Plateforme | NestJS, Node.js, React, PostgreSQL, Prisma, Drizzle, Docker, CI/CD                                                                                     |
 | IA         | LLM OpenAI et Anthropic, function calling, JSON Schema, agents, MCP, Hugging Face, apprentissage par transfert, CNN, YOLO, pandas, numpy, scikit-learn |
 
 ## Formation
@@ -110,15 +110,15 @@ https://www.youtube.com/watch?v=K_TsQ0Itoek&t=3741s (démarre à 1:02:21).
 
 ## Correspondance avec la maquette de référence
 
-| Zone de la maquette                     | Contenu du portfolio                                                         |
-| --------------------------------------- | ---------------------------------------------------------------------------- |
-| Hero « Hello. I'm … / Software Developer » | « Bonjour. Je suis William » / « Software Engineer & AI Engineer »        |
-| CTA « Got a project? » / « My resume »  | « Me contacter » / « Télécharger le CV » (PDF servi depuis `public/`)        |
-| Bandeau de technos                      | Mots-clés d'en-tête (TypeScript, Python, C++, Rust, NestJS, React…)          |
-| Services (Website Development…)         | Trois axes : Calcul & performance · Produits full stack · IA, agents & LLM   |
-| Stats (120+, 95 %, 10+)                 | Chiffres clés ci-dessus — **réels et sourcés, jamais inventés**              |
-| Projects                                | Expériences (ProRealTime, INTM, Strattt/GDS Élec) + STAXX + travaux IA       |
-| (absent de la maquette)                 | Parcours / formation, contact, déclaration d'accessibilité                   |
+| Zone de la maquette                        | Contenu du portfolio                                                       |
+| ------------------------------------------ | -------------------------------------------------------------------------- |
+| Hero « Hello. I'm … / Software Developer » | « Bonjour. Je suis William » / « Software Engineer & AI Engineer »         |
+| CTA « Got a project? » / « My resume »     | « Me contacter » / « Télécharger le CV » (PDF servi depuis `public/`)      |
+| Bandeau de technos                         | Mots-clés d'en-tête (TypeScript, Python, C++, Rust, NestJS, React…)        |
+| Services (Website Development…)            | Trois axes : Calcul & performance · Produits full stack · IA, agents & LLM |
+| Stats (120+, 95 %, 10+)                    | Chiffres clés ci-dessus — **réels et sourcés, jamais inventés**            |
+| Projects                                   | Expériences (ProRealTime, INTM, Strattt/GDS Élec) + STAXX + travaux IA     |
+| (absent de la maquette)                    | Parcours / formation, contact, déclaration d'accessibilité                 |
 
 ## Contexte de destination
 

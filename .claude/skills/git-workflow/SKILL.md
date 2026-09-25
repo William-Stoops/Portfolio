@@ -11,18 +11,18 @@ Every change reaches `main` through a pull request. `main` is always deployable.
 
 Format: `william/<type>/<subject>` — lowercase, kebab-case subject, 2–5 words.
 
-| Type       | Use for                                               | Example                            |
-| ---------- | ----------------------------------------------------- | ---------------------------------- |
-| `feat`     | A user-visible capability                             | `william/feat/hero-section`        |
-| `fix`      | A bug fix                                             | `william/fix/mobile-menu-focus`    |
-| `refactor` | Behaviour-preserving restructuring                    | `william/refactor/projects-hooks`  |
-| `perf`     | Measurable performance improvement                    | `william/perf/hero-image-avif`     |
-| `test`     | Tests only                                            | `william/test/contact-form-e2e`    |
-| `docs`     | Documentation, ADRs, CLAUDE.md, skills                | `william/docs/adr-state-management`|
-| `style`    | Formatting only (no CSS changes — those are `feat`/`fix`) | `william/style/prettier-pass`  |
-| `build`    | Build system, dependencies                            | `william/build/vite-8`             |
-| `ci`       | GitHub Actions                                        | `william/ci/lighthouse-budget`     |
-| `chore`    | Tooling that fits nothing above                       | `william/chore/husky-setup`        |
+| Type       | Use for                                                   | Example                             |
+| ---------- | --------------------------------------------------------- | ----------------------------------- |
+| `feat`     | A user-visible capability                                 | `william/feat/hero-section`         |
+| `fix`      | A bug fix                                                 | `william/fix/mobile-menu-focus`     |
+| `refactor` | Behaviour-preserving restructuring                        | `william/refactor/projects-hooks`   |
+| `perf`     | Measurable performance improvement                        | `william/perf/hero-image-avif`      |
+| `test`     | Tests only                                                | `william/test/contact-form-e2e`     |
+| `docs`     | Documentation, ADRs, CLAUDE.md, skills                    | `william/docs/adr-state-management` |
+| `style`    | Formatting only (no CSS changes — those are `feat`/`fix`) | `william/style/prettier-pass`       |
+| `build`    | Build system, dependencies                                | `william/build/vite-8`              |
+| `ci`       | GitHub Actions                                            | `william/ci/lighthouse-budget`      |
+| `chore`    | Tooling that fits nothing above                           | `william/chore/husky-setup`         |
 
 One branch = one intent. If the branch name needs "and", it is two branches.
 
@@ -51,6 +51,7 @@ git switch main && git pull --ff-only && git switch -c william/feat/hero-section
   - tooling: `test`, `e2e`, `deps`, `config`, `ci`, `docs`, `adr`, `agent`
 
   Adding a feature slice = adding its scope here and in commitlint in the same PR.
+
 - `subject`: imperative, lowercase start, no trailing period, ≤ 72 chars total header.
 - Breaking change: `feat(ui)!: rename Button intent prop` + `BREAKING CHANGE:` footer.
 
@@ -88,24 +89,30 @@ Body (French — it is read by humans), template in `.github/pull_request_templa
 
 ```markdown
 ## Contexte
+
 Pourquoi ce changement existe. Lien vers l'issue / l'ADR.
 
 ## Changements
+
 - Puces concrètes, regroupées par zone (feature, ui, config…)
 
 ## Décisions techniques
+
 Choix non évidents et alternatives écartées (renvoyer vers un ADR si structurant).
 
 ## Tests
+
 - Unitaires : …
 - Composants / intégration : …
 - E2E Playwright : …
 - Accessibilité : axe (auto) + vérifs manuelles effectuées (clavier, lecteur d'écran)
 
 ## Captures
+
 Desktop + mobile, avant / après si visuel.
 
 ## Checklist
+
 - [ ] `pnpm lint` / `pnpm typecheck` / `pnpm test` / `pnpm build` / `pnpm test:e2e` verts
 - [ ] Aucun `any` ni `unknown` explicite
 - [ ] Conventions de nommage respectées (fichiers kebab-case, composants PascalCase…)

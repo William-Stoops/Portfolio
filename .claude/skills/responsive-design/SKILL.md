@@ -12,10 +12,10 @@ and mouse, zoom up to 400 %.
 
 ## 1. Two levels of responsiveness
 
-| Level | Tool | Decides | Example |
-| ----- | ---- | ------- | ------- |
-| **Macro** — the page | Viewport breakpoints (`md:`, `lg:`) | Page grid, header/nav mode, section columns | Hero switches from stacked to two columns at `lg` |
-| **Micro** — the component | Container queries (`@container`, `@md:`) | Internal layout of a reusable block | An experience card goes horizontal when *its* slot is ≥ `@md`, wherever it is placed |
+| Level                     | Tool                                     | Decides                                     | Example                                                                              |
+| ------------------------- | ---------------------------------------- | ------------------------------------------- | ------------------------------------------------------------------------------------ |
+| **Macro** — the page      | Viewport breakpoints (`md:`, `lg:`)      | Page grid, header/nav mode, section columns | Hero switches from stacked to two columns at `lg`                                    |
+| **Micro** — the component | Container queries (`@container`, `@md:`) | Internal layout of a reusable block         | An experience card goes horizontal when _its_ slot is ≥ `@md`, wherever it is placed |
 
 Components in `src/components/ui/` and `features/*/components/` **never use viewport
 breakpoints for their internal layout** — only container queries. Viewport breakpoints are
@@ -58,11 +58,11 @@ Type and section spacing scale continuously with `clamp()`, defined once in
 
 ```css
 @theme {
-  --text-display: clamp(2.5rem, 1.5rem + 4vw, 4.5rem);   /* hero name */
-  --text-h2:      clamp(1.75rem, 1.25rem + 2vw, 2.75rem);
-  --text-body:    clamp(1rem, 0.95rem + 0.2vw, 1.125rem);
-  --spacing-section: clamp(4rem, 2.5rem + 6vw, 8rem);    /* vertical rhythm between sections */
-  --spacing-gutter:  clamp(1rem, 0.5rem + 3vw, 2.5rem);  /* page side padding */
+  --text-display: clamp(2.5rem, 1.5rem + 4vw, 4.5rem); /* hero name */
+  --text-h2: clamp(1.75rem, 1.25rem + 2vw, 2.75rem);
+  --text-body: clamp(1rem, 0.95rem + 0.2vw, 1.125rem);
+  --spacing-section: clamp(4rem, 2.5rem + 6vw, 8rem); /* vertical rhythm between sections */
+  --spacing-gutter: clamp(1rem, 0.5rem + 3vw, 2.5rem); /* page side padding */
 }
 ```
 
@@ -150,18 +150,18 @@ graphics; force light colours; show link URLs after link text
 
 Playwright projects (defined once in `playwright.config.ts`):
 
-| Project           | Device                     | Why                                   |
-| ----------------- | -------------------------- | ------------------------------------- |
-| `mobile-safari`   | iPhone 15 (393×852, touch) | Main mobile target, WebKit            |
-| `mobile-chrome`   | Pixel 7 (412×915, touch)   | Android / Chromium                    |
-| `tablet`          | iPad Mini portrait (768×1024) | The `md` boundary                  |
-| `desktop`         | Chromium 1280×800          | Laptop, `lg`/`xl` layouts             |
-| `desktop-wide`    | Chromium 1920×1080         | Max-width, large-screen caps          |
+| Project         | Device                        | Why                          |
+| --------------- | ----------------------------- | ---------------------------- |
+| `mobile-safari` | iPhone 15 (393×852, touch)    | Main mobile target, WebKit   |
+| `mobile-chrome` | Pixel 7 (412×915, touch)      | Android / Chromium           |
+| `tablet`        | iPad Mini portrait (768×1024) | The `md` boundary            |
+| `desktop`       | Chromium 1280×800             | Laptop, `lg`/`xl` layouts    |
+| `desktop-wide`  | Chromium 1920×1080            | Max-width, large-screen caps |
 
 Plus, in `e2e/responsive.spec.ts`:
 
 - **Overflow sweep**: for each route, widths `[320, 360, 375, 414, 600, 768, 900, 1024,
-  1280, 1440, 1920, 2560]` → `scrollWidth <= clientWidth`.
+1280, 1440, 1920, 2560]` → `scrollWidth <= clientWidth`.
 - **Landscape phone** 844×390: header not sticky, hero content fully reachable.
 - **Visual regression** (`@visual`, Chromium, Playwright Docker image for determinism):
   each section at 375, 768, 1280, 1920.

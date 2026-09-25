@@ -41,13 +41,13 @@ frontière externe (réseau, `localStorage`, `import.meta.env`, URL) est parsée
 
 ### 4. Conventions de nommage
 
-| Élément                                | Convention                    | Exemple                               |
-| -------------------------------------- | ----------------------------- | ------------------------------------- |
-| Fichiers et dossiers                   | kebab-case                    | `hero-section.tsx`, `use-theme.ts`    |
-| Composants, types, interfaces          | PascalCase                    | `HeroSection`, `ExperienceItem`       |
-| Constantes de module (valeurs figées)  | SCREAMING_SNAKE_CASE          | `NAV_ITEMS`, `CV_FILE_URL`            |
-| Variables, fonctions, hooks, props     | camelCase                     | `activeSection`, `useActiveSection`   |
-| Schémas Zod                            | camelCase suffixé `Schema`    | `contactFormSchema`                   |
+| Élément                               | Convention                 | Exemple                             |
+| ------------------------------------- | -------------------------- | ----------------------------------- |
+| Fichiers et dossiers                  | kebab-case                 | `hero-section.tsx`, `use-theme.ts`  |
+| Composants, types, interfaces         | PascalCase                 | `HeroSection`, `ExperienceItem`     |
+| Constantes de module (valeurs figées) | SCREAMING_SNAKE_CASE       | `NAV_ITEMS`, `CV_FILE_URL`          |
+| Variables, fonctions, hooks, props    | camelCase                  | `activeSection`, `useActiveSection` |
+| Schémas Zod                           | camelCase suffixé `Schema` | `contactFormSchema`                 |
 
 Exports nommés uniquement, jamais de `export default` (sauf les fichiers de config
 d'outils qui l'exigent). Tout est imposé par le lint.
@@ -91,23 +91,23 @@ mesure n'est pas une optimisation. Skill `react-performance`.
 
 ## Stack — versions vérifiées le 2026-09-25
 
-| Couche        | Choix                                                   | Version          |
-| ------------- | ------------------------------------------------------- | ---------------- |
-| Runtime       | Node (CI sur 24 LTS, local ≥ 22.22)                     | 24               |
-| Paquets       | pnpm                                                    | 12               |
-| Langage       | TypeScript                                              | **~6.0.3**       |
-| UI            | React + React Compiler                                  | 19.3 / 1.0       |
-| Bundler       | Vite (Rolldown) + @vitejs/plugin-react                  | 8.3 / 6.1        |
-| Routing       | React Router, **mode data**                             | 8.4              |
-| Styles        | Tailwind CSS (`@theme` en CSS) + shadcn (Base UI)       | 4.3 / CLI 4.21   |
-| Formulaires   | React Hook Form + @hookform/resolvers + Zod             | 7.88 / 5.9 / 4.6 |
-| État          | Local / URL / contexte — **pas de Redux par défaut**    | voir ADR 0004    |
-| Animation     | Motion (`motion/react`, `LazyMotion`)                   | 13               |
-| Tests         | Vitest (projets `unit` + `browser`) + Playwright + axe  | 5.0 / 1.63 / 4.13|
-| Lint          | Oxlint + ESLint + typescript-eslint (strictTypeChecked) | 1.85 / 10 / 8.70 |
-| Format        | Prettier + prettier-plugin-tailwindcss                  | 3.9 / 0.8        |
-| Code mort     | Knip (fichiers, exports, dépendances inutilisés)        | 6.38             |
-| Git           | Husky + lint-staged + commitlint (conventional)         | 9 / 17 / 21      |
+| Couche      | Choix                                                   | Version           |
+| ----------- | ------------------------------------------------------- | ----------------- |
+| Runtime     | Node (CI sur 24 LTS, local ≥ 22.22)                     | 24                |
+| Paquets     | pnpm                                                    | 12                |
+| Langage     | TypeScript                                              | **~6.0.3**        |
+| UI          | React + React Compiler                                  | 19.3 / 1.0        |
+| Bundler     | Vite (Rolldown) + @vitejs/plugin-react                  | 8.3 / 6.1         |
+| Routing     | React Router, **mode data**                             | 8.4               |
+| Styles      | Tailwind CSS (`@theme` en CSS) + shadcn (Base UI)       | 4.3 / CLI 4.21    |
+| Formulaires | React Hook Form + @hookform/resolvers + Zod             | 7.88 / 5.9 / 4.6  |
+| État        | Local / URL / contexte — **pas de Redux par défaut**    | voir ADR 0004     |
+| Animation   | Motion (`motion/react`, `LazyMotion`)                   | 13                |
+| Tests       | Vitest (projets `unit` + `browser`) + Playwright + axe  | 5.0 / 1.63 / 4.13 |
+| Lint        | Oxlint + ESLint + typescript-eslint (strictTypeChecked) | 1.85 / 10 / 8.70  |
+| Format      | Prettier + prettier-plugin-tailwindcss                  | 3.9 / 0.8         |
+| Code mort   | Knip (fichiers, exports, dépendances inutilisés)        | 6.38              |
+| Git         | Husky + lint-staged + commitlint (conventional)         | 9 / 17 / 21       |
 
 Les plafonds suivants sont délibérés :
 
@@ -182,37 +182,37 @@ pnpm verify         # tout ce qui précède, identique à la CI
 
 ## Skills du projet
 
-| Skill                  | Charger avant de…                                                   |
-| ---------------------- | ------------------------------------------------------------------- |
-| `feature-architecture` | créer un fichier, une feature, déplacer du code, ajouter un import   |
-| `react-components`     | écrire ou modifier un composant ou un hook                           |
-| `typescript-standards` | écrire du TypeScript, un type, un schéma Zod                         |
-| `design-system`        | toucher aux couleurs, typo, espacements, composants `ui/`, animations|
-| `accessibility`        | écrire du markup, un composant interactif, une route, un formulaire  |
+| Skill                  | Charger avant de…                                                      |
+| ---------------------- | ---------------------------------------------------------------------- |
+| `feature-architecture` | créer un fichier, une feature, déplacer du code, ajouter un import     |
+| `react-components`     | écrire ou modifier un composant ou un hook                             |
+| `typescript-standards` | écrire du TypeScript, un type, un schéma Zod                           |
+| `design-system`        | toucher aux couleurs, typo, espacements, composants `ui/`, animations  |
+| `accessibility`        | écrire du markup, un composant interactif, une route, un formulaire    |
 | `responsive-design`    | poser une mise en page, une grille, une image, un comportement tactile |
-| `tdd-workflow`         | écrire la moindre ligne de production (le test vient d'abord)        |
-| `react-performance`    | ajouter une route, une image, une police, une dépendance, une anim   |
-| `state-and-forms`      | ajouter de l'état partagé, un formulaire, une donnée persistée       |
-| `content-data`         | afficher un contenu issu du CV                                       |
-| `quality-gates`        | configurer lint, tests, hooks, CI ; avant d'ouvrir une PR            |
-| `git-workflow`         | créer une branche, committer, ouvrir une PR                          |
+| `tdd-workflow`         | écrire la moindre ligne de production (le test vient d'abord)          |
+| `react-performance`    | ajouter une route, une image, une police, une dépendance, une anim     |
+| `state-and-forms`      | ajouter de l'état partagé, un formulaire, une donnée persistée         |
+| `content-data`         | afficher un contenu issu du CV                                         |
+| `quality-gates`        | configurer lint, tests, hooks, CI ; avant d'ouvrir une PR              |
+| `git-workflow`         | créer une branche, committer, ouvrir une PR                            |
 
 ## Feuille de route
 
-| #   | Branche                              | Contenu                                                          |
-| --- | ------------------------------------ | ---------------------------------------------------------------- |
-| 1   | `william/docs/agent-context`         | CLAUDE.md, skills, ADR, source de contenu (cette PR)             |
-| 2   | `william/chore/project-scaffold`     | Vite, TS strict, Tailwind, lint, format, Husky, commitlint, Vitest, Playwright, CI |
-| 3   | `william/feat/design-system`         | Jetons, polices, primitives `ui/` testées (Button, Link, Badge…) |
-| 4   | `william/feat/app-shell`             | Router, layout, skip link, header, footer, thème, focus de route, 404 |
-| 5   | `william/feat/hero`                  | Hero, CTA contact et CV téléchargeable, bandeau de technos       |
-| 6   | `william/feat/about`                 | Profil, trois axes, chiffres clés                                |
-| 7   | `william/feat/experience`            | ProRealTime, INTM, Strattt / GDS Élec, avec pages détaillées     |
-| 8   | `william/feat/projects`              | STAXX (vidéo du pitch), travaux IA                               |
-| 9   | `william/feat/skills-education`      | Compétences, formation                                           |
-| 10  | `william/feat/contact`               | Contact (RHF + Zod), e-mail, LinkedIn                            |
-| 11  | `william/feat/legal-pages`           | Déclaration d'accessibilité, mentions légales, plan du site      |
-| 12  | `william/perf/lighthouse-budget` + déploiement | Budgets, Open Graph, déploiement (hébergeur à décider)  |
+| #   | Branche                                        | Contenu                                                                            |
+| --- | ---------------------------------------------- | ---------------------------------------------------------------------------------- |
+| 1   | `william/docs/agent-context`                   | CLAUDE.md, skills, ADR, source de contenu (cette PR)                               |
+| 2   | `william/chore/project-scaffold`               | Vite, TS strict, Tailwind, lint, format, Husky, commitlint, Vitest, Playwright, CI |
+| 3   | `william/feat/design-system`                   | Jetons, polices, primitives `ui/` testées (Button, Link, Badge…)                   |
+| 4   | `william/feat/app-shell`                       | Router, layout, skip link, header, footer, thème, focus de route, 404              |
+| 5   | `william/feat/hero`                            | Hero, CTA contact et CV téléchargeable, bandeau de technos                         |
+| 6   | `william/feat/about`                           | Profil, trois axes, chiffres clés                                                  |
+| 7   | `william/feat/experience`                      | ProRealTime, INTM, Strattt / GDS Élec, avec pages détaillées                       |
+| 8   | `william/feat/projects`                        | STAXX (vidéo du pitch), travaux IA                                                 |
+| 9   | `william/feat/skills-education`                | Compétences, formation                                                             |
+| 10  | `william/feat/contact`                         | Contact (RHF + Zod), e-mail, LinkedIn                                              |
+| 11  | `william/feat/legal-pages`                     | Déclaration d'accessibilité, mentions légales, plan du site                        |
+| 12  | `william/perf/lighthouse-budget` + déploiement | Budgets, Open Graph, déploiement (hébergeur à décider)                             |
 
 Questions encore ouvertes : l'hébergeur (Vercel ou Cloudflare Pages), le traitement du
 formulaire de contact (service tiers ou fonction serverless), une éventuelle version

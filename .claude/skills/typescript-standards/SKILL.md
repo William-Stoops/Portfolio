@@ -9,15 +9,15 @@ TypeScript `~6.0.3`, `strict` + the hardened flags listed in `quality-gates` §4
 
 ## Naming
 
-| Element | Convention | Example |
-| ------- | ---------- | ------- |
-| File, folder | kebab-case | `experience-card.tsx`, `use-theme.ts`, `contact-form-schema.ts` |
-| React component, type, interface, type parameter | PascalCase | `ExperienceCard`, `Experience`, `TItem` |
-| Module-level constant (immutable value, config, lookup table) | SCREAMING_SNAKE_CASE | `NAV_ITEMS`, `CV_FILE_URL`, `BREAKPOINTS` |
-| Variable, function, parameter, prop, hook, object property | camelCase | `activeSection`, `formatPeriod`, `useTheme` |
-| Zod schema | camelCase + `Schema` | `experienceSchema` |
-| Boolean | `is`/`has`/`should`/`can` prefix | `isCurrent`, `hasVideo` |
-| Event prop / handler | `onX` / `handleX` | `onSubmit`, `handleSubmit` |
+| Element                                                       | Convention                       | Example                                                         |
+| ------------------------------------------------------------- | -------------------------------- | --------------------------------------------------------------- |
+| File, folder                                                  | kebab-case                       | `experience-card.tsx`, `use-theme.ts`, `contact-form-schema.ts` |
+| React component, type, interface, type parameter              | PascalCase                       | `ExperienceCard`, `Experience`, `TItem`                         |
+| Module-level constant (immutable value, config, lookup table) | SCREAMING_SNAKE_CASE             | `NAV_ITEMS`, `CV_FILE_URL`, `BREAKPOINTS`                       |
+| Variable, function, parameter, prop, hook, object property    | camelCase                        | `activeSection`, `formatPeriod`, `useTheme`                     |
+| Zod schema                                                    | camelCase + `Schema`             | `experienceSchema`                                              |
+| Boolean                                                       | `is`/`has`/`should`/`can` prefix | `isCurrent`, `hasVideo`                                         |
+| Event prop / handler                                          | `onX` / `handleX`                | `onSubmit`, `handleSubmit`                                      |
 
 "Constant" means a **module-level `const` holding a fixed value** (primitive, frozen
 object/array `as const`, config). A `const` inside a function is a variable → camelCase.
@@ -32,15 +32,15 @@ Neither may be **written** anywhere (lint: `no-explicit-any`, `no-restricted-syn
 `TSUnknownKeyword`). No config override exists. How to handle the cases where they
 usually appear:
 
-| Situation | Do this |
-| --------- | ------- |
+| Situation                                       | Do this                                                                                                                                                  |
+| ----------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | JSON from `fetch`, `localStorage`, `JSON.parse` | Pass it straight to a Zod schema: `settingsSchema.parse(JSON.parse(raw))`. The inferred type flows from the schema; the untyped value never gets a name. |
-| `import.meta.env` | Parsed once in `src/config/env.ts` by `envSchema`; the rest of the app imports `ENV`. |
-| URL / search params | Parsed by a Zod schema in the hook that reads them. |
-| `catch (error)` | Don't annotate. Narrow: `if (error instanceof Error)`; otherwise rethrow or map to a typed `AppError`. Never swallow. |
-| Generic "any object" | `<T extends object>`, `Record<string, string>`, or a precise type. |
-| Third-party type is too loose | Wrap it in `src/lib/` behind a precise signature validated by Zod. |
-| Test doubles | Build real typed fixtures (`satisfies Experience`), never cast. |
+| `import.meta.env`                               | Parsed once in `src/config/env.ts` by `envSchema`; the rest of the app imports `ENV`.                                                                    |
+| URL / search params                             | Parsed by a Zod schema in the hook that reads them.                                                                                                      |
+| `catch (error)`                                 | Don't annotate. Narrow: `if (error instanceof Error)`; otherwise rethrow or map to a typed `AppError`. Never swallow.                                    |
+| Generic "any object"                            | `<T extends object>`, `Record<string, string>`, or a precise type.                                                                                       |
+| Third-party type is too loose                   | Wrap it in `src/lib/` behind a precise signature validated by Zod.                                                                                       |
+| Test doubles                                    | Build real typed fixtures (`satisfies Experience`), never cast.                                                                                          |
 
 ## No type assertions
 

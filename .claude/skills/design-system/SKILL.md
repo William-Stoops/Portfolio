@@ -36,36 +36,36 @@ so utilities are `bg-bg`, `text-text-muted`, `bg-accent`, `outline-focus`…
 
 ### Dark theme (default rendering of the mockup)
 
-| Token | Hex | Role | Key ratios |
-| ----- | --- | ---- | ---------- |
-| `--bg` | `#1B1F2A` | Page background | — |
-| `--surface` | `#242938` | Cards, header on scroll | — |
-| `--surface-2` | `#2E3446` | Inputs, secondary buttons | — |
-| `--text` | `#E6E8EF` | Body text | 13.44 on bg (AAA) |
-| `--text-muted` | `#A9B0C2` | Secondary text | 7.58 on bg (AAA), 5.71 on surface-2 |
-| `--text-subtle` | `#8B93A7` | Metadata, placeholder | 5.35 on bg — **never on surface-2** (4.03) |
-| `--accent-text` | `#FF8A5B` | Accent text, links (underlined) | 7.08 on bg, 5.33 on surface-2 |
-| `--accent` | `#FF7A45` | Primary button fill, ring | 6.36 vs bg (1.4.11 ✓) |
-| `--on-accent` | `#12151C` | Text on accent | 7.06 (AAA) |
-| `--accent-hover` | `#FF9466` | Primary button hover | `#1B1F2A` on it: 7.59 |
-| `--focus` | `#FF9466` | Focus outline (3 px, offset 2 px) | 7.59 on bg |
-| `--border` | `#3A4052` | Decorative separators only | 1.59 — never a control boundary |
-| `--border-input` | `#7D869C` | Input and control borders | 4.52 on bg, 3.98 on surface |
-| `--error` | `#FCA5A5` | Error text + icon | 8.67 on bg |
-| `--success` | `#4ADE80` | Success text + icon | 9.44 on bg |
-| `--accent-tint` | `#3D2D2E` | Tinted badge background | `#FFA07A` on it: 6.55 |
+| Token            | Hex       | Role                              | Key ratios                                 |
+| ---------------- | --------- | --------------------------------- | ------------------------------------------ |
+| `--bg`           | `#1B1F2A` | Page background                   | —                                          |
+| `--surface`      | `#242938` | Cards, header on scroll           | —                                          |
+| `--surface-2`    | `#2E3446` | Inputs, secondary buttons         | —                                          |
+| `--text`         | `#E6E8EF` | Body text                         | 13.44 on bg (AAA)                          |
+| `--text-muted`   | `#A9B0C2` | Secondary text                    | 7.58 on bg (AAA), 5.71 on surface-2        |
+| `--text-subtle`  | `#8B93A7` | Metadata, placeholder             | 5.35 on bg — **never on surface-2** (4.03) |
+| `--accent-text`  | `#FF8A5B` | Accent text, links (underlined)   | 7.08 on bg, 5.33 on surface-2              |
+| `--accent`       | `#FF7A45` | Primary button fill, ring         | 6.36 vs bg (1.4.11 ✓)                      |
+| `--on-accent`    | `#12151C` | Text on accent                    | 7.06 (AAA)                                 |
+| `--accent-hover` | `#FF9466` | Primary button hover              | `#1B1F2A` on it: 7.59                      |
+| `--focus`        | `#FF9466` | Focus outline (3 px, offset 2 px) | 7.59 on bg                                 |
+| `--border`       | `#3A4052` | Decorative separators only        | 1.59 — never a control boundary            |
+| `--border-input` | `#7D869C` | Input and control borders         | 4.52 on bg, 3.98 on surface                |
+| `--error`        | `#FCA5A5` | Error text + icon                 | 8.67 on bg                                 |
+| `--success`      | `#4ADE80` | Success text + icon               | 9.44 on bg                                 |
+| `--accent-tint`  | `#3D2D2E` | Tinted badge background           | `#FFA07A` on it: 6.55                      |
 
 **White text on any orange is forbidden in the dark theme** (max 2.59:1).
 
 ### Light theme
 
-| Token | Hex | Notes |
-| ----- | --- | ----- |
-| `--bg` / `--surface` / `--surface-2` | `#FAFAF7` / `#FFFFFF` / `#F1F2F5` | |
-| `--text` / `--text-muted` | `#1B1F2A` / `#5A6278` | 15.74 / 5.82 |
-| `--accent` = `--accent-text` | `#B93E0B` | Text 5.35 on bg; white on it 5.59 → `--on-accent: #FFFFFF` |
-| `--focus` | `#9A3412` | 6.99 |
-| `--border-input` | `#767D8F` | 3.94 |
+| Token                                | Hex                               | Notes                                                      |
+| ------------------------------------ | --------------------------------- | ---------------------------------------------------------- |
+| `--bg` / `--surface` / `--surface-2` | `#FAFAF7` / `#FFFFFF` / `#F1F2F5` |                                                            |
+| `--text` / `--text-muted`            | `#1B1F2A` / `#5A6278`             | 15.74 / 5.82                                               |
+| `--accent` = `--accent-text`         | `#B93E0B`                         | Text 5.35 on bg; white on it 5.59 → `--on-accent: #FFFFFF` |
+| `--focus`                            | `#9A3412`                         | 6.99                                                       |
+| `--border-input`                     | `#767D8F`                         | 3.94                                                       |
 
 ### Theming mechanics
 
@@ -78,11 +78,11 @@ so utilities are `bg-bg`, `text-text-muted`, `bg-accent`, `outline-focus`…
 
 ## Typography
 
-| Role | Family (proposal, validated in the design-system PR) | Why |
-| ---- | ---------------------------------------------------- | --- |
-| Display / headings | **Sora Variable** (`@fontsource-variable/sora`) | Geometric like the mockup, more character than Poppins |
-| Body / UI | **Inter Variable** (`@fontsource-variable/inter`) | Legibility at small sizes, tabular figures |
-| Metrics / code | **JetBrains Mono Variable** | Numbers and technical labels |
+| Role               | Family (proposal, validated in the design-system PR) | Why                                                    |
+| ------------------ | ---------------------------------------------------- | ------------------------------------------------------ |
+| Display / headings | **Sora Variable** (`@fontsource-variable/sora`)      | Geometric like the mockup, more character than Poppins |
+| Body / UI          | **Inter Variable** (`@fontsource-variable/inter`)    | Legibility at small sizes, tabular figures             |
+| Metrics / code     | **JetBrains Mono Variable**                          | Numbers and technical labels                           |
 
 - Self-hosted via Fontsource (no Google Fonts request), `font-display: swap`, Latin
   subset preloaded for the two faces used above the fold. Fallback stacks with
@@ -90,7 +90,7 @@ so utilities are `bg-bg`, `text-text-muted`, `bg-accent`, `outline-focus`…
 - Fluid scale (`clamp()` with rem + vw — see `responsive-design` §3): `--text-display`,
   `--text-h1`, `--text-h2`, `--text-h3`, `--text-body`, `--text-small`, `--text-metric`.
 - Body line-height 1.6, headings 1.1–1.2; prose max 65ch; `font-variant-numeric:
-  tabular-nums` on metrics.
+tabular-nums` on metrics.
 - Heading level ≠ visual size: pick the semantic level, style with the token.
 
 ## Space, radius, elevation, layers

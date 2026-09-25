@@ -10,18 +10,18 @@ green **locally and in CI**, with zero warnings and zero suppressions.
 
 ## 1. Gate order
 
-| Gate | Command | Local hook | CI job |
-| ---- | ------- | ---------- | ------ |
-| Format | `pnpm format:check` (Prettier) | pre-commit (staged, `--write`) | `quality` |
-| Lint (fast) | `oxlint` | pre-commit (staged) | `quality` |
-| Lint (typed, architecture) | `eslint --max-warnings=0` | pre-commit (staged) | `quality` |
-| Types | `pnpm typecheck` (`tsc -b`) | pre-push | `quality` |
-| Dead code | `pnpm knip` | pre-push | `quality` |
-| Unit + component tests, coverage | `pnpm test:coverage` | pre-push (`pnpm test`) | `quality` |
-| Build + bundle budget | `pnpm build && pnpm size` | — | `quality` |
-| E2E + a11y + responsive | `pnpm test:e2e` | — | `e2e` (Playwright Docker image) |
-| Lighthouse budgets | `lhci autorun` | — | `lighthouse` |
-| Commit message | `commitlint --edit` | commit-msg | `pr-title` (PR title) |
+| Gate                             | Command                        | Local hook                     | CI job                          |
+| -------------------------------- | ------------------------------ | ------------------------------ | ------------------------------- |
+| Format                           | `pnpm format:check` (Prettier) | pre-commit (staged, `--write`) | `quality`                       |
+| Lint (fast)                      | `oxlint`                       | pre-commit (staged)            | `quality`                       |
+| Lint (typed, architecture)       | `eslint --max-warnings=0`      | pre-commit (staged)            | `quality`                       |
+| Types                            | `pnpm typecheck` (`tsc -b`)    | pre-push                       | `quality`                       |
+| Dead code                        | `pnpm knip`                    | pre-push                       | `quality`                       |
+| Unit + component tests, coverage | `pnpm test:coverage`           | pre-push (`pnpm test`)         | `quality`                       |
+| Build + bundle budget            | `pnpm build && pnpm size`      | —                              | `quality`                       |
+| E2E + a11y + responsive          | `pnpm test:e2e`                | —                              | `e2e` (Playwright Docker image) |
+| Lighthouse budgets               | `lhci autorun`                 | —                              | `lighthouse`                    |
+| Commit message                   | `commitlint --edit`            | commit-msg                     | `pr-title` (PR title)           |
 
 `pnpm verify` runs the local subset in the CI order. Run it before every push. Never
 bypass hooks with `--no-verify`.
@@ -137,12 +137,12 @@ lint, TypeScript capped `<7`). pnpm's own `minimumReleaseAge` (24 h) stays on.
 
 ## 8. Budgets
 
-| Budget | Limit (initial, recalibrate by ADR only) |
-| ------ | ---------------------------------------- |
-| Initial JS (gzip) | 120 kB — `size-limit` |
-| CSS (gzip) | 15 kB |
-| Lighthouse performance / a11y / best practices / SEO | ≥ 0.95 / **1.0** / ≥ 0.95 / ≥ 0.95 |
-| LCP / CLS / TBT (Lighthouse, mobile) | ≤ 2.0 s / ≤ 0.05 / ≤ 150 ms |
+| Budget                                               | Limit (initial, recalibrate by ADR only)                         |
+| ---------------------------------------------------- | ---------------------------------------------------------------- |
+| Initial JS (gzip)                                    | 120 kB — `size-limit`                                            |
+| CSS (gzip)                                           | 15 kB                                                            |
+| Lighthouse performance / a11y / best practices / SEO | ≥ 0.95 / **1.0** / ≥ 0.95 / ≥ 0.95                               |
+| LCP / CLS / TBT (Lighthouse, mobile)                 | ≤ 2.0 s / ≤ 0.05 / ≤ 150 ms                                      |
 | Coverage (lines / functions / statements / branches) | 90 / 90 / 90 / 85 on `src/`, excluding `main.tsx` and `testing/` |
 
 ## 9. Adding a dependency
