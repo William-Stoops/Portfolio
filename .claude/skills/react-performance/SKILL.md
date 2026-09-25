@@ -1,0 +1,84 @@
+---
+name: react-performance
+description: Performance rules for the portfolio — React Compiler and what it changes, re-render hygiene (state colocation, split contexts, useSyncExternalStore, URL state), route code splitting and intent prefetch in React Router 8 data mode, images, fonts, animation cost, third-party embeds (YouTube facade), budgets and how to measure. Load BEFORE adding a route, image, font, animation, dependency, context or embed, and BEFORE any "optimisation".
+---
+
+# React Performance
+
+**Measure, then change.** Every optimisation PR states the metric before and after
+(bundle size, Lighthouse, React Profiler flamegraph, INP). Otherwise it is not merged.
+
+## 1. React Compiler
+
+- Enabled through `@rolldown/plugin-babel` + `reactCompilerPreset()` (Babel 7.29).
+- Do **not** write `useMemo`, `useCallback`, `memo` by default. The compiler memoises
+  components and values. Keep a manual one only with a comment explaining the measured
+  reason (e.g. referential stability for an effect dependency).
+- Code must follow the Rules of React so the compiler can optimise it: pure render, no
+  mutation of props/state, no reading refs during render. `eslint-plugin-react-hooks` 7
+  (`recommended`) reports violations — they are errors.
+- React DevTools shows "Memo ✨" on compiled components; a component that is not
+  compiled is investigated (the linter tells why).
+
+## 2. Re-render hygiene
+
+- **Colocate state** in the lowest component that needs it.
+- **Derive, don't sync**: computed values are computed during render, never copied into
+  state with an effect.
+- **Split contexts** by change frequency (theme ≠ anything else). A context value object
+  is stable (compiler) and holds one concern.
+- **External sources** (`matchMedia`, `localStorage`, scroll position, `IntersectionObserver`
+  results) use `useSyncExternalStore` with a subscribe function that fires only on real
+  changes — never a `resize`/`scroll` listener calling `setState` on every event.
+- Active-section tracking in the nav: one `IntersectionObserver`, state = the section id,
+  updates only when the id changes.
+- If a global store is ever introduced (see `state-and-forms`), components select the
+  smallest slice; no `useSelector((s) => s)`.
+
+## 3. Loading
+
+- **Route-level splitting** with React Router 8 data mode `lazy`:
+
+  ```ts
+  { path: 'parcours/:slug', lazy: { Component: async () => (await import('./routes/experience-detail')).ExperienceDetailRoute } }
+  ```
+
+- The home route (hero + sections) is in the main chunk: it is the LCP path.
+- **Intent prefetch**: `<Link prefetch="intent">` only exists in framework mode; in data
+  mode, internal links call the route's `import()` on `pointerenter` / `focus` (helper in
+  `src/app/prefetch.ts`).
+- Heavy below-the-fold widgets load with `lazy()` + `Suspense` only if they are > 10 kB
+  gzip and measured.
+- Dependencies: check size before adding (`quality-gates` §9). No moment/lodash-style
+  utility libraries; `Intl` for dates and numbers.
+
+## 4. Images and media
+
+- `vite-imagetools` + `ResponsiveImage` (`responsive-design` §8): AVIF/WebP, correct
+  `sizes`, explicit dimensions, LCP portrait with `fetchPriority="high"`.
+- **YouTube (STAXX pitch)**: never an `<iframe>` at load (≈ 500 kB+ and third-party
+  cookies). Use a facade: a poster image + accessible play button; on activation, mount
+  `https://www.youtube-nocookie.com/embed/K_TsQ0Itoek?start=3741&autoplay=1` with a
+  `title`. Or simply an external link — decided in the projects PR.
+- SVG icons inline via `lucide-react` (tree-shaken, named imports only).
+
+## 5. Fonts
+
+Fontsource variable fonts, Latin subset, `font-display: swap`, preload only the files
+used above the fold via `preload()` from `react-dom`, fallback stacks with metric
+overrides to keep CLS ≈ 0. Max three families, and only the axes used.
+
+## 6. Animation cost
+
+Animate only `transform` and `opacity`. `LazyMotion` + `m` + `domAnimation` (not the full
+`motion` component). No layout animations on large lists. Scroll-linked effects use CSS
+(`animation-timeline: view()`) with a `@supports` guard, behind `motion-safe`.
+
+## 7. Budgets and measurement
+
+- Budgets in `quality-gates` §8 (size-limit, Lighthouse CI, coverage). A PR that breaks a
+  budget either fixes it or changes the budget through an ADR.
+- Local: `pnpm build && pnpm preview`, Lighthouse mobile in Chrome DevTools, React
+  Profiler for re-renders ("Highlight updates when components render").
+- Field: `web-vitals` 6 (`onLCP`, `onINP`, `onCLS`) loaded after first render on idle —
+  reporting target decided with hosting (no third-party analytics without consent).
