@@ -37,6 +37,17 @@ description: Performance rules for the portfolio — React Compiler and what it 
 
 ## 3. Loading
 
+- **Every page is prerendered at build time** (ADR 0011): `src/entry-server.tsx` renders
+  it, `scripts/prerender.ts` writes `dist/<page>.html`, the client hydrates. The LCP no
+  longer waits for JavaScript. Consequences:
+  - a new page is added to `scripts/prerender-pages.ts`, or it is served as a 404;
+  - **routes matched by a prerendered page are never `lazy`** (hydration is synchronous) —
+    `scripts/prerender-pages.test.ts` fails otherwise. `lazy` is for heavy routes that are
+    not prerendered, or needs the documented preload-before-hydrate step first;
+  - hooks reading browser state through `useSyncExternalStore` must pass a
+    `getServerSnapshot` (the prerender has no `window`), e.g. `useThemePreference`;
+  - render output must be deterministic (no `Date.now()`, `Math.random()` or browser
+    checks in render), or hydration fails — the E2E suite fails on any console error.
 - **Route-level splitting** with React Router 8 data mode `lazy`:
 
   ```ts

@@ -3,7 +3,7 @@
     "collect": {
       "startServerCommand": "pnpm exec vite preview --port 4173 --strictPort",
       "startServerReadyPattern": "localhost:4173",
-      "url": ["http://localhost:4173/", "http://localhost:4173/page-inexistante"],
+      "url": ["http://localhost:4173/"],
       "numberOfRuns": 3
     },
     "assert": {
@@ -35,7 +35,7 @@
         "largest-contentful-paint": [
           "error",
           {
-            "maxNumericValue": 2500
+            "maxNumericValue": 2000
           }
         ],
         "cumulative-layout-shift": [

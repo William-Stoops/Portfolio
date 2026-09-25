@@ -1,7 +1,7 @@
 import { playwright } from '@vitest/browser-playwright';
 import { defineConfig, mergeConfig } from 'vitest/config';
 
-import viteConfig from './vite.config';
+import viteConfig from './vite.config.ts';
 
 export default mergeConfig(
   viteConfig,
@@ -25,7 +25,7 @@ export default mergeConfig(
             // Vitest blanks CSS modules by default; the colour-token contract test reads the
             // stylesheet source (`?raw`), so it must go through the Vite pipeline.
             css: { include: [/\.css(?:\?|$)/] },
-            include: ['src/**/*.test.ts'],
+            include: ['src/**/*.test.ts', 'scripts/**/*.test.ts'],
             exclude: ['src/**/use-*.test.ts'],
           },
         },

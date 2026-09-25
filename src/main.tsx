@@ -1,5 +1,5 @@
 import { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
+import { createRoot, hydrateRoot } from 'react-dom/client';
 import { createBrowserRouter } from 'react-router';
 import { RouterProvider } from 'react-router/dom';
 
@@ -13,8 +13,16 @@ if (!(rootElement instanceof HTMLElement)) {
   throw new Error('Missing #root element in index.html');
 }
 
-createRoot(rootElement).render(
+const app = (
   <StrictMode>
     <RouterProvider router={createBrowserRouter(ROUTES)} />
-  </StrictMode>,
+  </StrictMode>
 );
+
+// Built pages arrive prerendered (scripts/prerender.ts) and are hydrated; the dev server
+// serves the bare template, which is rendered from scratch.
+if (rootElement.firstElementChild === null) {
+  createRoot(rootElement).render(app);
+} else {
+  hydrateRoot(rootElement, app);
+}

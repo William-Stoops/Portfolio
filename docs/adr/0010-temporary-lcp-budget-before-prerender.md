@@ -1,6 +1,6 @@
 # 0010 — Budget LCP temporaire à 2,5 s en attendant le pré-rendu
 
-- Statut : Accepté (temporaire, à remplacer par l'ADR du pré-rendu)
+- Statut : Remplacé par l'[ADR 0011](0011-build-time-prerendering.md)
 - Date : 2026-09-25
 
 ## Contexte

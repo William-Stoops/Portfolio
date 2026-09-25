@@ -24,6 +24,12 @@ function readThemePreference(): ThemePreference {
   return parseThemePreference(document.documentElement.getAttribute(THEME_ATTRIBUTE));
 }
 
+// Prerendered HTML cannot know the visitor's choice: it is built with "system", then React
+// switches to the stored value right after hydration, without a hydration mismatch.
+function readServerThemePreference(): ThemePreference {
+  return 'system';
+}
+
 function applyThemePreference(themePreference: ThemePreference): void {
   if (themePreference === 'system') {
     document.documentElement.removeAttribute(THEME_ATTRIBUTE);
@@ -72,6 +78,10 @@ export function useThemePreference(): {
   themePreference: ThemePreference;
   setThemePreference: (themePreference: ThemePreference) => void;
 } {
-  const themePreference = useSyncExternalStore(subscribe, readThemePreference);
+  const themePreference = useSyncExternalStore(
+    subscribe,
+    readThemePreference,
+    readServerThemePreference,
+  );
   return { themePreference, setThemePreference };
 }

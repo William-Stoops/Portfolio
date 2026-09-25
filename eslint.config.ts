@@ -96,7 +96,10 @@ export default defineConfig([
     settings: {
       'import/resolver': { typescript: { alwaysTryTypes: true, project: './tsconfig.app.json' } },
       'boundaries/include': ['src/**/*'],
-      'boundaries/files': [{ pattern: 'src/main.tsx', category: 'entry' }],
+      'boundaries/files': [
+        { pattern: 'src/main.tsx', category: 'entry' },
+        { pattern: 'src/entry-server.*', category: 'entry' },
+      ],
       'boundaries/elements': [
         { type: 'app', pattern: 'src/app' },
         { type: 'feature', pattern: 'src/features/*', capture: ['featureName'] },
@@ -115,8 +118,11 @@ export default defineConfig([
           policies: [
             { allow: { to: { module: { origin: ['external', 'core'] } } } },
             {
+              // Entries (browser bootstrap, prerender entry and its test) sit on top of app.
               from: { file: { categories: 'entry' } },
-              allow: { to: { element: { type: ['app', 'shared'] } } },
+              allow: {
+                to: [{ element: { type: ['app', 'shared'] } }, { file: { categories: 'entry' } }],
+              },
             },
             {
               from: { element: { type: 'app' } },
@@ -156,7 +162,7 @@ export default defineConfig([
   },
 
   {
-    files: ['*.config.ts', 'e2e/**/*.ts'],
+    files: ['*.config.ts', 'e2e/**/*.ts', 'scripts/**/*.ts'],
     languageOptions: { globals: globals.node },
   },
 

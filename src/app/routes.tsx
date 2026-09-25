@@ -1,11 +1,13 @@
 import { type RouteObject } from 'react-router';
 
 import { HomeRoute } from '@/app/routes/home';
+import { NotFoundRoute } from '@/app/routes/not-found';
 import { RootLayout } from '@/app/routes/root-layout';
 import { RouteErrorBoundary } from '@/app/routes/route-error-boundary';
 import { PATHS } from '@/config/paths';
 
-// The home page is the LCP path and stays in the main chunk; every other page is split.
+// Prerendered pages hydrate synchronously, so the routes they match must not be lazy
+// (guarded by scripts/prerender-pages.test.ts). Split only heavy, non-prerendered routes.
 export const ROUTES: RouteObject[] = [
   {
     path: PATHS.home,
@@ -13,12 +15,7 @@ export const ROUTES: RouteObject[] = [
     ErrorBoundary: RouteErrorBoundary,
     children: [
       { index: true, Component: HomeRoute },
-      {
-        path: '*',
-        lazy: {
-          Component: async () => (await import('@/app/routes/not-found')).NotFoundRoute,
-        },
-      },
+      { path: '*', Component: NotFoundRoute },
     ],
   },
 ];
