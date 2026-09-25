@@ -23,7 +23,7 @@ Aucun contournement sans ADR.
 `styles`, `testing`). Une feature n'importe **jamais** une autre feature : la composition
 se fait dans `app/`. Le code partagé n'importe jamais `features/` ni `app/`. Pas de barrel
 files (`index.ts` de ré-export). Règles imposées par `eslint-plugin-boundaries` et
-`oxc/no-barrel-file`. Détails : skill `feature-architecture`, [ADR 0001](docs/adr/0001-architecture-features.md).
+l'interdiction des ré-exports (`no-restricted-syntax`). Détails : skill `feature-architecture`, [ADR 0001](docs/adr/0001-architecture-features.md).
 
 ### 2. Les composants dessinent, les hooks décident
 
@@ -161,6 +161,8 @@ pnpm test:coverage  # avec seuils
 pnpm test:e2e       # playwright (build + preview)
 pnpm build          # build de prod
 pnpm knip           # code mort : fichiers, exports, types, dépendances inutilisés
+pnpm knip:production # idem sur le seul code livré, dépendances de prod strictes
+pnpm size           # budget de bundle (size-limit)
 pnpm verify         # tout ce qui précède, identique à la CI
 ```
 

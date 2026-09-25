@@ -75,7 +75,9 @@ src/features/experience/
 No `index.ts` that re-exports. Import the file that defines the thing:
 `import { ExperienceCard } from '@/features/experience/components/experience-card'`.
 Barrels hurt tree-shaking and HMR in Vite, create hidden cycles, and hide dead code from
-Knip. Enforced by `oxc/no-barrel-file`.
+Knip. Enforced by an ESLint `no-restricted-syntax` rule that bans every re-export
+(`export * from`, `export { x } from`). `oxc/no-barrel-file` was tried and rejected: it
+counts transitive modules and lets small barrels through.
 
 ## Imports
 

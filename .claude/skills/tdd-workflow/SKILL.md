@@ -10,14 +10,16 @@ description: Test-Driven Development for the portfolio — red/green/refactor lo
 ## The loop
 
 1. **Red** — write the smallest test describing the next behaviour. Run it, see it fail
-   for the right reason (assertion, not import error). Commit `test(<scope>): …`.
-2. **Green** — write the minimum code to pass. Run the whole affected project. Commit
-   `feat(<scope>): …` / `fix(<scope>): …`.
+   **for the right reason**: an assertion failure or a missing module the test is about
+   to demand — never a typo or a broken setup. Say in the PR which failure you saw.
+2. **Green** — write the minimum code to pass. Run the whole affected project.
 3. **Refactor** — improve names, extract hooks/utils, remove duplication, with tests
-   green at every step. Commit `refactor(<scope>): …` if non-trivial.
+   green at every step.
+4. **Commit** the step (test + code together): hooks lint and type-check staged files,
+   so every commit is green (see `git-workflow` §Atomic commits in TDD).
 
-Outside-in for a feature: start with the E2E journey (red, stays red), drive the
-components and hooks with inner loops, and the E2E turns green last.
+Outside-in for a feature: start with the E2E journey (red locally, not committed until
+green), drive the components and hooks with inner loops, and the E2E turns green last.
 
 ## Layers
 
