@@ -11,6 +11,7 @@ const SECTION_LINKS = [
   { name: 'Projets', href: '/#projets' },
   { name: 'IA', href: '/#ia' },
   { name: 'Compétences', href: '/#competences' },
+  { name: 'Contact', href: '/#contact' },
 ];
 
 // Following /#parcours would navigate the test frame away: keep the click, drop the

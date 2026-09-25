@@ -2,7 +2,8 @@ import { type Ref } from 'react';
 
 import { Badge } from '@/components/ui/badge';
 import { ButtonLink } from '@/components/ui/button-link';
-import { CONTACT_EMAIL, CV_FILE, SITE_OWNER } from '@/config/site';
+import { PATHS, SECTION_IDS } from '@/config/paths';
+import { CV_FILE, SITE_OWNER } from '@/config/site';
 import { HeroPortrait } from '@/features/hero/components/hero-portrait';
 import { type HeroContent } from '@/features/hero/types/hero-content';
 
@@ -34,7 +35,7 @@ export function HeroSection({ content, headingRef }: HeroSectionProps) {
         </div>
         <p className="max-w-prose text-lead text-fg-muted">{content.tagline}</p>
         <div className="flex flex-wrap gap-3">
-          <ButtonLink variant="primary" href={`mailto:${CONTACT_EMAIL}`}>
+          <ButtonLink variant="primary" href={`${PATHS.home}#${SECTION_IDS.contact}`}>
             Me contacter
           </ButtonLink>
           <ButtonLink variant="secondary" href={CV_FILE.href} download>
