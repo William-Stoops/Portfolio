@@ -25,7 +25,7 @@ export default mergeConfig(
             // Vitest blanks CSS modules by default; the colour-token contract test reads the
             // stylesheet source (`?raw`), so it must go through the Vite pipeline.
             css: { include: [/\.css(?:\?|$)/] },
-            include: ['src/**/*.test.ts'],
+            include: ['src/**/*.test.ts', 'scripts/**/*.test.ts'],
             exclude: ['src/**/use-*.test.ts'],
           },
         },

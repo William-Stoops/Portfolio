@@ -34,7 +34,7 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: `vite build && vite preview --port ${String(PORT)} --strictPort`,
+    command: `vite build && node scripts/prerender.ts && vite preview --port ${String(PORT)} --strictPort`,
     url: `http://localhost:${String(PORT)}`,
     reuseExistingServer: !IS_CI,
   },
