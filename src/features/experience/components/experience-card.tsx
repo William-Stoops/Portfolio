@@ -1,7 +1,7 @@
 import { Badge } from '@/components/ui/badge';
+import { EmphasizedText } from '@/components/ui/emphasized-text';
 import { type Experience } from '@/features/experience/types/experience';
-import { formatPeriod } from '@/features/experience/utils/format-period';
-import { parseEmphasis } from '@/features/experience/utils/parse-emphasis';
+import { formatPeriod } from '@/utils/format-period';
 
 type ExperienceCardProps = { experience: Experience };
 
@@ -35,15 +35,7 @@ export function ExperienceCard({ experience }: ExperienceCardProps) {
       <ul className="flex list-disc flex-col gap-2 ps-5 marker:text-accent-fg">
         {experience.highlights.map((highlight) => (
           <li key={highlight} className="max-w-prose text-fg-muted">
-            {parseEmphasis(highlight).map(({ text, isEmphasized }) =>
-              isEmphasized ? (
-                <strong key={text} className="font-semibold text-fg">
-                  {text}
-                </strong>
-              ) : (
-                text
-              ),
-            )}
+            <EmphasizedText text={highlight} />
           </li>
         ))}
       </ul>

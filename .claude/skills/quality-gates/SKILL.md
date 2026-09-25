@@ -59,6 +59,8 @@ new rule gets the same treatment (write a violating file, see it fail, delete it
 
 Overrides are allowed only for: tool config files that require `export default`
 (`*.config.ts`), `no-await-in-loop` in `e2e/` (browser steps are sequential by nature),
+`react/iframe-missing-sandbox` in `youtube-facade.tsx` (cross-origin player needs
+`allow-same-origin`; its exact sandbox is asserted by the component test),
 and generated shadcn sources **before** they are adapted. There is **no** override that
 re-allows `any`, `unknown` or assertions anywhere.
 

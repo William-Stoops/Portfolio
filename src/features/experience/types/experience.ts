@@ -1,11 +1,4 @@
-// "2024" (year precision) or "2025-09" (month precision), checked at compile time.
-type PeriodPoint = `${number}` | `${number}-${number}`;
-
-export type Period = {
-  start: PeriodPoint;
-  // Absent while the role is ongoing.
-  end?: PeriodPoint;
-};
+import { type Period } from '@/types/period';
 
 export type Experience = {
   id: string;

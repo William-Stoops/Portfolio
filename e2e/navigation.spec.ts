@@ -1,12 +1,11 @@
-import { type BrowserType, expect, type Page, test } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 
-async function pressTab(page: Page, browserName: ReturnType<BrowserType['name']>): Promise<void> {
-  await page.keyboard.press(browserName === 'webkit' ? 'Alt+Tab' : 'Tab');
-}
+import { openMenuIfCollapsed, pressTab } from './support/interactions.ts';
 
 test.describe('main navigation', () => {
   test('brings the about section into view', async ({ page }) => {
     await page.goto('/');
+    await openMenuIfCollapsed(page);
 
     await page
       .getByRole('navigation', { name: 'Navigation principale' })
@@ -19,6 +18,7 @@ test.describe('main navigation', () => {
 
   test('brings the experience section into view', async ({ page }) => {
     await page.goto('/');
+    await openMenuIfCollapsed(page);
 
     await page
       .getByRole('navigation', { name: 'Navigation principale' })
@@ -29,8 +29,27 @@ test.describe('main navigation', () => {
     await expect(page.getByRole('heading', { level: 2, name: 'Parcours' })).toBeInViewport();
   });
 
+  for (const { link, heading, hash } of [
+    { link: 'Projets', heading: 'Projets', hash: 'projets' },
+    { link: 'IA', heading: 'IA\u00A0: pratique personnelle et travaux académiques', hash: 'ia' },
+  ]) {
+    test(`brings the ${link} section into view`, async ({ page }) => {
+      await page.goto('/');
+      await openMenuIfCollapsed(page);
+
+      await page
+        .getByRole('navigation', { name: 'Navigation principale' })
+        .getByRole('link', { name: link, exact: true })
+        .click();
+
+      await expect(page).toHaveURL(new RegExp(`/#${hash}$`));
+      await expect(page.getByRole('heading', { level: 2, name: heading })).toBeInViewport();
+    });
+  }
+
   test('reaches the about section from another page', async ({ page }) => {
     await page.goto('/page-inexistante');
+    await openMenuIfCollapsed(page);
 
     await page.getByRole('link', { name: 'À propos' }).click();
 
@@ -42,6 +61,7 @@ test.describe('main navigation', () => {
     browserName,
   }) => {
     await page.goto('/');
+    await openMenuIfCollapsed(page);
     const aboutLink = page.getByRole('link', { name: 'À propos' });
     await aboutLink.focus();
 
@@ -49,8 +69,9 @@ test.describe('main navigation', () => {
     await expect(page.getByRole('heading', { level: 2, name: 'À propos' })).toBeInViewport();
     await pressTab(page, browserName);
 
-    // The section holds no control: the next stop is the first link after it.
-    await expect(page.locator(':focus')).not.toHaveAccessibleName('Parcours');
-    await expect(page.locator(':focus')).toHaveAccessibleName('william.stoops@epitech.eu');
+    // The sections after it hold no control until the projects' video: that is the next stop.
+    await expect(page.locator(':focus')).toHaveAccessibleName(
+      'Lire la vidéo : Pitch de STAXX au concours Epitech Summit',
+    );
   });
 });

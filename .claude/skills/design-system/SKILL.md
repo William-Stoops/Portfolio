@@ -137,7 +137,8 @@ a real use case gets the wrong API.
   closed palette and fixed variants leave no conflicting utilities to merge. Add them only
   when a primitive's variants multiply, with the size measured in the PR.
 - Shipped primitives: `button-link` (a link styled as a button: calls to action navigate or
-  download, so they stay `<a>`), `badge`, `responsive-image` (hero). Still expected:
+  download, so they stay `<a>`), `badge`, `responsive-image` (hero), `emphasized-text`
+  (CV bold passages), `youtube-facade` (projects). Still expected:
   `card` (experience), `visually-hidden`. The key-figure markup stays inside the about
   feature until a second feature needs it (then it moves to `ui/`).
 

@@ -158,8 +158,9 @@ document shares the key `default` and the previous page's position undoes the ju
 
 ## 8. Dialogs and menus
 
-- Mobile menu: prefer a **non-modal disclosure** (`aria-expanded`, `aria-controls`, Escape
-  closes and returns focus). If a shadcn `Sheet` (Base UI Dialog) is used, its title is
+- Mobile menu: a **non-modal disclosure** (`aria-expanded`, `aria-controls`, Escape
+  closes and returns focus, choosing a link closes it) — implemented by `useMobileMenu`
+  and `SiteHeader` below 48rem; the panel holds the navigation and the theme choice. If a shadcn `Sheet` (Base UI Dialog) is used, its title is
   mandatory (visually hidden if not shown) — the primitive handles the focus trap, Escape
   and focus return; verify it in the keyboard E2E spec anyway.
 - Custom modal: native `<dialog>.showModal()`; never hand-roll a focus trap.

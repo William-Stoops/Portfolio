@@ -6,4 +6,6 @@ export const PATHS = {
 export const SECTION_IDS = {
   about: 'a-propos',
   experience: 'parcours',
+  projects: 'projets',
+  aiPractice: 'ia',
 } as const;

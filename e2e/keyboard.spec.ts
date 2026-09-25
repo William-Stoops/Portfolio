@@ -1,10 +1,6 @@
-import { type BrowserType, expect, type Page, test } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 
-// Safari only puts links in the Tab order with Option+Tab (or a preference turned on):
-// send the key a Safari keyboard user actually presses.
-async function pressTab(page: Page, browserName: ReturnType<BrowserType['name']>): Promise<void> {
-  await page.keyboard.press(browserName === 'webkit' ? 'Alt+Tab' : 'Tab');
-}
+import { isMobileLayout, openMenuIfCollapsed, pressTab } from './support/interactions.ts';
 
 test.describe('keyboard navigation', () => {
   test('starts with a visible skip link that moves focus to the main content', async ({
@@ -22,22 +18,31 @@ test.describe('keyboard navigation', () => {
     await expect(page.getByRole('main')).toBeFocused();
   });
 
-  test('follows the visual order: skip link, header, hero calls to action, footer', async ({
+  test('follows the visual order: skip link, header, calls to action, video, footer', async ({
     page,
     browserName,
   }) => {
     await page.goto('/');
 
+    const header = isMobileLayout(page)
+      ? ['Menu']
+      : [
+          'À propos',
+          'Parcours',
+          'Projets',
+          'IA',
+          'Thème du système',
+          'Thème clair',
+          'Thème sombre',
+        ];
     const expectedFocusOrder = [
       'Aller au contenu principal',
       'William Stoops',
-      'À propos',
-      'Parcours',
-      'Thème du système',
-      'Thème clair',
-      'Thème sombre',
+      ...header,
       'Me contacter',
       'Télécharger le CV (PDF, 56 Ko)',
+      'Lire la vidéo : Pitch de STAXX au concours Epitech Summit',
+      'Ouvrir la vidéo sur YouTube (nouvel onglet)',
       'william.stoops@epitech.eu',
       'LinkedIn (nouvel onglet)',
     ];
@@ -53,7 +58,7 @@ test.describe('keyboard navigation', () => {
   }) => {
     await page.goto('/');
 
-    for (let step = 0; step < 11; step += 1) {
+    for (let step = 0; step < (isMobileLayout(page) ? 9 : 15); step += 1) {
       await pressTab(page, browserName);
       const focusState = await page.evaluate(() => {
         const element = document.activeElement;
@@ -91,9 +96,11 @@ test.describe('pages', () => {
   test('remembers the chosen theme across reloads', async ({ page }) => {
     await page.emulateMedia({ colorScheme: 'light' });
     await page.goto('/');
+    await openMenuIfCollapsed(page);
 
     await page.getByRole('button', { name: 'Thème sombre' }).click();
     await page.reload();
+    await openMenuIfCollapsed(page);
 
     await expect(page.getByRole('button', { name: 'Thème sombre' })).toHaveAttribute(
       'aria-pressed',
