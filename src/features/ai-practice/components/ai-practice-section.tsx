@@ -1,20 +1,12 @@
+import { PageSection } from '@/components/layout/page-section';
 import { SECTION_IDS } from '@/config/paths';
 import { type AiPracticeContent } from '@/features/ai-practice/types/ai-practice-content';
 
 type AiPracticeSectionProps = { content: AiPracticeContent };
 
-const HEADING_ID = `${SECTION_IDS.aiPractice}-titre`;
-
 export function AiPracticeSection({ content }: AiPracticeSectionProps) {
   return (
-    <section
-      id={SECTION_IDS.aiPractice}
-      aria-labelledby={HEADING_ID}
-      className="mx-auto flex w-full max-w-6xl flex-col gap-10 px-gutter py-section"
-    >
-      <h2 id={HEADING_ID} className="text-h2 font-semibold">
-        {content.title}
-      </h2>
+    <PageSection id={SECTION_IDS.aiPractice} title={content.title}>
       <ul className="grid grid-cols-[repeat(auto-fill,minmax(min(100%,18rem),1fr))] gap-6">
         {content.items.map(({ title, text }) => (
           <li
@@ -26,6 +18,6 @@ export function AiPracticeSection({ content }: AiPracticeSectionProps) {
           </li>
         ))}
       </ul>
-    </section>
+    </PageSection>
   );
 }

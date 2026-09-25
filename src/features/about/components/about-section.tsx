@@ -1,24 +1,16 @@
+import { PageSection } from '@/components/layout/page-section';
 import { SECTION_IDS } from '@/config/paths';
 import { type AboutContent } from '@/features/about/types/about-content';
 
 type AboutSectionProps = { content: AboutContent };
 
-const HEADING_ID = `${SECTION_IDS.about}-titre`;
-
 export function AboutSection({ content }: AboutSectionProps) {
   return (
-    <section
+    <PageSection
       id={SECTION_IDS.about}
-      aria-labelledby={HEADING_ID}
-      className="mx-auto flex w-full max-w-6xl flex-col gap-10 px-gutter py-section"
+      title="À propos"
+      lead={<p className="max-w-prose text-lead text-fg-muted">{content.profile}</p>}
     >
-      <div className="flex flex-col gap-4">
-        <h2 id={HEADING_ID} className="text-h2 font-semibold">
-          À propos
-        </h2>
-        <p className="max-w-prose text-lead text-fg-muted">{content.profile}</p>
-      </div>
-
       <ul
         aria-label="Axes"
         className="grid grid-cols-[repeat(auto-fill,minmax(min(100%,18rem),1fr))] gap-6"
@@ -54,6 +46,6 @@ export function AboutSection({ content }: AboutSectionProps) {
           </li>
         ))}
       </ul>
-    </section>
+    </PageSection>
   );
 }
