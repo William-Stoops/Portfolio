@@ -14,7 +14,12 @@ export function RootLayout() {
         <Outlet />
       </main>
       <SiteFooter />
-      <ScrollRestoration />
+      {/*
+        Keyed by path and fragment: every freshly loaded document shares the router key
+        "default", so restoring by key would apply the previous page's scroll position and
+        undo the browser's jump to a fragment such as /#a-propos.
+      */}
+      <ScrollRestoration getKey={({ pathname, hash }) => `${pathname}${hash}`} />
     </div>
   );
 }

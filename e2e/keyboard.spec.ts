@@ -31,6 +31,7 @@ test.describe('keyboard navigation', () => {
     const expectedFocusOrder = [
       'Aller au contenu principal',
       'William Stoops',
+      'À propos',
       'Thème du système',
       'Thème clair',
       'Thème sombre',
@@ -51,7 +52,7 @@ test.describe('keyboard navigation', () => {
   }) => {
     await page.goto('/');
 
-    for (let step = 0; step < 9; step += 1) {
+    for (let step = 0; step < 10; step += 1) {
       await pressTab(page, browserName);
       const focusState = await page.evaluate(() => {
         const element = document.activeElement;

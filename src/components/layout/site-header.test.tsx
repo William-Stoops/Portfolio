@@ -20,6 +20,15 @@ describe('SiteHeader', () => {
     await expect.element(screen.getByRole('group', { name: 'Thème' })).toBeVisible();
   });
 
+  it('links to the page sections from the main navigation', async () => {
+    const screen = await renderInRouter(<SiteHeader />);
+
+    const navigation = screen.getByRole('navigation', { name: 'Navigation principale' });
+    await expect
+      .element(navigation.getByRole('link', { name: 'À propos' }))
+      .toHaveAttribute('href', '/#a-propos');
+  });
+
   it('has no axe violations', async () => {
     const screen = await renderInRouter(<SiteHeader />);
 
