@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { parseEmphasis } from '@/features/experience/utils/parse-emphasis';
+import { parseEmphasis } from '@/utils/parse-emphasis';
 
 describe('parseEmphasis', () => {
   it('returns plain text as a single segment', () => {

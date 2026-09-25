@@ -1,4 +1,4 @@
-import { type Period } from '@/features/experience/types/experience';
+import { type Period } from '@/types/period';
 
 // UTC on both sides so the prerendered HTML and the hydrated client format the same date.
 const MONTH_FORMAT = new Intl.DateTimeFormat('fr-FR', {

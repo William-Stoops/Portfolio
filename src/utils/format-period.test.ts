@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { formatPeriod } from '@/features/experience/utils/format-period';
+import { formatPeriod } from '@/utils/format-period';
 
 describe('formatPeriod', () => {
   it('says "Depuis" for an ongoing role, with the French short month', () => {

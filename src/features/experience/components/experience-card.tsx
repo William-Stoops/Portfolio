@@ -1,7 +1,7 @@
 import { Badge } from '@/components/ui/badge';
 import { type Experience } from '@/features/experience/types/experience';
-import { formatPeriod } from '@/features/experience/utils/format-period';
-import { parseEmphasis } from '@/features/experience/utils/parse-emphasis';
+import { formatPeriod } from '@/utils/format-period';
+import { parseEmphasis } from '@/utils/parse-emphasis';
 
 type ExperienceCardProps = { experience: Experience };
 
