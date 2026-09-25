@@ -1,5 +1,7 @@
 import { expect, type Page, test } from '@playwright/test';
 
+import { openMenuIfCollapsed } from './support/interactions.ts';
+
 // Collects console errors and uncaught exceptions. When a not-found document is expected,
 // the browser logs its 404 status: that one message is the intended behaviour. (Compared by
 // path: WebKit logs it before navigation commits, while page.url() is still the old URL.)
@@ -62,6 +64,7 @@ test.describe('hydration', () => {
       const errors = collectErrors(page, isNotFound ? path : undefined);
 
       await page.goto(path);
+      await openMenuIfCollapsed(page);
       await page.getByRole('button', { name: 'Thème sombre' }).click();
 
       await expect(page.getByRole('button', { name: 'Thème sombre' })).toHaveAttribute(
@@ -81,6 +84,7 @@ test.describe('hydration', () => {
     });
 
     await page.goto('/');
+    await openMenuIfCollapsed(page);
 
     await expect(page.getByRole('button', { name: 'Thème sombre' })).toHaveAttribute(
       'aria-pressed',
@@ -91,6 +95,7 @@ test.describe('hydration', () => {
 
   test('keeps a single document title after hydration', async ({ page }) => {
     await page.goto('/');
+    await openMenuIfCollapsed(page);
     await page.getByRole('button', { name: 'Thème clair' }).click();
 
     await expect(page.locator('title')).toHaveCount(1);

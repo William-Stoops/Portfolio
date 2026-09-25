@@ -7,4 +7,6 @@ type NavItem = { label: string; href: string };
 export const NAV_ITEMS: readonly NavItem[] = [
   { label: 'À propos', href: `${PATHS.home}#${SECTION_IDS.about}` },
   { label: 'Parcours', href: `${PATHS.home}#${SECTION_IDS.experience}` },
+  { label: 'Projets', href: `${PATHS.home}#${SECTION_IDS.projects}` },
+  { label: 'IA', href: `${PATHS.home}#${SECTION_IDS.aiPractice}` },
 ];
