@@ -17,5 +17,7 @@ fois accepté** : on ne le réécrit pas, on le remplace par un nouvel ADR qui l
 | 0009 | [Thèmes par `light-dark()` et palette de couleurs fermée](0009-theme-light-dark-closed-palette.md)       | Accepté           |
 | 0010 | [Budget LCP temporaire à 2,5 s en attendant le pré-rendu](0010-temporary-lcp-budget-before-prerender.md) | Remplacé par 0011 |
 | 0011 | [Pré-rendre les pages au build, en restant en mode data](0011-build-time-prerendering.md)                | Accepté           |
+| 0012 | [Générer les images en fichiers statiques, hors du bundler](0012-static-generated-images.md)             | Accepté           |
+| 0013 | [Mesurer Lighthouse en bridage réel, sur la médiane des passes](0013-lighthouse-devtools-throttling.md)  | Accepté           |
 
 Modèle : copier [template.md](template.md).

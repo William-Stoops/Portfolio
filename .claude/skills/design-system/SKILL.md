@@ -131,11 +131,13 @@ a real use case gets the wrong API.
   3. remove `focus-visible:ring-*`: the global `:focus-visible` outline applies,
   4. check target sizes (icon buttons `size-11`),
   5. write its tests (render, variants, keyboard, axe).
-- Variants with `cva`, merged with `cn()` (`clsx` + `tailwind-merge`) from `src/lib/cn.ts`
-  — both added with the first primitive that needs them.
-- Expected primitives and the PR that introduces them: `button` + `link` (hero),
-  `badge` (hero tech list), `metric` (about), `card` (experience), `visually-hidden` and
-  `theme-toggle` (app-shell), `responsive-image` (hero portrait).
+- Variants are a typed `Record<Variant, string>` of classes joined with `cn()`
+  (`src/lib/cn.ts`, a 3-line join). `cva` / `tailwind-merge` are **not** installed: the
+  closed palette and fixed variants leave no conflicting utilities to merge. Add them only
+  when a primitive's variants multiply, with the size measured in the PR.
+- Shipped primitives: `button-link` (a link styled as a button: calls to action navigate or
+  download, so they stay `<a>`), `badge`, `responsive-image` (hero). Still expected:
+  `metric` (about), `card` (experience), `visually-hidden`.
 
 ## Tests
 

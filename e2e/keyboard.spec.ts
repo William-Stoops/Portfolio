@@ -22,7 +22,7 @@ test.describe('keyboard navigation', () => {
     await expect(page.getByRole('main')).toBeFocused();
   });
 
-  test('follows the visual order: skip link, home link, theme choices, footer links', async ({
+  test('follows the visual order: skip link, header, hero calls to action, footer', async ({
     page,
     browserName,
   }) => {
@@ -34,6 +34,8 @@ test.describe('keyboard navigation', () => {
       'Thème du système',
       'Thème clair',
       'Thème sombre',
+      'Me contacter',
+      'Télécharger le CV (PDF, 56 Ko)',
       'william.stoops@epitech.eu',
       'LinkedIn (nouvel onglet)',
     ];
@@ -49,7 +51,7 @@ test.describe('keyboard navigation', () => {
   }) => {
     await page.goto('/');
 
-    for (let step = 0; step < 7; step += 1) {
+    for (let step = 0; step < 9; step += 1) {
       await pressTab(page, browserName);
       const focusState = await page.evaluate(() => {
         const element = document.activeElement;
