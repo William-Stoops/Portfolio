@@ -31,6 +31,7 @@ test.describe('keyboard navigation', () => {
           'Parcours',
           'Projets',
           'IA',
+          'Compétences',
           'Thème du système',
           'Thème clair',
           'Thème sombre',
@@ -58,7 +59,7 @@ test.describe('keyboard navigation', () => {
   }) => {
     await page.goto('/');
 
-    for (let step = 0; step < (isMobileLayout(page) ? 9 : 15); step += 1) {
+    for (let step = 0; step < (isMobileLayout(page) ? 9 : 16); step += 1) {
       await pressTab(page, browserName);
       const focusState = await page.evaluate(() => {
         const element = document.activeElement;

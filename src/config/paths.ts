@@ -8,4 +8,5 @@ export const SECTION_IDS = {
   experience: 'parcours',
   projects: 'projets',
   aiPractice: 'ia',
+  skills: 'competences',
 } as const;
