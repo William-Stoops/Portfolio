@@ -31,6 +31,20 @@ export default mergeConfig(
         },
         {
           extends: true,
+          // Pre-bundled up front: discovering a dependency mid-run makes Vite reload the test
+          // page, which fails the suite at random (worst on a cold CI cache).
+          optimizeDeps: {
+            include: [
+              'react',
+              'react/jsx-dev-runtime',
+              'react-dom/client',
+              'react-router',
+              'zod/mini',
+              'lucide-react',
+              'axe-core',
+              'vitest-browser-react',
+            ],
+          },
           test: {
             // Components and hooks run in real Chromium: jsdom has no layout engine,
             // so container queries, focus visibility and contrast cannot be tested there.
