@@ -27,6 +27,9 @@ describe('SiteHeader', () => {
     await expect
       .element(navigation.getByRole('link', { name: 'À propos' }))
       .toHaveAttribute('href', '/#a-propos');
+    await expect
+      .element(navigation.getByRole('link', { name: 'Parcours' }))
+      .toHaveAttribute('href', '/#parcours');
   });
 
   it('has no axe violations', async () => {
