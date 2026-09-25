@@ -10,8 +10,9 @@ import { cn } from '@/lib/cn';
 
 const MENU_ID = 'menu-principal';
 
-// Below 48rem the navigation and theme choice sit in a disclosure opened by "Menu"; from
-// 48rem they are always shown inline and the button is gone. DOM order = visual order.
+// Below 64rem the navigation and theme choice sit in a disclosure opened by "Menu"; from
+// 64rem (where five links, the name and the theme choice fit on one row) they are shown
+// inline and the button is gone. DOM order = visual order.
 export function SiteHeader() {
   const { isOpen, toggle, close, buttonRef } = useMobileMenu();
 
@@ -29,7 +30,7 @@ export function SiteHeader() {
         aria-expanded={isOpen}
         aria-controls={MENU_ID}
         onClick={toggle}
-        className="inline-flex min-h-11 items-center gap-2 rounded-md px-3 font-semibold md:hidden"
+        className="inline-flex min-h-11 items-center gap-2 rounded-md px-3 font-semibold lg:hidden"
       >
         {isOpen ? (
           <X aria-hidden="true" focusable="false" className="size-5" strokeWidth={1.75} />
@@ -41,12 +42,12 @@ export function SiteHeader() {
       <div
         id={MENU_ID}
         className={cn(
-          'basis-full flex-col items-start gap-2 pb-2 md:flex md:basis-auto md:flex-row md:items-center md:gap-6 md:pb-0',
+          'basis-full flex-col items-start gap-2 pb-2 lg:flex lg:basis-auto lg:flex-row lg:items-center lg:gap-6 lg:pb-0',
           isOpen ? 'flex' : 'hidden',
         )}
       >
         <nav aria-label="Navigation principale">
-          <ul className="flex flex-col md:flex-row md:flex-wrap md:items-center md:gap-x-6">
+          <ul className="flex flex-col lg:flex-row lg:flex-wrap lg:items-center lg:gap-x-6">
             {NAV_ITEMS.map(({ label, href }) => (
               <li key={href}>
                 <a

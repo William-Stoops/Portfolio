@@ -1,7 +1,7 @@
 import { type BrowserType, type Page } from '@playwright/test';
 
-// Below 48rem the header navigation and theme choice sit behind the "Menu" disclosure.
-const MOBILE_LAYOUT_MAX_WIDTH = 767;
+// Below 64rem the header navigation and theme choice sit behind the "Menu" disclosure.
+const MOBILE_LAYOUT_MAX_WIDTH = 1023;
 
 export function isMobileLayout(page: Page): boolean {
   return (page.viewportSize()?.width ?? Number.POSITIVE_INFINITY) <= MOBILE_LAYOUT_MAX_WIDTH;
