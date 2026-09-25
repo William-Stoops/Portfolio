@@ -12,3 +12,12 @@ export const NAV_ITEMS: readonly NavItem[] = [
   { label: 'Compétences', href: `${PATHS.home}#${SECTION_IDS.skills}` },
   { label: 'Contact', href: `${PATHS.home}#${SECTION_IDS.contact}` },
 ];
+
+type PageLink = { label: string; path: string };
+
+// Pages outside the home page, linked from the footer and listed in the site map.
+export const FOOTER_LINKS: readonly PageLink[] = [
+  { label: 'Accessibilité', path: PATHS.accessibility },
+  { label: 'Mentions légales', path: PATHS.legalNotice },
+  { label: 'Plan du site', path: PATHS.siteMap },
+];
