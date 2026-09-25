@@ -17,6 +17,18 @@ test.describe('main navigation', () => {
     await expect(page.getByRole('heading', { level: 2, name: 'À propos' })).toBeInViewport();
   });
 
+  test('brings the experience section into view', async ({ page }) => {
+    await page.goto('/');
+
+    await page
+      .getByRole('navigation', { name: 'Navigation principale' })
+      .getByRole('link', { name: 'Parcours' })
+      .click();
+
+    await expect(page).toHaveURL(/\/#parcours$/);
+    await expect(page.getByRole('heading', { level: 2, name: 'Parcours' })).toBeInViewport();
+  });
+
   test('reaches the about section from another page', async ({ page }) => {
     await page.goto('/page-inexistante');
 
@@ -38,6 +50,7 @@ test.describe('main navigation', () => {
     await pressTab(page, browserName);
 
     // The section holds no control: the next stop is the first link after it.
+    await expect(page.locator(':focus')).not.toHaveAccessibleName('Parcours');
     await expect(page.locator(':focus')).toHaveAccessibleName('william.stoops@epitech.eu');
   });
 });
