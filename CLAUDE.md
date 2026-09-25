@@ -218,7 +218,7 @@ pnpm verify         # tout ce qui précède, identique à la CI
 | 8   | `william/feat/experience`                      | ProRealTime, INTM, Strattt / GDS Élec en frise, mot pour mot. Pages détaillées reportées : le CV n'a pas la matière |
 | 9   | `william/feat/projects`                        | STAXX (vidéo du pitch), travaux IA                                                                                  |
 | 10  | `william/feat/skills-education`                | Compétences, formation                                                                                              |
-| 11  | `william/feat/contact`                         | Contact (RHF + Zod), e-mail, LinkedIn                                                                               |
+| 11  | `william/feat/contact`                         | Coordonnées + formulaire RHF / Zod qui prépare un `mailto:` (sans serveur)                                          |
 | 12  | `william/feat/legal-pages`                     | Déclaration d'accessibilité, mentions légales, plan du site                                                         |
 | 13  | `william/perf/lighthouse-budget` + déploiement | Budgets, Open Graph, déploiement (hébergeur à décider)                                                              |
 
