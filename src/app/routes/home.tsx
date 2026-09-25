@@ -1,6 +1,8 @@
 import { PageSection } from '@/components/layout/page-section';
 import { SECTION_IDS } from '@/config/paths';
 import { SITE_TITLE } from '@/config/site';
+import { ContactSection } from '@/features/contact/components/contact-section';
+import { CONTACT_CONTENT } from '@/features/contact/data/contact-content';
 import { EducationOverview } from '@/features/education/components/education-overview';
 import { EDUCATION_ENTRIES } from '@/features/education/data/education-entries';
 import { SkillsOverview } from '@/features/skills/components/skills-overview';
@@ -35,6 +37,7 @@ export function HomeRoute() {
           <EducationOverview entries={EDUCATION_ENTRIES} />
         </div>
       </PageSection>
+      <ContactSection content={CONTACT_CONTENT} />
     </>
   );
 }
