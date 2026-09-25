@@ -12,7 +12,8 @@ description: Where state lives in the portfolio (local, URL, context, persisted 
 3. **Must survive reload or be shareable by link?** URL: path param or search param,
    parsed with Zod in the hook that reads it (`useSearchParams`).
 4. **Cross-cutting and rarely changing** (theme)? A dedicated context + provider in
-   `src/app/provider.tsx`, one concern per context.
+   a provider added to `src/app/routes/root-layout.tsx`, one concern per context. (The
+   theme needs none: it lives on `<html>` and is read with `useSyncExternalStore`.)
 5. **User preference to persist** (theme choice)? `localStorage` through a small
    `useSyncExternalStore`-based hook in `src/hooks/`, value parsed with Zod, reads and
    writes wrapped in try/catch (storage can be unavailable).

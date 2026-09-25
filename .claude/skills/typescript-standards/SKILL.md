@@ -51,6 +51,11 @@ usually appear:
 
 ## Zod at the boundaries (Zod 4)
 
+- **Shipped code imports `zod/mini`** (functional API: `z.enum(...)`, `schema.safeParse`),
+  measured at ~10 kB brotli less than full `zod` for the theme hook. Full `zod` is only
+  acceptable where a library requires it (e.g. a form resolver) and the size is measured
+  in the PR. Prefer `safeParse` + explicit fallback over `z.catch(...)`: Oxlint's
+  `promise/valid-params` mistakes `z.catch(schema, value)` for a `Promise.catch()` call.
 - Schemas are the source of truth; types are `z.infer<typeof schema>` (or `z.input` /
   `z.output` when a transform makes them differ — typical for forms).
 - Static content in `features/*/data/` is typed with `satisfies` against the inferred

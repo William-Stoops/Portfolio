@@ -66,9 +66,11 @@ in the UI means adding it to that test first.**
 
 - `:root { color-scheme: light dark }` → `light-dark()` follows the system preference with
   **zero JavaScript and no flash**. No `dark:` variant is needed for colours.
-- The manual toggle (app-shell PR) will set `data-theme` on `<html>` and a CSS rule will
-  map it to `color-scheme: light | dark`; an inline script in `index.html` restores the
-  stored choice before first paint.
+- Manual choice: `ThemeToggle` (header) → `useThemePreference` sets `data-theme` on
+  `<html>` and persists it; `:root[data-theme=…]` maps it to `color-scheme`. The inline
+  script in `index.html` restores the stored choice before first paint (same storage key,
+  same values — the unit test uses the literal key to guard that contract). A future CSP
+  must allow that script's hash.
 - In production Lightning CSS transpiles `light-dark()` for older browsers (fallback
   variables keyed on `color-scheme`); `e2e/theme.spec.ts` checks both schemes resolve to
   the tokens on the real build.

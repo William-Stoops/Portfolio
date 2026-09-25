@@ -43,9 +43,15 @@ React Router manages neither focus nor announcement. Each page calls
 `usePageHeading()` (`src/hooks/use-page-heading.ts`) and puts the ref on its `h1` with
 `tabIndex={-1}`. The hook:
 
-- does nothing on the initial load (browser default focus),
+- does nothing on the initial load — detected with React Router's `location.key ===
+'default'`, not a module flag (a flag breaks under StrictMode and across tests),
 - does nothing when the URL has a `#hash` (anchor wins),
-- focuses the `h1` otherwise (`preventScroll` on POP navigations).
+- focuses the `h1` otherwise (`preventScroll` on `NavigationType.Pop`).
+
+Prefer native elements over roles — Oxlint `prefer-tag-over-role` enforces it: a group of
+controls is a `<fieldset>` + `<legend>` (visually hidden if needed), a status message is
+an `<output aria-live="polite">` (the explicit `aria-live` because some screen readers
+ignore `<output>`'s implicit one). Example: `src/components/layout/theme-toggle.tsx`.
 
 Do not add a global route-announcer live region on top of this without testing with NVDA
 and VoiceOver — double announcements are likely. Live regions (`role="status"`) are for
@@ -155,6 +161,10 @@ primary button is light orange with **dark** text. The validated tokens live in
 | E2E (Playwright)     | Keyboard specs                                                                                 | Skip link, route-change focus on `h1`, menu Escape/focus return, focus visible and not obscured along the whole Tab path |
 | E2E (Playwright)     | Layout specs                                                                                   | Reflow 320×256, text-spacing override, `forcedColors: "active"` screenshot                                               |
 | Manual (per release) | NVDA + Firefox, VoiceOver + Safari (macOS & iOS), keyboard only, zoom 400 %, Voice Control     | Logged in `docs/a11y/test-log.md` (date, versions, page, result, criterion)                                              |
+
+Keyboard E2E specs press **`Alt+Tab` on WebKit**: Safari only puts links in the Tab
+order with Option+Tab (or a preference), so plain `Tab` would skip them and test nothing
+real. Helper pattern: `e2e/keyboard.spec.ts` `pressTab()`.
 
 Queries in tests are **role-first** (`getByRole('button', { name: 'Envoyer le message' })`).
 A test that needs `getByTestId` to find an interactive element is revealing an a11y bug.

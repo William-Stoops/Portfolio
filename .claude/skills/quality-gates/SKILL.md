@@ -107,6 +107,11 @@ lint-staged and commitlint plugins are auto-enabled from `package.json`. Config:
 (Vite, jiti, Playwright), never by raw Node — this also gives CJS packages their correct
 default-export types. TypeScript is pinned `~6.0.3` (see CLAUDE.md for why not 7).
 
+**Vitest browser project pre-bundles its dependencies** (`optimizeDeps.include` in
+`vitest.config.ts`): a dependency discovered mid-run makes Vite reload the test page and
+fail the suite at random, especially on a cold CI cache. Adding a runtime dependency
+imported by components means adding it to that list.
+
 **React Compiler is disabled under Vitest** (`vite.config.ts`): its memo-cache branches
 would be reported as untested source branches. Compiled output is exercised by the E2E
 suite against the production build and guarded by the compiler lint rules.

@@ -91,23 +91,25 @@ mesure n'est pas une optimisation. Skill `react-performance`.
 
 ## Stack — versions vérifiées le 2026-09-25
 
-| Couche      | Choix                                                   | Version           |
-| ----------- | ------------------------------------------------------- | ----------------- |
-| Runtime     | Node (CI sur 24 LTS, local ≥ 22.22)                     | 24                |
-| Paquets     | pnpm                                                    | 12                |
-| Langage     | TypeScript                                              | **~6.0.3**        |
-| UI          | React + React Compiler                                  | 19.3 / 1.0        |
-| Bundler     | Vite (Rolldown) + @vitejs/plugin-react                  | 8.3 / 6.1         |
-| Routing     | React Router, **mode data**                             | 8.4               |
-| Styles      | Tailwind CSS (`@theme` en CSS) + shadcn (Base UI)       | 4.3 / CLI 4.21    |
-| Formulaires | React Hook Form + @hookform/resolvers + Zod             | 7.88 / 5.9 / 4.6  |
-| État        | Local / URL / contexte — **pas de Redux par défaut**    | voir ADR 0004     |
-| Animation   | Motion (`motion/react`, `LazyMotion`)                   | 13                |
-| Tests       | Vitest (projets `unit` + `browser`) + Playwright + axe  | 5.0 / 1.63 / 4.13 |
-| Lint        | Oxlint + ESLint + typescript-eslint (strictTypeChecked) | 1.85 / 10 / 8.70  |
-| Format      | Prettier + prettier-plugin-tailwindcss                  | 3.9 / 0.8         |
-| Code mort   | Knip (fichiers, exports, dépendances inutilisés)        | 6.38              |
-| Git         | Husky + lint-staged + commitlint (conventional)         | 9 / 17 / 21       |
+| Couche      | Choix                                                       | Version           |
+| ----------- | ----------------------------------------------------------- | ----------------- |
+| Runtime     | Node (CI sur 24 LTS, local ≥ 22.22)                         | 24                |
+| Paquets     | pnpm                                                        | 12                |
+| Langage     | TypeScript                                                  | **~6.0.3**        |
+| UI          | React + React Compiler                                      | 19.3 / 1.0        |
+| Bundler     | Vite (Rolldown) + @vitejs/plugin-react                      | 8.3 / 6.1         |
+| Routing     | React Router, **mode data**                                 | 8.4               |
+| Styles      | Tailwind CSS (`@theme` en CSS) + shadcn (Base UI)           | 4.3 / CLI 4.21    |
+| Formulaires | React Hook Form + @hookform/resolvers + Zod                 | 7.88 / 5.9 / 4.6  |
+| Validation  | `zod/mini` dans le code livré (voir `typescript-standards`) | 4.6               |
+| Icônes      | lucide-react (`aria-hidden` toujours explicite)             | 1.48              |
+| État        | Local / URL / contexte — **pas de Redux par défaut**        | voir ADR 0004     |
+| Animation   | Motion (`motion/react`, `LazyMotion`)                       | 13                |
+| Tests       | Vitest (projets `unit` + `browser`) + Playwright + axe      | 5.0 / 1.63 / 4.13 |
+| Lint        | Oxlint + ESLint + typescript-eslint (strictTypeChecked)     | 1.85 / 10 / 8.70  |
+| Format      | Prettier + prettier-plugin-tailwindcss                      | 3.9 / 0.8         |
+| Code mort   | Knip (fichiers, exports, dépendances inutilisés)            | 6.38              |
+| Git         | Husky + lint-staged + commitlint (conventional)             | 9 / 17 / 21       |
 
 Les plafonds suivants sont délibérés :
 
@@ -126,7 +128,7 @@ coder de mémoire**.
 
 ```
 src/
-  app/                 # composition : router.tsx, provider.tsx, app.tsx, routes/*
+  app/                 # composition : routes.tsx (table des routes), routes/* (pages, layout, erreur)
   components/
     ui/                # primitives du design system (shadcn adapté), sans métier
     layout/            # skip-link, site-header, site-footer, page-shell
