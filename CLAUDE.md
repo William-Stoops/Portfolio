@@ -85,8 +85,8 @@ sur 5 profils d'appareils, avec régression visuelle aux largeurs clés. Skill
 
 ### 9. Performance mesurée
 
-React Compiler actif : pas de `useMemo`, `useCallback` ni `memo` par défaut. Code
-splitting par route. Budgets de bundle et Lighthouse imposés en CI. Une optimisation sans
+Pages pré-rendues au build (ADR 0011) : le contenu s'affiche sans attendre le JavaScript.
+React Compiler actif : pas de `useMemo`, `useCallback` ni `memo` par défaut. Budgets de bundle et Lighthouse imposés en CI. Une optimisation sans
 mesure n'est pas une optimisation. Skill `react-performance`.
 
 ## Stack — versions vérifiées le 2026-09-25
@@ -145,7 +145,9 @@ src/
   config/              # env.ts (Zod), paths.ts, site.ts
   styles/              # globals.css (@theme), base.css
   testing/             # setup, helpers axe, render utils
-  main.tsx
+  main.tsx             # hydrate le HTML pré-rendu (createRoot en dev)
+  entry-server.tsx     # rend une route en HTML au build
+scripts/               # pré-rendu au build (prerender.ts, prerender-pages.ts)
 e2e/                   # Playwright
 docs/adr/  docs/content/  docs/a11y/
 ```
@@ -161,7 +163,7 @@ pnpm typecheck      # tsc -b
 pnpm test           # vitest (unit + browser)
 pnpm test:coverage  # avec seuils
 pnpm test:e2e       # playwright (build + preview)
-pnpm build          # build de prod
+pnpm build          # build de prod + pré-rendu HTML (dist/index.html, dist/404.html)
 pnpm knip           # code mort : fichiers, exports, types, dépendances inutilisés
 pnpm knip:production # idem sur le seul code livré, dépendances de prod strictes
 pnpm size           # budget de bundle (size-limit)
