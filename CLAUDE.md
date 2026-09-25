@@ -220,7 +220,7 @@ pnpm verify         # tout ce qui précède, identique à la CI
 | 10  | `william/feat/skills-education`                | Compétences, formation                                                                                              |
 | 11  | `william/feat/contact`                         | Coordonnées + formulaire RHF / Zod qui prépare un `mailto:` (sans serveur)                                          |
 | 12  | `william/feat/legal-pages`                     | Déclaration d'accessibilité, mentions légales, plan du site                                                         |
-| 13  | `william/perf/lighthouse-budget` + déploiement | Budgets, Open Graph, déploiement (hébergeur à décider)                                                              |
+| 13  | `william/perf/lighthouse-budget` + déploiement | Budgets, Open Graph, déploiement sur Cloudflare Pages (ADR 0014)                                                    |
 
 Questions encore ouvertes : l'hébergeur (Vercel ou Cloudflare Pages), le traitement du
 formulaire de contact (service tiers ou fonction serverless), une éventuelle version
