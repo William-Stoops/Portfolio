@@ -152,13 +152,13 @@ lint, TypeScript capped `<7`). pnpm's own `minimumReleaseAge` (24 h) stays on.
 
 ## 8. Budgets
 
-| Budget                                               | Limit (initial, recalibrate by ADR only)                            |
-| ---------------------------------------------------- | ------------------------------------------------------------------- |
-| Initial JS (gzip)                                    | 120 kB — `size-limit`                                               |
-| CSS (gzip)                                           | 15 kB                                                               |
-| Lighthouse performance / a11y / best practices / SEO | ≥ 0.95 / **1.0** / ≥ 0.95 / ≥ 0.95                                  |
-| LCP / CLS / TBT (Lighthouse, mobile)                 | ≤ 2.0 s / ≤ 0.05 / ≤ 150 ms (only indexable pages are audited: `/`) |
-| Coverage (lines / functions / statements / branches) | 90 / 90 / 90 / 85 on `src/`, excluding `main.tsx` and `testing/`    |
+| Budget                                               | Limit (initial, recalibrate by ADR only)                                                                    |
+| ---------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| Initial JS (gzip)                                    | 120 kB — `size-limit`                                                                                       |
+| CSS (gzip)                                           | 15 kB                                                                                                       |
+| Lighthouse performance / a11y / best practices / SEO | ≥ 0.95 / **1.0** / ≥ 0.95 / ≥ 0.95                                                                          |
+| LCP / CLS / TBT (Lighthouse, mobile)                 | ≤ 2.0 s / ≤ 0.05 / ≤ 150 ms — real (devtools) throttling, median of 3 runs, indexable pages only (ADR 0013) |
+| Coverage (lines / functions / statements / branches) | 90 / 90 / 90 / 85 on `src/`, excluding `main.tsx` and `testing/`                                            |
 
 ## 9. Adding a dependency
 
