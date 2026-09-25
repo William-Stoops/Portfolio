@@ -39,6 +39,8 @@ export default mergeConfig(
               'react/jsx-dev-runtime',
               'react-dom/client',
               'react-router',
+              // Only main.tsx imports it, but coverage analyses untested files too.
+              'react-router/dom',
               'zod/mini',
               'lucide-react',
               'axe-core',
