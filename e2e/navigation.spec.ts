@@ -77,3 +77,27 @@ test.describe('main navigation', () => {
     );
   });
 });
+
+test.describe('footer navigation', () => {
+  test('opens a legal page with its heading focused', async ({ page }) => {
+    await page.goto('/');
+
+    await page
+      .getByRole('navigation', { name: 'Pied de page' })
+      .getByRole('link', { name: 'Mentions légales' })
+      .click();
+
+    await expect(page).toHaveURL(/\/mentions-legales$/);
+    await expect(page).toHaveTitle('Mentions légales – William Stoops');
+    await expect(page.getByRole('heading', { level: 1, name: 'Mentions légales' })).toBeFocused();
+  });
+
+  test('leads from the site map back to a home section', async ({ page }) => {
+    await page.goto('/plan-du-site');
+
+    await page.getByRole('main').getByRole('link', { name: 'Parcours' }).click();
+
+    await expect(page).toHaveURL(/\/#parcours$/);
+    await expect(page.getByRole('heading', { level: 2, name: 'Parcours' })).toBeInViewport();
+  });
+});

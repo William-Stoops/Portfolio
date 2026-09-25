@@ -27,9 +27,14 @@ PR ships its axe + keyboard tests (see `tdd-workflow`).
   level for the outline, then style it with tokens — never pick a level for its size.
 - Sections: `<section aria-labelledby="<id-of-h2>">`. Lists of links/tags/skills are `<ul>`.
 - `NavLink` sets `aria-current="page"`; do not re-implement it.
-- Footer on every page: link to `/accessibilite` (declaration) with the mention
-  `Accessibilité : partiellement conforme` until a documented RGAA self-audit proves
-  otherwise. **Never claim "totalement conforme" without an audit grid in `docs/a11y/`.**
+- Footer on every page: link `Accessibilité` to `/accessibilite` (the declaration). The
+  site is not subject to article 47 of loi 2005-102, so it shows **no conformance status**:
+  under the RGAA, "partiellement" or "totalement conforme" is a result of an audit, and none
+  has been run. **Never claim a status or a rate without an audit grid in `docs/a11y/`**;
+  once there is one, add the status to the link and the declaration together.
+- Declaration (`src/features/legal/components/accessibility-statement.tsx`): lists what was
+  verified and what remains (screen readers, 400 % zoom by hand). Update its list and its
+  date when the checks change.
 
 ## 2. Focus
 

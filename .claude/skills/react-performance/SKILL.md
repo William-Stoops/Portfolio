@@ -40,7 +40,8 @@ description: Performance rules for the portfolio — React Compiler and what it 
 - **Every page is prerendered at build time** (ADR 0011): `src/entry-server.tsx` renders
   it, `scripts/prerender.ts` writes `dist/<page>.html`, the client hydrates. The LCP no
   longer waits for JavaScript. Consequences:
-  - a new page is added to `scripts/prerender-pages.ts`, or it is served as a 404;
+  - a new page is added to `scripts/prerender-pages.ts` as `<name>.html` (served at
+    `/<name>` by Cloudflare Pages, ADR 0014), or it is served as a 404;
   - **routes matched by a prerendered page are never `lazy`** (hydration is synchronous) —
     `scripts/prerender-pages.test.ts` fails otherwise. `lazy` is for heavy routes that are
     not prerendered, or needs the documented preload-before-hydrate step first;

@@ -1,7 +1,13 @@
 import { AxeBuilder } from '@axe-core/playwright';
 import { expect, test } from '@playwright/test';
 
-const ROUTES = ['/', '/page-inexistante'] as const;
+const ROUTES = [
+  '/',
+  '/page-inexistante',
+  '/accessibilite',
+  '/mentions-legales',
+  '/plan-du-site',
+] as const;
 const COLOR_SCHEMES = ['light', 'dark'] as const;
 // `wcag22aa` is required: it is the tag that enables the target-size rule in axe 4.13.
 const AXE_TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa', 'best-practice'];

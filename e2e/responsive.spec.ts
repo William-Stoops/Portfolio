@@ -1,6 +1,12 @@
 import { expect, test } from '@playwright/test';
 
-const ROUTES = ['/', '/page-inexistante'] as const;
+const ROUTES = [
+  '/',
+  '/page-inexistante',
+  '/accessibilite',
+  '/mentions-legales',
+  '/plan-du-site',
+] as const;
 const SWEEP_WIDTHS = [320, 360, 375, 414, 600, 768, 900, 1024, 1280, 1440, 1920, 2560];
 
 for (const route of ROUTES) {

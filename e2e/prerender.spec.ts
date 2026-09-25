@@ -32,6 +32,21 @@ test.describe('prerendered HTML', () => {
     expect(html).toContain('<title>William Stoops – Software Engineer &amp; AI Engineer</title>');
   });
 
+  for (const { path, heading } of [
+    { path: '/accessibilite', heading: 'Déclaration d’accessibilité' },
+    { path: '/mentions-legales', heading: 'Mentions légales' },
+    { path: '/plan-du-site', heading: 'Plan du site' },
+  ]) {
+    test(`serves ${path} as its own prerendered document`, async ({ request }) => {
+      const response = await request.get(path);
+
+      expect(response.status()).toBe(200);
+      const html = await response.text();
+      expect(html).toMatch(new RegExp(`<h1[^>]*>${heading}</h1>`));
+      expect(html).toContain(`<title>${heading} – William Stoops</title>`);
+    });
+  }
+
   test('answers unknown URLs with the not-found page and a real 404 status', async ({
     request,
   }) => {
@@ -59,6 +74,7 @@ test.describe('hydration', () => {
   for (const { path, isNotFound } of [
     { path: '/', isNotFound: false },
     { path: '/page-inexistante', isNotFound: true },
+    { path: '/mentions-legales', isNotFound: false },
   ]) {
     test(`hydrates ${path} without errors and becomes interactive`, async ({ page }) => {
       const errors = collectErrors(page, isNotFound ? path : undefined);

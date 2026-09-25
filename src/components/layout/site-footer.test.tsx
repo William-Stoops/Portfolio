@@ -1,18 +1,18 @@
 import { describe, expect, it } from 'vitest';
-import { render } from 'vitest-browser-react';
 
 import { SiteFooter } from '@/components/layout/site-footer';
 import { expectNoAxeViolations } from '@/testing/expect-no-axe-violations';
+import { renderInRouter, renderRoutes } from '@/testing/render-with-router';
 
 describe('SiteFooter', () => {
   it('is the contentinfo landmark', async () => {
-    const screen = await render(<SiteFooter />);
+    const screen = await renderInRouter(<SiteFooter />);
 
     await expect.element(screen.getByRole('contentinfo')).toBeVisible();
   });
 
   it('links to the e-mail address shown in full', async () => {
-    const screen = await render(<SiteFooter />);
+    const screen = await renderInRouter(<SiteFooter />);
 
     await expect
       .element(screen.getByRole('link', { name: 'william.stoops@epitech.eu' }))
@@ -20,7 +20,7 @@ describe('SiteFooter', () => {
   });
 
   it('opens LinkedIn in a new tab and says so', async () => {
-    const screen = await render(<SiteFooter />);
+    const screen = await renderInRouter(<SiteFooter />);
     const linkedIn = screen.getByRole('link', { name: 'LinkedIn (nouvel onglet)' });
 
     await expect
@@ -31,15 +31,46 @@ describe('SiteFooter', () => {
   });
 
   it('gives every link a target of at least 24 px high', async () => {
-    const screen = await render(<SiteFooter />);
+    const screen = await renderInRouter(<SiteFooter />);
 
     for (const link of screen.getByRole('link').elements()) {
       expect(link.getBoundingClientRect().height).toBeGreaterThanOrEqual(24);
     }
   });
 
+  it('links to the legal pages and the site map from a labelled navigation', async () => {
+    const screen = await renderInRouter(<SiteFooter />);
+
+    const navigation = screen.getByRole('navigation', { name: 'Pied de page' });
+    expect(
+      navigation
+        .getByRole('link')
+        .elements()
+        .map((link) => ({ name: link.textContent, href: link.getAttribute('href') })),
+    ).toEqual([
+      { name: 'Accessibilité', href: '/accessibilite' },
+      { name: 'Mentions légales', href: '/mentions-legales' },
+      { name: 'Plan du site', href: '/plan-du-site' },
+    ]);
+  });
+
+  it('marks the link to the current page', async () => {
+    const screen = await renderRoutes(
+      [{ path: '*', element: <SiteFooter /> }],
+      '/mentions-legales',
+    );
+    const navigation = screen.getByRole('navigation', { name: 'Pied de page' });
+
+    await expect
+      .element(navigation.getByRole('link', { name: 'Mentions légales' }))
+      .toHaveAttribute('aria-current', 'page');
+    await expect
+      .element(navigation.getByRole('link', { name: 'Plan du site' }))
+      .not.toHaveAttribute('aria-current');
+  });
+
   it('has no axe violations', async () => {
-    const screen = await render(<SiteFooter />);
+    const screen = await renderInRouter(<SiteFooter />);
 
     await expectNoAxeViolations(screen.container);
   });

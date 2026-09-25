@@ -16,27 +16,25 @@ const IS_VITEST = process.env['VITEST'] === 'true';
 
 const FILE_EXTENSION_PATTERN = /\.[\da-z]+$/i;
 
-// Makes `vite preview` answer like the static host: prerendered pages and assets as is,
-// any other URL with 404.html and a real 404 status (no SPA fallback to the home page).
+// Makes `vite preview` answer like the static host (Cloudflare Pages): assets as is,
+// prerendered pages from their .html file, any other URL with 404.html and a real 404
+// status (no SPA fallback to the home page).
 function servePrerenderedNotFound(): Plugin {
   return {
     name: 'serve-prerendered-not-found',
     configurePreviewServer(server) {
-      const notFoundFile = resolve(
-        server.config.root,
-        server.config.build.outDir,
-        NOT_FOUND_PAGE.file,
-      );
+      const fileInBuild = (file: string): string =>
+        resolve(server.config.root, server.config.build.outDir, file);
       server.middlewares.use((request, response, next) => {
         const { pathname } = new URL(request.url ?? '/', 'http://localhost');
-        const isPrerenderedPage = PRERENDERED_PAGES.some((page) => page.path === pathname);
-        if (isPrerenderedPage || FILE_EXTENSION_PATTERN.test(pathname)) {
+        if (FILE_EXTENSION_PATTERN.test(pathname)) {
           next();
           return;
         }
-        response.statusCode = 404;
+        const page = PRERENDERED_PAGES.find(({ path }) => path === pathname);
+        response.statusCode = page === undefined ? 404 : 200;
         response.setHeader('Content-Type', 'text/html; charset=utf-8');
-        response.end(readFileSync(notFoundFile));
+        response.end(readFileSync(fileInBuild(page?.file ?? NOT_FOUND_PAGE.file)));
       });
     },
   };
