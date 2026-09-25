@@ -5,13 +5,18 @@
 /* Short screens (landscape phones, 400 % zoom): see the responsive-design skill. */
 @custom-variant short (@media (max-height: 30rem));
 
-@theme {
-  /*
-   * Closed palette. Tailwind's default colours are removed: a utility such as `bg-red-500`
-   * does not exist in this project. Each token holds its light and dark value; the used
-   * `color-scheme` picks one. Every foreground/background pair is contrast-checked by
-   * src/styles/color-tokens.test.ts (docs/adr/0005).
-   */
+/*
+ * Closed palette. Tailwind's default colours are removed: a utility such as `bg-red-500`
+ * does not exist in this project. Each token holds its light and dark value; the used
+ * `color-scheme` picks one. Every foreground/background pair is contrast-checked by
+ * src/styles/color-tokens.test.ts (docs/adr/0005).
+ *
+ * `inline`: every utility carries the light-dark() value itself instead of var(--color-…).
+ * Lightning CSS transpiles light-dark() into variables keyed on `color-scheme`; a token
+ * variable would be resolved once on :root, so a subtree with its own colour scheme (the
+ * video dialog, `scheme-dark`) would still inherit the page's colours.
+ */
+@theme inline {
   --color-*: initial;
   --color-canvas: light-dark(#fafaf7, #1b1f2a);
   --color-surface: light-dark(#ffffff, #242938);
@@ -29,7 +34,9 @@
   --color-border-input: light-dark(#767d8f, #7d869c);
   --color-error: light-dark(#b91c1c, #fca5a5);
   --color-success: light-dark(#166534, #4ade80);
+}
 
+@theme {
   --font-*: initial;
   --font-display: 'Sora Variable', ui-sans-serif, system-ui, sans-serif;
   --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
@@ -87,8 +94,8 @@
   }
 
   html {
-    background-color: var(--color-canvas);
-    color: var(--color-fg);
+    background-color: --theme(--color-canvas);
+    color: --theme(--color-fg);
     font-family: var(--font-sans);
     text-size-adjust: 100%;
   }
@@ -96,7 +103,7 @@
   /* Repeated on body: WebKit-based contrast checkers do not read the root background. */
   body {
     min-height: 100svh;
-    background-color: var(--color-canvas);
+    background-color: --theme(--color-canvas);
     font-size: var(--text-body);
     line-height: var(--text-body--line-height);
     -webkit-font-smoothing: antialiased;
@@ -115,7 +122,7 @@
 
   /* Links in prose are identified by more than colour (WCAG 1.4.1). */
   a {
-    color: var(--color-accent-fg);
+    color: --theme(--color-accent-fg);
     text-decoration-line: underline;
     text-underline-offset: 0.2em;
   }
@@ -125,13 +132,13 @@
    * canvas between the ring and an accent-filled control (WCAG 2.4.7, 2.4.11, 2.4.13).
    */
   :focus-visible {
-    outline: 3px solid var(--color-focus);
+    outline: 3px solid --theme(--color-focus);
     outline-offset: 2px;
   }
 
   ::selection {
-    background-color: var(--color-accent-tint);
-    color: var(--color-fg);
+    background-color: --theme(--color-accent-tint);
+    color: --theme(--color-fg);
   }
 
   @media (prefers-reduced-motion: reduce) {
