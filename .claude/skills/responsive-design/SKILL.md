@@ -70,7 +70,7 @@ Type and section spacing scale continuously with `clamp()`, defined once in
   zoom and fails WCAG 1.4.4.
 - `md:text-4xl lg:text-5xl xl:text-6xl` staircases are a smell — use the fluid token.
 - Prose is capped at `max-w-[65ch]`; page content at `max-w-6xl` centred with
-  `px-(--spacing-gutter)`. Nothing stretches edge to edge on a 2560 px screen except
+  `px-gutter` (vertical rhythm: `py-section`). Nothing stretches edge to edge on a 2560 px screen except
   deliberate full-bleed backgrounds.
 
 ## 4. Intrinsic layouts first
