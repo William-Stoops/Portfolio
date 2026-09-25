@@ -33,6 +33,9 @@ function expectedFocusOrderFor(page: Page): readonly string[] {
     'Préparer l’e-mail',
     'william.stoops@epitech.eu',
     'LinkedIn (nouvel onglet)',
+    'Accessibilité',
+    'Mentions légales',
+    'Plan du site',
   ];
 }
 
