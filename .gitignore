@@ -1,0 +1,32 @@
+# Dependencies
+node_modules/
+
+# Build
+dist/
+*.tsbuildinfo
+
+# Tests
+coverage/
+playwright-report/
+test-results/
+blob-report/
+.vitest/
+__screenshots__/.tmp/
+
+# Lighthouse
+.lighthouseci/
+
+# Env
+.env
+.env.*
+!.env.example
+
+# Editors / OS
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/extensions.json
+*.log
+
+# Claude Code (local only)
+.claude/settings.local.json
