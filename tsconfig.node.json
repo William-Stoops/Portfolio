@@ -21,7 +21,10 @@
     "noPropertyAccessFromIndexSignature": true,
     "noFallthroughCasesInSwitch": true,
     "noUnusedLocals": true,
-    "noUnusedParameters": true
+    "noUnusedParameters": true,
+
+    // Type-only: files shared with src/ use `import type` from `@/`, erased at runtime.
+    "paths": { "@/*": ["./src/*"] }
   },
   "include": ["*.config.ts", "e2e/**/*.ts", "scripts/**/*.ts"],
   "exclude": ["scripts/**/*.test.ts"]
