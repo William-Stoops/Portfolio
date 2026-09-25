@@ -74,6 +74,11 @@ in the UI means adding it to that test first.**
 - In production Lightning CSS transpiles `light-dark()` for older browsers (fallback
   variables keyed on `color-scheme`); `e2e/theme.spec.ts` checks both schemes resolve to
   the tokens on the real build.
+- Colours live in `@theme inline`: each utility carries its `light-dark()` value, resolved
+  on the element that uses it. A subtree can therefore take the other palette with
+  `scheme-dark` / `scheme-light` (the video dialog is dark in both themes). Custom CSS
+  reads a colour with `--theme(--color-…)`, **never `var(--color-…)`**: a variable is
+  resolved once on `:root` and would ignore the subtree's scheme.
 - Any colour with opacity, gradient or blur behind text must be recomputed and added to
   the contrast test.
 

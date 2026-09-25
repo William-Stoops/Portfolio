@@ -168,7 +168,11 @@ document shares the key `default` and the previous page's position undoes the ju
   and `SiteHeader` below 64rem (the width where the full header fits on one row); the panel holds the navigation and the theme choice. If a shadcn `Sheet` (Base UI Dialog) is used, its title is
   mandatory (visually hidden if not shown) — the primitive handles the focus trap, Escape
   and focus return; verify it in the keyboard E2E spec anyway.
-- Custom modal: native `<dialog>.showModal()`; never hand-roll a focus trap.
+- Custom modal: native `<dialog>.showModal()`; never hand-roll a focus trap. Give the
+  focus back to the opener on close yourself (`useFullscreenDialog`): not every browser
+  does, and none can while an element is fullscreen (Chrome makes the rest inert). Keep
+  the first focus on a control of the page, not in a cross-origin iframe: keys pressed
+  inside the iframe never reach the page, so Escape would no longer close the dialog.
 
 ## 9. Tests (all mandatory for a feature PR)
 
