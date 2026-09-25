@@ -1,4 +1,6 @@
 import { SITE_TITLE } from '@/config/site';
+import { AiPracticeSection } from '@/features/ai-practice/components/ai-practice-section';
+import { AI_PRACTICE_CONTENT } from '@/features/ai-practice/data/ai-practice-content';
 import { AboutSection } from '@/features/about/components/about-section';
 import { ABOUT_CONTENT } from '@/features/about/data/about-content';
 import { ExperienceSection } from '@/features/experience/components/experience-section';
@@ -19,6 +21,7 @@ export function HomeRoute() {
       <AboutSection content={ABOUT_CONTENT} />
       <ExperienceSection experiences={EXPERIENCES} />
       <ProjectsSection projects={PROJECTS} />
+      <AiPracticeSection content={AI_PRACTICE_CONTENT} />
     </>
   );
 }
