@@ -79,18 +79,19 @@ in the UI means adding it to that test first.**
 
 ## Typography
 
-| Role               | Family                                            | Status                              |
-| ------------------ | ------------------------------------------------- | ----------------------------------- |
-| Display / headings | **Sora Variable** (`@fontsource-variable/sora`)   | Installed                           |
-| Body / UI          | **Inter Variable** (`@fontsource-variable/inter`) | Installed                           |
-| Metrics / code     | **JetBrains Mono Variable**                       | Added with the first metric (about) |
+| Role               | Family                                            | Status                                                                                                                |
+| ------------------ | ------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| Display / headings | **Sora Variable** (`@fontsource-variable/sora`)   | Installed                                                                                                             |
+| Body / UI          | **Inter Variable** (`@fontsource-variable/inter`) | Installed                                                                                                             |
+| Metrics            | **Sora** with `tabular-nums` (`text-metric`)      | JetBrains Mono dropped: fonts are the main real load cost (ADR 0013), a third family for four numbers is not worth it |
 
 - Self-hosted via Fontsource (no third-party request), `font-display: swap`,
   `unicode-range` subsets so only the needed files download. Preloading and metric-matched
   fallbacks are added **only if Lighthouse shows font-driven LCP or CLS** (measure first).
 - Fluid scale in `@theme` (`--text-*: initial` then `display`, `h1`, `h2`, `h3`, `lead`,
   `body`, `small`, each with its `--line-height`): utilities `text-display`, `text-h2`,
-  `text-lead`… Tailwind's default `text-sm`/`text-xl` do not exist.
+  `text-lead`, `text-metric` (key figures, one step under `h2`, never wraps)… Tailwind's
+  default `text-sm`/`text-xl` do not exist.
 - Base layer: headings in the display font with `text-wrap: balance`, paragraphs
   `text-wrap: pretty`, body line-height 1.6; prose max 65ch.
 - Heading level ≠ visual size: pick the semantic level, style with the token.
@@ -137,7 +138,8 @@ a real use case gets the wrong API.
   when a primitive's variants multiply, with the size measured in the PR.
 - Shipped primitives: `button-link` (a link styled as a button: calls to action navigate or
   download, so they stay `<a>`), `badge`, `responsive-image` (hero). Still expected:
-  `metric` (about), `card` (experience), `visually-hidden`.
+  `card` (experience), `visually-hidden`. The key-figure markup stays inside the about
+  feature until a second feature needs it (then it moves to `ui/`).
 
 ## Tests
 

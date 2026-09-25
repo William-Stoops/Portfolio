@@ -131,6 +131,20 @@ primary button is light orange with **dark** text. The validated tokens live in
   `<span className="sr-only"> (nouvel onglet)</span>`, `rel="noopener noreferrer"`.
 - CV download link states format and weight: "Télécharger le CV (PDF, 56 Ko)".
 
+### Symbols read aloud
+
+A figure such as "10 h → 5 min" or "−99 %" is read badly ("flèche droite", "tiret"). Show
+the symbolic form with `aria-hidden="true"` and add a visually hidden spoken form ("de 10
+heures à 5 minutes"). The data carries both (`value`, `spokenValue`); see
+`src/features/about/components/about-section.tsx`.
+
+### In-page navigation
+
+Section links are plain fragment links (`/#a-propos`), not router links: the browser
+scrolls to the section and moves the sequential focus starting point there, from any page.
+`ScrollRestoration` is keyed by path + fragment (`getKey`), otherwise every freshly loaded
+document shares the key `default` and the previous page's position undoes the jump.
+
 ## 7. Forms (1.3.5, 3.3.1–3.3.3, 3.3.8, RGAA 11.x)
 
 - Visible `<label htmlFor>`; placeholder is never a label. Required marker `*` is
