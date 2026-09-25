@@ -32,6 +32,8 @@ const COLOR_PAIRS: readonly ColorPair[] = [
   { foreground: 'on-accent', background: 'accent-hover', minimum: TEXT_CONTRAST },
   { foreground: 'accent-fg', background: 'accent-tint', minimum: TEXT_CONTRAST },
   { foreground: 'fg', background: 'accent-tint', minimum: TEXT_CONTRAST },
+  // Pressed state of the theme toggle: accent border on a raised surface.
+  { foreground: 'accent', background: 'surface-raised', minimum: NON_TEXT_CONTRAST },
   ...['canvas', 'surface'].flatMap((background) =>
     ['accent', 'border-input'].map((foreground) => ({
       foreground,
