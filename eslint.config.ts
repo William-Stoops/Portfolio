@@ -68,7 +68,8 @@ export default defineConfig([
           types: ['boolean', 'string', 'number', 'array'],
           format: ['UPPER_CASE'],
         },
-        { selector: 'variable', modifiers: ['destructured'], format: null },
+        // Destructured names mirror the source object's keys (e.g. an `Icon` component prop).
+        { selector: ['variable', 'parameter'], modifiers: ['destructured'], format: null },
         { selector: 'function', format: ['camelCase', 'PascalCase'] },
         { selector: 'parameter', format: ['camelCase'], leadingUnderscore: 'allow' },
         { selector: 'typeLike', format: ['PascalCase'] },
@@ -76,6 +77,8 @@ export default defineConfig([
           selector: ['objectLiteralProperty', 'typeProperty'],
           format: ['camelCase', 'PascalCase', 'UPPER_CASE'],
         },
+        // React Router's lazy route API requires `Component` / `ErrorBoundary` keys.
+        { selector: 'objectLiteralMethod', format: ['camelCase', 'PascalCase'] },
         {
           selector: ['objectLiteralProperty', 'typeProperty', 'objectLiteralMethod'],
           modifiers: ['requiresQuotes'],
