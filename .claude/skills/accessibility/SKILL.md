@@ -34,12 +34,15 @@ PR ships its axe + keyboard tests (see `tdd-workflow`).
 ## 2. Focus
 
 ### Skip link (2.4.1, RGAA 12.7)
+
 First focusable element, visible on focus, targets `#main`, moves focus (not just scroll).
 
 ### Route change (2.4.3, 4.1.3, RGAA 12.8)
+
 React Router manages neither focus nor announcement. Each page calls
 `usePageHeading()` (`src/hooks/use-page-heading.ts`) and puts the ref on its `h1` with
 `tabIndex={-1}`. The hook:
+
 - does nothing on the initial load (browser default focus),
 - does nothing when the URL has a `#hash` (anchor wins),
 - focuses the `h1` otherwise (`preventScroll` on POP navigations).
@@ -49,6 +52,7 @@ and VoiceOver — double announcements are likely. Live regions (`role="status"`
 **status messages** only: "Message envoyé", "Thème sombre activé".
 
 ### Focus appearance (2.4.7, 2.4.11, 2.4.13 AAA)
+
 - Use **`outline`, never `box-shadow`/`ring`** for focus: box-shadow disappears in Windows
   forced-colours mode. Global rule in `src/styles/base.css`:
   `outline: 3px solid var(--color-focus); outline-offset: 2px;`
@@ -69,20 +73,20 @@ text (≥ 4.5:1) and carry white text (≥ 4.5:1)**. Therefore, in the dark them
 primary button is light orange with **dark** text. The validated tokens live in
 `design-system`; never introduce a colour outside them.
 
-| Pair (dark theme)                         | Ratio | Verdict      |
-| ----------------------------------------- | ----- | ------------ |
-| `--text` `#E6E8EF` on `--bg` `#1B1F2A`    | 13.44 | AAA          |
-| `--text-muted` `#A9B0C2` on `--bg`        | 7.58  | AAA          |
-| `--accent-text` `#FF8A5B` on `--bg`       | 7.08  | AAA          |
-| `--on-accent` `#12151C` on `--accent` `#FF7A45` | 7.06 | AAA   |
-| `--focus` `#FF9466` on `--bg`             | 7.59  | ≥ 3:1 ✓      |
-| `--border-input` `#7D869C` on `--surface` | 3.98  | ≥ 3:1 ✓      |
-| white on `#FF7A45`                        | 2.59  | **forbidden**|
+| Pair (dark theme)                               | Ratio | Verdict       |
+| ----------------------------------------------- | ----- | ------------- |
+| `--text` `#E6E8EF` on `--bg` `#1B1F2A`          | 13.44 | AAA           |
+| `--text-muted` `#A9B0C2` on `--bg`              | 7.58  | AAA           |
+| `--accent-text` `#FF8A5B` on `--bg`             | 7.08  | AAA           |
+| `--on-accent` `#12151C` on `--accent` `#FF7A45` | 7.06  | AAA           |
+| `--focus` `#FF9466` on `--bg`                   | 7.59  | ≥ 3:1 ✓       |
+| `--border-input` `#7D869C` on `--surface`       | 3.98  | ≥ 3:1 ✓       |
+| white on `#FF7A45`                              | 2.59  | **forbidden** |
 
 - Any opacity (`/50`), gradient or `backdrop-blur` behind text ⇒ recompute on the
   composited colour, add the pair to the contrast unit test (`design-system` §tests).
 - Links inside prose are **always underlined** (1.4.1). Errors = icon + "Erreur :" prefix
-  + colour — the accent orange is too close to red to carry meaning alone.
+  - colour — the accent orange is too close to red to carry meaning alone.
 - Both themes must pass: axe runs per route × `light`/`dark` in Playwright.
 
 ## 4. Sizing, zoom, spacing
@@ -142,15 +146,15 @@ primary button is light orange with **dark** text. The validated tokens live in
 
 ## 9. Tests (all mandatory for a feature PR)
 
-| Layer              | Tool                                      | What                                                                 |
-| ------------------ | ----------------------------------------- | -------------------------------------------------------------------- |
-| Lint               | jsx-a11y rules (see `quality-gates`)      | Static misuse (missing alt, label, invalid ARIA)                     |
-| Component (Vitest) | `axe-core` via `expectNoAxeViolations()` helper in `src/testing/` | No violations; `color-contrast` disabled (no layout in jsdom) |
-| Component (Vitest) | Testing Library `getByRole` + `toHaveAccessibleName/Description` | Names, descriptions, `aria-invalid`, focus after submit |
-| E2E (Playwright)   | `@axe-core/playwright` with tags `wcag2a, wcag2aa, wcag21a, wcag21aa, wcag22aa, best-practice` | Every route × light/dark × reduced motion. **`wcag22aa` is required — it is what enables `target-size`** |
-| E2E (Playwright)   | Keyboard specs                            | Skip link, route-change focus on `h1`, menu Escape/focus return, focus visible and not obscured along the whole Tab path |
-| E2E (Playwright)   | Layout specs                              | Reflow 320×256, text-spacing override, `forcedColors: "active"` screenshot |
-| Manual (per release) | NVDA + Firefox, VoiceOver + Safari (macOS & iOS), keyboard only, zoom 400 %, Voice Control | Logged in `docs/a11y/test-log.md` (date, versions, page, result, criterion) |
+| Layer                | Tool                                                                                           | What                                                                                                                     |
+| -------------------- | ---------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| Lint                 | jsx-a11y rules (see `quality-gates`)                                                           | Static misuse (missing alt, label, invalid ARIA)                                                                         |
+| Component (Vitest)   | `axe-core` via `expectNoAxeViolations()` helper in `src/testing/`                              | No violations; `color-contrast` disabled (no layout in jsdom)                                                            |
+| Component (Vitest)   | Testing Library `getByRole` + `toHaveAccessibleName/Description`                               | Names, descriptions, `aria-invalid`, focus after submit                                                                  |
+| E2E (Playwright)     | `@axe-core/playwright` with tags `wcag2a, wcag2aa, wcag21a, wcag21aa, wcag22aa, best-practice` | Every route × light/dark × reduced motion. **`wcag22aa` is required — it is what enables `target-size`**                 |
+| E2E (Playwright)     | Keyboard specs                                                                                 | Skip link, route-change focus on `h1`, menu Escape/focus return, focus visible and not obscured along the whole Tab path |
+| E2E (Playwright)     | Layout specs                                                                                   | Reflow 320×256, text-spacing override, `forcedColors: "active"` screenshot                                               |
+| Manual (per release) | NVDA + Firefox, VoiceOver + Safari (macOS & iOS), keyboard only, zoom 400 %, Voice Control     | Logged in `docs/a11y/test-log.md` (date, versions, page, result, criterion)                                              |
 
 Queries in tests are **role-first** (`getByRole('button', { name: 'Envoyer le message' })`).
 A test that needs `getByTestId` to find an interactive element is revealing an a11y bug.

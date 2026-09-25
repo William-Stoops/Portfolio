@@ -10,25 +10,27 @@ description: Test-Driven Development for the portfolio — red/green/refactor lo
 ## The loop
 
 1. **Red** — write the smallest test describing the next behaviour. Run it, see it fail
-   for the right reason (assertion, not import error). Commit `test(<scope>): …`.
-2. **Green** — write the minimum code to pass. Run the whole affected project. Commit
-   `feat(<scope>): …` / `fix(<scope>): …`.
+   **for the right reason**: an assertion failure or a missing module the test is about
+   to demand — never a typo or a broken setup. Say in the PR which failure you saw.
+2. **Green** — write the minimum code to pass. Run the whole affected project.
 3. **Refactor** — improve names, extract hooks/utils, remove duplication, with tests
-   green at every step. Commit `refactor(<scope>): …` if non-trivial.
+   green at every step.
+4. **Commit** the step (test + code together): hooks lint and type-check staged files,
+   so every commit is green (see `git-workflow` §Atomic commits in TDD).
 
-Outside-in for a feature: start with the E2E journey (red, stays red), drive the
-components and hooks with inner loops, and the E2E turns green last.
+Outside-in for a feature: start with the E2E journey (red locally, not committed until
+green), drive the components and hooks with inner loops, and the E2E turns green last.
 
 ## Layers
 
-| Layer | Runner / env | Files | Asserts |
-| ----- | ------------ | ----- | ------- |
-| **Unit** | Vitest project `unit`, Node | `*.test.ts` next to `utils/`, `schemas/`, `data/`, `config/`, `lib/` | Pure functions, schemas accept/reject, CV data validates against its schema, token contrast |
-| **Hook** | Vitest project `browser` | `use-*.test.ts` | `renderHook` from `vitest-browser-react`: returned values for given inputs, reactions to events |
-| **Component** | Vitest project `browser` (real Chromium via Playwright provider) | `*.test.tsx` | Rendered semantics for given props: roles, accessible names, text, links, states; keyboard interactions with `userEvent`; axe (no violations); container-query layout via wrapper widths |
-| **E2E journey** | Playwright, 5 device projects | `e2e/<journey>.spec.ts` | Real user paths on the built app: navigate, read, download CV, open video, contact |
-| **A11y** | Playwright + `@axe-core/playwright` | `e2e/a11y.spec.ts` | Every route × light/dark, tags incl. `wcag22aa`; skip link; route-change focus; focus visible/not obscured |
-| **Responsive / visual** | Playwright | `e2e/responsive.spec.ts`, `@visual` tag | Overflow sweep, landscape, print, screenshots at 375/768/1280/1920 |
+| Layer                   | Runner / env                                                     | Files                                                                | Asserts                                                                                                                                                                                  |
+| ----------------------- | ---------------------------------------------------------------- | -------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Unit**                | Vitest project `unit`, Node                                      | `*.test.ts` next to `utils/`, `schemas/`, `data/`, `config/`, `lib/` | Pure functions, schemas accept/reject, CV data validates against its schema, token contrast                                                                                              |
+| **Hook**                | Vitest project `browser`                                         | `use-*.test.ts`                                                      | `renderHook` from `vitest-browser-react`: returned values for given inputs, reactions to events                                                                                          |
+| **Component**           | Vitest project `browser` (real Chromium via Playwright provider) | `*.test.tsx`                                                         | Rendered semantics for given props: roles, accessible names, text, links, states; keyboard interactions with `userEvent`; axe (no violations); container-query layout via wrapper widths |
+| **E2E journey**         | Playwright, 5 device projects                                    | `e2e/<journey>.spec.ts`                                              | Real user paths on the built app: navigate, read, download CV, open video, contact                                                                                                       |
+| **A11y**                | Playwright + `@axe-core/playwright`                              | `e2e/a11y.spec.ts`                                                   | Every route × light/dark, tags incl. `wcag22aa`; skip link; route-change focus; focus visible/not obscured                                                                               |
+| **Responsive / visual** | Playwright                                                       | `e2e/responsive.spec.ts`, `@visual` tag                              | Overflow sweep, landscape, print, screenshots at 375/768/1280/1920                                                                                                                       |
 
 Why browser mode for components: jsdom has no layout, so container queries, focus
 visibility, `matchMedia` and contrast cannot be tested there. Vitest 5 browser mode runs
@@ -41,7 +43,7 @@ the same tests in real Chromium.
   for an interactive element reveals an a11y bug.
 - Test **behaviour visible to the user**, not implementation: no assertions on class
   names, hook call counts, or internal state. Exception: a design-system primitive's
-  variant may assert its computed style (real browser) when that *is* the behaviour.
+  variant may assert its computed style (real browser) when that _is_ the behaviour.
 - Names read as specifications, in English:
   `it('announces the form error and focuses the email field')`.
 - One behaviour per test; Arrange / Act / Assert separated by a blank line.

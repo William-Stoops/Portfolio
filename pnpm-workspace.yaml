@@ -1,0 +1,5 @@
+# pnpm 12 blocks dependency build scripts unless explicitly allowed.
+allowBuilds:
+  # Native resolver used by eslint-import-resolver-typescript: its postinstall only
+  # checks that the platform binary is present.
+  unrs-resolver: true

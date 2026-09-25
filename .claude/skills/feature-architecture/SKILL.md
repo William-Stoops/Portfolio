@@ -27,23 +27,23 @@ app  ──►  features/*  ──►  shared (components, hooks, lib, config, t
 
 ## Where does this file go?
 
-| It is…                                                                  | It goes in                                   |
-| ----------------------------------------------------------------------- | -------------------------------------------- |
-| A route component (URL → page composition)                              | `src/app/routes/<route>.tsx`                 |
-| Router definition, providers, root error boundary                       | `src/app/router.tsx`, `provider.tsx`, `app.tsx` |
-| A generic, content-agnostic UI primitive (Button, Badge, Card, Link)    | `src/components/ui/<name>.tsx`               |
-| Page chrome (skip link, header, footer, section shell)                  | `src/components/layout/<name>.tsx`           |
-| A component that knows about a CV concept (experience, project, skill)  | `src/features/<f>/components/<name>.tsx`     |
-| Logic of that feature (state, derivations, effects)                     | `src/features/<f>/hooks/use-<name>.ts`       |
-| Typed content from the CV                                                | `src/features/<f>/data/<name>.ts`            |
-| Zod schemas / derived types of that feature                             | `src/features/<f>/schemas/`, `types/`        |
-| Pure functions of that feature                                          | `src/features/<f>/utils/<name>.ts`           |
-| A hook useful to any feature (media query, page heading focus)          | `src/hooks/use-<name>.ts`                    |
-| Adapters to the outside world, `cn()`                                    | `src/lib/<name>.ts`                          |
-| Env parsing, route paths, site metadata, breakpoints                    | `src/config/<name>.ts`                       |
-| Tailwind `@theme`, base styles                                          | `src/styles/`                                |
-| Test setup, render helpers, axe helper                                  | `src/testing/`                               |
-| E2E specs                                                                | `e2e/<journey>.spec.ts`                      |
+| It is…                                                                 | It goes in                                      |
+| ---------------------------------------------------------------------- | ----------------------------------------------- |
+| A route component (URL → page composition)                             | `src/app/routes/<route>.tsx`                    |
+| Router definition, providers, root error boundary                      | `src/app/router.tsx`, `provider.tsx`, `app.tsx` |
+| A generic, content-agnostic UI primitive (Button, Badge, Card, Link)   | `src/components/ui/<name>.tsx`                  |
+| Page chrome (skip link, header, footer, section shell)                 | `src/components/layout/<name>.tsx`              |
+| A component that knows about a CV concept (experience, project, skill) | `src/features/<f>/components/<name>.tsx`        |
+| Logic of that feature (state, derivations, effects)                    | `src/features/<f>/hooks/use-<name>.ts`          |
+| Typed content from the CV                                              | `src/features/<f>/data/<name>.ts`               |
+| Zod schemas / derived types of that feature                            | `src/features/<f>/schemas/`, `types/`           |
+| Pure functions of that feature                                         | `src/features/<f>/utils/<name>.ts`              |
+| A hook useful to any feature (media query, page heading focus)         | `src/hooks/use-<name>.ts`                       |
+| Adapters to the outside world, `cn()`                                  | `src/lib/<name>.ts`                             |
+| Env parsing, route paths, site metadata, breakpoints                   | `src/config/<name>.ts`                          |
+| Tailwind `@theme`, base styles                                         | `src/styles/`                                   |
+| Test setup, render helpers, axe helper                                 | `src/testing/`                                  |
+| E2E specs                                                              | `e2e/<journey>.spec.ts`                         |
 
 A folder exists only when it has a file. Don't pre-create empty `types/` or `utils/`.
 
@@ -75,7 +75,9 @@ src/features/experience/
 No `index.ts` that re-exports. Import the file that defines the thing:
 `import { ExperienceCard } from '@/features/experience/components/experience-card'`.
 Barrels hurt tree-shaking and HMR in Vite, create hidden cycles, and hide dead code from
-Knip. Enforced by `oxc/no-barrel-file`.
+Knip. Enforced by an ESLint `no-restricted-syntax` rule that bans every re-export
+(`export * from`, `export { x } from`). `oxc/no-barrel-file` was tried and rejected: it
+counts transitive modules and lets small barrels through.
 
 ## Imports
 

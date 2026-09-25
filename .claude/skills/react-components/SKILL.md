@@ -7,11 +7,11 @@ description: How components and hooks are written in the portfolio — UI primit
 
 ## The three kinds of component
 
-| Kind | Location | May | Must not |
-| ---- | -------- | --- | -------- |
-| **UI primitive** | `src/components/ui/` | Know tokens, variants (`cva`), headless primitives (Base UI) | Know any CV concept, fetch, read the router |
+| Kind                  | Location                       | May                                                                        | Must not                                                                  |
+| --------------------- | ------------------------------ | -------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
+| **UI primitive**      | `src/components/ui/`           | Know tokens, variants (`cva`), headless primitives (Base UI)               | Know any CV concept, fetch, read the router                               |
 | **Feature component** | `src/features/<f>/components/` | Receive typed data via props, call its feature hook, compose UI primitives | Hold business logic inline, call `useEffect`, compute derived data in JSX |
-| **Route** | `src/app/routes/` | Compose features, set `<title>`, own the page `h1` focus hook | Contain logic or markup beyond composition |
+| **Route**             | `src/app/routes/`              | Compose features, set `<title>`, own the page `h1` focus hook              | Contain logic or markup beyond composition                                |
 
 Layout components (`src/components/layout/`) are UI-level: they arrange slots and know
 landmarks, never content.

@@ -11,18 +11,18 @@ Every change reaches `main` through a pull request. `main` is always deployable.
 
 Format: `william/<type>/<subject>` — lowercase, kebab-case subject, 2–5 words.
 
-| Type       | Use for                                               | Example                            |
-| ---------- | ----------------------------------------------------- | ---------------------------------- |
-| `feat`     | A user-visible capability                             | `william/feat/hero-section`        |
-| `fix`      | A bug fix                                             | `william/fix/mobile-menu-focus`    |
-| `refactor` | Behaviour-preserving restructuring                    | `william/refactor/projects-hooks`  |
-| `perf`     | Measurable performance improvement                    | `william/perf/hero-image-avif`     |
-| `test`     | Tests only                                            | `william/test/contact-form-e2e`    |
-| `docs`     | Documentation, ADRs, CLAUDE.md, skills                | `william/docs/adr-state-management`|
-| `style`    | Formatting only (no CSS changes — those are `feat`/`fix`) | `william/style/prettier-pass`  |
-| `build`    | Build system, dependencies                            | `william/build/vite-8`             |
-| `ci`       | GitHub Actions                                        | `william/ci/lighthouse-budget`     |
-| `chore`    | Tooling that fits nothing above                       | `william/chore/husky-setup`        |
+| Type       | Use for                                                   | Example                             |
+| ---------- | --------------------------------------------------------- | ----------------------------------- |
+| `feat`     | A user-visible capability                                 | `william/feat/hero-section`         |
+| `fix`      | A bug fix                                                 | `william/fix/mobile-menu-focus`     |
+| `refactor` | Behaviour-preserving restructuring                        | `william/refactor/projects-hooks`   |
+| `perf`     | Measurable performance improvement                        | `william/perf/hero-image-avif`      |
+| `test`     | Tests only                                                | `william/test/contact-form-e2e`     |
+| `docs`     | Documentation, ADRs, CLAUDE.md, skills                    | `william/docs/adr-state-management` |
+| `style`    | Formatting only (no CSS changes — those are `feat`/`fix`) | `william/style/prettier-pass`       |
+| `build`    | Build system, dependencies                                | `william/build/vite-8`              |
+| `ci`       | GitHub Actions                                            | `william/ci/lighthouse-budget`      |
+| `chore`    | Tooling that fits nothing above                           | `william/chore/husky-setup`         |
 
 One branch = one intent. If the branch name needs "and", it is two branches.
 
@@ -51,7 +51,9 @@ git switch main && git pull --ff-only && git switch -c william/feat/hero-section
   - tooling: `test`, `e2e`, `deps`, `config`, `ci`, `docs`, `adr`, `agent`
 
   Adding a feature slice = adding its scope here and in commitlint in the same PR.
-- `subject`: imperative, lowercase start, no trailing period, ≤ 72 chars total header.
+
+- `subject`: imperative, lowercase start, no trailing period. Header ≤ 100 chars (commitlint
+  `header-max-length`), aim for ≤ 72 so `git log --oneline` stays readable.
 - Breaking change: `feat(ui)!: rename Button intent prop` + `BREAKING CHANGE:` footer.
 
 **Never** add `Co-Authored-By`, "Generated with", or any AI attribution line to a commit
@@ -59,18 +61,21 @@ or a PR. The project `.claude/settings.json` disables it; do not re-add it by ha
 
 ### Atomic commits in TDD
 
-A feature branch reads like the TDD loop that produced it:
+**Every commit is green**: the pre-commit hook runs type-aware lint on staged files, so a
+red test importing a module that doesn't exist yet cannot be committed — and shouldn't
+be, since `main` must bisect cleanly. The TDD loop happens locally; each commit captures
+one completed red → green (→ refactor) step, with the test and the code it demanded:
 
 ```
-test(contact): cover email validation errors
-feat(contact): validate contact form with zod schema
-refactor(contact): extract field error message component
+feat(contact): validate the email field with a zod schema      # schema + its tests
+feat(contact): announce form errors to assistive technologies  # component + its tests
+refactor(contact): extract the field error message component    # tests unchanged, still green
 ```
 
-A commit must build, lint and pass its own tests — except a `test:` commit that
-intentionally adds a red test, which is immediately followed by its `feat:`/`fix:`.
-Squash-merge is **not** used: the red → green → refactor history is part of what the
-repository demonstrates. Use rebase-merge; keep commits clean before pushing
+A `test:` commit is only for tests added to **existing, already-green** behaviour
+(coverage of an edge case, a regression test that passes after a `fix:`).
+Squash-merge is **not** used: the step-by-step history is part of what the repository
+demonstrates. Use rebase-merge; keep commits clean before pushing
 (`git commit --fixup` + `git rebase --autosquash main` is fine on your own branch).
 
 ### What never gets committed
@@ -88,24 +93,30 @@ Body (French — it is read by humans), template in `.github/pull_request_templa
 
 ```markdown
 ## Contexte
+
 Pourquoi ce changement existe. Lien vers l'issue / l'ADR.
 
 ## Changements
+
 - Puces concrètes, regroupées par zone (feature, ui, config…)
 
 ## Décisions techniques
+
 Choix non évidents et alternatives écartées (renvoyer vers un ADR si structurant).
 
 ## Tests
+
 - Unitaires : …
 - Composants / intégration : …
 - E2E Playwright : …
 - Accessibilité : axe (auto) + vérifs manuelles effectuées (clavier, lecteur d'écran)
 
 ## Captures
+
 Desktop + mobile, avant / après si visuel.
 
 ## Checklist
+
 - [ ] `pnpm lint` / `pnpm typecheck` / `pnpm test` / `pnpm build` / `pnpm test:e2e` verts
 - [ ] Aucun `any` ni `unknown` explicite
 - [ ] Conventions de nommage respectées (fichiers kebab-case, composants PascalCase…)

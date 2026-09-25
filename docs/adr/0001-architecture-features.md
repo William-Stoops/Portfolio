@@ -35,3 +35,10 @@ contenus sont des concepts du CV (expériences, projets, compétences), pas des 
 - La composition entre features se fait explicitement dans les routes.
 - Signal de révision : si plus de trois features ont besoin de se parler directement, on
   réévalue (couche `entities` à la FSD).
+
+## Note d'application (2026-09-25)
+
+`oxc/no-barrel-file` laisse passer les petits barrels, car il compte les modules ré-exportés
+transitivement. L'interdiction est donc portée par une règle ESLint `no-restricted-syntax`
+sur toute ré-export (`ExportAllDeclaration`, `ExportNamedDeclaration[source]`). La
+décision ne change pas, seul son outil d'application change.

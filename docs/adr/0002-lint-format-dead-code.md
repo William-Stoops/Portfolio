@@ -40,3 +40,9 @@ compilateur React. `eslint-plugin-jsx-a11y` ne déclare pas ESLint 10 dans ses p
   autrement.
 - Signal de révision : quand Oxlint couvrira `naming-convention`, les frontières et les
   règles du compilateur, et que TS 7.1 sera supporté, on passera à Oxlint seul.
+
+## Note d'application (2026-09-25)
+
+L'interdiction des barrel files est passée d'Oxlint (`oxc/no-barrel-file`, inopérant sur les
+petits barrels) à ESLint (`no-restricted-syntax`). Les 36 règles `jsx-a11y` d'Oxlint sont
+activées explicitement, et `import/no-default-export` est porté par Oxlint.
