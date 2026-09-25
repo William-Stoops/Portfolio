@@ -1,0 +1,57 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    ":semanticCommits",
+    ":semanticCommitScope(deps)",
+    "helpers:pinGitHubActionDigests",
+    ":maintainLockFilesWeekly"
+  ],
+  "minimumReleaseAge": "3 days",
+  "branchPrefix": "william/build/renovate-",
+  "labels": ["dependencies"],
+  "packageRules": [
+    {
+      "groupName": "react",
+      "matchPackageNames": ["react", "react-dom", "@types/react", "@types/react-dom"]
+    },
+    {
+      "groupName": "vitest",
+      "matchPackageNames": ["vitest", "@vitest/**", "vitest-browser-react"]
+    },
+    {
+      "groupName": "playwright",
+      "matchPackageNames": ["@playwright/test", "mcr.microsoft.com/playwright"]
+    },
+    {
+      "groupName": "lint",
+      "matchPackageNames": [
+        "eslint",
+        "@eslint/**",
+        "typescript-eslint",
+        "eslint-plugin-*",
+        "eslint-config-*",
+        "eslint-import-resolver-*",
+        "oxlint",
+        "prettier",
+        "prettier-plugin-*",
+        "knip"
+      ]
+    },
+    {
+      "description": "typescript-eslint does not support TypeScript 7 yet (docs/adr/0008)",
+      "matchPackageNames": ["typescript"],
+      "allowedVersions": "<7"
+    },
+    {
+      "description": "babel-plugin-react-compiler depends on @babel/types ^7",
+      "matchPackageNames": ["@babel/core"],
+      "allowedVersions": "<8"
+    },
+    {
+      "description": "Node LTS from .nvmrc; @types/node follows it",
+      "matchPackageNames": ["@types/node"],
+      "allowedVersions": "<25"
+    }
+  ]
+}
