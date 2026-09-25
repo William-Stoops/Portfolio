@@ -209,14 +209,15 @@ pnpm verify         # tout ce qui précède, identique à la CI
 | 2   | `william/chore/project-scaffold`               | Vite, TS strict, Tailwind, lint, format, Husky, commitlint, Vitest, Playwright, CI                              |
 | 3   | `william/feat/design-system`                   | Palette fermée testée, typographie fluide, polices, styles de base (primitives `ui/` livrées avec leur feature) |
 | 4   | `william/feat/app-shell`                       | Router, layout, skip link, header, footer, thème, focus de route, 404                                           |
-| 5   | `william/feat/hero`                            | Hero, CTA contact et CV téléchargeable, bandeau de technos                                                      |
-| 6   | `william/feat/about`                           | Profil, trois axes, chiffres clés                                                                               |
-| 7   | `william/feat/experience`                      | ProRealTime, INTM, Strattt / GDS Élec, avec pages détaillées                                                    |
-| 8   | `william/feat/projects`                        | STAXX (vidéo du pitch), travaux IA                                                                              |
-| 9   | `william/feat/skills-education`                | Compétences, formation                                                                                          |
-| 10  | `william/feat/contact`                         | Contact (RHF + Zod), e-mail, LinkedIn                                                                           |
-| 11  | `william/feat/legal-pages`                     | Déclaration d'accessibilité, mentions légales, plan du site                                                     |
-| 12  | `william/perf/lighthouse-budget` + déploiement | Budgets, Open Graph, déploiement (hébergeur à décider)                                                          |
+| 5   | `william/perf/prerender`                       | Pré-rendu HTML des routes au build, budget LCP ramené à 2 s (remplace l'ADR 0010)                               |
+| 6   | `william/feat/hero`                            | Hero, CTA contact et CV téléchargeable, bandeau de technos                                                      |
+| 7   | `william/feat/about`                           | Profil, trois axes, chiffres clés                                                                               |
+| 8   | `william/feat/experience`                      | ProRealTime, INTM, Strattt / GDS Élec, avec pages détaillées                                                    |
+| 9   | `william/feat/projects`                        | STAXX (vidéo du pitch), travaux IA                                                                              |
+| 10  | `william/feat/skills-education`                | Compétences, formation                                                                                          |
+| 11  | `william/feat/contact`                         | Contact (RHF + Zod), e-mail, LinkedIn                                                                           |
+| 12  | `william/feat/legal-pages`                     | Déclaration d'accessibilité, mentions légales, plan du site                                                     |
+| 13  | `william/perf/lighthouse-budget` + déploiement | Budgets, Open Graph, déploiement (hébergeur à décider)                                                          |
 
 Questions encore ouvertes : l'hébergeur (Vercel ou Cloudflare Pages), le traitement du
 formulaire de contact (service tiers ou fonction serverless), une éventuelle version
