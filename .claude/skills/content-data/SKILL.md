@@ -43,6 +43,11 @@ export const HERO_CONTENT = {
   copied from `cv-source.md`** — so a typo in a figure fails CI.
 - Constants holding content are SCREAMING_SNAKE_CASE, consumed by their feature and by
   routes (which pass them as props).
+- Passages the CV sets in bold are wrapped in `**double asterisks**` in the data and rendered
+  as `<strong>` by `parseEmphasis` (`src/features/experience/utils/`), which throws on an
+  unbalanced marker. No other markup in content strings.
+- Dates are `"2024"` or `"2025-09"` (template literal types), formatted with `Intl` in UTC
+  so the prerendered HTML and the client agree (`formatPeriod`).
 - Ids, when needed, are kebab-case slugs, stable, used for keys, anchors and detail URLs.
 - Identity shared by the page chrome (name, e-mail, LinkedIn, CV file) lives in
   `src/config/site.ts`.

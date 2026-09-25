@@ -32,6 +32,10 @@ width on mobile without a prop.
 </ul>
 ```
 
+Reference implementation: `src/features/experience/components/experience-card.tsx` (header
+stacked, then title and period side by side from `@xl`), tested by rendering the card in
+360 px and 800 px wrappers.
+
 ## 2. Breakpoints
 
 Tailwind v4 defaults, in **rem** so they follow the user's font size and zoom:
