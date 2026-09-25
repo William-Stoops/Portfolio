@@ -107,6 +107,11 @@ lint-staged and commitlint plugins are auto-enabled from `package.json`. Config:
 (Vite, jiti, Playwright), never by raw Node — this also gives CJS packages their correct
 default-export types. TypeScript is pinned `~6.0.3` (see CLAUDE.md for why not 7).
 
+**Vitest browser project pre-bundles its dependencies** (`optimizeDeps.include` in
+`vitest.config.ts`): a dependency discovered mid-run makes Vite reload the test page and
+fail the suite at random, especially on a cold CI cache. Adding a runtime dependency
+imported by components means adding it to that list.
+
 **React Compiler is disabled under Vitest** (`vite.config.ts`): its memo-cache branches
 would be reported as untested source branches. Compiled output is exercised by the E2E
 suite against the production build and guarded by the compiler lint rules.
@@ -144,13 +149,13 @@ lint, TypeScript capped `<7`). pnpm's own `minimumReleaseAge` (24 h) stays on.
 
 ## 8. Budgets
 
-| Budget                                               | Limit (initial, recalibrate by ADR only)                         |
-| ---------------------------------------------------- | ---------------------------------------------------------------- |
-| Initial JS (gzip)                                    | 120 kB — `size-limit`                                            |
-| CSS (gzip)                                           | 15 kB                                                            |
-| Lighthouse performance / a11y / best practices / SEO | ≥ 0.95 / **1.0** / ≥ 0.95 / ≥ 0.95                               |
-| LCP / CLS / TBT (Lighthouse, mobile)                 | ≤ 2.0 s / ≤ 0.05 / ≤ 150 ms                                      |
-| Coverage (lines / functions / statements / branches) | 90 / 90 / 90 / 85 on `src/`, excluding `main.tsx` and `testing/` |
+| Budget                                               | Limit (initial, recalibrate by ADR only)                                   |
+| ---------------------------------------------------- | -------------------------------------------------------------------------- |
+| Initial JS (gzip)                                    | 120 kB — `size-limit`                                                      |
+| CSS (gzip)                                           | 15 kB                                                                      |
+| Lighthouse performance / a11y / best practices / SEO | ≥ 0.95 / **1.0** / ≥ 0.95 / ≥ 0.95                                         |
+| LCP / CLS / TBT (Lighthouse, mobile)                 | ≤ 2.0 s (**2.5 s until prerendering lands, ADR 0010**) / ≤ 0.05 / ≤ 150 ms |
+| Coverage (lines / functions / statements / branches) | 90 / 90 / 90 / 85 on `src/`, excluding `main.tsx` and `testing/`           |
 
 ## 9. Adding a dependency
 

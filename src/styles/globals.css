@@ -71,6 +71,17 @@
 @layer base {
   :root {
     color-scheme: light dark;
+    /* Stacking order, lowest to highest. No magic numbers in class names. */
+    --z-skip-link: 100;
+  }
+
+  /* Explicit choice from the theme toggle, set on <html> before first paint. */
+  :root[data-theme='light'] {
+    color-scheme: light;
+  }
+
+  :root[data-theme='dark'] {
+    color-scheme: dark;
   }
 
   html {

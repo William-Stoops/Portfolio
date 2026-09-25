@@ -36,3 +36,13 @@ test.describe('document', () => {
     await expect(page.getByRole('heading', { level: 1, name: 'William Stoops' })).toBeVisible();
   });
 });
+
+test.describe('crawler files', () => {
+  test('serves a plain-text robots.txt allowing the whole site', async ({ request }) => {
+    const response = await request.get('/robots.txt');
+
+    expect(response.status()).toBe(200);
+    expect(response.headers()['content-type']).toContain('text/plain');
+    expect(await response.text()).toMatch(/^User-agent: \*\nAllow: \/$/m);
+  });
+});
