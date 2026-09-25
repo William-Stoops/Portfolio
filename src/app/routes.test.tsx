@@ -56,7 +56,34 @@ describe('application routes', () => {
       .toHaveFocus();
   });
 
-  for (const path of ['/', '/page-inexistante']) {
+  for (const { path, heading, title } of [
+    {
+      path: '/accessibilite',
+      heading: 'Déclaration d’accessibilité',
+      title: 'Déclaration d’accessibilité – William Stoops',
+    },
+    {
+      path: '/mentions-legales',
+      heading: 'Mentions légales',
+      title: 'Mentions légales – William Stoops',
+    },
+    { path: '/plan-du-site', heading: 'Plan du site', title: 'Plan du site – William Stoops' },
+  ]) {
+    it(`renders ${path} with its heading and title`, async () => {
+      const screen = await renderRoutes(ROUTES, path);
+
+      await expect.element(screen.getByRole('heading', { level: 1, name: heading })).toBeVisible();
+      await expect.poll(() => document.title).toBe(title);
+    });
+  }
+
+  for (const path of [
+    '/',
+    '/page-inexistante',
+    '/accessibilite',
+    '/mentions-legales',
+    '/plan-du-site',
+  ]) {
     it(`has no axe violations on ${path}`, async () => {
       const screen = await renderRoutes(ROUTES, path);
       await expect.element(screen.getByRole('heading', { level: 1 })).toBeVisible();
