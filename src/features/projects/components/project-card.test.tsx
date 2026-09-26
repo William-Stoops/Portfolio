@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { assert, describe, expect, it } from 'vitest';
 import { render } from 'vitest-browser-react';
 
 import { ProjectCard } from '@/features/projects/components/project-card';
@@ -62,10 +62,35 @@ describe('ProjectCard', () => {
 
     const photo = screen
       .getByRole('article', { name: 'STAXX' })
-      .getByRole('figure', { name: /Epitech Summit/ });
+      .getByRole('figure', { name: /^Epitech Summit/ });
     const image = photo.getByRole('img', { name: PROJECTS[0].photo.alt });
     await expect.element(image).toHaveAttribute('loading', 'lazy');
     await expect.element(photo.getByText(PROJECTS[0].photo.caption)).toBeVisible();
+  });
+
+  it('sets the pitch as a captioned figure, on the frame the video opens on', async () => {
+    const screen = await renderSection();
+
+    const pitch = screen
+      .getByRole('article', { name: 'STAXX' })
+      .getByRole('figure', { name: /^Le pitch/ });
+    await expect.element(pitch.getByText(PROJECTS[0].pitch.caption)).toBeVisible();
+    const playButton = pitch.getByRole('button', { name: /^Lire la vidéo/ });
+    expect(playButton.element().querySelector('img')?.getAttribute('src')).toMatch(
+      /^\/images\/staxx-pitch-v1-/,
+    );
+  });
+
+  it('tells STAXX in the order it happened: the radio, the pitch, then the win', async () => {
+    const screen = await renderSection();
+
+    const staxx = screen.getByRole('article', { name: 'STAXX' });
+    const [radio, pitch, win] = [/^À la radio/, /^Le pitch/, /^Epitech Summit/].map((name) =>
+      staxx.getByRole('figure', { name }).element(),
+    );
+    assert(radio !== undefined && pitch !== undefined && win !== undefined);
+    expect(radio.compareDocumentPosition(pitch) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(pitch.compareDocumentPosition(win) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
   });
 
   it('shows the NRJ Lille appearance as a captioned pair of photos, loaded lazily', async () => {

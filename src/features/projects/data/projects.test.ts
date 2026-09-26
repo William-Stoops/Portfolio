@@ -4,6 +4,7 @@ import { PROJECTS } from '@/features/projects/data/projects';
 import {
   NRJ_EXPLANATION_PICTURE,
   NRJ_INTERVIEW_PICTURE,
+  PITCH_PICTURE,
   SUMMIT_PICTURE,
 } from '@/features/projects/data/staxx-pictures';
 
@@ -28,12 +29,21 @@ describe('projects', () => {
     ]);
   });
 
-  it('points to the pitch video at 1:02:21', () => {
-    expect(PROJECTS[0].video).toEqual({
-      youtubeId: 'K_TsQ0Itoek',
-      startSeconds: 3741,
-      title: 'Pitch de STAXX au concours Epitech Summit',
+  it('films the pitch from 1:02:21, with the frame it opens on as its poster', () => {
+    expect(PROJECTS[0].pitch).toEqual({
+      video: {
+        youtubeId: 'K_TsQ0Itoek',
+        startSeconds: 3741,
+        title: 'Pitch de STAXX au concours Epitech Summit',
+      },
+      poster: PITCH_PICTURE,
+      label: 'Le pitch',
+      caption: 'Devant 300 personnes, sur la scène de l’Epitech Summit.',
     });
+  });
+
+  it('frames the poster exactly like the player, so one grows into the other', () => {
+    expect(PITCH_PICTURE.width / PITCH_PICTURE.height).toBeCloseTo(16 / 9);
   });
 
   it('sums up STAXX in three figures drawn from the CV', () => {
@@ -72,7 +82,12 @@ describe('projects', () => {
   });
 
   it('never declares a photo wider than its source', () => {
-    for (const picture of [SUMMIT_PICTURE, NRJ_INTERVIEW_PICTURE, NRJ_EXPLANATION_PICTURE]) {
+    for (const picture of [
+      PITCH_PICTURE,
+      SUMMIT_PICTURE,
+      NRJ_INTERVIEW_PICTURE,
+      NRJ_EXPLANATION_PICTURE,
+    ]) {
       expect(Math.max(...picture.widths)).toBeLessThanOrEqual(picture.width);
     }
   });

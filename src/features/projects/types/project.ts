@@ -16,7 +16,8 @@ export type Project = {
   highlights: readonly string[];
   // The project in three figures, opening its case study.
   figures: readonly KeyFigure[];
-  video?: YouTubeVideo;
+  // The pitch, filmed: the video, with the frame it opens on as its poster (16:9).
+  pitch?: { video: YouTubeVideo; poster: ResponsivePicture; label: string; caption: string };
   // A photo of the project's defining moment, captioned by where it was taken.
   photo?: ProjectPhoto & { place: string; caption: string };
   // Where the project was talked about, with the photos of that moment.

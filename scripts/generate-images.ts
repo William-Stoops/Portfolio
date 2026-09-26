@@ -11,6 +11,7 @@ import {
 import {
   NRJ_EXPLANATION_PICTURE,
   NRJ_INTERVIEW_PICTURE,
+  PITCH_PICTURE,
   SUMMIT_PICTURE,
 } from '../src/features/projects/data/staxx-pictures.ts';
 import { type ImageFormat, type ResponsivePicture } from '../src/types/responsive-picture.ts';
@@ -22,6 +23,10 @@ const IMAGE_JOBS: readonly { source: URL; picture: ResponsivePicture }[] = [
   {
     source: new URL('../docs/content/images/william-stoops-portrait.jpg', import.meta.url),
     picture: PORTRAIT_PICTURE,
+  },
+  {
+    source: new URL('../docs/content/images/staxx-pitch.jpg', import.meta.url),
+    picture: PITCH_PICTURE,
   },
   {
     source: new URL('../docs/content/images/staxx-epitech-summit.jpg', import.meta.url),

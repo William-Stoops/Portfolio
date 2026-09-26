@@ -1,6 +1,7 @@
 import {
   NRJ_EXPLANATION_PICTURE,
   NRJ_INTERVIEW_PICTURE,
+  PITCH_PICTURE,
   SUMMIT_PICTURE,
 } from '@/features/projects/data/staxx-pictures';
 import { type Project } from '@/features/projects/types/project';
@@ -25,10 +26,16 @@ export const PROJECTS = [
       'J’ai porté le projet et **dirigé les deux autres développeurs** : découpage des sujets, arbitrages d’architecture, cohérence technique jusqu’à la livraison. J’ai réalisé l’intégralité du back-end.',
       'J’ai conçu le moteur de correspondance entre le langage des équipes de chantier et le catalogue : « 20 colliers Atlas pour du tube de 26 » retrouve la bonne référence malgré les fautes, via un dictionnaire d’alias que chaque correction utilisateur enrichit.',
     ],
-    video: {
-      youtubeId: 'K_TsQ0Itoek',
-      startSeconds: 3741,
-      title: 'Pitch de STAXX au concours Epitech Summit',
+    // The poster is the frame the video opens on (captured with William's agreement).
+    pitch: {
+      video: {
+        youtubeId: 'K_TsQ0Itoek',
+        startSeconds: 3741,
+        title: 'Pitch de STAXX au concours Epitech Summit',
+      },
+      poster: PITCH_PICTURE,
+      label: 'Le pitch',
+      caption: 'Devant 300 personnes, sur la scène de l’Epitech Summit.',
     },
     // The first place, on stage: William holds the trophy (from William, with the photo).
     photo: {

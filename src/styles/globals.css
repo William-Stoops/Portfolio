@@ -100,15 +100,6 @@
   }
 }
 
-/* Building-site stripes (STAXX video poster): tinted, never behind body text. */
-@utility hazard-stripes {
-  background-image: repeating-linear-gradient(
-    -45deg,
-    --theme(--color-accent-tint) 0 1.25rem,
-    transparent 1.25rem 2.5rem
-  );
-}
-
 @layer base {
   :root {
     color-scheme: light dark;
