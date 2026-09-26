@@ -13,7 +13,8 @@ export function ExperienceCard({ experience }: ExperienceCardProps) {
   return (
     <article
       aria-labelledby={headingId}
-      className="flex flex-col gap-4 rounded-lg border border-border bg-surface p-6"
+      data-pointer
+      className="pointer-spotlight flex flex-col gap-4 rounded-lg border border-border bg-surface p-6"
     >
       <header className="flex flex-col gap-1 @xl:flex-row @xl:items-baseline @xl:justify-between @xl:gap-6">
         <h3 id={headingId} className="text-h3 font-semibold">

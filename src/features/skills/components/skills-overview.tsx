@@ -8,14 +8,18 @@ export function SkillsOverview({ groups }: SkillsOverviewProps) {
   return (
     <div className="flex flex-col gap-6">
       <h3 className="text-h3 font-semibold">Compétences techniques</h3>
-      <dl className="flex flex-col gap-5">
+      <dl className="flex flex-col gap-4">
         {groups.map(({ name, skills }) => (
-          <div key={name} className="flex flex-col gap-2">
-            <dt className="text-small font-semibold text-fg">{name}</dt>
+          <div
+            key={name}
+            data-pointer
+            className="pointer-spotlight flex reveal flex-col gap-3 rounded-lg border border-border bg-surface p-6"
+          >
+            <dt className="font-display font-semibold text-fg">{name}</dt>
             <dd>
               <ul className="flex flex-wrap gap-2">
-                {skills.map((skill) => (
-                  <li key={skill}>
+                {skills.map((skill, index) => (
+                  <li key={skill} style={{ '--i': index }} className="reveal-pop">
                     <Badge>{skill}</Badge>
                   </li>
                 ))}

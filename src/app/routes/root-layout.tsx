@@ -3,8 +3,11 @@ import { Outlet, ScrollRestoration } from 'react-router';
 import { SiteFooter } from '@/components/layout/site-footer';
 import { SiteHeader } from '@/components/layout/site-header';
 import { SkipLink } from '@/components/layout/skip-link';
+import { usePointerGlow } from '@/hooks/use-pointer-glow';
 
 export function RootLayout() {
+  usePointerGlow();
+
   return (
     <div className="flex min-h-svh flex-col">
       <SkipLink />

@@ -20,5 +20,6 @@ fois accepté** : on ne le réécrit pas, on le remplace par un nouvel ADR qui l
 | 0012 | [Générer les images en fichiers statiques, hors du bundler](0012-static-generated-images.md)                | Accepté           |
 | 0013 | [Mesurer Lighthouse en bridage réel, sur la médiane des passes](0013-lighthouse-devtools-throttling.md)     | Accepté           |
 | 0014 | [Héberger sur Cloudflare Pages, avec un fichier HTML par page](0014-cloudflare-pages-one-html-per-route.md) | Accepté           |
+| 0015 | [Un mouvement expressif, en CSS natif](0015-expressive-motion-in-native-css.md)                             | Accepté           |
 
 Modèle : copier [template.md](template.md).

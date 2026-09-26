@@ -8,8 +8,12 @@ export function EducationOverview({ entries }: EducationOverviewProps) {
     <div className="flex flex-col gap-6">
       <h3 className="text-h3 font-semibold">Formation</h3>
       <ul className="flex flex-col gap-4">
-        {entries.map(({ id, title, degree, description, period }) => (
-          <li key={id} className="flex flex-col gap-1 border-s-2 border-accent ps-4">
+        {entries.map(({ id, title, degree, description, period }, index) => (
+          <li
+            key={id}
+            style={{ '--i': index }}
+            className="flex reveal flex-col gap-1 border-s-2 border-accent ps-4"
+          >
             <h4 className="font-display font-semibold">{title}</h4>
             {degree === undefined ? null : (
               <p lang="en" className="font-semibold text-fg">

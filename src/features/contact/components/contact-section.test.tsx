@@ -57,7 +57,7 @@ describe('ContactSection', () => {
     expect(openMailto).toHaveBeenCalledOnce();
     expect(openMailto.mock.calls[0]?.[0]).toMatch(/^mailto:william\.stoops@epitech\.eu\?subject=/);
     await expect
-      .element(screen.getByRole('status'))
+      .element(screen.getByRole('status').filter({ hasText: 'Votre messagerie' }))
       .toHaveTextContent(
         'Votre messagerie s’ouvre avec le message prêt à envoyer. Si rien ne s’ouvre, écrivez à william.stoops@epitech.eu.',
       );
@@ -76,6 +76,33 @@ describe('ContactSection', () => {
     await userEvent.keyboard('{Enter}');
 
     expect(openMailto).toHaveBeenCalledOnce();
+  });
+
+  it('copies the e-mail address in one click and says so', async () => {
+    const writeText = vi.spyOn(navigator.clipboard, 'writeText').mockResolvedValue();
+    const { screen } = await renderSection();
+
+    await screen.getByRole('button', { name: 'Copier l’adresse e-mail' }).click();
+
+    expect(writeText).toHaveBeenCalledWith('william.stoops@epitech.eu');
+    await expect
+      .element(screen.getByRole('status').filter({ hasText: 'copiée' }))
+      .toHaveTextContent('Adresse e-mail copiée');
+    writeText.mockRestore();
+  });
+
+  it('says so when the browser refuses the copy', async () => {
+    const writeText = vi
+      .spyOn(navigator.clipboard, 'writeText')
+      .mockRejectedValue(new DOMException('Refusé', 'NotAllowedError'));
+    const { screen } = await renderSection();
+
+    await screen.getByRole('button', { name: 'Copier l’adresse e-mail' }).click();
+
+    await expect
+      .element(screen.getByRole('status').filter({ hasText: 'Copie impossible' }))
+      .toHaveTextContent('Copie impossible : sélectionnez l’adresse pour la copier');
+    writeText.mockRestore();
   });
 
   it('has no axe violations, before and after a failed submission', async () => {

@@ -27,4 +27,18 @@ describe('PageSection', () => {
     const texts = [...screen.container.querySelectorAll('h2, p')].map((node) => node.textContent);
     expect(texts).toEqual(['Exemple', 'Introduction', 'Contenu']);
   });
+
+  it('numbers a home section, as decoration only', async () => {
+    const screen = await render(
+      <PageSection id="parcours" title="Parcours">
+        <p>Contenu</p>
+      </PageSection>,
+    );
+
+    const number = screen.getByText('02', { exact: true });
+    expect(number.element().closest('[aria-hidden="true"]')).not.toBeNull();
+    await expect
+      .element(screen.getByRole('heading', { level: 2 }))
+      .toHaveAccessibleName('Parcours');
+  });
 });

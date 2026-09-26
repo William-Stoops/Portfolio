@@ -34,9 +34,13 @@ test.describe('contact form', () => {
     await page.getByRole('textbox', { name: 'Message' }).fill('Parlons de votre candidature.');
     await page.getByRole('button', { name: 'Préparer l’e-mail' }).click();
 
-    await expect(page.getByRole('region', { name: 'Contact' }).getByRole('status')).toContainText(
-      'Votre messagerie s’ouvre',
-    );
+    // The section has two status messages (copy and form): pick the form's.
+    await expect(
+      page
+        .getByRole('region', { name: 'Contact' })
+        .getByRole('status')
+        .filter({ hasText: 'Votre messagerie s’ouvre' }),
+    ).toBeVisible();
     const openedUrl = await page.locator('html').getAttribute('data-opened-url');
     expect(openedUrl).toMatch(/^mailto:william\.stoops@epitech\.eu\?subject=Contact%20depuis/);
   });

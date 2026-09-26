@@ -52,6 +52,17 @@ describe('AboutSection', () => {
     await expect.element(symbolic).toHaveAttribute('aria-hidden', 'true');
   });
 
+  it('illustrates every figure with a graphic hidden from assistive technologies', async () => {
+    const screen = await renderAbout();
+
+    for (const item of screen
+      .getByRole('list', { name: 'Chiffres clés' })
+      .getByRole('listitem')
+      .elements()) {
+      expect(item.querySelector('[data-visual][aria-hidden="true"]')).not.toBeNull();
+    }
+  });
+
   it('has no axe violations', async () => {
     const screen = await renderAbout();
 

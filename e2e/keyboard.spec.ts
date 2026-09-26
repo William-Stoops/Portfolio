@@ -23,9 +23,11 @@ function expectedFocusOrderFor(page: Page): readonly string[] {
     ...header,
     'Me contacter',
     'Télécharger le CV (PDF, 56 Ko)',
+    'Mettre en pause le défilement',
     'Lire la vidéo : Pitch de STAXX au concours Epitech Summit',
     'Ouvrir la vidéo sur YouTube (nouvel onglet)',
     'william.stoops@epitech.eu',
+    'Copier l’adresse e-mail',
     'LinkedIn (nouvel onglet)',
     'Nom',
     'E-mail',
@@ -125,6 +127,11 @@ test.describe('pages', () => {
     await openMenuIfCollapsed(page);
 
     await page.getByRole('button', { name: 'Thème sombre' }).click();
+    // The new theme spreads through a view transition: reload once it is applied.
+    await expect(page.getByRole('button', { name: 'Thème sombre' })).toHaveAttribute(
+      'aria-pressed',
+      'true',
+    );
     await page.reload();
     await openMenuIfCollapsed(page);
 

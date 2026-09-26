@@ -22,8 +22,8 @@ export function ThemeToggle() {
           key={value}
           type="button"
           aria-pressed={themePreference === value}
-          onClick={() => {
-            selectThemePreference(value);
+          onClick={(event) => {
+            selectThemePreference(value, event.currentTarget);
           }}
           className="inline-grid size-11 place-items-center rounded-md border-2 border-transparent text-fg-muted transition-colors duration-150 hover:text-fg aria-pressed:border-accent aria-pressed:bg-surface-raised aria-pressed:text-fg"
         >

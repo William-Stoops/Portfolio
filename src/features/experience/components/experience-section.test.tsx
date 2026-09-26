@@ -59,6 +59,16 @@ describe('ExperienceSection', () => {
     expect(screen.getByRole('list', { name: 'Technologies utilisées' }).elements()).toHaveLength(2);
   });
 
+  it('draws a timeline rail with one step per experience, hidden from assistive tech', async () => {
+    const screen = await render(<ExperienceSection experiences={EXPERIENCES} />);
+
+    const rail = screen.container.querySelector('[data-rail]');
+    expect(rail?.getAttribute('aria-hidden')).toBe('true');
+    expect(screen.container.querySelectorAll('[data-rail-step][aria-hidden="true"]')).toHaveLength(
+      EXPERIENCES.length,
+    );
+  });
+
   it('has no axe violations', async () => {
     const screen = await renderSection();
 

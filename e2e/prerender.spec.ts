@@ -28,7 +28,10 @@ test.describe('prerendered HTML', () => {
 
     expect(response.status()).toBe(200);
     const html = await response.text();
-    expect(html).toMatch(/<h1[^>]*>William Stoops<\/h1>/);
+    // The name is read as one text; the letters that rise one by one are aria-hidden.
+    expect(html).toMatch(
+      /<h1[^>]*><span class="sr-only">William Stoops<\/span><span aria-hidden="true">/,
+    );
     expect(html).toContain('<title>William Stoops – Software Engineer &amp; AI Engineer</title>');
   });
 
