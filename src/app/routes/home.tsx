@@ -1,4 +1,4 @@
-import { Suspense } from 'react';
+import { lazy, Suspense } from 'react';
 
 import { PageSection } from '@/components/layout/page-section';
 import { StickyChapters } from '@/components/layout/sticky-chapters';
@@ -14,7 +14,6 @@ import { SKILL_GROUPS } from '@/features/skills/data/skill-groups';
 import { AiPracticeSection } from '@/features/ai-practice/components/ai-practice-section';
 import { AI_PRACTICE_CONTENT } from '@/features/ai-practice/data/ai-practice-content';
 import { KoreaBand } from '@/features/korea/components/korea-band';
-import { KoreaSection } from '@/features/korea/components/korea-section';
 import { KOREA_CONTENT } from '@/features/korea/data/korea-content';
 import { AboutSection } from '@/features/about/components/about-section';
 import { AxisBand } from '@/features/about/components/axis-band';
@@ -27,6 +26,15 @@ import { HeroScene } from '@/features/hero/components/hero-scene';
 import { HeroSection } from '@/features/hero/components/hero-section';
 import { HERO_CONTENT } from '@/features/hero/data/hero-content';
 import { usePageHeading } from '@/hooks/use-page-heading';
+
+// Far down the page, and the heaviest section to hydrate: its code is its own chunk, loaded
+// as hydration reaches it. The prerender waits for it, so its HTML is there from the start
+// (ADR 0020).
+const KoreaSection = lazy(() =>
+  import('@/features/korea/components/korea-section').then(({ KoreaSection: section }) => ({
+    default: section,
+  })),
+);
 
 export function HomeRoute() {
   const headingRef = usePageHeading();
