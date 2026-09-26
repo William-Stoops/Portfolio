@@ -172,6 +172,25 @@ variant="finale"`, loaded only when near).
   the picture. The NRJ Lille pair is set apart in depth (`scroll-float` on the smaller
   frame). Crops are chosen per container (`object-position`), centred on William.
   Sources live in `docs/content/images/`, derivatives come from `pnpm images`.
+- **Korea** (`features/korea`): the one section pinned as a scene. On a large, tall
+  enough screen the voyage stage sticks while its track scrolls (`voyage-*`, one
+  `--voyage` timeline): the plane flies the arc and lands on the taegeuk, the flag
+  assembles (field unfurls, taegeuk turns and settles, trigrams come in from their
+  corners), then 안녕하세요 rises. Everywhere else each piece runs on its own view, and
+  without scroll-driven animations everything stands in its final place. The flag keeps
+  its official colours (ADR 0019). Korean words carry `lang="ko"` and are never
+  letter-spaced. A pinned scene must be **worth its scroll**: a pinned photo gallery that
+  panned a short strip over a long track felt like scrolling for nothing, and was removed.
+- **Photos are always whole**: framed at their own ratio, never cropped by a frame or by a
+  parallax zoom, and set where they tell something (the stadium beside Korea University),
+  not in a separate gallery. They move as a whole (`reveal-expand`, `scroll-float`).
+- **Nothing covers text being read**: stacked sticky cards cut the previous card's text
+  mid-sentence (AI practice, photo deck) and read as bugs; they were removed. Sticky
+  chapter titles follow a **reading line** (`view-timeline-inset`), so only one shows at a
+  time; seen through the whole viewport, two short chapters overlapped. E2E tests guard
+  both (`ai-practice.spec.ts`, `sticky-chapters.spec.ts`).
+- **Kinetic bands** are one primitive, `KineticBand` (`components/ui`): the axes band and
+  the Korean band share it; a line in another language keeps its `lang`.
 - **Desktop touches** (`src/lib/desktop-enhancements.ts`, loaded on idle for a precise
   pointer): a cursor ring that trails the pointer (the native cursor stays) and **gives
   way** over links and buttons, whose own hover answers; `[data-scramble]` texts decode
