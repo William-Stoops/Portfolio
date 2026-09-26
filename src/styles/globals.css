@@ -35,11 +35,14 @@
   --color-border-input: light-dark(#767d8f, #7d869c);
   --color-error: light-dark(#b91c1c, #fca5a5);
   --color-success: light-dark(#166534, #4ade80);
-  /* The flag of South Korea (ADR 0019): its official colours, the same in both themes. */
-  --color-taegeuk-field: light-dark(#ffffff, #ffffff);
+  /* Flags (ADR 0019, 0021): their official colours, the same in both themes. The white
+     field is shared; South Korea, then France. */
+  --color-flag-field: light-dark(#ffffff, #ffffff);
   --color-taegeuk-red: light-dark(#cd2e3a, #cd2e3a);
   --color-taegeuk-blue: light-dark(#0047a0, #0047a0);
   --color-taegeuk-ink: light-dark(#000000, #000000);
+  --color-tricolore-blue: light-dark(#000091, #000091);
+  --color-tricolore-red: light-dark(#e1000f, #e1000f);
 }
 
 @theme {

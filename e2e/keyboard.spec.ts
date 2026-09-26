@@ -9,9 +9,9 @@ function expectedFocusOrderFor(page: Page): readonly string[] {
     : [
         'À propos',
         'Parcours',
+        'Corée',
         'Projets',
         'IA',
-        'Corée',
         'Compétences',
         'Contact',
         'Thème du système',

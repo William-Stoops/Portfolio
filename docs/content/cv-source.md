@@ -118,6 +118,20 @@ coréen qui les encadrent (안녕하세요, 고려대학교, 서울, 딥러닝, 
 
 - Anglais professionnel, **TOEIC 820**.
 
+## Chronologie
+
+Hors CV, donnée par William le 2026-09-26 et confirmée par lui : le fil conducteur de la
+page (le parcours, une escale par année d'Epitech).
+
+- **2021**, 1re année : entrée à Epitech (Master of Science, promo 2026).
+- **2022**, 2e année : Strattt, puis GDS Élec (2022 – 2024).
+- **2023**, 3e année : début de STAXX, le projet de fin d'études, développé en 3e, 4e et
+  5e année ; INTM en 2024.
+- **2024**, 4e année : Korea University, à Séoul.
+- **2025**, 5e année : retour en France ; IT-Finance depuis septembre 2025 ; passage sur
+  NRJ Lille et 1er au concours Epitech Summit avec STAXX.
+- **2026** : promo 2026.
+
 ## Correspondance avec la maquette de référence
 
 | Zone de la maquette                        | Contenu du portfolio                                                       |

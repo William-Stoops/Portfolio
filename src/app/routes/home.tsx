@@ -13,27 +13,19 @@ import { SkillList } from '@/features/skills/components/skill-list';
 import { SKILL_GROUPS } from '@/features/skills/data/skill-groups';
 import { AiPracticeSection } from '@/features/ai-practice/components/ai-practice-section';
 import { AI_PRACTICE_CONTENT } from '@/features/ai-practice/data/ai-practice-content';
-import { KoreaBand } from '@/features/korea/components/korea-band';
-import { KOREA_CONTENT } from '@/features/korea/data/korea-content';
 import { AboutSection } from '@/features/about/components/about-section';
 import { AxisBand } from '@/features/about/components/axis-band';
 import { ABOUT_CONTENT } from '@/features/about/data/about-content';
-import { ExperienceSection } from '@/features/experience/components/experience-section';
-import { EXPERIENCES } from '@/features/experience/data/experiences';
-import { ProjectsSection } from '@/features/projects/components/projects-section';
-import { PROJECTS } from '@/features/projects/data/projects';
 import { HeroScene } from '@/features/hero/components/hero-scene';
 import { HeroSection } from '@/features/hero/components/hero-section';
 import { HERO_CONTENT } from '@/features/hero/data/hero-content';
 import { usePageHeading } from '@/hooks/use-page-heading';
 
-// Far down the page, and the heaviest section to hydrate: its code is its own chunk, loaded
-// as hydration reaches it. The prerender waits for it, so its HTML is there from the start
-// (ADR 0020).
-const KoreaSection = lazy(() =>
-  import('@/features/korea/components/korea-section').then(({ KoreaSection: section }) => ({
-    default: section,
-  })),
+// The journey is most of the page's code to hydrate, and it starts below the fold: its
+// code is its own chunk, loaded as hydration reaches it. The prerender waits for it, so
+// its HTML is there from the start (ADR 0020).
+const HomeJourney = lazy(() =>
+  import('@/app/routes/home-journey').then(({ HomeJourney: journey }) => ({ default: journey })),
 );
 
 export function HomeRoute() {
@@ -46,8 +38,8 @@ export function HomeRoute() {
       {/*
         Each section below the hero is its own Suspense boundary, hydrated as a separate
         unit of work after the hero: React yields to the browser between them instead of
-        hydrating the whole page in one long task. Nothing here suspends; the boundaries
-        only split the hydration (ADR 0018).
+        hydrating the whole page in one long task. Only the journey suspends, for its code;
+        the other boundaries only split the hydration (ADR 0018).
       */}
       <Suspense>
         <AboutSection content={ABOUT_CONTENT} />
@@ -56,19 +48,10 @@ export function HomeRoute() {
         <AxisBand axes={ABOUT_CONTENT.axes} />
       </Suspense>
       <Suspense>
-        <ExperienceSection experiences={EXPERIENCES} />
-      </Suspense>
-      <Suspense>
-        <ProjectsSection projects={PROJECTS} />
+        <HomeJourney />
       </Suspense>
       <Suspense>
         <AiPracticeSection content={AI_PRACTICE_CONTENT} />
-      </Suspense>
-      <Suspense>
-        <KoreaBand band={KOREA_CONTENT.band} />
-      </Suspense>
-      <Suspense>
-        <KoreaSection content={KOREA_CONTENT} />
       </Suspense>
       <Suspense>
         {/* Two features in one section: composition belongs to the route, not to a feature. */}

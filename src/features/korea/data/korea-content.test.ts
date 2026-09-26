@@ -34,10 +34,17 @@ describe('Korea content', () => {
     ]);
   });
 
+  it('comes home saying goodbye in Korean, and hello in French as the site does', () => {
+    expect(KOREA_CONTENT.homecoming).toEqual({
+      farewell: { korean: '안녕히 계세요', french: 'au revoir' },
+      greeting: 'Bonjour.',
+    });
+  });
+
   it('flies from France to Seoul', () => {
     expect(KOREA_CONTENT.route).toEqual({
-      from: 'France',
-      to: { korean: '서울', french: 'Séoul' },
+      origin: { name: 'France' },
+      destination: { name: 'Séoul', korean: '서울' },
     });
   });
 

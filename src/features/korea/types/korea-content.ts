@@ -9,10 +9,17 @@ type KoreaPhoto = {
   caption: string;
 };
 
+// A place on the route, with its Korean name when it has one.
+type Place = { name: string; korean?: string };
+
+export type KoreaRoute = { origin: Place; destination: Place };
+
 export type KoreaContent = {
   greeting: { korean: string; french: string };
   lead: string;
-  route: { from: string; to: { korean: string; french: string } };
+  route: KoreaRoute;
+  // The way home: a goodbye to Seoul, then hello to France in the site's own word.
+  homecoming: { farewell: { korean: string; french: string }; greeting: string };
   university: { korean: string; name: string };
   figures: readonly KeyFigure[];
   models: readonly { name: string; detail: string }[];

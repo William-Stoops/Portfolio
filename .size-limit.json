@@ -15,9 +15,9 @@
     "limit": "2 kB"
   },
   {
-    "name": "Korea section (loaded as hydration reaches it)",
-    "path": "dist/assets/korea-section-*.js",
-    "limit": "6 kB"
+    "name": "Journey (loaded as hydration reaches it)",
+    "path": "dist/assets/home-journey-*.js",
+    "limit": "16 kB"
   },
   {
     "name": "CSS",

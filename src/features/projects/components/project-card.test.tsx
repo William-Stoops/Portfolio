@@ -1,21 +1,25 @@
 import { describe, expect, it } from 'vitest';
 import { render } from 'vitest-browser-react';
 
-import { ProjectsSection } from '@/features/projects/components/projects-section';
+import { ProjectCard } from '@/features/projects/components/project-card';
 import { PROJECTS } from '@/features/projects/data/projects';
 import { expectNoAxeViolations } from '@/testing/expect-no-axe-violations';
 
+const [STAXX] = PROJECTS;
+
 async function renderSection() {
-  return render(<ProjectsSection projects={PROJECTS} />);
+  return render(
+    <div className="@container">
+      <ProjectCard project={STAXX} />
+    </div>,
+  );
 }
 
-describe('ProjectsSection', () => {
-  it('is a region named by its heading and reachable by the #projets anchor', async () => {
+describe('ProjectCard', () => {
+  it('is an article titled by the project, at level 4 under its stop', async () => {
     const screen = await renderSection();
 
-    await expect
-      .element(screen.getByRole('region', { name: 'Projets' }))
-      .toHaveAttribute('id', 'projets');
+    await expect.element(screen.getByRole('heading', { level: 4, name: 'STAXX' })).toBeVisible();
   });
 
   it('presents STAXX as an article with its tagline, period and emphasised award', async () => {
