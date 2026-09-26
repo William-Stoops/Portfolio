@@ -12,6 +12,22 @@ function prefersReducedMotion(): boolean {
   return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 }
 
+// A transition interrupted by the next one (a quick second choice), or started in a hidden
+// tab, rejects its `ready` promise: expected, the theme still switches. Anything else is a
+// real error.
+async function settleTransition(transition: ViewTransition): Promise<void> {
+  try {
+    await transition.ready;
+  } catch (error) {
+    const isExpected =
+      error instanceof DOMException &&
+      (error.name === 'AbortError' || error.name === 'InvalidStateError');
+    if (!isExpected) {
+      throw error;
+    }
+  }
+}
+
 // The new theme spreads in a circle from the pressed button (motion.css animates the view
 // transition's clip-path from these coordinates). Without View Transitions support, or
 // with reduced motion, the theme simply switches.
@@ -24,7 +40,7 @@ function switchTheme(apply: () => void, trigger: HTMLElement | undefined): void 
   const root = document.documentElement;
   root.style.setProperty('--theme-reveal-x', `${String(left + width / 2)}px`);
   root.style.setProperty('--theme-reveal-y', `${String(top + height / 2)}px`);
-  document.startViewTransition(apply);
+  void settleTransition(document.startViewTransition(apply));
 }
 
 export function useThemeToggle(): {
