@@ -18,10 +18,5 @@ export const HERO_CONTENT = {
     'Agents',
     'MCP',
   ],
-  stickers: [
-    '1er au concours Epitech Summit',
-    'C++ · Rust · TypeScript',
-    'Agents & LLM au quotidien',
-  ],
   portraitAlt: 'William Stoops, souriant, sur scène',
 } as const satisfies HeroContent;

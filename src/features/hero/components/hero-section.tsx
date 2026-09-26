@@ -96,7 +96,7 @@ export function HeroSection({ content, headingRef }: HeroSectionProps) {
             </span>
           </div>
         </div>
-        <HeroPortrait alt={content.portraitAlt} stickers={content.stickers} />
+        <HeroPortrait alt={content.portraitAlt} />
       </div>
       <TechMarquee technologies={content.technologies} />
     </section>

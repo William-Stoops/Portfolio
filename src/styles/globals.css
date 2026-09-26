@@ -78,13 +78,6 @@
   --animate-*: initial;
 }
 
-/* Decorative dot grid, fading out from its centre (behind the portrait). */
-@utility dot-grid {
-  background-image: radial-gradient(--theme(--color-border-input) 1.5px, transparent 1.5px);
-  background-size: 1.5rem 1.5rem;
-  mask-image: radial-gradient(closest-side, #000 30%, transparent);
-}
-
 /* Building-site stripes (STAXX video poster): tinted, never behind body text. */
 @utility hazard-stripes {
   background-image: repeating-linear-gradient(

@@ -29,14 +29,6 @@ describe('hero content', () => {
     ]);
   });
 
-  it('writes the portrait stickers with facts from the CV only', () => {
-    expect(HERO_CONTENT.stickers).toEqual([
-      '1er au concours Epitech Summit',
-      'C++ · Rust · TypeScript',
-      'Agents & LLM au quotidien',
-    ]);
-  });
-
   it('describes the portrait without claiming what the photo does not show', () => {
     expect(HERO_CONTENT.portraitAlt).toBe('William Stoops, souriant, sur scène');
   });

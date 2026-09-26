@@ -82,14 +82,6 @@ describe('HeroSection', () => {
     expect(screen.container.querySelectorAll('[data-marquee] ul')).toHaveLength(2);
   });
 
-  it('shows the stickers around the portrait as decoration only', async () => {
-    const screen = await renderHero();
-
-    for (const sticker of HERO_CONTENT.stickers) {
-      expect(screen.getByText(sticker).element().closest('[aria-hidden="true"]')).not.toBeNull();
-    }
-  });
-
   it('shows the portrait as a critical image', async () => {
     const screen = await renderHero();
 
