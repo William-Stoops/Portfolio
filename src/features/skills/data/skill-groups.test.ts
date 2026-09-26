@@ -6,9 +6,10 @@ import { SKILL_GROUPS } from '@/features/skills/data/skill-groups';
 describe('skill groups', () => {
   it('lists the three groups of the CV with their skills, in order', () => {
     expect(SKILL_GROUPS).toEqual([
-      { name: 'Langages', skills: ['TypeScript', 'Python', 'C++', 'Rust', 'SQL'] },
+      { id: 'langages', name: 'Langages', skills: ['TypeScript', 'Python', 'C++', 'Rust', 'SQL'] },
       {
-        name: 'Plateforme',
+        id: 'plateforme',
+        name: 'Frameworks et outils',
         skills: [
           'NestJS',
           'Node.js',
@@ -21,15 +22,16 @@ describe('skill groups', () => {
         ],
       },
       {
-        name: 'IA',
+        id: 'ia',
+        name: 'IA et data',
         skills: [
           'LLM OpenAI et Anthropic',
-          'function calling',
+          'Function calling',
           'JSON Schema',
-          'agents',
+          'Agents',
           'MCP',
           'Hugging Face',
-          'apprentissage par transfert',
+          'Apprentissage par transfert',
           'CNN',
           'YOLO',
           'pandas',
