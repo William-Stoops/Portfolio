@@ -13,6 +13,9 @@ import { SkillList } from '@/features/skills/components/skill-list';
 import { SKILL_GROUPS } from '@/features/skills/data/skill-groups';
 import { AiPracticeSection } from '@/features/ai-practice/components/ai-practice-section';
 import { AI_PRACTICE_CONTENT } from '@/features/ai-practice/data/ai-practice-content';
+import { KoreaBand } from '@/features/korea/components/korea-band';
+import { KoreaSection } from '@/features/korea/components/korea-section';
+import { KOREA_CONTENT } from '@/features/korea/data/korea-content';
 import { AboutSection } from '@/features/about/components/about-section';
 import { AxisBand } from '@/features/about/components/axis-band';
 import { ABOUT_CONTENT } from '@/features/about/data/about-content';
@@ -52,6 +55,12 @@ export function HomeRoute() {
       </Suspense>
       <Suspense>
         <AiPracticeSection content={AI_PRACTICE_CONTENT} />
+      </Suspense>
+      <Suspense>
+        <KoreaBand band={KOREA_CONTENT.band} />
+      </Suspense>
+      <Suspense>
+        <KoreaSection content={KOREA_CONTENT} />
       </Suspense>
       <Suspense>
         {/* Two features in one section: composition belongs to the route, not to a feature. */}
