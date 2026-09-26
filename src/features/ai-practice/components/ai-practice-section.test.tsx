@@ -21,25 +21,28 @@ describe('AiPracticeSection', () => {
   it('gives each practice a level-3 heading and its CV text', async () => {
     const screen = await renderSection();
 
+    // Each read as one title (its rising letters are hidden from assistive tech).
     expect(
       screen
         .getByRole('heading', { level: 3 })
         .elements()
-        .map((heading) => heading.textContent),
+        .map((heading) => heading.querySelector('.sr-only')?.textContent),
     ).toEqual(AI_PRACTICE_CONTENT.items.map(({ title }) => title));
     await expect
       .element(screen.getByText(/Pennylane, outils Google, Context7, 21st.dev/))
       .toBeVisible();
   });
 
-  it('numbers the items as decoration, hidden from assistive tech', async () => {
-    const screen = await render(<AiPracticeSection content={AI_PRACTICE_CONTENT} />);
+  it('sets each practice as a stop of the flight path, numbered as decoration', async () => {
+    const screen = await renderSection();
 
-    const numbers = [...screen.container.querySelectorAll('[data-item-number]')];
-    expect(numbers.map((number) => number.textContent)).toEqual(['01', '02', '03']);
-    for (const number of numbers) {
-      expect(number.getAttribute('aria-hidden')).toBe('true');
+    const stops = screen.getByRole('listitem').elements();
+    expect(stops).toHaveLength(AI_PRACTICE_CONTENT.items.length);
+    for (const stop of stops) {
+      expect(stop.querySelector('[data-stop-marker][aria-hidden="true"]')).not.toBeNull();
     }
+    const numbers = stops.map((stop) => stop.querySelector('header p[aria-hidden="true"]'));
+    expect(numbers.map((number) => number?.textContent)).toEqual(['01', '02', '03']);
   });
 
   it('has no axe violations', async () => {
