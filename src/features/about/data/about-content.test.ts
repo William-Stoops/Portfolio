@@ -37,4 +37,14 @@ describe('about content', () => {
       expect(label.trim()).not.toBe('');
     }
   });
+
+  it('draws each figure from its own numbers', () => {
+    expect(ABOUT_CONTENT.metrics.map(({ visual }) => visual)).toEqual([
+      // 5 minutes out of 10 hours.
+      { kind: 'reduction', remainingShare: 5 / 600 },
+      { kind: 'reduction', remainingShare: 0.01 },
+      { kind: 'steps', count: 3 },
+      { kind: 'podium' },
+    ]);
+  });
 });

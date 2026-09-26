@@ -7,16 +7,19 @@ export const ABOUT_CONTENT = {
   axes: [
     {
       title: 'Calcul & performance',
+      icon: 'performance',
       description:
         'Volatilité implicite en C++ sur l’univers d’options OPRA, service d’actualités migré en Rust. Les optimisations partent de la mesure.',
     },
     {
       title: 'Produits full stack',
+      icon: 'full-stack',
       description:
         'En TypeScript, du schéma PostgreSQL aux écrans React, back-end NestJS compris, livrés seul ou en menant une équipe.',
     },
     {
       title: 'IA, agents & LLM',
+      icon: 'ai',
       description:
         'Agents de code et serveurs MCP au quotidien, API OpenAI et Anthropic avec function calling et sorties contraintes par schéma, modèles entraînés à Korea University.',
     },
@@ -26,17 +29,21 @@ export const ABOUT_CONTENT = {
       value: '10 h → 5 min',
       spokenValue: 'de 10 heures à 5 minutes',
       label: 'Cycle de calcul de volatilité implicite, après refonte de la structure de données',
+      // 5 minutes out of 10 hours.
+      visual: { kind: 'reduction', remainingShare: 5 / 600 },
     },
     {
       value: '−99 %',
       spokenValue: 'moins 99 %',
       label: 'De latence sur la majorité des requêtes du service d’actualités migré en Rust',
+      visual: { kind: 'reduction', remainingShare: 0.01 },
     },
-    { value: '3 ans', label: 'D’expérience en entreprise' },
+    { value: '3 ans', label: 'D’expérience en entreprise', visual: { kind: 'steps', count: 3 } },
     {
       value: '1er',
       spokenValue: 'premier',
       label: 'Au concours Epitech Summit avec STAXX, pitché devant 300 personnes',
+      visual: { kind: 'podium' },
     },
   ],
 } as const satisfies AboutContent;
