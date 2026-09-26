@@ -23,7 +23,7 @@ export function PageSection({ id, title, lead, children }: PageSectionProps) {
     <section
       id={id}
       aria-labelledby={headingId}
-      className="mx-auto flex w-full max-w-6xl flex-col gap-12 px-gutter py-section"
+      className="mx-auto flex w-full max-w-6xl flex-col gap-12 px-gutter py-section defer-render"
     >
       <div className="flex flex-col gap-5">
         {sectionNumber === undefined ? null : (

@@ -5,10 +5,12 @@ import { SiteHeader } from '@/components/layout/site-header';
 import { SkipLink } from '@/components/layout/skip-link';
 import { useDesktopEnhancements } from '@/hooks/use-desktop-enhancements';
 import { usePointerGlow } from '@/hooks/use-pointer-glow';
+import { useProgressiveRender } from '@/hooks/use-progressive-render';
 
 export function RootLayout() {
   usePointerGlow();
   useDesktopEnhancements();
+  useProgressiveRender();
 
   return (
     <div className="flex min-h-svh flex-col">

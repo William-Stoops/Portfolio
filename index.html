@@ -15,6 +15,11 @@
           document.documentElement.setAttribute('data-theme', storedTheme);
         }
       } catch (error) {}
+      // Opened on an anchor (/#contact): render every section at once, so the browser
+      // scrolls to the exact position (see useProgressiveRender).
+      if (location.hash !== '') {
+        document.documentElement.setAttribute('data-render-all', '');
+      }
     </script>
     <title>William Stoops – Software Engineer &amp; AI Engineer</title>
     <meta

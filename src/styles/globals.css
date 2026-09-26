@@ -78,6 +78,21 @@
   --animate-*: initial;
 }
 
+/*
+ * Blocks below the fold skip style, layout and paint on load (ADR 0018): the first render
+ * only pays for the hero. They stay in the accessibility tree and in find-in-page. Their
+ * size is a placeholder until rendered, so useProgressiveRender renders them one per idle
+ * period (`data-rendered`), and all at once (`data-render-all` on the root) as soon as the
+ * visitor moves: a scroll, an in-page link, the keyboard, or a page opened on an anchor
+ * (index.html).
+ */
+@utility defer-render {
+  :root:not([data-render-all]) &:not([data-rendered]) {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 60rem;
+  }
+}
+
 /* Building-site stripes (STAXX video poster): tinted, never behind body text. */
 @utility hazard-stripes {
   background-image: repeating-linear-gradient(
