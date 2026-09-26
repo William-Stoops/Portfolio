@@ -7,14 +7,15 @@ description: The portfolio's design system — visual direction from the referen
 
 ## Visual direction
 
-From the reference mockup: **dark navy canvas, one warm coral-orange accent, a portrait
-framed by an orange ring, geometric sans headings, generous negative space, clear
-numeric highlights.** We keep that identity and make it ours:
+From the reference mockup: **dark navy canvas, one accent, a portrait framed by an accent
+ring, geometric sans headings, generous negative space, clear numeric highlights.** We keep
+that identity and make it ours. The mockup's coral orange read as a warning to a recruiter:
+the accent is a **calm, trusted blue** (ADR 0025).
 
 - The accent is **rare and meaningful**: primary action, key figures, the ring, the
   reading progress, the peaks of the hero surface, the dots between technologies. No
-  large orange surfaces: a tilted orange tape and stickers on the portrait read as cheap
-  and were removed. If everything is orange, nothing is.
+  large accent surfaces: a tilted tape and stickers on the portrait read as cheap and
+  were removed. If everything is accented, nothing is.
 - **Playful, not noisy** (ADR 0015): the page reacts — letters rise, the ring zooms in,
   figures are drawn, cards follow the pointer — but every effect is tied to the content
   and none competes with reading. Prefer **integrated, editorial** details (a horizon
@@ -56,18 +57,19 @@ in the UI means adding it to that test first.**
 | `fg`             | `#1B1F2A` | `#E6E8EF` | Body text                                            |
 | `fg-muted`       | `#5A6278` | `#A9B0C2` | Secondary text                                       |
 | `fg-subtle`      | `#687083` | `#8B93A7` | Metadata — **never on `surface-raised`**             |
-| `accent`         | `#B93E0B` | `#FF7A45` | Primary button fill, portrait ring                   |
-| `accent-hover`   | `#9A3412` | `#FF9466` | Primary button hover                                 |
-| `accent-fg`      | `#B93E0B` | `#FF8A5B` | Accent text, links (underlined)                      |
-| `accent-tint`    | `#FCEDE6` | `#3D2D2E` | Tinted badge background, text selection              |
+| `accent`         | `#1D4ED8` | `#6EA8FE` | Primary button fill, portrait ring                   |
+| `accent-hover`   | `#1E40AF` | `#93BEFF` | Primary button hover                                 |
+| `accent-fg`      | `#1D4ED8` | `#7FB2FF` | Accent text, links (underlined)                      |
+| `accent-tint`    | `#E8EEFC` | `#26324A` | Tinted badge background, text selection              |
 | `on-accent`      | `#FFFFFF` | `#12151C` | Text on `accent` / `accent-hover`                    |
-| `focus`          | `#9A3412` | `#FF9466` | Focus outline (3 px, offset 2 px)                    |
+| `focus`          | `#1E40AF` | `#93BEFF` | Focus outline (3 px, offset 2 px)                    |
 | `border`         | `#E2E4EA` | `#3A4052` | Decorative separators only — never a control outline |
 | `border-input`   | `#767D8F` | `#7D869C` | Input and control borders (≥ 3:1)                    |
 | `error`          | `#B91C1C` | `#FCA5A5` | Error text + icon                                    |
 | `success`        | `#166534` | `#4ADE80` | Success text + icon                                  |
 
-**Dark theme: text on orange is dark (`on-accent` `#12151C`), never white** (max 2.59:1).
+**Dark theme: text on the accent is dark (`on-accent` `#12151C`), never white** (2.42:1 on
+`#6EA8FE`; no blue is both readable on the canvas and able to carry white text).
 
 ### Theming mechanics
 
