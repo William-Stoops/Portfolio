@@ -26,7 +26,7 @@ describe('canRunHeroScene', () => {
 
 describe('parseRgbColor', () => {
   it('reads a computed rgb() colour as WebGL channels from 0 to 1', () => {
-    expect(parseRgbColor('rgb(255, 122, 69)')).toEqual([1, 122 / 255, 69 / 255]);
+    expect(parseRgbColor('rgb(110, 168, 254)')).toEqual([110 / 255, 168 / 255, 254 / 255]);
   });
 
   it('reads rgba() and ignores the alpha', () => {

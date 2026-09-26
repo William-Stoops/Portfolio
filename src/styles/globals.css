@@ -25,12 +25,13 @@
   --color-fg: light-dark(#1b1f2a, #e6e8ef);
   --color-fg-muted: light-dark(#5a6278, #a9b0c2);
   --color-fg-subtle: light-dark(#687083, #8b93a7);
-  --color-accent: light-dark(#b93e0b, #ff7a45);
-  --color-accent-hover: light-dark(#9a3412, #ff9466);
-  --color-accent-fg: light-dark(#b93e0b, #ff8a5b);
-  --color-accent-tint: light-dark(#fcede6, #3d2d2e);
+  /* A calm, trusted blue (ADR 0025): orange read as a warning. */
+  --color-accent: light-dark(#1d4ed8, #6ea8fe);
+  --color-accent-hover: light-dark(#1e40af, #93beff);
+  --color-accent-fg: light-dark(#1d4ed8, #7fb2ff);
+  --color-accent-tint: light-dark(#e8eefc, #26324a);
   --color-on-accent: light-dark(#ffffff, #12151c);
-  --color-focus: light-dark(#9a3412, #ff9466);
+  --color-focus: light-dark(#1e40af, #93beff);
   --color-border: light-dark(#e2e4ea, #3a4052);
   --color-border-input: light-dark(#767d8f, #7d869c);
   --color-error: light-dark(#b91c1c, #fca5a5);
