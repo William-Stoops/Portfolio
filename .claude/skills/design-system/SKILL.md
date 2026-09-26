@@ -12,7 +12,11 @@ framed by an orange ring, geometric sans headings, generous negative space, clea
 numeric highlights.** We keep that identity and make it ours:
 
 - The accent is **rare and meaningful**: primary action, key figures, the ring, the
-  active nav item. If everything is orange, nothing is.
+  reading progress, and **one** signature surface, the tilted technology band. If
+  everything is orange, nothing is.
+- **Playful, not noisy** (ADR 0015): the page reacts — letters rise, the ring draws
+  itself, stickers pop, figures are drawn, cards follow the pointer — but every effect is
+  tied to the content and none competes with reading.
 - Content hierarchy comes from type scale and space, not from boxes and borders.
 - Metrics from the CV (10 h → 5 min, −99 %) are the visual heroes of the About section,
   set in the mono face — they echo "systèmes de calcul".
@@ -21,7 +25,8 @@ numeric highlights.** We keep that identity and make it ours:
 
 ### Anti-"AI slop" rules
 
-No purple/blue gradients, no glassmorphism by default, no glowing blobs, no emoji as
+No purple/blue gradients, no glassmorphism by default, no glowing blobs (the pointer
+spotlight lights a border, never a background), no emoji as
 icons, no "✨"/sparkle motifs, no gradient text, no 3-column icon-feature grid with
 lorem-like copy, no fake testimonials or logos, no stock illustrations, no centered
 everything. Every decorative element must have a reason tied to the content (the ring
@@ -117,11 +122,25 @@ in the UI means adding it to that test first.**
 - Easing: `ease-out` = `cubic-bezier(0.22, 1, 0.36, 1)` (`--ease-*: initial`); durations use
   Tailwind's `duration-150` / `duration-250` / `duration-450` only. `--animate-*: initial`:
   no stock keyframe animation (spin, ping, bounce) is available.
-- Motion explains (a section entering, a menu opening); it never decorates in a loop.
-  Entrance animations: opacity + ≤ 16px translate, once, `motion-safe` only.
+- **All motion is CSS, in `src/styles/motion.css`** (ADR 0015); no animation library.
+  Use its utilities, do not write one-off keyframes in components:
+  - on load, once: `enter-rise`, `enter-letter`, `enter-pop`, `enter-draw`;
+  - scroll-driven: `reveal`, `reveal-wipe`, `reveal-grow-x/y`, `reveal-pop`,
+    `reveal-shrink-x` (`--shrink-to`), `reveal-ink` (+ `ink-timeline`, `--n`),
+    `reveal-light-up`, `rail-fill` (+ `rail-timeline`), `scroll-progress`, `scroll-settle`;
+  - pointer: `pointer-tilt`, `pointer-magnet`, `pointer-spotlight`, on an element marked
+    `data-pointer` (fed by `usePointerGlow`); the magnet goes on a wrapper, never on an
+    element with its own `transition`;
+  - `marquee-track` for the one loop, with its pause button.
+- Stagger siblings with an inline `style={{ '--i': index }}` (typed by
+  `src/types/css-custom-properties.d.ts`).
+- Every utility sits behind `prefers-reduced-motion: no-preference`, scroll-driven ones
+  behind `@supports`: without them the page is static and complete. **Never hide content
+  until JavaScript reveals it.**
+- Keyframes animate `translate` / `scale` / `rotate`, never `transform` (owned by the
+  pointer effects). Only one loop on the page, and it has a pause control (WCAG 2.2.2).
 - The global `prefers-reduced-motion: reduce` reset lives in the base layer of
-  `globals.css`. Motion (`motion/react`, `LazyMotion` + `m` + `domAnimation`, root
-  `<MotionConfig reducedMotion="user">`) is installed with the first animated component.
+  `globals.css`.
 
 ## UI primitives (shadcn on Base UI)
 

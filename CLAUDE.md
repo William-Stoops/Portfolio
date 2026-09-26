@@ -104,7 +104,7 @@ mesure n'est pas une optimisation. Skill `react-performance`.
 | Validation  | `zod/mini` dans le code livré (voir `typescript-standards`) | 4.6               |
 | Icônes      | lucide-react (`aria-hidden` toujours explicite)             | 1.48              |
 | État        | Local / URL / contexte — **pas de Redux par défaut**        | voir ADR 0004     |
-| Animation   | Motion (`motion/react`, `LazyMotion`)                       | 13                |
+| Animation   | CSS natif (scroll-driven, View Transitions), sans lib       | ADR 0015          |
 | Tests       | Vitest (projets `unit` + `browser`) + Playwright + axe      | 5.0 / 1.63 / 4.13 |
 | Lint        | Oxlint + ESLint + typescript-eslint (strictTypeChecked)     | 1.85 / 10 / 8.70  |
 | Format      | Prettier + prettier-plugin-tailwindcss                      | 3.9 / 0.8         |
@@ -220,8 +220,9 @@ pnpm verify         # tout ce qui précède, identique à la CI
 | 10  | `william/feat/skills-education`                | Compétences, formation                                                                                              |
 | 11  | `william/feat/contact`                         | Coordonnées + formulaire RHF / Zod qui prépare un `mailto:` (sans serveur)                                          |
 | 12  | `william/feat/legal-pages`                     | Déclaration d'accessibilité, mentions légales, plan du site                                                         |
-| 13  | `william/perf/lighthouse-budget` + déploiement | Budgets, Open Graph, déploiement sur Cloudflare Pages (ADR 0014)                                                    |
+| 13  | `william/feat/video-lightbox`                  | Vidéo du pitch en plein écran, jetons de couleur résolus par élément                                                |
+| 14  | `william/feat/motion-design`                   | Refonte animée et ludique, tout en CSS natif (ADR 0015)                                                             |
+| 15  | `william/perf/lighthouse-budget` + déploiement | Budgets, Open Graph, déploiement sur Cloudflare Pages (ADR 0014)                                                    |
 
-Questions encore ouvertes : l'hébergeur (Vercel ou Cloudflare Pages), le traitement du
-formulaire de contact (service tiers ou fonction serverless), une éventuelle version
-anglaise.
+Questions encore ouvertes : un traitement serveur du formulaire de contact (service
+tiers ou fonction serverless) au-delà du `mailto:`, une éventuelle version anglaise.

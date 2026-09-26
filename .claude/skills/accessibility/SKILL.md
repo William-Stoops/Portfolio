@@ -115,10 +115,16 @@ primary button is light orange with **dark** text. The validated tokens live in
 
 ## 5. Motion and user preferences
 
-- Root: `<MotionConfig reducedMotion="user">`; CSS animations behind `motion-safe:`.
-  Global `@media (prefers-reduced-motion: reduce)` reset in `base.css`.
-- Nothing auto-animates for more than 5 s without a visible pause control (2.2.2).
-  Preferred: no autoplay at all (no logo marquee).
+- All motion is CSS behind `prefers-reduced-motion: no-preference` (ADR 0015); a global
+  reduce reset sits in the base layer of `globals.css`. `e2e/motion.spec.ts` checks that
+  nothing keeps running with reduced motion.
+- Nothing auto-animates for more than 5 s without a visible pause control (2.2.2). The
+  technology band is the only loop: it pauses on hover and has a pause button; with
+  reduced motion it stands still and wraps.
+- Animated text stays readable text: split letters or words are `aria-hidden` behind a
+  visually hidden copy, or plain inline spans read as one sentence.
+- The sticky header must never hide a focused control (2.4.11): `scroll-padding-top` on
+  `html`, and no sticky header on short screens.
 - Theme: `data-theme` on `<html>`, set by an inline script in `index.html` **before first
   paint** (no flash). Toggle = buttons with `aria-pressed` or a radiogroup, plus a
   `role="status"` confirmation.

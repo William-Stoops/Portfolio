@@ -84,9 +84,14 @@ overrides to keep CLS ≈ 0. Max three families, and only the axes used.
 
 ## 6. Animation cost
 
-Animate only `transform` and `opacity`. `LazyMotion` + `m` + `domAnimation` (not the full
-`motion` component). No layout animations on large lists. Scroll-linked effects use CSS
-(`animation-timeline: view()`) with a `@supports` guard, behind `motion-safe`.
+Animate only transform properties and `opacity`. **No animation library** (ADR 0015):
+Motion or GSAP would cost ~20 kB, and scroll-linked effects in CSS
+(`animation-timeline: view()`) run on the compositor, not the main thread. Pointer effects
+use one delegated listener (`usePointerGlow`) that writes CSS variables: no React
+re-render per mouse move. No layout animations on large lists.
+
+The JS budget is nearly spent (119.2 kB of 120 after ADR 0015): count what a new icon or
+dependency costs before adding it.
 
 ## 7. Budgets and measurement
 
