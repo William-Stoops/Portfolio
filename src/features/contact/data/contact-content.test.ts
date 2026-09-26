@@ -9,6 +9,6 @@ describe('contact content', () => {
   });
 
   it('invites the visitor to write, without claiming anything the CV does not say', () => {
-    expect(CONTACT_CONTENT.invitation).toBe('Une question, une proposition ? Écrivez-moi.');
+    expect(CONTACT_CONTENT.invitation).toBe('Un poste, une mission ou une question ? Écrivez-moi.');
   });
 });

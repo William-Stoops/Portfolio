@@ -9,13 +9,13 @@ import { type KoreaContent } from '@/features/korea/types/korea-content';
 // that frame them, come from William (see the same file).
 export const KOREA_CONTENT = {
   greeting: { korean: '안녕하세요', french: 'bonjour' },
-  lead: 'Une année à Séoul, à Korea University, suivie en anglais : deep learning et computer vision.',
+  lead: 'Une année à Korea University, à Séoul, suivie en anglais : deep learning et computer vision.',
   route: { origin: { name: 'France' }, destination: { name: 'Séoul', korean: '서울' } },
   homecoming: { farewell: { korean: '안녕히 계세요', french: 'au revoir' }, greeting: 'Bonjour.' },
   university: { korean: '고려대학교', name: 'Korea University' },
   figures: [
-    { value: '61e', label: 'université mondiale, classement QS' },
-    { value: '1 an', label: 'suivi en anglais' },
+    { value: '61e', label: 'au classement mondial QS' },
+    { value: '1 an', label: 'de cours en anglais' },
     { value: '3', label: 'modèles entraînés' },
   ],
   models: [
@@ -44,7 +44,7 @@ export const KOREA_CONTENT = {
       picture: NIGHT_PAVILION_PICTURE,
       alt: 'Un pavillon traditionnel coréen illuminé se reflète dans un étang, de nuit',
       korean: '밤',
-      caption: 'Un pavillon qui se reflète dans l’eau, la nuit.',
+      caption: 'Un pavillon illuminé, reflété dans l’eau.',
     },
   ],
 } as const satisfies KoreaContent;

@@ -21,8 +21,8 @@ describe('journey stops', () => {
     expect(JOURNEY_STOPS.map(({ title }) => title)).toEqual([
       'Epitech',
       'Strattt, puis GDS Élec',
-      'STAXX commence, puis INTM',
-      'Séoul',
+      'Lancement de STAXX, puis INTM',
+      'Séoul, Korea University',
       'Retour en France',
       'Aujourd’hui',
     ]);
@@ -30,12 +30,12 @@ describe('journey stops', () => {
 
   it('tells the stops that have no card of their own, in William’s words', () => {
     expect(JOURNEY_STOPS.map(({ note }: JourneyStop) => note)).toEqual([
-      'J’entre à Epitech pour un Master of Science, Expert en Technologies de l’Information : la promo 2026.',
+      'J’entre à Epitech en Master of Science, Expert en Technologies de l’Information : promo 2026.',
       undefined,
-      'Je commence STAXX, mon projet de fin d’études : je le développe en 3e, 4e et 5e année.',
+      'Je lance STAXX, mon projet de fin d’études, que je mène jusqu’en 5e année.',
       undefined,
-      'De retour en France, je rejoins IT-Finance. Avec STAXX, nous passons sur NRJ Lille, puis nous remportons l’Epitech Summit.',
-      'Promo 2026 d’Epitech, et Software Engineer chez IT-Finance, éditeur de ProRealTime.',
+      'De retour en France, je rejoins IT-Finance, éditeur de ProRealTime. Avec l’équipe de STAXX, nous passons sur NRJ Lille, puis remportons l’Epitech Summit.',
+      'Promo 2026 d’Epitech. Software Engineer chez IT-Finance, éditeur de ProRealTime.',
     ]);
   });
 

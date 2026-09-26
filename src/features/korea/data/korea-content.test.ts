@@ -13,15 +13,15 @@ describe('Korea content', () => {
   it('opens on a greeting and the year in Seoul, as in the CV', () => {
     expect(KOREA_CONTENT.greeting).toEqual({ korean: '안녕하세요', french: 'bonjour' });
     expect(KOREA_CONTENT.lead).toBe(
-      'Une année à Séoul, à Korea University, suivie en anglais : deep learning et computer vision.',
+      'Une année à Korea University, à Séoul, suivie en anglais : deep learning et computer vision.',
     );
   });
 
   it('names the university in Korean and sums the year up in three figures', () => {
     expect(KOREA_CONTENT.university).toEqual({ korean: '고려대학교', name: 'Korea University' });
     expect(KOREA_CONTENT.figures).toEqual([
-      { value: '61e', label: 'université mondiale, classement QS' },
-      { value: '1 an', label: 'suivi en anglais' },
+      { value: '61e', label: 'au classement mondial QS' },
+      { value: '1 an', label: 'de cours en anglais' },
       { value: '3', label: 'modèles entraînés' },
     ]);
   });
@@ -66,7 +66,7 @@ describe('Korea content', () => {
         picture: NIGHT_PAVILION_PICTURE,
         alt: 'Un pavillon traditionnel coréen illuminé se reflète dans un étang, de nuit',
         korean: '밤',
-        caption: 'Un pavillon qui se reflète dans l’eau, la nuit.',
+        caption: 'Un pavillon illuminé, reflété dans l’eau.',
       },
     ]);
   });

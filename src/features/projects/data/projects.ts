@@ -35,13 +35,13 @@ export const PROJECTS = [
       picture: SUMMIT_PICTURE,
       alt: 'William Stoops, le trophée de la première place en main, entouré de six personnes sur la scène de l’Epitech Summit',
       place: 'Epitech Summit',
-      caption: 'Sur scène, le trophée en main.',
+      caption: 'La première place, trophée en main.',
     },
     // From William, with the photos: the team went on the regional NRJ radio.
     press: {
       label: 'À la radio',
       outlet: 'NRJ Lille',
-      summary: 'Nous sommes passés sur NRJ Lille, la radio régionale de NRJ, pour présenter STAXX.',
+      summary: 'Passage sur NRJ Lille, la radio régionale de NRJ, pour présenter STAXX.',
       photos: [
         {
           picture: NRJ_INTERVIEW_PICTURE,

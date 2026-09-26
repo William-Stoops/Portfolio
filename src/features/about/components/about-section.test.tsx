@@ -35,7 +35,7 @@ describe('AboutSection', () => {
   it('lists the three axes with level-3 headings', async () => {
     const screen = await renderAbout();
 
-    const axes = screen.getByRole('list', { name: 'Axes' });
+    const axes = screen.getByRole('list', { name: 'Domaines d’expertise' });
     expect(
       axes
         .getByRole('heading', { level: 3 })

@@ -132,6 +132,17 @@ page (le parcours, une escale par année d'Epitech).
   NRJ Lille et 1er au concours Epitech Summit avec STAXX.
 - **2026** : promo 2026.
 
+## Libellés propres au site
+
+Choisis avec William le 2026-09-26 pour des lecteurs recruteurs : ils reformulent des
+titres du CV sans en changer le fond.
+
+- Section IA : « Intelligence artificielle », avec le titre du CV en sous-titre (« Pratique
+  personnelle et travaux académiques »).
+- Familles de compétences : « Plateforme » devient « Frameworks et outils », « IA » devient
+  « IA et data » ; chaque compétence prend une majuscule initiale, sauf les noms qui s'écrivent
+  en minuscules (pandas, numpy, scikit-learn).
+
 ## Correspondance avec la maquette de référence
 
 | Zone de la maquette                        | Contenu du portfolio                                                       |

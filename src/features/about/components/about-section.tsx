@@ -19,7 +19,7 @@ export function AboutSection({ content }: AboutSectionProps) {
         <InkText text={content.profile} />
       }
     >
-      <ul aria-label="Axes" className="grid gap-10 md:grid-cols-3 md:gap-8">
+      <ul aria-label="Domaines d’expertise" className="grid gap-10 md:grid-cols-3 md:gap-8">
         {content.axes.map(({ title, description }, index) => (
           <li key={title} style={{ '--i': index }} className="flex reveal-slide flex-col gap-4">
             {/* A hairline with the accent drawn on it, like each section's number. */}
