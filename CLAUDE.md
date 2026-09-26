@@ -228,7 +228,8 @@ pnpm verify         # tout ce qui précède, identique à la CI
 | 18  | `william/feat/summit-photo`                    | Victoire à l'Epitech Summit et passage sur NRJ Lille dans l'étude STAXX                                             |
 | 19  | `william/feat/korea`                           | Corée du Sud : voyage épinglé, drapeau assemblé, photos entières (ADR 0019, 0020)                                   |
 | 20  | `william/feat/flight-log`                      | La page en parcours : une escale par année d'Epitech, ligne de vol, vol retour (ADR 0021)                           |
-| 21  | `william/perf/lighthouse-budget` + déploiement | Budgets, Open Graph, déploiement sur Cloudflare Pages (ADR 0014)                                                    |
+| 21  | `william/feat/one-flight`                      | Toute la page en un seul vol : rail continu, repères, en-têtes d'escale partout (ADR 0022)                          |
+| 22  | `william/perf/lighthouse-budget` + déploiement | Budgets, Open Graph, déploiement sur Cloudflare Pages (ADR 0014)                                                    |
 
 Questions encore ouvertes : un traitement serveur du formulaire de contact (service
 tiers ou fonction serverless) au-delà du `mailto:`, une éventuelle version anglaise.
