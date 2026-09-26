@@ -30,7 +30,7 @@ describe('StopHeader', () => {
 
   it('marks the stop on the rail and sets its filigree, as decoration drawn by CSS', async () => {
     const screen = await render(
-      <StopHeader level={3} title="Séoul" overline="2024 · 4e année" filigree="2024" />,
+      <StopHeader level={3} title="Séoul" overline="2024 · 4e année" filigree="2024" onPath />,
     );
 
     expect(screen.container.querySelector('[data-stop-marker]')?.getAttribute('aria-hidden')).toBe(
@@ -40,6 +40,17 @@ describe('StopHeader', () => {
     expect(filigree?.getAttribute('aria-hidden')).toBe('true');
     expect(filigree?.textContent).toBe('');
     expect(filigree === null ? '' : getComputedStyle(filigree, '::before').content).toBe('"2024"');
+  });
+
+  it('opens a chapter off the flight path: no marker, and its overline always shown', async () => {
+    const screen = await render(
+      <StopHeader level={2} title="IA" overline="03" isOverlineDecoration />,
+    );
+
+    expect(screen.container.querySelector('[data-stop-marker]')).toBeNull();
+    expect(
+      screen.getByText('03', { exact: true }).element().classList.contains('chapter-heading'),
+    ).toBe(false);
   });
 
   it('has no axe violations', async () => {

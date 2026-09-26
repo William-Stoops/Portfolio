@@ -13,18 +13,21 @@ type PageSectionProps = {
   // When the section holds stops the flight path lists (the years of the journey), its
   // own waypoint covers its header only, so one label shows at a time beside the rail.
   hasListedStops?: boolean;
+  // The section the flight path runs through (the journey): its header marks the rail.
+  onPath?: boolean;
   children: ReactNode;
 };
 
 // Every home page section: a region named by its h2, reachable by its anchor, on the
-// shared content column and vertical rhythm, and a stop of the flight path (FlightPath):
-// its header marks the rail, its number is set in filigree and beside the rail, its
-// title rises letter by letter (StopHeader). Its content starts where the path says.
+// shared content column and vertical rhythm, opened like a chapter: its number in filigree,
+// its title rising letter by letter (StopHeader). The journey's section runs on the flight
+// path (FlightPath): its header marks the rail, and its content starts where the path says.
 export function PageSection({
   id,
   title,
   lead,
   hasListedStops = false,
+  onPath = false,
   children,
 }: PageSectionProps) {
   const headingId = `${id}-titre`;
@@ -42,8 +45,9 @@ export function PageSection({
         className={`relative flex flex-col gap-12 ps-[var(--content-x,0rem)] ${hasListedStops ? '' : 'chapter-timeline'}`}
       >
         <div
-          style={hasListedStops ? waypoint : undefined}
-          className={`flex flex-col gap-5 ${hasListedStops ? 'chapter-timeline' : ''}`}
+          // Positioned (for the filigree), inside the content's inset: the rail is that far back.
+          style={{ '--stop-inset': 'var(--content-x, 0rem)', ...(hasListedStops ? waypoint : {}) }}
+          className={`relative isolate flex flex-col gap-5 ${hasListedStops ? 'chapter-timeline' : ''}`}
         >
           <StopHeader
             level={2}
@@ -53,6 +57,7 @@ export function PageSection({
               ? {}
               : { overline: sectionNumber, filigree: sectionNumber })}
             isOverlineDecoration
+            onPath={onPath}
           />
           {lead}
         </div>
