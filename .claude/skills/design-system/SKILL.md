@@ -151,6 +151,12 @@ in the UI means adding it to that test first.**
   grey caption) separated by thin rules, real text read by assistive tech.
 - **Titles and sign-off**: section titles and the footer's giant name have letters that
   rise with the scroll (`reveal-letter`), behind a visually hidden copy.
+- **About**: the profile is a statement **inked in word by word** as it is read
+  (`ink-timeline` on the paragraph with `--n`, `reveal-ink` on each word with `--i`: a
+  canvas-coloured veil in a pseudo-element lifts, the text underneath stays at full
+  contrast). The axes are three columns under a hairline with the accent drawn on it,
+  no icon discs (the kinetic band right after sets them large); the key figures are a
+  **ledger** between hairlines (figure, what it measures, its drawing), not cards.
 - **Section compositions**: STAXX is an editorial case study (a large figure row from
   `KeyFigures`, the pitch beside it); each experience period is set large beside the
   timeline and sticks while its card is read; skills and education are **sticky
@@ -229,9 +235,8 @@ a real use case gets the wrong API.
   when a primitive's variants multiply, with the size measured in the PR.
 - Shipped primitives: `button-link` (a link styled as a button: calls to action navigate or
   download, so they stay `<a>`), `badge`, `responsive-image` (hero), `emphasized-text`
-  (CV bold passages), `youtube-facade` (projects). Still expected:
-  `card` (experience), `visually-hidden`. The key-figure markup stays inside the about
-  feature until a second feature needs it (then it moves to `ui/`).
+  (CV bold passages), `youtube-facade` (projects). `key-figures` (hero, STAXX).
+  Still expected: `card` (experience), `visually-hidden`.
 
 ## Tests
 

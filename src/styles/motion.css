@@ -112,6 +112,16 @@
   }
 }
 
+@keyframes ink-lift {
+  from {
+    opacity: 0.78;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
 @keyframes grow-x {
   from {
     scale: 0 1;
@@ -447,6 +457,38 @@
       @media (min-width: 64rem) and (min-height: 40rem) {
         animation-timeline: --voyage;
         animation-range: contain calc(70% + var(--i, 0) * 2%) contain calc(80% + var(--i, 0) * 2%);
+      }
+    }
+  }
+}
+
+/*
+  A statement written as it is read: each word lies under a veil of the canvas colour
+  that lifts, one word after the other, while the paragraph crosses the screen. The
+  veil is a pseudo-element over real text at full contrast, and only its opacity
+  moves; without scroll-driven animations there is no veil at all. The paragraph
+  (`ink-timeline`) gives the timeline and its word count (`--n`); each word its index
+  (`--i`).
+*/
+@utility ink-timeline {
+  view-timeline: --ink;
+}
+
+@utility reveal-ink {
+  position: relative;
+
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      &::after {
+        content: '';
+        position: absolute;
+        inset: -0.1em 0;
+        background: --theme(--color-canvas);
+        pointer-events: none;
+        animation: ink-lift linear both;
+        animation-timeline: --ink;
+        animation-range: cover calc(15% + var(--i, 0) * 35% / var(--n, 1)) cover
+          calc(15% + (var(--i, 0) + 1) * 35% / var(--n, 1));
       }
     }
   }
