@@ -143,7 +143,9 @@ in the UI means adding it to that test first.**
   its bottom edge like a horizon (solid canvas background, thin rules, grey text, accent
   dots, faded edges); the portrait has its accent ring and nothing else on it (stickers,
   a dot grid and a text ring around it were all tried and removed: the surface already
-  gives the depth, more layers only clutter the photo).
+  gives the depth, more layers only clutter the photo). The facts once pinned on it now
+  sit in the text column, under the calls to action: three highlights (strong value,
+  grey caption) separated by thin rules, real text read by assistive tech.
 - **Titles and sign-off**: section titles and the footer's giant name have letters that
   rise with the scroll (`reveal-letter`), behind a visually hidden copy.
 - **Desktop touches** (`src/lib/desktop-enhancements.ts`, loaded on idle for a precise
