@@ -230,7 +230,8 @@ pnpm verify         # tout ce qui précède, identique à la CI
 | 20  | `william/feat/flight-log`                      | La page en parcours : une escale par année d'Epitech, ligne de vol, vol retour (ADR 0021)                           |
 | 21  | `william/feat/one-flight`                      | Toute la page en un seul vol : rail continu, repères, en-têtes d'escale partout (ADR 0022)                          |
 | 22  | `william/feat/site-harmony`                    | La ligne de vol réservée au parcours, chapitres hors du temps en rangées, hiérarchie (ADR 0023)                     |
-| 23  | `william/perf/lighthouse-budget` + déploiement | Budgets, Open Graph, déploiement sur Cloudflare Pages (ADR 0014)                                                    |
+| 23  | `william/feat/pitch-stage`                     | Vidéo du pitch sur sa première image, ouverte depuis l'affiche, récit STAXX dans l'ordre (ADR 0024)                 |
+| 24  | `william/perf/lighthouse-budget` + déploiement | Budgets, Open Graph, déploiement sur Cloudflare Pages (ADR 0014)                                                    |
 
 Questions encore ouvertes : un traitement serveur du formulaire de contact (service
 tiers ou fonction serverless) au-delà du `mailto:`, une éventuelle version anglaise.
