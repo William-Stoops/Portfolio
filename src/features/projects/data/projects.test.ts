@@ -30,4 +30,12 @@ describe('projects', () => {
       title: 'Pitch de STAXX au concours Epitech Summit',
     });
   });
+
+  it('sums up STAXX in three figures drawn from the CV', () => {
+    expect(PROJECTS[0].figures).toEqual([
+      { value: '1er', label: 'au concours Epitech Summit' },
+      { value: '300', label: 'personnes au pitch' },
+      { value: '3', label: 'développeurs, dont deux que j’ai dirigés' },
+    ]);
+  });
 });

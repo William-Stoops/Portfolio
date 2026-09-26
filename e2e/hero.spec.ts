@@ -3,7 +3,8 @@ import { expect, test } from '@playwright/test';
 test.describe('hero', () => {
   test('states the real weight of the downloadable CV', async ({ page, request }) => {
     await page.goto('/');
-    const link = page.getByRole('link', { name: /^Télécharger le CV/ });
+    // The hero's link (the footer offers the same file).
+    const link = page.getByRole('link', { name: /^Télécharger le CV/ }).first();
     const href = await link.getAttribute('href');
     expect(href).not.toBeNull();
 

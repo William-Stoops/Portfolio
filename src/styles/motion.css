@@ -37,6 +37,16 @@
   }
 }
 
+@keyframes ink-lift {
+  from {
+    opacity: 0.78;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
 @keyframes grow-x {
   from {
     scale: 0 1;
@@ -70,6 +80,24 @@
 
   to {
     translate: var(--drift-to) 0;
+  }
+}
+
+@keyframes chapter-swap {
+  0% {
+    opacity: 0;
+    translate: 0 2rem;
+  }
+
+  25%,
+  75% {
+    opacity: 1;
+    translate: 0 0;
+  }
+
+  100% {
+    opacity: 0;
+    translate: 0 -2rem;
   }
 }
 
@@ -172,6 +200,53 @@
       animation: letter-rise var(--ease-out) both;
       animation-timeline: view();
       animation-range: entry calc(var(--i, 0) * 1.5%) entry calc(70% + var(--i, 0) * 1.5%);
+    }
+  }
+}
+
+/*
+ * The same rise without the fade, for text that may already be on screen at load (the
+ * footer of a short page): a scroll-linked fade would leave it half transparent, below
+ * its contrast, until the visitor scrolls.
+ */
+@utility reveal-slide {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: slide-up var(--ease-out) both;
+      animation-timeline: view();
+      animation-range: entry calc(var(--i, 0) * 8%) entry calc(90% + var(--i, 0) * 8%);
+    }
+  }
+}
+
+/*
+  A statement written as it is read: each word lies under a veil of the canvas colour
+  that lifts, one word after the other, while the paragraph crosses the screen. The
+  veil is a pseudo-element over real text at full contrast, and only its opacity
+  moves; without scroll-driven animations there is no veil at all. The paragraph
+  (`ink-timeline`) gives the timeline and its word count (`--n`); each word its index
+  (`--i`).
+*/
+@utility ink-timeline {
+  view-timeline: --ink;
+}
+
+@utility reveal-ink {
+  position: relative;
+
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      &::after {
+        content: '';
+        position: absolute;
+        inset: -0.1em 0;
+        background: --theme(--color-canvas);
+        pointer-events: none;
+        animation: ink-lift linear both;
+        animation-timeline: --ink;
+        animation-range: cover calc(15% + var(--i, 0) * 35% / var(--n, 1)) cover
+          calc(15% + (var(--i, 0) + 1) * 35% / var(--n, 1));
+      }
     }
   }
 }
@@ -301,6 +376,68 @@
       animation-timeline: view();
     }
   }
+}
+
+/*
+ * Sticky chapters (StickyChapters): the sticky column exists only on large screens, where
+ * scroll-driven animations and named timeline scopes run and motion is welcome. There,
+ * each chapter's heading is visually hidden (the column shows it); elsewhere the
+ * chapters simply stack with their headings.
+ */
+@utility chapters-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+
+  @media (min-width: 64rem) and (prefers-reduced-motion: no-preference) {
+    @supports (timeline-scope: none) and (animation-timeline: view()) {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+      timeline-scope: var(--scope);
+    }
+  }
+}
+
+@utility chapter-rail {
+  display: none;
+
+  @media (min-width: 64rem) and (prefers-reduced-motion: no-preference) {
+    @supports (timeline-scope: none) and (animation-timeline: view()) {
+      display: block;
+    }
+  }
+}
+
+@utility chapter-heading {
+  @media (min-width: 64rem) and (prefers-reduced-motion: no-preference) {
+    @supports (timeline-scope: none) and (animation-timeline: view()) {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+  }
+}
+
+@utility chapter-timeline {
+  view-timeline-name: var(--timeline);
+}
+
+/* The label of the chapter crossing the middle of the viewport rises in, then out. */
+@utility chapter-label {
+  opacity: 0;
+  animation: chapter-swap linear both;
+  animation-timeline: var(--timeline);
+  animation-range: cover 15% cover 85%;
+}
+
+@utility chapter-progress {
+  transform-origin: 50% 0;
+  animation: grow-y linear both;
+  animation-timeline: --chapters;
+  animation-range: contain 0% contain 100%;
 }
 
 /*

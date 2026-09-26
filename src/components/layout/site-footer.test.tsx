@@ -77,6 +77,36 @@ describe('SiteFooter', () => {
     expect(wordmark?.textContent.replaceAll(' ', '')).toBe('WilliamStoops');
   });
 
+  it('signs off with the profile sentence and a way back to the top', async () => {
+    const screen = await renderInRouter(<SiteFooter />);
+
+    await expect
+      .element(screen.getByText('Je décide d’une architecture, je la mesure, je la livre.'))
+      .toBeVisible();
+    await expect
+      .element(screen.getByRole('link', { name: 'Retour en haut' }))
+      .toHaveAttribute('href', '#main');
+  });
+
+  it('groups the ways to reach William, the CV included', async () => {
+    const screen = await renderInRouter(<SiteFooter />);
+
+    const contact = screen.getByRole('list', { name: 'Contact' });
+    expect(
+      contact
+        .getByRole('link')
+        .elements()
+        .map((link) => link.textContent),
+    ).toEqual([
+      'william.stoops@epitech.eu',
+      'LinkedIn (nouvel onglet)',
+      'Télécharger le CV (PDF, 56 Ko)',
+    ]);
+    await expect
+      .element(contact.getByRole('link', { name: 'Télécharger le CV (PDF, 56 Ko)' }))
+      .toHaveAttribute('download');
+  });
+
   it('has no axe violations', async () => {
     const screen = await renderInRouter(<SiteFooter />);
 
