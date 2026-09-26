@@ -51,6 +51,16 @@
   }
 }
 
+@keyframes drift {
+  from {
+    translate: var(--drift-from) 0;
+  }
+
+  to {
+    translate: var(--drift-to) 0;
+  }
+}
+
 @keyframes marquee {
   to {
     translate: -50% 0;
@@ -228,6 +238,32 @@
       display: block;
       animation: grow-x linear both;
       animation-timeline: scroll(root);
+    }
+  }
+}
+
+/* Giant lines sliding sideways, in opposite directions, while they cross the viewport. */
+@utility drift-left {
+  --drift-from: 0%;
+  --drift-to: -35%;
+
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: drift linear both;
+      animation-timeline: view();
+    }
+  }
+}
+
+@utility drift-right {
+  --drift-from: -35%;
+  --drift-to: 0%;
+  translate: -15% 0;
+
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: drift linear both;
+      animation-timeline: view();
     }
   }
 }
