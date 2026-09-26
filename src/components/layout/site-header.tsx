@@ -19,7 +19,11 @@ export function SiteHeader() {
   return (
     // Sticky, except on short screens (landscape phones, 400 % zoom) where it would eat the
     // viewport. The rule under it and the reading progress are scroll-driven (motion.css).
-    <header className="sticky top-0 z-(--z-header) scroll-settle border-b border-border bg-canvas short:static">
+    <header className="sticky top-0 z-(--z-header) bg-canvas short:static">
+      <div
+        aria-hidden="true"
+        className="absolute inset-x-0 bottom-0 h-px scroll-settle bg-border"
+      />
       <div
         aria-hidden="true"
         className="absolute inset-x-0 -bottom-px scroll-progress h-0.5 bg-accent"

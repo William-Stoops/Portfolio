@@ -13,7 +13,7 @@ type PageSectionProps = {
 
 // Every home page section: a region named by its h2, reachable by its anchor, on the
 // shared content column and vertical rhythm. The number and its rule are decoration; the
-// title uncovers itself as it scrolls in (motion.css).
+// title rises into place as it scrolls in (motion.css).
 export function PageSection({ id, title, lead, children }: PageSectionProps) {
   const headingId = `${id}-titre`;
   const sectionNumber = formatSectionNumber(id);
@@ -34,7 +34,7 @@ export function PageSection({ id, title, lead, children }: PageSectionProps) {
             <span className="h-0.5 w-16 reveal-grow-x bg-accent" />
           </div>
         )}
-        <h2 id={headingId} className="reveal-wipe text-h1 font-semibold tracking-tight">
+        <h2 id={headingId} className="reveal text-h1 font-semibold tracking-tight">
           {title}
         </h2>
         {lead}

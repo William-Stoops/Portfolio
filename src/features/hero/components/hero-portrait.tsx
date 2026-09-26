@@ -11,7 +11,7 @@ const STICKER_CLASS_NAMES = [
   '-bottom-2 left-2 -rotate-2 border border-border bg-surface-raised text-fg',
 ] as const;
 
-// The accent ring frames the person and draws itself once; a dot grid gives depth behind
+// The accent ring frames the person and zooms in once; a dot grid gives depth behind
 // it; the portrait tilts towards a precise pointer. The stickers repeat facts told
 // elsewhere on the page: they are decoration, hidden from assistive tech.
 export function HeroPortrait({ alt, stickers }: HeroPortraitProps) {
@@ -22,24 +22,10 @@ export function HeroPortrait({ alt, stickers }: HeroPortraitProps) {
         className="pointer-events-none absolute -inset-8 -z-10 dot-grid sm:-inset-16"
       />
       <div data-pointer className="relative pointer-tilt rounded-full p-3">
-        <svg
+        <div
           aria-hidden="true"
-          focusable="false"
-          viewBox="0 0 100 100"
-          className="absolute inset-0 size-full -rotate-90 overflow-visible text-accent"
-        >
-          <circle
-            cx="50"
-            cy="50"
-            r="49"
-            pathLength={1}
-            fill="none"
-            stroke="currentColor"
-            strokeWidth={1.2}
-            strokeDasharray={1}
-            className="enter-draw"
-          />
-        </svg>
+          className="absolute inset-0 enter-zoom rounded-full border-4 border-accent"
+        />
         <ResponsiveImage
           picture={PORTRAIT_PICTURE}
           alt={alt}

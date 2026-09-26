@@ -45,4 +45,34 @@ test.describe('motion', () => {
 
     await expect(page.getByRole('banner')).toBeInViewport();
   });
+
+  test('animates only what the compositor can run off the main thread', async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'no-preference' });
+    await page.goto('/');
+    await page.keyboard.press('End');
+
+    // Anything else (colour, clip-path, stroke…) is recomputed on the main thread at every
+    // frame: a first version with 56 such animations broke the Total Blocking Time budget.
+    const animatedProperties = await page.evaluate(() => {
+      const bookkeeping = new Set(['offset', 'computedOffset', 'easing', 'composite']);
+      return [
+        ...new Set(
+          document.getAnimations().flatMap((animation) =>
+            animation.effect instanceof KeyframeEffect
+              ? animation.effect
+                  .getKeyframes()
+                  .flatMap((keyframe) => Object.keys(keyframe))
+                  .filter((property) => !bookkeeping.has(property))
+              : [],
+          ),
+        ),
+      ].toSorted();
+    });
+    expect(
+      animatedProperties.filter(
+        (property) => !['opacity', 'rotate', 'scale', 'transform', 'translate'].includes(property),
+      ),
+    ).toEqual([]);
+    expect(animatedProperties.length).toBeGreaterThan(0);
+  });
 });

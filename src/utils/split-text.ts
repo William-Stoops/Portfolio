@@ -7,7 +7,7 @@ type WordWithLetters = TextPiece & { letters: readonly TextPiece[] };
 // their word together, as they do on screen.
 const GRAPHEME_SEGMENTER = new Intl.Segmenter('fr', { granularity: 'grapheme' });
 
-export function splitIntoWords(text: string): readonly TextPiece[] {
+function splitIntoWords(text: string): readonly TextPiece[] {
   return text
     .split(' ')
     .filter((word) => word !== '')

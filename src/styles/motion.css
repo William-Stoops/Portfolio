@@ -1,7 +1,12 @@
 /*
- * Motion (docs/adr/0015). Pure CSS: no animation library, nothing on the main thread for
- * scroll-linked effects. Every effect is progressive: with reduced motion, or in a browser
- * without scroll-driven animations, the page is static and complete — never hidden.
+ * Motion (docs/adr/0015). Pure CSS: no animation library. Every effect is progressive:
+ * with reduced motion, or in a browser without scroll-driven animations, the page is
+ * static and complete — never hidden.
+ *
+ * Only compositor properties are animated (opacity and the transform family): anything
+ * else (colour, clip-path, stroke…) is recomputed on the main thread at every frame, and
+ * Lighthouse's non-composited-animations audit must stay empty (a first version with 56 of
+ * them tripled the main-thread work and broke the Total Blocking Time budget).
  *
  * Keyframes animate the individual transform properties (translate, scale, rotate), so
  * they compose with the pointer effects, which own `transform`.
@@ -17,12 +22,6 @@
 @keyframes letter-rise {
   from {
     translate: 0 110%;
-  }
-}
-
-@keyframes wipe {
-  from {
-    clip-path: inset(0 100% 0 0);
   }
 }
 
@@ -44,23 +43,11 @@
   }
 }
 
-@keyframes ink {
-  from {
-    color: --theme(--color-fg-subtle);
-  }
-}
-
 @keyframes pop {
   from {
     opacity: 0;
     scale: 0.4;
     rotate: 0deg;
-  }
-}
-
-@keyframes draw {
-  from {
-    stroke-dashoffset: 1;
   }
 }
 
@@ -70,16 +57,22 @@
   }
 }
 
-@keyframes light-up {
-  to {
-    background-color: --theme(--color-accent);
-    scale: 1.35;
+@keyframes fade-in {
+  from {
+    opacity: 0;
   }
 }
 
-@keyframes header-settle {
+@keyframes zoom-in {
   from {
-    border-bottom-color: transparent;
+    opacity: 0;
+    scale: 0.9;
+  }
+}
+
+@keyframes fill-in {
+  from {
+    scale: 0;
   }
 }
 
@@ -111,16 +104,16 @@
   }
 }
 
+@utility enter-zoom {
+  @media (prefers-reduced-motion: no-preference) {
+    animation: zoom-in 900ms var(--ease-out) both 200ms;
+  }
+}
+
 @utility enter-pop {
   @media (prefers-reduced-motion: no-preference) {
     animation: pop 600ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
     animation-delay: calc(var(--i, 0) * 120ms + 700ms);
-  }
-}
-
-@utility enter-draw {
-  @media (prefers-reduced-motion: no-preference) {
-    animation: draw 1400ms var(--ease-out) both 200ms;
   }
 }
 
@@ -134,16 +127,6 @@
       animation: rise var(--ease-out) both;
       animation-timeline: view();
       animation-range: entry calc(var(--i, 0) * 8%) entry calc(90% + var(--i, 0) * 8%);
-    }
-  }
-}
-
-@utility reveal-wipe {
-  @media (prefers-reduced-motion: no-preference) {
-    @supports (animation-timeline: view()) {
-      animation: wipe var(--ease-out) both;
-      animation-timeline: view();
-      animation-range: entry 10% cover 35%;
     }
   }
 }
@@ -197,31 +180,11 @@
   }
 }
 
-/*
- * Words inking in one after the other as their paragraph (`ink-timeline`) scrolls up:
- * `--i` is the word's position, `--n` the word count. Both ends of the fade are contract
- * colours on the canvas (fg-subtle, then fg), so every step in between passes too.
- */
-@utility ink-timeline {
-  view-timeline-name: --ink;
-}
-
-@utility reveal-ink {
+/* The inner dot of a step fills in when its item reaches the middle of the viewport. */
+@utility reveal-fill {
   @media (prefers-reduced-motion: no-preference) {
     @supports (animation-timeline: view()) {
-      animation: ink linear both;
-      animation-timeline: --ink;
-      animation-range: cover calc(10% + var(--i, 0) / var(--n, 1) * 40%) cover
-        calc(15% + var(--i, 0) / var(--n, 1) * 40%);
-    }
-  }
-}
-
-/* A step that lights up when its item reaches the middle of the viewport. */
-@utility reveal-light-up {
-  @media (prefers-reduced-motion: no-preference) {
-    @supports (animation-timeline: view()) {
-      animation: light-up linear both;
+      animation: fill-in linear both;
       animation-timeline: view();
       animation-range: cover 40% cover 50%;
     }
@@ -245,11 +208,11 @@
   }
 }
 
-/* The header's bottom rule appears once the page has scrolled under it. */
+/* The header's bottom rule fades in once the page has scrolled under it. */
 @utility scroll-settle {
   @media (prefers-reduced-motion: no-preference) {
     @supports (animation-timeline: scroll()) {
-      animation: header-settle linear both;
+      animation: fade-in linear both;
       animation-timeline: scroll(root);
       animation-range: 0 8rem;
     }

@@ -1,20 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { splitIntoLetters, splitIntoWords } from '@/utils/split-text';
-
-describe('splitIntoWords', () => {
-  it('keeps each word with its position, dropping the spaces', () => {
-    expect(splitIntoWords('Je la  mesure')).toEqual([
-      { text: 'Je', index: 0 },
-      { text: 'la', index: 1 },
-      { text: 'mesure', index: 2 },
-    ]);
-  });
-
-  it('keeps a non-breaking space inside its word', () => {
-    expect(splitIntoWords('10 h → 5 min').map(({ text }) => text)).toEqual(['10 h', '→', '5 min']);
-  });
-});
+import { splitIntoLetters } from '@/utils/split-text';
 
 describe('splitIntoLetters', () => {
   it('numbers letters across words, so a stagger runs through the whole line', () => {
@@ -35,6 +21,14 @@ describe('splitIntoLetters', () => {
           { text: 't', index: 3 },
         ],
       },
+    ]);
+  });
+
+  it('splits words on spaces only, keeping a non-breaking space inside its word', () => {
+    expect(splitIntoLetters('Je la  10\u00A0h').map(({ text }) => text)).toEqual([
+      'Je',
+      'la',
+      '10\u00A0h',
     ]);
   });
 

@@ -25,8 +25,10 @@ export function ExperienceSection({ experiences }: ExperienceSectionProps) {
               <span
                 data-rail-step
                 aria-hidden="true"
-                className="absolute start-0 top-8 size-4 reveal-light-up rounded-full border-2 border-accent bg-canvas"
-              />
+                className="absolute start-0 top-8 size-4 rounded-full border-2 border-accent bg-canvas"
+              >
+                <span className="absolute inset-0.5 reveal-fill rounded-full bg-accent" />
+              </span>
               <div style={{ '--i': index }} className="reveal">
                 <ExperienceCard experience={experience} />
               </div>

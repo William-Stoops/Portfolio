@@ -5,7 +5,6 @@ import { PageSection } from '@/components/layout/page-section';
 import { SECTION_IDS } from '@/config/paths';
 import { MetricVisual } from '@/features/about/components/metric-visual';
 import { type AboutContent } from '@/features/about/types/about-content';
-import { splitIntoWords } from '@/utils/split-text';
 
 type AboutSectionProps = { content: AboutContent };
 
@@ -18,24 +17,13 @@ const AXIS_ICONS: Readonly<Record<AboutContent['axes'][number]['icon'], ReactNod
 };
 
 export function AboutSection({ content }: AboutSectionProps) {
-  const profileWords = splitIntoWords(content.profile);
-
   return (
     <PageSection
       id={SECTION_IDS.about}
       title="À propos"
       lead={
-        // Read as one sentence: the words are spans only so they can ink in one by one.
-        <p
-          style={{ '--n': profileWords.length }}
-          className="max-w-4xl font-display text-h3 font-medium text-fg ink-timeline"
-        >
-          {profileWords.map(({ text, index }) => (
-            <span key={index} style={{ '--i': index }} className="reveal-ink">
-              {index > 0 ? ' ' : null}
-              {text}
-            </span>
-          ))}
+        <p className="max-w-4xl reveal font-display text-h3 font-medium text-fg">
+          {content.profile}
         </p>
       }
     >
