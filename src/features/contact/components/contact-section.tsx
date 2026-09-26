@@ -27,6 +27,7 @@ export function ContactSection({ content, openMailto = openInMailClient }: Conta
             <dd className="flex flex-col items-start gap-3">
               <a
                 href={`mailto:${CONTACT_EMAIL}`}
+                data-cursor="Écrire"
                 className="inline-flex min-h-11 items-center font-display text-h3 font-semibold [overflow-wrap:anywhere] decoration-2 transition-[text-underline-offset] duration-250 ease-out hover:underline-offset-8"
               >
                 {CONTACT_EMAIL}

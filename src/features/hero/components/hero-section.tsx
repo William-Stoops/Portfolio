@@ -61,7 +61,11 @@ export function HeroSection({ content, headingRef }: HeroSectionProps) {
               style={{ '--i': 4 }}
               className="enter-rise font-display text-h2 font-semibold text-accent-fg"
             >
-              {content.role}
+              {/* Read once; the copy decodes itself on hover (desktop enhancements). */}
+              <span className="sr-only">{content.role}</span>
+              <span aria-hidden="true" data-scramble>
+                {content.role}
+              </span>
             </p>
           </div>
           <p style={{ '--i': 5 }} className="max-w-prose enter-rise text-lead text-fg-muted">
@@ -85,7 +89,13 @@ export function HeroSection({ content, headingRef }: HeroSectionProps) {
               </ButtonLink>
             </span>
             <span data-pointer className="inline-block pointer-magnet">
-              <ButtonLink variant="secondary" href={CV_FILE.href} download className="group">
+              <ButtonLink
+                variant="secondary"
+                href={CV_FILE.href}
+                download
+                className="group"
+                data-cursor="Télécharger"
+              >
                 <Download
                   aria-hidden="true"
                   focusable="false"

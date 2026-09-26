@@ -1,5 +1,7 @@
 import { expect, test } from '@playwright/test';
 
+import { isMobileLayout } from './support/interactions.ts';
+
 test.describe('motion', () => {
   test('keeps the whole home page still when the visitor asks for reduced motion', async ({
     page,
@@ -76,5 +78,25 @@ test.describe('motion', () => {
       ),
     ).toEqual([]);
     expect(animatedProperties.length).toBeGreaterThan(0);
+  });
+
+  test('adds the cursor ring for a precise pointer only', async ({ page }) => {
+    const chunkRequests: string[] = [];
+    page.on('request', (request) => {
+      if (/desktop-enhancements-[\w-]+\.js$/.test(request.url())) {
+        chunkRequests.push(request.url());
+      }
+    });
+
+    await page.goto('/');
+    await page.mouse.move(400, 300);
+
+    if (isMobileLayout(page)) {
+      await page.waitForTimeout(2000);
+      expect(chunkRequests).toEqual([]);
+      await expect(page.locator('[data-cursor-follower]')).toHaveCount(0);
+    } else {
+      await expect(page.locator('[data-cursor-follower]')).toHaveAttribute('aria-hidden', 'true');
+    }
   });
 });

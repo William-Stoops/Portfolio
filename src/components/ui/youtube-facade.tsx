@@ -24,6 +24,7 @@ export function YouTubeFacade({ video, backdrop }: YouTubeFacadeProps) {
       <button
         type="button"
         onClick={open}
+        data-cursor="Lire"
         data-pointer
         className="group relative isolate flex aspect-video w-full pointer-tilt flex-col items-center justify-center gap-4 overflow-hidden rounded-lg border border-border bg-surface-raised p-6 text-center"
       >

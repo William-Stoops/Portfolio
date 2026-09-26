@@ -2,6 +2,7 @@ import { type RefObject, useEffect, useRef, useState } from 'react';
 import * as z from 'zod/mini';
 
 import { canRunHeroScene } from '@/features/hero/utils/scene-support';
+import { whenIdle } from '@/lib/when-idle';
 
 // The Network Information API is Chromium-only and untyped: parsed, not trusted.
 const dataSaverSchema = z.object({ connection: z.object({ saveData: z.boolean() }) });
@@ -9,22 +10,6 @@ const dataSaverSchema = z.object({ connection: z.object({ saveData: z.boolean() 
 function isDataSaved(): boolean {
   const result = dataSaverSchema.safeParse(navigator);
   return result.success && result.data.connection.saveData;
-}
-
-// After the page is up and idle: the scene never competes with the first paint or with
-// hydration, and its code (a separate chunk) is only fetched when it will run.
-function whenIdle(callback: () => void): () => void {
-  if ('requestIdleCallback' in window) {
-    const handle = window.requestIdleCallback(callback, { timeout: 2000 });
-    return () => {
-      window.cancelIdleCallback(handle);
-    };
-  }
-  // Safari has no requestIdleCallback.
-  const handle = setTimeout(callback, 300);
-  return () => {
-    clearTimeout(handle);
-  };
 }
 
 // Decides whether the hero's WebGL surface runs, and starts it on idle where it can. The

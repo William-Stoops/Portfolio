@@ -33,9 +33,9 @@ describe('HeroSection', () => {
   it('marks the English job title and states the profile', async () => {
     const screen = await renderHero();
 
-    await expect
-      .element(screen.getByText('Software Engineer & AI Engineer'))
-      .toHaveAttribute('lang', 'en');
+    const role = screen.container.querySelector('[lang="en"]');
+    expect(role?.querySelector('.sr-only')?.textContent).toBe('Software Engineer & AI Engineer');
+    expect(role?.querySelector('[data-scramble]')?.getAttribute('aria-hidden')).toBe('true');
     await expect.element(screen.getByText(HERO_CONTENT.tagline)).toBeVisible();
   });
 
