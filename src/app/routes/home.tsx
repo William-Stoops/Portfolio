@@ -1,13 +1,15 @@
 import { Suspense } from 'react';
 
 import { PageSection } from '@/components/layout/page-section';
+import { StickyChapters } from '@/components/layout/sticky-chapters';
+import { chapterHeadingId } from '@/utils/chapter-heading-id';
 import { SECTION_IDS } from '@/config/paths';
 import { SITE_TITLE } from '@/config/site';
 import { ContactSection } from '@/features/contact/components/contact-section';
 import { CONTACT_CONTENT } from '@/features/contact/data/contact-content';
-import { EducationOverview } from '@/features/education/components/education-overview';
+import { EducationList } from '@/features/education/components/education-list';
 import { EDUCATION_ENTRIES } from '@/features/education/data/education-entries';
-import { SkillsOverview } from '@/features/skills/components/skills-overview';
+import { SkillList } from '@/features/skills/components/skill-list';
 import { SKILL_GROUPS } from '@/features/skills/data/skill-groups';
 import { AiPracticeSection } from '@/features/ai-practice/components/ai-practice-section';
 import { AI_PRACTICE_CONTENT } from '@/features/ai-practice/data/ai-practice-content';
@@ -53,10 +55,25 @@ export function HomeRoute() {
       <Suspense>
         {/* Two features in one section: composition belongs to the route, not to a feature. */}
         <PageSection id={SECTION_IDS.skills} title="Compétences et formation">
-          <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,24rem),1fr))] gap-x-12 gap-y-10">
-            <SkillsOverview groups={SKILL_GROUPS} />
-            <EducationOverview entries={EDUCATION_ENTRIES} />
-          </div>
+          <StickyChapters
+            chapters={[
+              ...SKILL_GROUPS.map(({ id, name, skills }) => ({
+                id,
+                title: name,
+                content: <SkillList skills={skills} labelledBy={chapterHeadingId(id)} />,
+              })),
+              {
+                id: 'formation',
+                title: 'Formation',
+                content: (
+                  <EducationList
+                    entries={EDUCATION_ENTRIES}
+                    labelledBy={chapterHeadingId('formation')}
+                  />
+                ),
+              },
+            ]}
+          />
         </PageSection>
       </Suspense>
       <Suspense>
