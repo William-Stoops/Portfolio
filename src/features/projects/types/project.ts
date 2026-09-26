@@ -1,3 +1,4 @@
+import { type KeyFigure } from '@/components/ui/key-figures';
 import { type Period } from '@/types/period';
 import { type YouTubeVideo } from '@/types/youtube-video';
 
@@ -10,5 +11,7 @@ export type Project = {
   context: string;
   stack: readonly string[];
   highlights: readonly string[];
+  // The project in three figures, opening its case study.
+  figures: readonly KeyFigure[];
   video?: YouTubeVideo;
 };
