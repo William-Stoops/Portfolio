@@ -13,7 +13,7 @@ qu'aucun jeton existant ne reproduit.
 
 ## Décision
 
-- Quatre jetons `taegeuk-field`, `taegeuk-red`, `taegeuk-blue` et `taegeuk-ink`, **identiques
+- Quatre jetons `flag-field`, `taegeuk-red`, `taegeuk-blue` et `taegeuk-ink`, **identiques
   dans les deux thèmes** : un drapeau national ne change pas de couleurs avec le thème du site.
 - Ils ne servent **qu'au drapeau**, dessiné sur son propre fond blanc, jamais pour du texte.
 - Le test de la palette vérifie que le rouge, le bleu et le noir atteignent 3:1 sur le fond du

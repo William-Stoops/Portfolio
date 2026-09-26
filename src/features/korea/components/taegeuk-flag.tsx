@@ -9,7 +9,7 @@ export function TaegeukFlag() {
     <div data-flag aria-hidden="true" className="relative aspect-[3/2]">
       {/* The destination, outlined while the plane is on its way; the field covers it. */}
       <div className="absolute inset-0 rounded-md border border-dashed border-border-input" />
-      <div className="absolute inset-0 voyage-unfurl rounded-md border border-border bg-taegeuk-field" />
+      <div className="absolute inset-0 voyage-unfurl rounded-md border border-border bg-flag-field" />
       <svg viewBox="-12 -12 24 24" className="absolute top-1/4 left-1/3 h-1/2 w-1/3 voyage-turn">
         <g transform={TAEGEUK_ROTATION}>
           <circle r={12} className="fill-taegeuk-red" />

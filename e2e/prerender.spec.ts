@@ -40,8 +40,8 @@ test.describe('prerendered HTML', () => {
   }) => {
     const html = await (await request.get('/')).text();
 
-    expect(html).toContain('<section id="coree"');
-    expect(html).toContain('<span class="sr-only">Corée du Sud</span>');
+    expect(html).toContain('<li id="coree"');
+    expect(html).toContain('안녕하세요');
     expect(html).toContain('Ce que j’y ai entraîné');
   });
 

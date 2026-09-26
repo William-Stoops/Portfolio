@@ -1,4 +1,4 @@
-import { PATHS, SECTION_IDS } from '@/config/paths';
+import { JOURNEY_ANCHORS, PATHS, SECTION_IDS } from '@/config/paths';
 
 type NavItem = { label: string; href: string };
 
@@ -7,9 +7,9 @@ type NavItem = { label: string; href: string };
 export const NAV_ITEMS: readonly NavItem[] = [
   { label: 'À propos', href: `${PATHS.home}#${SECTION_IDS.about}` },
   { label: 'Parcours', href: `${PATHS.home}#${SECTION_IDS.experience}` },
-  { label: 'Projets', href: `${PATHS.home}#${SECTION_IDS.projects}` },
+  { label: 'Corée', href: `${PATHS.home}#${JOURNEY_ANCHORS.korea}` },
+  { label: 'Projets', href: `${PATHS.home}#${JOURNEY_ANCHORS.projects}` },
   { label: 'IA', href: `${PATHS.home}#${SECTION_IDS.aiPractice}` },
-  { label: 'Corée', href: `${PATHS.home}#${SECTION_IDS.korea}` },
   { label: 'Compétences', href: `${PATHS.home}#${SECTION_IDS.skills}` },
   { label: 'Contact', href: `${PATHS.home}#${SECTION_IDS.contact}` },
 ];

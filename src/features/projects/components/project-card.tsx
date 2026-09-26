@@ -22,12 +22,12 @@ export function ProjectCard({ project }: ProjectCardProps) {
         <p className="reveal text-small font-semibold tracking-[0.2em] text-fg-subtle uppercase">
           {formatPeriod(project.period)}
         </p>
-        <h3
+        <h4
           id={headingId}
           className="reveal font-display text-[clamp(3.5rem,1rem+10vw,9rem)] leading-none font-bold tracking-tighter"
         >
           {project.name}
-        </h3>
+        </h4>
         <p className="max-w-2xl reveal text-lead text-fg-muted">{project.tagline}</p>
       </header>
 

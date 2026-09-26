@@ -10,7 +10,8 @@ import { type KoreaContent } from '@/features/korea/types/korea-content';
 export const KOREA_CONTENT = {
   greeting: { korean: '안녕하세요', french: 'bonjour' },
   lead: 'Une année à Séoul, à Korea University, suivie en anglais : deep learning et computer vision.',
-  route: { from: 'France', to: { korean: '서울', french: 'Séoul' } },
+  route: { origin: { name: 'France' }, destination: { name: 'Séoul', korean: '서울' } },
+  homecoming: { farewell: { korean: '안녕히 계세요', french: 'au revoir' }, greeting: 'Bonjour.' },
   university: { korean: '고려대학교', name: 'Korea University' },
   figures: [
     { value: '61e', label: 'université mondiale, classement QS' },

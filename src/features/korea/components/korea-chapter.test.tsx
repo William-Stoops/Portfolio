@@ -1,20 +1,20 @@
 import { describe, expect, it } from 'vitest';
 import { render } from 'vitest-browser-react';
 
-import { KoreaSection } from '@/features/korea/components/korea-section';
+import { KoreaChapter } from '@/features/korea/components/korea-chapter';
 import { KOREA_CONTENT } from '@/features/korea/data/korea-content';
 import { expectNoAxeViolations } from '@/testing/expect-no-axe-violations';
 
 async function renderSection() {
-  return render(<KoreaSection content={KOREA_CONTENT} />);
+  return render(<KoreaChapter content={KOREA_CONTENT} />);
 }
 
-describe('KoreaSection', () => {
-  it('is a region named by its heading and reachable by the #coree anchor', async () => {
+describe('KoreaChapter', () => {
+  it('opens with the words of the year in Korean, drifting as decoration', async () => {
     const screen = await renderSection();
 
-    const region = screen.getByRole('region', { name: 'Corée du Sud' });
-    await expect.element(region).toHaveAttribute('id', 'coree');
+    const band = screen.container.querySelector('p[lang="ko"]')?.closest('[aria-hidden="true"]');
+    expect(band?.textContent).toContain('고려대학교');
   });
 
   it('greets in Korean, read once and marked as Korean for assistive tech and fonts', async () => {
@@ -44,7 +44,7 @@ describe('KoreaSection', () => {
     expect(figures.getByRole('listitem').elements()).toHaveLength(3);
   });
 
-  it('lists the models trained there', async () => {
+  it('lists the models trained there, at level 4 under the Seoul stop', async () => {
     const screen = await renderSection();
 
     const models = screen.getByRole('list', { name: 'Modèles entraînés à Korea University' });
@@ -52,7 +52,7 @@ describe('KoreaSection', () => {
       models
         .getByRole('listitem')
         .elements()
-        .map((item) => item.querySelector('h3')?.textContent),
+        .map((item) => item.querySelector('h4')?.textContent),
     ).toEqual(KOREA_CONTENT.models.map(({ name }) => name));
   });
 
