@@ -99,4 +99,42 @@ test.describe('motion', () => {
       await expect(page.locator('[data-cursor-follower]')).toHaveAttribute('aria-hidden', 'true');
     }
   });
+
+  test('keeps the large texts of the hero visible from the first paint (LCP)', async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'no-preference' });
+    await page.goto('/');
+
+    // A large text fading in from opacity 0 is not counted as painted until a later repaint
+    // (after hydration): it pushed the Largest Contentful Paint past its budget.
+    const fadingLargeTexts = await page.evaluate(() => {
+      const hero = document.querySelector('main section');
+      if (hero === null) {
+        return ['no hero'];
+      }
+      return [...hero.querySelectorAll<HTMLElement>('h1, p, span')]
+        .filter((element) => Number.parseFloat(getComputedStyle(element).fontSize) >= 20)
+        .filter((element) => {
+          const chain: Element[] = [];
+          for (
+            let node: Element | null = element;
+            node !== null && node !== hero;
+            node = node.parentElement
+          ) {
+            chain.push(node);
+          }
+          return chain.some((node) =>
+            node
+              .getAnimations()
+              .some(
+                (animation) =>
+                  animation.effect instanceof KeyframeEffect &&
+                  animation.effect.getKeyframes().some((keyframe) => 'opacity' in keyframe),
+              ),
+          );
+        })
+        .map((element) => element.textContent.slice(0, 40));
+    });
+
+    expect(fadingLargeTexts).toEqual([]);
+  });
 });

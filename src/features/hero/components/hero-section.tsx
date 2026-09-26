@@ -24,7 +24,7 @@ export function HeroSection({ content, headingRef }: HeroSectionProps) {
       <HeroScene />
       <div className="mx-auto grid w-full max-w-6xl flex-1 items-center gap-x-12 gap-y-16 px-gutter py-section lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
         <div className="flex flex-col gap-6">
-          <p className="enter-rise font-display text-h3 font-semibold">
+          <p className="enter-slide font-display text-h3 font-semibold">
             {content.greeting}
             <span className="inline-block enter-pop text-accent-fg">.</span>
           </p>
@@ -59,7 +59,7 @@ export function HeroSection({ content, headingRef }: HeroSectionProps) {
             <p
               lang="en"
               style={{ '--i': 4 }}
-              className="enter-rise font-display text-h2 font-semibold text-accent-fg"
+              className="enter-slide font-display text-h2 font-semibold text-accent-fg"
             >
               {/* Read once; the copy decodes itself on hover (desktop enhancements). */}
               <span className="sr-only">{content.role}</span>
@@ -68,7 +68,7 @@ export function HeroSection({ content, headingRef }: HeroSectionProps) {
               </span>
             </p>
           </div>
-          <p style={{ '--i': 5 }} className="max-w-prose enter-rise text-lead text-fg-muted">
+          <p style={{ '--i': 5 }} className="max-w-prose enter-slide text-lead text-fg-muted">
             {content.tagline}
           </p>
           <div style={{ '--i': 6 }} className="flex enter-rise flex-wrap gap-3">
@@ -110,7 +110,7 @@ export function HeroSection({ content, headingRef }: HeroSectionProps) {
               <li
                 key={value}
                 style={{ '--i': 7 + index }}
-                className="flex enter-rise flex-col gap-1 sm:px-5 sm:first:ps-0 sm:last:pe-0"
+                className="flex enter-slide flex-col gap-1 sm:px-5 sm:first:ps-0 sm:last:pe-0"
               >
                 <span className="font-display text-lead font-semibold whitespace-nowrap text-fg">
                   {value}

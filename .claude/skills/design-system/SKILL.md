@@ -126,7 +126,10 @@ in the UI means adding it to that test first.**
   no stock keyframe animation (spin, ping, bounce) is available.
 - **All motion is CSS, in `src/styles/motion.css`** (ADR 0015); no animation library.
   Use its utilities, do not write one-off keyframes in components:
-  - on load, once: `enter-rise`, `enter-letter`, `enter-pop`, `enter-zoom`;
+  - on load, once: `enter-rise`, `enter-slide`, `enter-letter`, `enter-pop`, `enter-zoom`;
+    **large texts above the fold take `enter-slide` (no fade)**: a text fading in from
+    opacity 0 is not counted as painted until a later repaint, after hydration, and it
+    pushed the home page's LCP to 2.5 s in CI (`motion.spec.ts` guards it);
   - scroll-driven: `reveal`, `reveal-grow-x/y`, `reveal-pop`, `reveal-shrink-x`
     (`--shrink-to`), `reveal-fill`, `rail-fill` (+ `rail-timeline`), `scroll-progress`,
     `scroll-settle`;
