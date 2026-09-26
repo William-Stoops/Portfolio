@@ -18,6 +18,13 @@ for (const colorScheme of COLOR_SCHEMES) {
       await page.emulateMedia({ colorScheme, reducedMotion: 'reduce' });
       await page.goto(route);
       await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+      // The page as a visitor sees it: a first key press renders the deferred sections
+      // (ADR 0018). Left as placeholders, their content overflows the placeholder's size
+      // into the footer, and axe measured links covering the form's button.
+      await page.keyboard.press('Shift');
+      if (route === '/') {
+        await expect(page.locator('html')).toHaveAttribute('data-render-all');
+      }
 
       const { violations } = await new AxeBuilder({ page }).withTags(AXE_TAGS).analyze();
 

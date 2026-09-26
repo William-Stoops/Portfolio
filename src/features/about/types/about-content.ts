@@ -1,5 +1,4 @@
-// Which drawing stands for the axis; the icon itself is chosen by the component.
-type AboutAxis = { title: string; description: string; icon: 'performance' | 'full-stack' | 'ai' };
+type AboutAxis = { title: string; description: string };
 
 // A decorative drawing of the figure, computed from its own numbers.
 type MetricVisual =
