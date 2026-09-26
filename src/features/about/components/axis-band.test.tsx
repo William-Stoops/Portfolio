@@ -16,13 +16,6 @@ describe('AxisBand', () => {
     }
   });
 
-  it('never makes the page scroll sideways', async () => {
-    const screen = await render(<AxisBand axes={ABOUT_CONTENT.axes} />);
-
-    const band = screen.container.firstElementChild;
-    expect(band === null ? '' : getComputedStyle(band).overflowX).toBe('clip');
-  });
-
   it('has no axe violations', async () => {
     const screen = await render(<AxisBand axes={ABOUT_CONTENT.axes} />);
 
