@@ -57,8 +57,9 @@ describe('YouTubeFacade', () => {
 
     await screen.getByRole('button', { name: 'Fermer la vidéo' }).click();
 
-    expect(screen.getByRole('dialog').elements()).toHaveLength(0);
-    expect(screen.container.querySelector('iframe')).toBeNull();
+    // The dialog's close event arrives asynchronously: wait for the player to go.
+    await expect.poll(() => screen.getByRole('dialog').elements()).toHaveLength(0);
+    await expect.poll(() => screen.container.querySelector('iframe')).toBeNull();
     await expect.element(playButton).toHaveFocus();
   });
 
@@ -69,8 +70,9 @@ describe('YouTubeFacade', () => {
 
     await userEvent.keyboard('{Escape}');
 
-    expect(screen.getByRole('dialog').elements()).toHaveLength(0);
-    expect(screen.container.querySelector('iframe')).toBeNull();
+    // The dialog's close event arrives asynchronously: wait for the player to go.
+    await expect.poll(() => screen.getByRole('dialog').elements()).toHaveLength(0);
+    await expect.poll(() => screen.container.querySelector('iframe')).toBeNull();
   });
 
   it('shows an optional backdrop behind the play button, as decoration', async () => {
