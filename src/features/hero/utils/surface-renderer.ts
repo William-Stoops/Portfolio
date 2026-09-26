@@ -27,6 +27,8 @@ uniform vec2 u_pointer;
 uniform float u_pointerStrength;
 uniform float u_calm;
 uniform float u_pointSize;
+uniform vec2 u_rippleOrigin;
+uniform float u_rippleAge;
 out float v_height;
 out float v_distance;
 
@@ -41,7 +43,10 @@ float surfaceHeight(vec2 p) {
 void main() {
   vec2 world = a_grid * vec2(${String(HALF_WIDTH)}, ${String(HALF_DEPTH)});
   float pointerDistance = distance(world, u_pointer);
-  float height = surfaceHeight(a_grid) + u_pointerStrength * 0.85 * exp(-pointerDistance * pointerDistance * 1.6);
+  // A click sends a ring across the surface: it travels outwards and dies down.
+  float rippleOffset = distance(world, u_rippleOrigin) - u_rippleAge * 2.6;
+  float ripple = 0.4 * exp(-u_rippleAge * 1.3) * sin(7.0 * rippleOffset) * smoothstep(0.7, 0.0, abs(rippleOffset));
+  float height = surfaceHeight(a_grid) + ripple + u_pointerStrength * 0.85 * exp(-pointerDistance * pointerDistance * 1.6);
   v_height = height;
   vec4 position = u_viewProjection * vec4(world.x, height, world.y, 1.0);
   v_distance = position.w;
@@ -83,6 +88,8 @@ type SurfaceFrame = {
   calm: number;
   // From -1 to 1: horizontal pointer position, for a slight camera parallax.
   parallax: number;
+  // The last click on the surface (world units) and the seconds since, if any.
+  ripple: { origin: readonly [number, number]; age: number } | null;
 };
 
 export type SurfaceRenderer = {
@@ -175,6 +182,8 @@ export function createSurfaceRenderer(canvas: HTMLCanvasElement): SurfaceRendere
     time: uniform('u_time'),
     pointer: uniform('u_pointer'),
     pointerStrength: uniform('u_pointerStrength'),
+    rippleOrigin: uniform('u_rippleOrigin'),
+    rippleAge: uniform('u_rippleAge'),
     calm: uniform('u_calm'),
     low: uniform('u_low'),
     high: uniform('u_high'),
@@ -200,7 +209,7 @@ export function createSurfaceRenderer(canvas: HTMLCanvasElement): SurfaceRendere
       gl.uniform3f(locations.low, ...low);
       gl.uniform3f(locations.high, ...high);
     },
-    draw({ time, pointer, pointerStrength, calm, parallax }) {
+    draw({ time, pointer, pointerStrength, calm, parallax, ripple }) {
       const aspect = canvas.width / Math.max(canvas.height, 1);
       const viewProjection = cameraFor(aspect, time, calm, parallax);
       inverseViewProjection = invertMatrix(viewProjection);
@@ -211,6 +220,9 @@ export function createSurfaceRenderer(canvas: HTMLCanvasElement): SurfaceRendere
       gl.uniform2f(locations.pointer, ...pointer);
       gl.uniform1f(locations.pointerStrength, pointerStrength);
       gl.uniform1f(locations.calm, calm);
+      gl.uniform2f(locations.rippleOrigin, ...(ripple?.origin ?? [0, 0]));
+      // Without a click, an age so large the ring has long died out.
+      gl.uniform1f(locations.rippleAge, ripple?.age ?? 1000);
       gl.uniform1i(locations.isPoint, 0);
       gl.drawElements(gl.LINES, indices.length, gl.UNSIGNED_SHORT, 0);
       // A second pass lights the vertices, in device pixels.
