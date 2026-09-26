@@ -1,10 +1,11 @@
+import { SITE_TAGLINE } from '@/config/site';
 import { type HeroContent } from '@/features/hero/types/hero-content';
 
 // Source: docs/content/cv-source.md (identity, profile, header keywords).
 export const HERO_CONTENT = {
   greeting: 'Bonjour',
   role: 'Software Engineer & AI Engineer',
-  tagline: 'Je décide d’une architecture, je la mesure, je la livre.',
+  tagline: SITE_TAGLINE,
   technologies: [
     'TypeScript',
     'Python',
