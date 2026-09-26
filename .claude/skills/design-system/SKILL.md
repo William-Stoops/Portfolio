@@ -178,6 +178,17 @@ variant="finale"`, loaded only when near).
   the picture. The NRJ Lille pair is set apart in depth (`scroll-float` on the smaller
   frame). Crops are chosen per container (`object-position`), centred on William.
   Sources live in `docs/content/images/`, derivatives come from `pnpm images`.
+- **The journey** (ADR 0021): the home page tells the years at Epitech, one stop a year,
+  along one flight path (`FlightLog`). The rail is dotted like the flights; behind a plane
+  riding the reading line (40 % down, the same line as the sticky chapters) it turns into a
+  solid trail, measured against the whole viewport (`view-timeline-inset: 0`). A stop lights
+  up as the plane reaches it: marker fills, a branch draws out, the title rises letter by
+  letter over its year in filigree (a pseudo-element, never page text). A sticky odometer
+  rolls the year with additive animations, one per stop. What a stop holds comes in from
+  the rail (translate only). Two flights are staged, pinned, in mirror (`FlightScene`): the
+  voyage east to Seoul and the way home west to France, each landing on its flag; the
+  rail's plane steps away during both. Durations that must feel the same whatever a stop's
+  length use fixed ranges (`cover 0% cover 6rem`), not percentages.
 - **Korea** (`features/korea`): the one section pinned as a scene. On a large, tall
   enough screen the voyage stage sticks while its track scrolls (`voyage-*`, one
   `--voyage` timeline): the plane flies the arc and lands on the taegeuk, the flag
