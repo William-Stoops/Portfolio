@@ -33,15 +33,13 @@ describe('AiPracticeSection', () => {
       .toBeVisible();
   });
 
-  it('sets each practice as a stop of the flight path, numbered as decoration', async () => {
+  it('sets each practice as a numbered chapter, off the flight path', async () => {
     const screen = await renderSection();
 
-    const stops = screen.getByRole('listitem').elements();
-    expect(stops).toHaveLength(AI_PRACTICE_CONTENT.items.length);
-    for (const stop of stops) {
-      expect(stop.querySelector('[data-stop-marker][aria-hidden="true"]')).not.toBeNull();
-    }
-    const numbers = stops.map((stop) => stop.querySelector('header p[aria-hidden="true"]'));
+    const rows = screen.getByRole('listitem').elements();
+    expect(rows).toHaveLength(AI_PRACTICE_CONTENT.items.length);
+    expect(screen.container.querySelector('[data-stop-marker]')).toBeNull();
+    const numbers = rows.map((row) => row.querySelector('header p[aria-hidden="true"]'));
     expect(numbers.map((number) => number?.textContent)).toEqual(['01', '02', '03']);
   });
 

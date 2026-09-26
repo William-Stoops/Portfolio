@@ -29,10 +29,7 @@ test.describe('main navigation', () => {
     await expect(page.getByRole('heading', { level: 2, name: 'Parcours' })).toBeInViewport();
   });
 
-  // Corée and Projets lead to stops of the journey, inside the Parcours section.
   for (const { link, heading, level, hash } of [
-    { link: 'Corée', heading: 'Séoul', level: 3, hash: 'coree' },
-    { link: 'Projets', heading: 'STAXX', level: 4, hash: 'projets' },
     {
       link: 'IA',
       heading: 'IA\u00A0: pratique personnelle et travaux académiques',

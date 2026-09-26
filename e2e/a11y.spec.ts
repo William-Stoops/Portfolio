@@ -24,6 +24,9 @@ for (const colorScheme of COLOR_SCHEMES) {
       await page.keyboard.press('Shift');
       if (route === '/') {
         await expect(page.locator('html')).toHaveAttribute('data-render-all');
+        // The journey's code loads on demand (ADR 0020): let it arrive and hydrate, or axe
+        // may measure nodes React is replacing (detached, they have no colour of their own).
+        await page.waitForLoadState('networkidle');
       }
 
       const { violations } = await new AxeBuilder({ page }).withTags(AXE_TAGS).analyze();

@@ -16,14 +16,14 @@ type FlightPathProps = {
   children: ReactNode;
 };
 
-// The whole page below the hero as one flight. One dotted rail runs under every section;
-// behind a plane riding the reading line it turns into a solid trail, and it lands at the
-// end of the page. Beside it, on large screens, a sticky column names where the reader is:
-// the section, or the year of the journey, each sliding in and out as its waypoint crosses
-// the reading line. Sections and stops set their markers on this rail (StopHeader), placed
-// from the variables this path defines (flight-path-layout). The plane steps away while a
-// flight scene flies its own. All of it is scroll-driven CSS and drawing, hidden from
-// assistive tech.
+// The flight path of the story (the journey), the only part of the page told in time. One
+// dotted rail runs along it; behind a plane riding the reading line it turns into a solid
+// trail, and it lands at the end, today. Beside it, on large screens, a sticky column names
+// where the reader is (the section, then each year), each label sliding in and out as its
+// waypoint crosses the reading line. The section and its stops set their markers on this
+// rail (StopHeader), placed from the variables this path defines (flight-path-layout). The
+// plane steps away while a flight scene flies its own. All of it is scroll-driven CSS and
+// drawing, hidden from assistive tech.
 export function FlightPath({ waypoints, children }: FlightPathProps) {
   return (
     <div
@@ -34,7 +34,7 @@ export function FlightPath({ waypoints, children }: FlightPathProps) {
           '--homecoming',
         ].join(', '),
       }}
-      className="relative flight-path-layout rail-timeline"
+      className="relative flight-path-layout"
     >
       <div aria-hidden="true" className="pointer-events-none absolute inset-0">
         <div className="relative mx-auto h-full max-w-6xl px-gutter">
@@ -63,12 +63,12 @@ export function FlightPath({ waypoints, children }: FlightPathProps) {
 
             <div
               data-flight-rail
-              className="absolute inset-y-0 start-[calc(var(--rail-x,0.5rem)-1px)] w-0.5"
+              className="absolute inset-y-(--spacing-section) start-[calc(var(--rail-x,0.5rem)-1px)] w-0.5 rail-timeline"
             >
               <div className="absolute inset-0 flight-path" />
               <div className="absolute inset-0 flight-log-fill rounded-full bg-accent" />
-              {/* The landing: where the path ends, at the contact. */}
-              <span className="absolute -start-[0.6875rem] bottom-16 size-6 rounded-full border-2 border-accent bg-canvas">
+              {/* The landing: where the path ends, today. */}
+              <span className="absolute -start-[0.6875rem] -bottom-3 size-6 rounded-full border-2 border-accent bg-canvas">
                 <span className="absolute inset-1 rounded-full bg-accent" />
               </span>
               {/* The plane rides the tip of the trail, on the reading line. */}
