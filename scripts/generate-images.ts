@@ -3,6 +3,11 @@ import { mkdir } from 'node:fs/promises';
 import sharp, { type Sharp } from 'sharp';
 
 import { PORTRAIT_PICTURE } from '../src/features/hero/data/portrait-picture.ts';
+import {
+  NRJ_EXPLANATION_PICTURE,
+  NRJ_INTERVIEW_PICTURE,
+  SUMMIT_PICTURE,
+} from '../src/features/projects/data/staxx-pictures.ts';
 import { type ImageFormat, type ResponsivePicture } from '../src/types/responsive-picture.ts';
 import { buildImageUrl } from '../src/utils/responsive-picture.ts';
 
@@ -12,6 +17,18 @@ const IMAGE_JOBS: readonly { source: URL; picture: ResponsivePicture }[] = [
   {
     source: new URL('../docs/content/images/william-stoops-portrait.jpg', import.meta.url),
     picture: PORTRAIT_PICTURE,
+  },
+  {
+    source: new URL('../docs/content/images/staxx-epitech-summit.jpg', import.meta.url),
+    picture: SUMMIT_PICTURE,
+  },
+  {
+    source: new URL('../docs/content/images/staxx-nrj-lille-interview.jpg', import.meta.url),
+    picture: NRJ_INTERVIEW_PICTURE,
+  },
+  {
+    source: new URL('../docs/content/images/staxx-nrj-lille-explanation.jpg', import.meta.url),
+    picture: NRJ_EXPLANATION_PICTURE,
   },
 ];
 

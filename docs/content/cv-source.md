@@ -82,6 +82,10 @@ https://www.youtube.com/watch?v=K_TsQ0Itoek&t=3741s (démarre à 1:02:21).
   catalogue : « 20 colliers Atlas pour du tube de 26 » retrouve la bonne référence malgré
   les fautes, via un dictionnaire d'alias que chaque correction utilisateur enrichit.
 
+Hors CV, fourni par William le 2026-09-26 avec ses photos (`docs/content/images/`) : la
+remise du trophée sur la scène de l'Epitech Summit, et le passage de l'équipe sur
+**NRJ Lille**, la radio régionale de NRJ, pour présenter STAXX.
+
 ## IA : pratique personnelle et travaux académiques
 
 - **Agents et MCP.** Agents de code au quotidien : décomposition de tâches, boucles

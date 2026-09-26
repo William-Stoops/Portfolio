@@ -37,6 +37,32 @@
   }
 }
 
+@keyframes expand {
+  from {
+    scale: 0.9;
+  }
+}
+
+@keyframes parallax-y {
+  from {
+    translate: 0 -5%;
+  }
+
+  to {
+    translate: 0 5%;
+  }
+}
+
+@keyframes float-up {
+  from {
+    translate: 0 3rem;
+  }
+
+  to {
+    translate: 0 -3rem;
+  }
+}
+
 @keyframes grow-x {
   from {
     scale: 0 1;
@@ -70,6 +96,24 @@
 
   to {
     translate: var(--drift-to) 0;
+  }
+}
+
+@keyframes chapter-swap {
+  0% {
+    opacity: 0;
+    translate: 0 2rem;
+  }
+
+  25%,
+  75% {
+    opacity: 1;
+    translate: 0 0;
+  }
+
+  100% {
+    opacity: 0;
+    translate: 0 -2rem;
   }
 }
 
@@ -172,6 +216,56 @@
       animation: letter-rise var(--ease-out) both;
       animation-timeline: view();
       animation-range: entry calc(var(--i, 0) * 1.5%) entry calc(70% + var(--i, 0) * 1.5%);
+    }
+  }
+}
+
+/*
+ * The same rise without the fade, for text that may already be on screen at load (the
+ * footer of a short page): a scroll-linked fade would leave it half transparent, below
+ * its contrast, until the visitor scrolls.
+ */
+@utility reveal-slide {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: slide-up var(--ease-out) both;
+      animation-timeline: view();
+      animation-range: entry calc(var(--i, 0) * 8%) entry calc(90% + var(--i, 0) * 8%);
+    }
+  }
+}
+
+/*
+  A photo that opens up as it arrives: its frame grows to full size while the image
+  inside drifts slower than the page. The image is enlarged just enough for the drift
+  never to show an edge, and only while the drift runs.
+*/
+@utility reveal-expand {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: expand var(--ease-out) both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 40%;
+    }
+  }
+}
+
+@utility scroll-parallax {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      scale: 1.12;
+      animation: parallax-y linear both;
+      animation-timeline: view();
+    }
+  }
+}
+
+/* A photo of a pair that rises faster than the page: the two frames part in depth. */
+@utility scroll-float {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: float-up linear both;
+      animation-timeline: view();
     }
   }
 }
@@ -301,6 +395,68 @@
       animation-timeline: view();
     }
   }
+}
+
+/*
+ * Sticky chapters (StickyChapters): the sticky column exists only on large screens, where
+ * scroll-driven animations and named timeline scopes run and motion is welcome. There,
+ * each chapter's heading is visually hidden (the column shows it); elsewhere the
+ * chapters simply stack with their headings.
+ */
+@utility chapters-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+
+  @media (min-width: 64rem) and (prefers-reduced-motion: no-preference) {
+    @supports (timeline-scope: none) and (animation-timeline: view()) {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+      timeline-scope: var(--scope);
+    }
+  }
+}
+
+@utility chapter-rail {
+  display: none;
+
+  @media (min-width: 64rem) and (prefers-reduced-motion: no-preference) {
+    @supports (timeline-scope: none) and (animation-timeline: view()) {
+      display: block;
+    }
+  }
+}
+
+@utility chapter-heading {
+  @media (min-width: 64rem) and (prefers-reduced-motion: no-preference) {
+    @supports (timeline-scope: none) and (animation-timeline: view()) {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+  }
+}
+
+@utility chapter-timeline {
+  view-timeline-name: var(--timeline);
+}
+
+/* The label of the chapter crossing the middle of the viewport rises in, then out. */
+@utility chapter-label {
+  opacity: 0;
+  animation: chapter-swap linear both;
+  animation-timeline: var(--timeline);
+  animation-range: cover 15% cover 85%;
+}
+
+@utility chapter-progress {
+  transform-origin: 50% 0;
+  animation: grow-y linear both;
+  animation-timeline: --chapters;
+  animation-range: contain 0% contain 100%;
 }
 
 /*

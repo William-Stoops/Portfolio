@@ -1,10 +1,12 @@
 import { describe, expect, it } from 'vitest';
+import { page } from 'vitest/browser';
 import { render } from 'vitest-browser-react';
 
 import { ExperienceCard } from '@/features/experience/components/experience-card';
 import { ExperienceSection } from '@/features/experience/components/experience-section';
 import { EXPERIENCES } from '@/features/experience/data/experiences';
 import { expectNoAxeViolations } from '@/testing/expect-no-axe-violations';
+import { formatPeriod } from '@/utils/format-period';
 
 async function renderSection() {
   return render(<ExperienceSection experiences={EXPERIENCES} />);
@@ -36,11 +38,24 @@ describe('ExperienceSection', () => {
     await expect.element(screen.getByText('Software Engineer')).toHaveAttribute('lang', 'en');
   });
 
-  it('shows each period', async () => {
+  it('gives each role its period, in its card', async () => {
     const screen = await renderSection();
 
-    await expect.element(screen.getByText('Depuis sept. 2025')).toBeVisible();
-    await expect.element(screen.getByText('2022 – 2024')).toBeVisible();
+    // Visible on small screens; on large ones read here and shown large beside the rail.
+    for (const period of ['Depuis sept. 2025', '2022 – 2024']) {
+      expect(
+        screen.getByRole('article').getByText(period, { exact: true }).elements(),
+      ).toHaveLength(1);
+    }
+  });
+
+  it('shows the period in the card on small screens', async () => {
+    await page.viewport(390, 800);
+    const screen = await renderSection();
+
+    await expect
+      .element(screen.getByRole('article').first().getByText('Depuis sept. 2025'))
+      .toBeVisible();
   });
 
   it('emphasises the passages the CV sets in bold, without leaking the markers', async () => {
@@ -67,6 +82,19 @@ describe('ExperienceSection', () => {
     expect(screen.container.querySelectorAll('[data-rail-step][aria-hidden="true"]')).toHaveLength(
       EXPERIENCES.length,
     );
+  });
+
+  it('sets each period large beside its role on large screens, read only once', async () => {
+    await page.viewport(1280, 800);
+    const screen = await render(<ExperienceSection experiences={EXPERIENCES} />);
+
+    const periods = [...screen.container.querySelectorAll('[data-period-marker]')];
+    expect(periods.map((period) => period.textContent)).toEqual(
+      EXPERIENCES.map(({ period }) => formatPeriod(period)),
+    );
+    for (const period of periods) {
+      expect(period.closest('[aria-hidden="true"]')).not.toBeNull();
+    }
   });
 
   it('has no axe violations', async () => {
