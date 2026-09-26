@@ -8,8 +8,6 @@ import { renderInRouter } from '@/testing/render-with-router';
 const SECTION_LINKS = [
   { name: 'À propos', href: '/#a-propos' },
   { name: 'Parcours', href: '/#parcours' },
-  { name: 'Corée', href: '/#coree' },
-  { name: 'Projets', href: '/#projets' },
   { name: 'IA', href: '/#ia' },
   { name: 'Compétences', href: '/#competences' },
   { name: 'Contact', href: '/#contact' },

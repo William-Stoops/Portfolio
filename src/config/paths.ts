@@ -15,7 +15,7 @@ export const SECTION_IDS = {
   contact: 'contact',
 } as const;
 
-// Fragment ids of stops inside the journey (the Parcours section), also in the navigation.
+// Fragment ids of stops inside the journey (the Parcours section), for links into it.
 export const JOURNEY_ANCHORS = {
   korea: 'coree',
   projects: 'projets',

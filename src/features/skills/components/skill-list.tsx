@@ -1,33 +1,27 @@
-import { formatTwoDigits } from '@/utils/format-two-digits';
-
 type SkillListProps = {
   skills: readonly string[];
   // The heading that names the list (the chapter's title).
   labelledBy: string;
 };
 
-// The skills of one group set large, one per ruled line, rising into place as they
-// scroll in. A line slides a little on hover and lights an accent dot: a quiet answer
-// under the pointer, on text that is not a control.
+// The skills of one group as one flowing line of words set large, separated by accent
+// dots, each sliding into place as it arrives. A word lights up under the pointer: a quiet
+// answer on text that is not a control.
 export function SkillList({ skills, labelledBy }: SkillListProps) {
   return (
-    <ul aria-labelledby={labelledBy} className="border-t border-border">
+    <ul aria-labelledby={labelledBy} className="flex flex-wrap items-center gap-x-3 gap-y-3">
       {skills.map((skill, index) => (
         <li
           key={skill}
-          style={{ '--i': index % 4 }}
-          className="group flex reveal items-center justify-between gap-6 border-b border-border py-4"
+          style={{ '--i': index % 6 }}
+          className="group flex reveal-slide items-center gap-3"
         >
-          <span className="font-display text-h3 font-semibold transition-[translate] duration-250 ease-out group-hover:translate-x-2">
+          <span className="font-display text-h3 font-semibold transition-colors duration-250 group-hover:text-accent-fg">
             {skill}
           </span>
-          {/* The line's number, and a dot lighting up on hover: decoration. */}
-          <span aria-hidden="true" className="flex shrink-0 items-center gap-3">
-            <span className="size-2 scale-0 rounded-full bg-accent transition-[scale] duration-250 ease-out group-hover:scale-100" />
-            <span className="text-small text-fg-subtle tabular-nums transition-colors duration-250 group-hover:text-accent-fg">
-              {formatTwoDigits(index + 1)}
-            </span>
-          </span>
+          {index < skills.length - 1 ? (
+            <span aria-hidden="true" className="size-1.5 rounded-full bg-accent" />
+          ) : null}
         </li>
       ))}
     </ul>
