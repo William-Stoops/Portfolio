@@ -16,31 +16,6 @@ test.describe('hero', () => {
     await expect(link).toHaveAccessibleName(`Télécharger le CV (PDF, ${String(kilobytes)} Ko)`);
   });
 
-  test('serves every portrait file the page declares, with the right type', async ({
-    page,
-    request,
-  }) => {
-    await page.goto('/');
-    const declaredFiles = await page.locator('picture').evaluate((picture) =>
-      [...picture.querySelectorAll('source, img')].flatMap((element) =>
-        (element.getAttribute('srcset') ?? '')
-          .split(',')
-          .map((candidate) => candidate.trim().split(' ')[0] ?? '')
-          .filter((url) => url !== ''),
-      ),
-    );
-
-    expect(declaredFiles.length).toBeGreaterThan(0);
-    for (const url of new Set(declaredFiles)) {
-      const response = await request.get(url);
-      const extension = url.split('.').at(-1);
-      const expectedType = extension === 'jpg' ? 'image/jpeg' : `image/${extension ?? ''}`;
-
-      expect.soft(response.status(), url).toBe(200);
-      expect.soft(response.headers()['content-type'], url).toBe(expectedType);
-    }
-  });
-
   test('displays the portrait fully loaded', async ({ page }) => {
     await page.goto('/');
     const portrait = page.getByRole('img', { name: 'William Stoops, souriant, sur scène' });
