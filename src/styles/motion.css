@@ -122,6 +122,59 @@
   }
 }
 
+@keyframes odometer-step {
+  from {
+    translate: 0 0;
+  }
+
+  to {
+    translate: 0 -1lh;
+  }
+}
+
+@keyframes plane-away {
+  0%,
+  100% {
+    scale: 1;
+  }
+
+  6%,
+  94% {
+    scale: 0;
+  }
+}
+
+@keyframes label-in {
+  from {
+    opacity: 0;
+    translate: 0 1.5rem;
+  }
+}
+
+@keyframes label-out {
+  to {
+    opacity: 0;
+    translate: 0 -1.5rem;
+  }
+}
+
+@keyframes year-float {
+  from {
+    translate: 0 -2.5rem;
+  }
+
+  to {
+    translate: 0 2.5rem;
+  }
+}
+
+@keyframes from-rail {
+  from {
+    translate: -2.5rem 0;
+    scale: 0.97;
+  }
+}
+
 @keyframes grow-x {
   from {
     scale: 0 1;
@@ -341,7 +394,7 @@
   @media (prefers-reduced-motion: no-preference) and (min-width: 64rem) and (min-height: 40rem) {
     @supports (animation-timeline: view()) {
       height: 260vh;
-      view-timeline: --voyage;
+      view-timeline-name: var(--scene-timeline, --voyage);
     }
   }
 }
@@ -373,7 +426,7 @@
       animation-range: cover 15% cover 60%;
 
       @media (min-width: 64rem) and (min-height: 40rem) {
-        animation-timeline: --voyage;
+        animation-timeline: var(--scene-timeline, --voyage);
         animation-range: contain 5% contain 45%;
       }
     }
@@ -389,7 +442,7 @@
       animation-range: cover 15% cover 60%;
 
       @media (min-width: 64rem) and (min-height: 40rem) {
-        animation-timeline: --voyage;
+        animation-timeline: var(--scene-timeline, --voyage);
         animation-range: contain 5% contain 45%;
       }
     }
@@ -407,8 +460,26 @@
       animation-range: entry 10% cover 35%;
 
       @media (min-width: 64rem) and (min-height: 40rem) {
-        animation-timeline: --voyage;
+        animation-timeline: var(--scene-timeline, --voyage);
         animation-range: contain 25% contain 42%;
+      }
+    }
+  }
+}
+
+/* The French flag's bands unfold from the top, one after the other (`--i`). */
+@utility band-unfurl {
+  transform-origin: 50% 0;
+
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: grow-y var(--ease-out) both;
+      animation-timeline: view();
+      animation-range: entry calc(10% + var(--i, 0) * 10%) cover calc(35% + var(--i, 0) * 5%);
+
+      @media (min-width: 64rem) and (min-height: 40rem) {
+        animation-timeline: var(--scene-timeline, --voyage);
+        animation-range: contain calc(25% + var(--i, 0) * 7%) contain calc(40% + var(--i, 0) * 7%);
       }
     }
   }
@@ -423,7 +494,7 @@
       animation-range: entry 20% cover 45%;
 
       @media (min-width: 64rem) and (min-height: 40rem) {
-        animation-timeline: --voyage;
+        animation-timeline: var(--scene-timeline, --voyage);
         animation-range: contain 38% contain 60%;
       }
     }
@@ -439,7 +510,7 @@
       animation-range: entry calc(20% + var(--i, 0) * 8%) cover calc(40% + var(--i, 0) * 4%);
 
       @media (min-width: 64rem) and (min-height: 40rem) {
-        animation-timeline: --voyage;
+        animation-timeline: var(--scene-timeline, --voyage);
         animation-range: contain calc(50% + var(--i, 0) * 4%) contain calc(60% + var(--i, 0) * 4%);
       }
     }
@@ -455,7 +526,7 @@
       animation-range: entry calc(var(--i, 0) * 6%) entry calc(80% + var(--i, 0) * 6%);
 
       @media (min-width: 64rem) and (min-height: 40rem) {
-        animation-timeline: --voyage;
+        animation-timeline: var(--scene-timeline, --voyage);
         animation-range: contain calc(70% + var(--i, 0) * 2%) contain calc(80% + var(--i, 0) * 2%);
       }
     }
@@ -557,6 +628,9 @@
 /* A rail filling while the element holding `rail-timeline` crosses the viewport. */
 @utility rail-timeline {
   view-timeline-name: --rail;
+  /* Measured against the whole viewport: by default a view timeline takes the document's
+     scroll padding (6rem for the sticky header) off it, and the trail overshot the plane. */
+  view-timeline-inset: 0;
 }
 
 @utility rail-fill {
@@ -567,6 +641,138 @@
       animation: grow-y linear both;
       animation-timeline: --rail;
       animation-range: cover 20% cover 70%;
+    }
+  }
+}
+
+/*
+ * The flight log (FlightLog): the journey's stops along one rail. Its stops are watched
+ * through the reading line (chapter-timeline) and named in its timeline scope, so the
+ * sticky odometer and labels beside them can follow them.
+ */
+@utility flight-log-layout {
+  timeline-scope: var(--scope);
+}
+
+/* The rail's path, dotted like the flight to Seoul. */
+@utility flight-path {
+  background-image: radial-gradient(circle, --theme(--color-border-input) 1px, transparent 1.5px);
+  background-size: 2px 10px;
+  background-position: center top;
+}
+
+/* The trail fills the path down to the reading line, 40 % down the viewport, where the
+   plane rides: from the rail's top reaching the line to its bottom reaching it. */
+@utility flight-log-fill {
+  transform-origin: 50% 0;
+
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: grow-y linear both;
+      animation-timeline: --rail;
+      animation-range: cover 60vh cover calc(100% - 40vh);
+    }
+  }
+}
+
+/*
+ * A stop's label beside the odometer: it rises in as the stop reaches the reading line and
+ * leaves as the stop ends, each over a fixed distance whatever the stop's length (two
+ * elements, one animation each: a single keyframe set would stretch with long stops).
+ */
+@utility stop-label-in {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: label-in var(--ease-out) both;
+      animation-timeline: var(--timeline);
+      animation-range: cover 0% cover 6rem;
+    }
+  }
+}
+
+@utility stop-label-out {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: label-out var(--ease-out) both;
+      animation-timeline: var(--timeline);
+      animation-range: cover calc(100% - 6rem) cover 100%;
+    }
+  }
+}
+
+/* A stop's marker fills as the plane reaches it, on the stop's own reading-line timeline. */
+@utility stop-reached {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: fill-in var(--ease-out) both;
+      animation-timeline: var(--timeline);
+      animation-range: cover 0% cover 3rem;
+    }
+  }
+}
+
+/* Then a branch draws out from the rail to the stop. */
+@utility stop-branch {
+  transform-origin: 0 50%;
+
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: grow-x var(--ease-out) both;
+      animation-timeline: var(--timeline);
+      animation-range: cover 0% cover 6rem;
+    }
+  }
+}
+
+/* The stop's year, in filigree, drifts slower than the page: a layer behind the title. */
+@utility year-drift {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: year-float linear both;
+      animation-timeline: view();
+    }
+  }
+}
+
+/* What a stop holds comes in from the rail's side as it enters (translate only: its text
+   keeps its contrast at every frame). */
+@utility reveal-from-rail {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: from-rail var(--ease-out) both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 70%;
+    }
+  }
+}
+
+/* While a flight scene flies its own plane, the rail's plane steps away (the timeline of
+   the scene is set on it: the voyage to Seoul, then the way home). */
+@utility flight-log-plane {
+  @media (prefers-reduced-motion: no-preference) and (min-width: 64rem) and (min-height: 40rem) {
+    @supports (animation-timeline: view()) {
+      animation: plane-away linear both;
+      animation-timeline: var(--away-timeline);
+      animation-range: contain 0% contain 100%;
+    }
+  }
+}
+
+/*
+ * The odometer rolls one step as each stop after the first reaches the reading line. One
+ * animation per stop (`--roll-names`, `--roll-timelines`, set by the component), all
+ * added together: after the third stop the digits have rolled by three lines.
+ */
+@utility odometer-roll {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation-name: var(--roll-names);
+      animation-duration: auto;
+      animation-timing-function: var(--ease-out);
+      animation-fill-mode: both;
+      animation-timeline: var(--roll-timelines);
+      animation-range: cover 0% cover 8rem;
+      animation-composition: add;
     }
   }
 }
