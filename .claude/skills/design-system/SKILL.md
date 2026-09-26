@@ -159,9 +159,7 @@ in the UI means adding it to that test first.**
   **ledger** between hairlines (figure, what it measures, its drawing), not cards.
 - **Section compositions**: STAXX is an editorial case study (a large figure row from
   `KeyFigures`, the pitch beside it); each experience period is set large beside the
-  timeline and sticks while its card is read; skills and education are **sticky
-  chapters** (`StickyChapters`: the chapter title stays while its content scrolls,
-  named view timelines, a stacked fallback with real headings); the contact section
+  timeline and sticks while its card is read; skills and education are chapters (stops) of one section on the flight path; the contact section
   closes the page on the same volatility surface, **settled** and centred (`HeroScene
 variant="finale"`, loaded only when near).
 - **Footer**: quiet and integrated. Hairline rules, grey links whose hover draws a
@@ -178,14 +176,21 @@ variant="finale"`, loaded only when near).
   the picture. The NRJ Lille pair is set apart in depth (`scroll-float` on the smaller
   frame). Crops are chosen per container (`object-position`), centred on William.
   Sources live in `docs/content/images/`, derivatives come from `pnpm images`.
-- **The journey** (ADR 0021): the home page tells the years at Epitech, one stop a year,
-  along one flight path (`FlightLog`). The rail is dotted like the flights; behind a plane
-  riding the reading line (40 % down, the same line as the sticky chapters) it turns into a
-  solid trail, measured against the whole viewport (`view-timeline-inset: 0`). A stop lights
-  up as the plane reaches it: marker fills, a branch draws out, the title rises letter by
-  letter over its year in filigree (a pseudo-element, never page text). A sticky odometer
-  rolls the year with additive animations, one per stop. What a stop holds comes in from
-  the rail (translate only). Two flights are staged, pinned, in mirror (`FlightScene`): the
+- **One flight** (ADR 0022): below the hero the whole page is one flight path
+  (`FlightPath`): one rail from the first section to the contact, where the plane lands;
+  one sticky column of waypoints (a section's number and name, or a year), each sliding in
+  and out as it crosses the reading line; one header for every section and stop
+  (`StopHeader`: marker, branch, rising title, filigree). Sections, years, practices and
+  skill chapters all sit on it. New content joins the path; nothing gets a column, a rail
+  or a header of its own. Every waypoint's timeline is named after its anchor: anchors
+  must be unique.
+- **The journey** (ADR 0021): the Parcours section tells the years at Epitech, one stop a
+  year (`FlightLog`). The rail is dotted like the flights; behind a plane riding the
+  reading line (40 % down the viewport) it turns into a solid trail, measured against the
+  whole viewport (`view-timeline-inset: 0`). A stop lights up as the plane reaches it:
+  marker fills, a branch draws out, the title rises letter by letter over its year in
+  filigree (a pseudo-element, never page text). What a stop holds comes in from the rail
+  (translate only). Two flights are staged, pinned, in mirror (`FlightScene`): the
   voyage east to Seoul and the way home west to France, each landing on its flag; the
   rail's plane steps away during both. Durations that must feel the same whatever a stop's
   length use fixed ranges (`cover 0% cover 6rem`), not percentages.
@@ -202,10 +207,10 @@ variant="finale"`, loaded only when near).
   parallax zoom, and set where they tell something (the stadium beside Korea University),
   not in a separate gallery. They move as a whole (`reveal-expand`, `scroll-float`).
 - **Nothing covers text being read**: stacked sticky cards cut the previous card's text
-  mid-sentence (AI practice, photo deck) and read as bugs; they were removed. Sticky
-  chapter titles follow a **reading line** (`view-timeline-inset`), so only one shows at a
-  time; seen through the whole viewport, two short chapters overlapped. E2E tests guard
-  both (`ai-practice.spec.ts`, `sticky-chapters.spec.ts`).
+  mid-sentence (AI practice, photo deck) and read as bugs; they were removed. The labels
+  beside the rail follow a **reading line** (`view-timeline-inset`), so only one shows at
+  a time; seen through the whole viewport, two short chapters overlapped. E2E tests guard
+  both (`ai-practice.spec.ts`, `flight-path.spec.ts`).
 - **Kinetic bands** are one primitive, `KineticBand` (`components/ui`): the axes band and
   the Korean band share it; a line in another language keeps its `lang`.
 - **Desktop touches** (`src/lib/desktop-enhancements.ts`, loaded on idle for a precise
