@@ -14,7 +14,7 @@ describe('Button', () => {
     const button = screen.getByRole('button', { name: 'Préparer l’e-mail' });
     await expect.element(button).toHaveAttribute('type', 'submit');
     const style = getComputedStyle(button.element());
-    expect(style.backgroundColor).toBe('rgb(185, 62, 11)');
+    expect(style.backgroundColor).toBe('rgb(29, 78, 216)');
     expect(button.element().getBoundingClientRect().height).toBeGreaterThanOrEqual(44);
   });
 });

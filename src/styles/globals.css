@@ -25,16 +25,25 @@
   --color-fg: light-dark(#1b1f2a, #e6e8ef);
   --color-fg-muted: light-dark(#5a6278, #a9b0c2);
   --color-fg-subtle: light-dark(#687083, #8b93a7);
-  --color-accent: light-dark(#b93e0b, #ff7a45);
-  --color-accent-hover: light-dark(#9a3412, #ff9466);
-  --color-accent-fg: light-dark(#b93e0b, #ff8a5b);
-  --color-accent-tint: light-dark(#fcede6, #3d2d2e);
+  /* A calm, trusted blue (ADR 0025): orange read as a warning. */
+  --color-accent: light-dark(#1d4ed8, #6ea8fe);
+  --color-accent-hover: light-dark(#1e40af, #93beff);
+  --color-accent-fg: light-dark(#1d4ed8, #7fb2ff);
+  --color-accent-tint: light-dark(#e8eefc, #26324a);
   --color-on-accent: light-dark(#ffffff, #12151c);
-  --color-focus: light-dark(#9a3412, #ff9466);
+  --color-focus: light-dark(#1e40af, #93beff);
   --color-border: light-dark(#e2e4ea, #3a4052);
   --color-border-input: light-dark(#767d8f, #7d869c);
   --color-error: light-dark(#b91c1c, #fca5a5);
   --color-success: light-dark(#166534, #4ade80);
+  /* Flags (ADR 0019, 0021): their official colours, the same in both themes. The white
+     field is shared; South Korea, then France. */
+  --color-flag-field: light-dark(#ffffff, #ffffff);
+  --color-taegeuk-red: light-dark(#cd2e3a, #cd2e3a);
+  --color-taegeuk-blue: light-dark(#0047a0, #0047a0);
+  --color-taegeuk-ink: light-dark(#000000, #000000);
+  --color-tricolore-blue: light-dark(#000091, #000091);
+  --color-tricolore-red: light-dark(#e1000f, #e1000f);
 }
 
 @theme {
@@ -90,15 +99,6 @@
     content-visibility: auto;
     contain-intrinsic-size: auto 60rem;
   }
-}
-
-/* Building-site stripes (STAXX video poster): tinted, never behind body text. */
-@utility hazard-stripes {
-  background-image: repeating-linear-gradient(
-    -45deg,
-    --theme(--color-accent-tint) 0 1.25rem,
-    transparent 1.25rem 2.5rem
-  );
 }
 
 @layer base {

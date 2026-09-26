@@ -20,7 +20,7 @@ describe('RouteErrorBoundary', () => {
       .element(screen.getByRole('heading', { level: 1, name: 'Une erreur est survenue' }))
       .toBeVisible();
     await expect
-      .element(screen.getByRole('link', { name: "Retour à l'accueil" }))
+      .element(screen.getByRole('link', { name: 'Retour à l’accueil' }))
       .toHaveAttribute('href', '/');
     await expect.poll(() => document.title).toBe('Erreur – William Stoops');
   });

@@ -2,21 +2,23 @@ import { type SkillGroup } from '@/features/skills/types/skill-group';
 
 // Source: docs/content/cv-source.md, "Compétences techniques" (wording and order).
 export const SKILL_GROUPS = [
-  { name: 'Langages', skills: ['TypeScript', 'Python', 'C++', 'Rust', 'SQL'] },
+  { id: 'langages', name: 'Langages', skills: ['TypeScript', 'Python', 'C++', 'Rust', 'SQL'] },
   {
-    name: 'Plateforme',
+    id: 'plateforme',
+    name: 'Frameworks et outils',
     skills: ['NestJS', 'Node.js', 'React', 'PostgreSQL', 'Prisma', 'Drizzle', 'Docker', 'CI/CD'],
   },
   {
-    name: 'IA',
+    id: 'ia',
+    name: 'IA et data',
     skills: [
       'LLM OpenAI et Anthropic',
-      'function calling',
+      'Function calling',
       'JSON Schema',
-      'agents',
+      'Agents',
       'MCP',
       'Hugging Face',
-      'apprentissage par transfert',
+      'Apprentissage par transfert',
       'CNN',
       'YOLO',
       'pandas',
