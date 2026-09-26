@@ -149,9 +149,10 @@ in the UI means adding it to that test first.**
 - **Titles and sign-off**: section titles and the footer's giant name have letters that
   rise with the scroll (`reveal-letter`), behind a visually hidden copy.
 - **Desktop touches** (`src/lib/desktop-enhancements.ts`, loaded on idle for a precise
-  pointer): a cursor ring that trails the pointer (the native cursor stays) and names the
-  action under it from `data-cursor` ("Lire", "Écrire", "Télécharger"); `[data-scramble]`
-  texts decode themselves on hover (aria-hidden copies only).
+  pointer): a cursor ring that trails the pointer (the native cursor stays) and **gives
+  way** over links and buttons, whose own hover answers; `[data-scramble]` texts decode
+  themselves on hover (aria-hidden copies only). Never put anything over a control's
+  text: an accent disc labelled "Télécharger" over the CV button read as very cheap.
 - Stagger siblings with an inline `style={{ '--i': index }}` (typed by
   `src/types/css-custom-properties.d.ts`).
 - Every utility sits behind `prefers-reduced-motion: no-preference`, scroll-driven ones

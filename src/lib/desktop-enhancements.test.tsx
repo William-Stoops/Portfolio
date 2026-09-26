@@ -51,18 +51,20 @@ describe('startDesktopEnhancements', () => {
     expect(cursor.style.translate).toBe('200px 120px');
   });
 
-  it('names the action of the element under the pointer', async () => {
+  it('gives way over a link or a button, never covering its text', async () => {
     const screen = await render(
-      <a href="#video" data-cursor="Lire">
-        Vidéo
-      </a>,
+      <>
+        <a href="#cv">Télécharger le CV</a>
+        <p>Texte</p>
+      </>,
     );
     stop = startDesktopEnhancements();
 
     movePointer(screen.getByRole('link').element(), 10, 10);
+    expect(cursorElement().hasAttribute('data-over-control')).toBe(true);
+    movePointer(screen.getByText('Texte').element(), 10, 40);
 
-    await expect.poll(() => cursorElement().textContent).toBe('Lire');
-    expect(cursorElement().hasAttribute('data-active')).toBe(true);
+    expect(cursorElement().hasAttribute('data-over-control')).toBe(false);
   });
 
   it('decodes a scrambled text back to itself when hovered', async () => {

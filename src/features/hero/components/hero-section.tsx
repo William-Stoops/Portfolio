@@ -89,13 +89,7 @@ export function HeroSection({ content, headingRef }: HeroSectionProps) {
               </ButtonLink>
             </span>
             <span data-pointer className="inline-block pointer-magnet">
-              <ButtonLink
-                variant="secondary"
-                href={CV_FILE.href}
-                download
-                className="group"
-                data-cursor="Télécharger"
-              >
+              <ButtonLink variant="secondary" href={CV_FILE.href} download className="group">
                 <Download
                   aria-hidden="true"
                   focusable="false"

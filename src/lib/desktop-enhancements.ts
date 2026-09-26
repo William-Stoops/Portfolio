@@ -1,31 +1,36 @@
 // Touches for a precise hovering pointer, loaded on demand (useDesktopEnhancements): a
-// cursor ring that follows the pointer and names the action under it, and texts that
-// decode themselves when hovered. Both are decoration: the native cursor stays, and the
+// cursor ring that trails the pointer and gives way over what can be clicked, and texts
+// that decode themselves when hovered. Both are decoration: the native cursor stays, and the
 // decoded texts are aria-hidden copies of text read elsewhere.
 
 // Share of the remaining distance the ring covers per frame: a soft trail, no lag.
 const CURSOR_EASING = 0.22;
 const SCRAMBLE_DURATION_MS = 650;
 const SCRAMBLE_GLYPHS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789<>/{}[]=+*#';
-// What the ring reacts to; fields hide it so it never covers the caret.
-const INTERACTIVE_SELECTOR = 'a, button, [data-cursor]';
+const INTERACTIVE_SELECTOR = 'a, button';
 const FIELD_SELECTOR = 'input, textarea, select';
+
+// The ring never covers what the visitor reads: over a link or a button, whose own hover
+// already answers, it fades away.
+function isInteractive(element: Element | null): boolean {
+  return (element?.closest(INTERACTIVE_SELECTOR) ?? null) !== null;
+}
 
 function startCursorFollower(): () => void {
   const cursor = document.createElement('div');
   cursor.setAttribute('data-cursor-follower', '');
   cursor.setAttribute('aria-hidden', 'true');
   cursor.className =
-    'pointer-events-none fixed top-0 left-0 z-(--z-cursor) -mt-4 -ml-4 grid size-8 place-items-center overflow-hidden rounded-full border-2 border-accent text-[0] font-semibold whitespace-nowrap text-on-accent opacity-0 transition-[opacity,width,height,margin,background-color,font-size] duration-250 ease-out data-active:-mt-6 data-active:-ml-6 data-active:size-12 data-labelled:-mt-9 data-labelled:-ml-9 data-labelled:size-18 data-labelled:bg-accent data-labelled:text-small data-visible:opacity-100';
+    'group pointer-events-none fixed top-0 left-0 z-(--z-cursor) opacity-0 transition-opacity duration-250 ease-out data-visible:opacity-100';
+  const ring = document.createElement('span');
+  ring.className =
+    'absolute -top-4 -left-4 size-8 rounded-full border-2 border-accent transition-[opacity,scale] duration-250 ease-out group-data-over-control:scale-50 group-data-over-control:opacity-0';
+  cursor.append(ring);
   document.body.append(cursor);
 
   let position: [number, number] | null = null;
   let target: [number, number] = [0, 0];
   let frameHandle = 0;
-
-  function setFlag(name: string, isOn: boolean): void {
-    cursor.toggleAttribute(`data-${name}`, isOn);
-  }
 
   function frame(): void {
     const [x, y] = position ?? target;
@@ -44,7 +49,7 @@ function startCursorFollower(): () => void {
     target = [event.clientX, event.clientY];
     // The first position is taken at once: the ring does not fly in from a corner.
     position ??= target;
-    setFlag('visible', true);
+    cursor.toggleAttribute('data-visible', true);
     if (frameHandle === 0) {
       frameHandle = requestAnimationFrame(frame);
     }
@@ -52,16 +57,13 @@ function startCursorFollower(): () => void {
 
   function handlePointerOver(event: PointerEvent): void {
     const element = event.target instanceof Element ? event.target : null;
-    const interactive = element?.closest<HTMLElement>(INTERACTIVE_SELECTOR) ?? null;
-    const label = interactive?.getAttribute('data-cursor') ?? '';
-    cursor.textContent = label;
-    setFlag('active', interactive !== null);
-    setFlag('labelled', label !== '');
-    setFlag('visible', element?.closest(FIELD_SELECTOR) === null || element === null);
+    cursor.toggleAttribute('data-over-control', isInteractive(element));
+    // Over a text field it steps aside, so it never covers the caret.
+    cursor.toggleAttribute('data-visible', (element?.closest(FIELD_SELECTOR) ?? null) === null);
   }
 
   function handlePointerLeave(): void {
-    setFlag('visible', false);
+    cursor.toggleAttribute('data-visible', false);
   }
 
   document.addEventListener('pointermove', handlePointerMove, { passive: true });
