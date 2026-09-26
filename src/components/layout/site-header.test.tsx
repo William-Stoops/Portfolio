@@ -8,6 +8,7 @@ import { renderInRouter } from '@/testing/render-with-router';
 const SECTION_LINKS = [
   { name: 'À propos', href: '/#a-propos' },
   { name: 'Parcours', href: '/#parcours' },
+  { name: 'Corée', href: '/#coree' },
   { name: 'Projets', href: '/#projets' },
   { name: 'IA', href: '/#ia' },
   { name: 'Compétences', href: '/#competences' },
@@ -46,6 +47,17 @@ describe('SiteHeader', () => {
       ).toEqual(SECTION_LINKS);
       await expect.element(screen.getByRole('group', { name: 'Thème' })).toBeVisible();
       expect(screen.getByRole('button', { name: 'Menu' }).elements()).toHaveLength(0);
+    });
+
+    it('keeps every section link on one line, from the narrowest large screen', async () => {
+      const screen = await renderInRouter(<SiteHeader />);
+
+      const tops = screen
+        .getByRole('navigation', { name: 'Navigation principale' })
+        .getByRole('link')
+        .elements()
+        .map((link) => link.getBoundingClientRect().top);
+      expect(new Set(tops).size).toBe(1);
     });
 
     it('has no axe violations', async () => {

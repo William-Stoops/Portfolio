@@ -26,12 +26,22 @@ function applyThemeColors(renderer: SurfaceRenderer, canvas: HTMLCanvasElement):
 // Draws the surface while the hero is on screen, feeds it the pointer, the scroll and the
 // theme, and returns the function that stops and cleans everything. Null without WebGL2:
 // the static hero stays.
-export function startHeroScene(canvas: HTMLCanvasElement): (() => void) | null {
-  const renderer = createSurfaceRenderer(canvas);
-  return renderer === null ? null : runScene(renderer, canvas);
+export function startHeroScene(
+  canvas: HTMLCanvasElement,
+  { isSettled }: { isSettled: boolean },
+): (() => void) | null {
+  const renderer = createSurfaceRenderer(canvas, isSettled ? 'centre' : 'right');
+  return renderer === null ? null : runScene(renderer, canvas, isSettled);
 }
 
-function runScene(renderer: SurfaceRenderer, canvas: HTMLCanvasElement): () => void {
+// A settled scene (the finale) keeps a calm surface instead of flattening with the scroll.
+const SETTLED_CALM = 0.45;
+
+function runScene(
+  renderer: SurfaceRenderer,
+  canvas: HTMLCanvasElement,
+  isSettled: boolean,
+): () => void {
   const startTime = performance.now();
   let frameHandle = 0;
   let isVisible = true;
@@ -63,7 +73,9 @@ function runScene(renderer: SurfaceRenderer, canvas: HTMLCanvasElement): () => v
       time: (now - startTime) / 1000,
       pointer,
       pointerStrength,
-      calm: Math.min(window.scrollY / Math.max(canvas.clientHeight, 1), 1),
+      calm: isSettled
+        ? SETTLED_CALM
+        : Math.min(window.scrollY / Math.max(canvas.clientHeight, 1), 1),
       parallax,
       ripple:
         ripple === null ? null : { origin: ripple.origin, age: (now - ripple.startTime) / 1000 },

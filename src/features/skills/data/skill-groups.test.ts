@@ -6,8 +6,9 @@ import { SKILL_GROUPS } from '@/features/skills/data/skill-groups';
 describe('skill groups', () => {
   it('lists the three groups of the CV with their skills, in order', () => {
     expect(SKILL_GROUPS).toEqual([
-      { name: 'Langages', skills: ['TypeScript', 'Python', 'C++', 'Rust', 'SQL'] },
+      { id: 'langages', name: 'Langages', skills: ['TypeScript', 'Python', 'C++', 'Rust', 'SQL'] },
       {
+        id: 'plateforme',
         name: 'Plateforme',
         skills: [
           'NestJS',
@@ -21,6 +22,7 @@ describe('skill groups', () => {
         ],
       },
       {
+        id: 'ia',
         name: 'IA',
         skills: [
           'LLM OpenAI et Anthropic',
