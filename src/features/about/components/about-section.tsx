@@ -1,10 +1,11 @@
 import { Bot, Gauge, Layers } from 'lucide-react';
-import { type ReactNode } from 'react';
+import { Fragment, type ReactNode } from 'react';
 
 import { PageSection } from '@/components/layout/page-section';
 import { SECTION_IDS } from '@/config/paths';
 import { MetricVisual } from '@/features/about/components/metric-visual';
 import { type AboutContent } from '@/features/about/types/about-content';
+import { splitIntoWords } from '@/utils/split-text';
 
 type AboutSectionProps = { content: AboutContent };
 
@@ -17,13 +18,27 @@ const AXIS_ICONS: Readonly<Record<AboutContent['axes'][number]['icon'], ReactNod
 };
 
 export function AboutSection({ content }: AboutSectionProps) {
+  const profileWords = splitIntoWords(content.profile);
+
   return (
     <PageSection
       id={SECTION_IDS.about}
       title="À propos"
       lead={
-        <p className="max-w-4xl reveal font-display text-h3 font-medium text-fg">
-          {content.profile}
+        // Inked in word by word as it is read (motion.css); the text itself stays whole
+        // and at full contrast underneath.
+        <p
+          style={{ '--n': profileWords.length }}
+          className="max-w-5xl font-display text-h3 font-medium text-fg ink-timeline"
+        >
+          {profileWords.map(({ text, index }) => (
+            <Fragment key={index}>
+              {index > 0 ? ' ' : null}
+              <span data-word style={{ '--i': index }} className="reveal-ink">
+                {text}
+              </span>
+            </Fragment>
+          ))}
         </p>
       }
     >

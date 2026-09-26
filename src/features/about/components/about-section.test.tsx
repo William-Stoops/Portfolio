@@ -24,6 +24,14 @@ describe('AboutSection', () => {
     await expect.element(screen.getByText(ABOUT_CONTENT.profile)).toBeVisible();
   });
 
+  it('sets the profile word by word, so each word can be inked in as it is read', async () => {
+    const screen = await renderAbout();
+
+    const profile = screen.getByText(ABOUT_CONTENT.profile).element();
+    const words = Array.from(profile.querySelectorAll('[data-word]'), (word) => word.textContent);
+    expect(words.join(' ')).toBe(ABOUT_CONTENT.profile);
+  });
+
   it('lists the three axes with level-3 headings', async () => {
     const screen = await renderAbout();
 
