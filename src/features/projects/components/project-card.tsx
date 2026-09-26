@@ -8,11 +8,10 @@ import { formatPeriod } from '@/utils/format-period';
 
 type ProjectCardProps = { project: Project };
 
-// A case study rather than a card: the period as a small overline, the name set huge, the
-// tagline, the project in three figures, the photo of the win, the pitch video, large,
-// beside the story, and the project on the radio.
-// The container query (on the list item) puts video and story side by side once the
-// study itself is wide enough.
+// A case study rather than a card, told in the order it happened: the period as a small
+// overline, the name set huge, the tagline, the project in three figures and in its own
+// words, then the radio, the pitch and the win it brought. The pitch is the video, on the
+// frame it opens on; the photo of the trophy answers it.
 export function ProjectCard({ project }: ProjectCardProps) {
   const headingId = `${project.id}-titre`;
 
@@ -37,59 +36,24 @@ export function ProjectCard({ project }: ProjectCardProps) {
         entrance="reveal"
       />
 
-      {project.photo === undefined ? null : (
-        // The moment the figures above stand for, across the whole study. The caption
-        // sits in a notch cut into the photo, on the page's own background: its contrast
-        // never depends on the picture.
-        <figure className="relative reveal-expand">
-          <div className="overflow-clip rounded-lg">
-            <ResponsiveImage
-              picture={project.photo.picture}
-              alt={project.photo.alt}
-              sizes="(min-width: 72rem) 67rem, 94vw"
-              loading="lazy"
-              // On a narrow frame, centred on William and the trophy rather than the group.
-              className="block aspect-[4/5] w-full scroll-parallax object-cover object-[35%_20%] sm:aspect-[3/2] sm:object-[50%_20%] @4xl:aspect-video"
-            />
-          </div>
-          <figcaption className="absolute start-0 bottom-0 flex flex-col gap-1 rounded-se-lg bg-canvas pe-6 pt-4 sm:pe-10 sm:pt-5">
-            <span className="text-small font-semibold tracking-[0.2em] text-accent-fg uppercase">
-              {project.photo.place}
-            </span>
-            <span className="font-display text-h3 font-semibold">{project.photo.caption}</span>
-          </figcaption>
-        </figure>
-      )}
-
-      <div className="grid gap-10 @4xl:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] @4xl:items-start">
-        {project.video === undefined ? null : (
-          <div className="reveal">
-            <YouTubeFacade
-              video={project.video}
-              // A building-site poster for a construction supplies platform.
-              backdrop={<span className="block size-full hazard-stripes" />}
-            />
-          </div>
-        )}
-        <div className="flex flex-col gap-5">
-          <p className="reveal text-fg-muted">
-            <EmphasizedText text={project.context} />
-          </p>
-          <ul className="flex list-disc flex-col gap-3 ps-5 marker:text-accent-fg">
-            {project.highlights.map((highlight, index) => (
-              <li key={highlight} style={{ '--i': index }} className="reveal text-fg-muted">
-                <EmphasizedText text={highlight} />
-              </li>
-            ))}
-          </ul>
-          <ul aria-label="Technologies utilisées" className="flex reveal flex-wrap gap-2">
-            {project.stack.map((technology) => (
-              <li key={technology}>
-                <Badge>{technology}</Badge>
-              </li>
-            ))}
-          </ul>
-        </div>
+      <div className="flex max-w-3xl flex-col gap-5">
+        <p className="reveal text-fg-muted">
+          <EmphasizedText text={project.context} />
+        </p>
+        <ul className="flex list-disc flex-col gap-3 ps-5 marker:text-accent-fg">
+          {project.highlights.map((highlight, index) => (
+            <li key={highlight} style={{ '--i': index }} className="reveal text-fg-muted">
+              <EmphasizedText text={highlight} />
+            </li>
+          ))}
+        </ul>
+        <ul aria-label="Technologies utilisées" className="flex reveal flex-wrap gap-2">
+          {project.stack.map((technology) => (
+            <li key={technology}>
+              <Badge>{technology}</Badge>
+            </li>
+          ))}
+        </ul>
       </div>
 
       {project.press === undefined ? null : (
@@ -121,6 +85,48 @@ export function ProjectCard({ project }: ProjectCardProps) {
               {project.press.label} · {project.press.outlet}
             </span>
             <span className="text-lead">{project.press.summary}</span>
+          </figcaption>
+        </figure>
+      )}
+
+      {project.pitch === undefined ? null : (
+        <figure className="flex flex-col gap-5">
+          <figcaption className="flex reveal-slide flex-col gap-2">
+            <span className="text-small font-semibold tracking-[0.2em] text-accent-fg uppercase">
+              {project.pitch.label}
+            </span>
+            <span className="font-display text-h3 font-semibold text-balance">
+              {project.pitch.caption}
+            </span>
+          </figcaption>
+          <YouTubeFacade
+            video={project.pitch.video}
+            // The study's width: the whole content column once the page reaches its widest.
+            poster={{ picture: project.pitch.poster, sizes: '(min-width: 72rem) 50rem, 94vw' }}
+          />
+        </figure>
+      )}
+
+      {project.photo === undefined ? null : (
+        // The win the pitch brought, across the whole study. The caption sits in a notch
+        // cut into the photo, on the page's own background: its contrast never depends on
+        // the picture.
+        <figure className="relative reveal-expand">
+          <div className="overflow-clip rounded-lg">
+            <ResponsiveImage
+              picture={project.photo.picture}
+              alt={project.photo.alt}
+              sizes="(min-width: 72rem) 67rem, 94vw"
+              loading="lazy"
+              // On a narrow frame, centred on William and the trophy rather than the group.
+              className="block aspect-[4/5] w-full scroll-parallax object-cover object-[35%_20%] sm:aspect-[3/2] sm:object-[50%_20%] @4xl:aspect-video"
+            />
+          </div>
+          <figcaption className="absolute start-0 bottom-0 flex flex-col gap-1 rounded-se-lg bg-canvas pe-6 pt-4 sm:pe-10 sm:pt-5">
+            <span className="text-small font-semibold tracking-[0.2em] text-accent-fg uppercase">
+              {project.photo.place}
+            </span>
+            <span className="font-display text-h3 font-semibold">{project.photo.caption}</span>
           </figcaption>
         </figure>
       )}

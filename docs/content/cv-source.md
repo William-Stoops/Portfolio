@@ -86,6 +86,10 @@ Hors CV, fourni par William le 2026-09-26 avec ses photos (`docs/content/images/
 remise du trophée sur la scène de l'Epitech Summit, et le passage de l'équipe sur
 **NRJ Lille**, la radio régionale de NRJ, pour présenter STAXX.
 
+Affiche de la vidéo, avec l'accord de William le 2026-09-26 : la première image du pitch,
+à 1:02:21, capturée depuis la vidéo en 1920 × 1080 (`docs/content/images/staxx-pitch.jpg`).
+Légende : « Devant 300 personnes, sur la scène de l'Epitech Summit. »
+
 ## IA : pratique personnelle et travaux académiques
 
 - **Agents et MCP.** Agents de code au quotidien : décomposition de tâches, boucles

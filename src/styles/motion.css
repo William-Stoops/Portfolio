@@ -231,6 +231,22 @@
   }
 }
 
+@keyframes letterbox-open {
+  from {
+    scale: 1 1;
+  }
+
+  to {
+    scale: 1 0;
+  }
+}
+
+@keyframes lens-settle {
+  from {
+    scale: 1.15;
+  }
+}
+
 @keyframes theme-reveal {
   from {
     clip-path: circle(0 at var(--theme-reveal-x, 50%) var(--theme-reveal-y, 0));
@@ -356,6 +372,48 @@
       animation: float-up linear both;
       animation-timeline: view();
     }
+  }
+}
+
+/*
+ * A video poster opens like a film (YouTubeFacade): as its frame comes into view, the
+ * letterbox bars draw back and the picture settles. Both run on the frame's own view, named
+ * on the frame. Without scroll-driven animations or with reduced motion, no bars, no zoom.
+ */
+@utility poster-timeline {
+  view-timeline-name: --poster;
+}
+
+@utility letterbox-bar {
+  scale: 1 0;
+
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: letterbox-open var(--ease-out) both;
+      animation-timeline: --poster;
+      animation-range: entry 40% cover 50%;
+    }
+  }
+}
+
+@utility poster-settle {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: lens-settle var(--ease-out) both;
+      animation-timeline: --poster;
+      animation-range: entry 40% cover 50%;
+    }
+  }
+}
+
+/*
+ * The frame a video morph pairs (useVideoDialog sets `--morph-name` on the poster and on
+ * the player's stage). Named during that transition only: a theme switch captures the
+ * poster with the rest of the page.
+ */
+@utility video-morph-frame {
+  :root:active-view-transition-type(video-morph) & {
+    view-transition-name: var(--morph-name, none);
   }
 }
 
@@ -867,7 +925,10 @@
 
 @utility pointer-magnet {
   @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
-    transform: translate(calc(var(--pointer-rx, 0) * 0.4rem), calc(var(--pointer-ry, 0) * 0.4rem));
+    transform: translate(
+      calc(var(--pointer-rx, 0) * var(--magnet-reach, 0.4rem)),
+      calc(var(--pointer-ry, 0) * var(--magnet-reach, 0.4rem))
+    );
     transition: transform 250ms var(--ease-out);
   }
 }
@@ -917,4 +978,18 @@
 
 ::view-transition-new(root) {
   animation: theme-reveal 650ms var(--ease-out);
+}
+
+/*
+ * Video morph (useVideoDialog): the poster's frame grows into the player's, or back, while
+ * the dialog fades in over the page, or the page over the dialog. Typed, so the theme
+ * switch keeps its reveal.
+ */
+:root:active-view-transition-type(video-morph)::view-transition-group(*) {
+  animation-duration: 450ms;
+  animation-timing-function: var(--ease-out);
+}
+
+:root:active-view-transition-type(video-morph)::view-transition-new(root) {
+  animation: fade-in 450ms var(--ease-out);
 }

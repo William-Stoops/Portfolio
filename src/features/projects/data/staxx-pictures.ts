@@ -5,6 +5,16 @@ import type { ResponsivePicture } from '@/types/responsive-picture';
 // Generated from docs/content/images/staxx-*.jpg, from William's originals (the NRJ
 // explanation photo only exists at 800 px wide).
 
+// The frame the pitch video opens on, at 1:02:21, captured at 1920 × 1080: 16:9, like the
+// player it grows into.
+export const PITCH_PICTURE = {
+  basePath: '/images/staxx-pitch-v1',
+  widths: [640, 960, 1280, 1920],
+  formats: ['avif', 'webp', 'jpg'],
+  width: 1920,
+  height: 1080,
+} as const satisfies ResponsivePicture;
+
 export const SUMMIT_PICTURE = {
   basePath: '/images/staxx-epitech-summit-v2',
   widths: [640, 960, 1290],
