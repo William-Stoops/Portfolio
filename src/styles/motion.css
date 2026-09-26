@@ -228,7 +228,11 @@
   }
 }
 
-/* A rail filling as its scroll container (named `--rail`) crosses the viewport. */
+/* A rail filling while the element holding `rail-timeline` crosses the viewport. */
+@utility rail-timeline {
+  view-timeline-name: --rail;
+}
+
 @utility rail-fill {
   transform-origin: 50% 0;
 
