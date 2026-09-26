@@ -224,7 +224,8 @@ pnpm verify         # tout ce qui précède, identique à la CI
 | 14  | `william/feat/motion-design`                   | Refonte animée et ludique, tout en CSS natif (ADR 0015)                                                             |
 | 15  | `william/feat/hero-scene`                      | Surface de volatilité WebGL2 dans le hero, typographie cinétique (ADR 0016)                                         |
 | 16  | `william/feat/case-study-and-finale`           | STAXX en étude de cas, périodes collantes, chapitres collants, final sur la surface, pied de page intégré           |
-| 17  | `william/perf/lighthouse-budget` + déploiement | Budgets, Open Graph, déploiement sur Cloudflare Pages (ADR 0014)                                                    |
+| 17  | `william/feat/about-story`                     | À propos : profil écrit à l'encre au défilement, axes sur filets, registre des chiffres clés                        |
+| 18  | `william/perf/lighthouse-budget` + déploiement | Budgets, Open Graph, déploiement sur Cloudflare Pages (ADR 0014)                                                    |
 
 Questions encore ouvertes : un traitement serveur du formulaire de contact (service
 tiers ou fonction serverless) au-delà du `mailto:`, une éventuelle version anglaise.
