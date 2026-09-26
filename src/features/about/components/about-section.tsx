@@ -1,18 +1,14 @@
-import { Fragment } from 'react';
-
 import { PageSection } from '@/components/layout/page-section';
+import { InkText } from '@/components/ui/ink-text';
 import { SECTION_IDS } from '@/config/paths';
 import { MetricVisual } from '@/features/about/components/metric-visual';
 import { type AboutContent } from '@/features/about/types/about-content';
-import { splitIntoWords } from '@/utils/split-text';
 
 type AboutSectionProps = { content: AboutContent };
 
 const FIGURES_CAPTION_ID = 'a-propos-chiffres';
 
 export function AboutSection({ content }: AboutSectionProps) {
-  const profileWords = splitIntoWords(content.profile);
-
   return (
     <PageSection
       id={SECTION_IDS.about}
@@ -20,19 +16,7 @@ export function AboutSection({ content }: AboutSectionProps) {
       lead={
         // Inked in word by word as it is read (motion.css); the text itself stays whole
         // and at full contrast underneath.
-        <p
-          style={{ '--n': profileWords.length }}
-          className="max-w-5xl font-display text-h3 font-medium text-fg ink-timeline"
-        >
-          {profileWords.map(({ text, index }) => (
-            <Fragment key={index}>
-              {index > 0 ? ' ' : null}
-              <span data-word style={{ '--i': index }} className="reveal-ink">
-                {text}
-              </span>
-            </Fragment>
-          ))}
-        </p>
+        <InkText text={content.profile} />
       }
     >
       <ul aria-label="Axes" className="grid gap-10 md:grid-cols-3 md:gap-8">
