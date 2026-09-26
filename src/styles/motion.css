@@ -141,6 +141,17 @@
   }
 }
 
+/* Letters rising out of their clipping line, one after the other, as the title enters. */
+@utility reveal-letter {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: letter-rise var(--ease-out) both;
+      animation-timeline: view();
+      animation-range: entry calc(var(--i, 0) * 1.5%) entry calc(70% + var(--i, 0) * 1.5%);
+    }
+  }
+}
+
 @utility reveal-grow-x {
   transform-origin: 0 50%;
 
