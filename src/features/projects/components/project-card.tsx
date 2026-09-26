@@ -13,11 +13,12 @@ export function ProjectCard({ project }: ProjectCardProps) {
   return (
     <article
       aria-labelledby={headingId}
-      className="grid gap-8 rounded-lg border border-border bg-surface p-6 @4xl:grid-cols-2 @4xl:items-start"
+      data-pointer
+      className="pointer-spotlight grid reveal gap-8 rounded-lg border border-border bg-surface p-6 @4xl:grid-cols-2 @4xl:items-start"
     >
       <div className="flex flex-col gap-4">
         <header className="flex flex-col gap-1">
-          <h3 id={headingId} className="text-h3 font-semibold">
+          <h3 id={headingId} className="text-h2 font-semibold tracking-tight">
             {project.name}
           </h3>
           <p className="text-fg-muted">{project.tagline}</p>
@@ -41,7 +42,13 @@ export function ProjectCard({ project }: ProjectCardProps) {
           ))}
         </ul>
       </div>
-      {project.video === undefined ? null : <YouTubeFacade video={project.video} />}
+      {project.video === undefined ? null : (
+        <YouTubeFacade
+          video={project.video}
+          // A building-site poster for a construction supplies platform.
+          backdrop={<span className="block size-full hazard-stripes" />}
+        />
+      )}
     </article>
   );
 }

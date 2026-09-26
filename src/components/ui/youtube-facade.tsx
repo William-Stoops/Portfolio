@@ -1,17 +1,21 @@
 import { ExternalLink, Play, X } from 'lucide-react';
-import { useId } from 'react';
+import { type ReactNode, useId } from 'react';
 
 import { useFullscreenDialog } from '@/hooks/use-fullscreen-dialog';
 
 import { type YouTubeVideo } from '@/types/youtube-video';
 import { buildYouTubeEmbedUrl, buildYouTubeWatchUrl } from '@/utils/youtube';
 
-type YouTubeFacadeProps = { video: YouTubeVideo };
+type YouTubeFacadeProps = {
+  video: YouTubeVideo;
+  // Drawn behind the play button, like a poster: decoration, hidden from assistive tech.
+  backdrop?: ReactNode;
+};
 
 // A YouTube iframe costs ~500 kB and third-party requests before anyone presses play. This
 // button stands in for it and mounts the privacy-enhanced player only on demand, in a
 // dialog that takes the whole screen.
-export function YouTubeFacade({ video }: YouTubeFacadeProps) {
+export function YouTubeFacade({ video, backdrop }: YouTubeFacadeProps) {
   const { isOpen, dialogRef, stageRef, open, close, handleClose } = useFullscreenDialog();
   const titleId = `${useId()}-titre`;
 
@@ -20,9 +24,20 @@ export function YouTubeFacade({ video }: YouTubeFacadeProps) {
       <button
         type="button"
         onClick={open}
-        className="group flex aspect-video w-full flex-col items-center justify-center gap-4 rounded-lg border border-border bg-surface-raised p-6 text-center"
+        data-pointer
+        className="group relative isolate flex aspect-video w-full pointer-tilt flex-col items-center justify-center gap-4 overflow-hidden rounded-lg border border-border bg-surface-raised p-6 text-center"
       >
-        <span className="inline-grid size-16 place-items-center rounded-full bg-accent text-on-accent transition-colors duration-150 group-hover:bg-accent-hover">
+        {backdrop === undefined ? null : (
+          <span aria-hidden="true" className="absolute inset-0 -z-10">
+            {backdrop}
+          </span>
+        )}
+        {/* The ring ripples out once per hover: no loop. */}
+        <span className="relative inline-grid size-16 place-items-center rounded-full bg-accent text-on-accent transition-[background-color,scale] duration-250 ease-out group-hover:scale-110 group-hover:bg-accent-hover">
+          <span
+            aria-hidden="true"
+            className="absolute inset-0 rounded-full border-2 border-accent transition-[scale,opacity] duration-450 ease-out group-hover:scale-175 group-hover:opacity-0"
+          />
           <Play
             aria-hidden="true"
             focusable="false"
@@ -30,7 +45,7 @@ export function YouTubeFacade({ video }: YouTubeFacadeProps) {
             strokeWidth={1.75}
           />
         </span>
-        <span className="font-semibold">
+        <span className="rounded-md bg-surface-raised px-3 py-1 font-semibold">
           <span className="sr-only">Lire la vidéo : </span>
           {video.title}
         </span>

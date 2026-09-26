@@ -73,6 +73,14 @@ describe('YouTubeFacade', () => {
     expect(screen.container.querySelector('iframe')).toBeNull();
   });
 
+  it('shows an optional backdrop behind the play button, as decoration', async () => {
+    const screen = await render(<YouTubeFacade video={VIDEO} backdrop={<span>STAXX</span>} />);
+
+    const button = screen.getByRole('button', { name: `Lire la vidéo : ${VIDEO.title}` });
+    await expect.element(button).toHaveAccessibleName(`Lire la vidéo : ${VIDEO.title}`);
+    expect(screen.getByText('STAXX').element().closest('[aria-hidden="true"]')).not.toBeNull();
+  });
+
   it('always offers the video on YouTube, announced as opening a new tab', async () => {
     const screen = await render(<YouTubeFacade video={VIDEO} />);
 
