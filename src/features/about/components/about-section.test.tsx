@@ -44,6 +44,14 @@ describe('AboutSection', () => {
     ).toEqual(ABOUT_CONTENT.axes.map(({ title }) => title));
   });
 
+  it('names the key figures by their visible caption', async () => {
+    const screen = await renderAbout();
+
+    const figures = screen.getByRole('list', { name: 'Chiffres clés' });
+    const captionId = figures.element().getAttribute('aria-labelledby') ?? '';
+    expect(document.getElementById(captionId)?.textContent).toBe('Chiffres clés');
+  });
+
   it('lists the key figures, spoken in words when symbols would be misread', async () => {
     const screen = await renderAbout();
 
