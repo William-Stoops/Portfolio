@@ -26,9 +26,10 @@ liées au défilement, bande cinétique, sections), alors que le visiteur ne voi
   - Il s'applique aux sections de l'accueil et à la bande cinétique : au chargement, seul le
     hero est rendu.
   - Les blocs restent dans l'arbre d'accessibilité et dans la recherche de la page.
-- **Rendu progressif** (`useProgressiveRender`) :
-  - Pendant les temps morts, les blocs sont rendus un par un (`data-rendered`), chacun en
-    tâche courte.
+- **Rendu au premier mouvement** (`useProgressiveRender`) :
+  - Rien n'est planifié pendant les temps morts : sur un téléphone lent (la machine de CI),
+    chaque bloc rendu ainsi formait une tâche longue de 55 à 130 ms, comptée dans le TBT.
+    Un bloc se rend donc à l'approche de l'écran, comme le prévoit `content-visibility`.
   - Dès que le visiteur bouge, tout est rendu d'un coup, avant le mouvement
     (`data-render-all` sur la racine) : premier défilement, lien d'ancre pressé, touche du
     clavier, changement d'ancre.

@@ -19,23 +19,17 @@ function Page() {
   );
 }
 
-function deferredSections(): HTMLElement[] {
-  return [...document.querySelectorAll<HTMLElement>('.defer-render')];
-}
-
 afterEach(() => {
   document.documentElement.removeAttribute('data-render-all');
 });
 
 describe('useProgressiveRender', () => {
-  it('renders the deferred sections one by one while the page is idle', async () => {
+  it('schedules no rendering while the page idles', async () => {
     await render(<Page />);
 
-    await expect
-      .poll(() => deferredSections().every((section) => section.hasAttribute('data-rendered')), {
-        timeout: 5000,
-      })
-      .toBe(true);
+    await new Promise((resolve) => setTimeout(resolve, 600));
+
+    expect(document.documentElement.hasAttribute('data-render-all')).toBe(false);
   });
 
   it('renders everything at once before the visitor jumps to an anchor', async () => {

@@ -105,8 +105,9 @@ paint on demand, in its own chunk with its own size-limit budget (ADR 0016).
 
 - Home sections go through `PageSection`, which carries `defer-render`
   (`content-visibility: auto`): on load only the hero is styled, laid out and painted.
-  `useProgressiveRender` (root layout) renders the deferred blocks one per idle period, and
-  all at once as soon as the visitor moves (first scroll, in-page link, key, hash change);
+  `useProgressiveRender` (root layout) renders them all at once as soon as the visitor
+  moves (first scroll, in-page link, key, hash change), and schedules nothing while the page
+  idles (on a slow phone each block rendered then is a long task);
   a page opened on an anchor renders all from the inline script of `index.html`. Never
   let a jump or a click happen over placeholder sizes: anchors drift, clicks miss.
 - Each section below the hero is its own `<Suspense>` boundary in `HomeRoute`: nothing
