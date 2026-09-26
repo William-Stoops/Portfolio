@@ -175,10 +175,11 @@ document shares the key `default` and the previous page's position undoes the ju
   mandatory (visually hidden if not shown) — the primitive handles the focus trap, Escape
   and focus return; verify it in the keyboard E2E spec anyway.
 - Custom modal: native `<dialog>.showModal()`; never hand-roll a focus trap. Give the
-  focus back to the opener on close yourself (`useFullscreenDialog`): not every browser
-  does, and none can while an element is fullscreen (Chrome makes the rest inert). Keep
-  the first focus on a control of the page, not in a cross-origin iframe: keys pressed
-  inside the iframe never reach the page, so Escape would no longer close the dialog.
+  focus back to the opener on close yourself (`useVideoDialog`): not every browser does.
+  Keep the first focus on a control of the page, not in a cross-origin iframe: keys
+  pressed inside the iframe never reach the page, so Escape would no longer close the
+  dialog. When Escape must run the same closing as the close button (the video morph),
+  prevent the `cancel` event and close through that path.
 
 ## 9. Tests (all mandatory for a feature PR)
 
