@@ -32,6 +32,7 @@ test.describe('main navigation', () => {
   for (const { link, heading, hash } of [
     { link: 'Projets', heading: 'Projets', hash: 'projets' },
     { link: 'IA', heading: 'IA\u00A0: pratique personnelle et travaux académiques', hash: 'ia' },
+    { link: 'Corée', heading: 'Corée du Sud', hash: 'coree' },
     { link: 'Compétences', heading: 'Compétences et formation', hash: 'competences' },
     { link: 'Contact', heading: 'Contact', hash: 'contact' },
   ]) {

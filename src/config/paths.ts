@@ -11,6 +11,7 @@ export const SECTION_IDS = {
   experience: 'parcours',
   projects: 'projets',
   aiPractice: 'ia',
+  korea: 'coree',
   skills: 'competences',
   contact: 'contact',
 } as const;

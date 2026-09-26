@@ -9,6 +9,7 @@ export const NAV_ITEMS: readonly NavItem[] = [
   { label: 'Parcours', href: `${PATHS.home}#${SECTION_IDS.experience}` },
   { label: 'Projets', href: `${PATHS.home}#${SECTION_IDS.projects}` },
   { label: 'IA', href: `${PATHS.home}#${SECTION_IDS.aiPractice}` },
+  { label: 'Corée', href: `${PATHS.home}#${SECTION_IDS.korea}` },
   { label: 'Compétences', href: `${PATHS.home}#${SECTION_IDS.skills}` },
   { label: 'Contact', href: `${PATHS.home}#${SECTION_IDS.contact}` },
 ];

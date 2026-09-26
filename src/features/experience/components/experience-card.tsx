@@ -24,7 +24,8 @@ export function ExperienceCard({ experience }: ExperienceCardProps) {
             {experience.company}
           </span>
         </h3>
-        <p className="text-small whitespace-nowrap text-fg-muted">
+        {/* Shown large beside the timeline on large screens: read here, seen there. */}
+        <p className="text-small whitespace-nowrap text-fg-muted lg:sr-only">
           {formatPeriod(experience.period)}
         </p>
       </header>

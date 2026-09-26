@@ -41,6 +41,12 @@ const COLOR_PAIRS: readonly ColorPair[] = [
       minimum: NON_TEXT_CONTRAST,
     })),
   ),
+  // The flag of South Korea (ADR 0019): fixed colours, drawn on its own white field.
+  ...['taegeuk-red', 'taegeuk-blue', 'taegeuk-ink'].map((foreground) => ({
+    foreground,
+    background: 'taegeuk-field',
+    minimum: NON_TEXT_CONTRAST,
+  })),
   ...['canvas', 'surface', 'surface-raised'].map((background) => ({
     foreground: 'focus',
     background,

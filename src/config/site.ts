@@ -1,6 +1,9 @@
 // Identity shown in the page chrome (header, footer, titles). Source: docs/content/cv-source.md.
 export const SITE_OWNER = 'William Stoops';
 export const SITE_TITLE = 'William Stoops – Software Engineer & AI Engineer';
+export const SITE_ROLE = 'Software Engineer & AI Engineer';
+// The profile sentence of the CV: the hero's tagline and the footer's sign-off.
+export const SITE_TAGLINE = 'Je décide d’une architecture, je la mesure, je la livre.';
 export const CONTACT_EMAIL = 'william.stoops@epitech.eu';
 export const LINKEDIN_URL = 'https://www.linkedin.com/in/william-stoops-a1029b233';
 

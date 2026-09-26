@@ -5,23 +5,17 @@ import { formatTwoDigits } from '@/utils/format-two-digits';
 
 type AiPracticeSectionProps = { content: AiPracticeContent };
 
-// On large screens the cards stick one below the other while the page scrolls, each one
-// sliding over the previous and leaving its number and title in view, like tabs. Not on
-// short screens, where a sticky card would hide the rest; on small ones they simply follow
-// each other.
+// The practices follow each other, each card sliding in as it arrives: never stuck over
+// one another. (Cards stacked like tabs cut the previous card's text mid-sentence.)
 export function AiPracticeSection({ content }: AiPracticeSectionProps) {
   return (
     <PageSection id={SECTION_IDS.aiPractice} title={content.title}>
-      <ul className="flex flex-col gap-6 lg:gap-24">
+      <ul className="flex flex-col gap-6">
         {content.items.map(({ title, text }, index) => (
-          <li
-            key={title}
-            style={{ '--i': index }}
-            className="lg:sticky lg:top-[calc(8rem+var(--i)*6rem)] short:static"
-          >
+          <li key={title} style={{ '--i': index }}>
             <div
               data-pointer
-              className="pointer-spotlight grid reveal gap-6 rounded-lg border border-border bg-surface p-8 shadow-overlay md:grid-cols-[auto_minmax(0,1fr)] md:gap-10"
+              className="pointer-spotlight grid reveal-slide gap-6 rounded-lg border border-border bg-surface p-8 shadow-overlay md:grid-cols-[auto_minmax(0,1fr)] md:gap-10"
             >
               <span
                 data-item-number
