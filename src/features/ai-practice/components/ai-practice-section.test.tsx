@@ -32,6 +32,16 @@ describe('AiPracticeSection', () => {
       .toBeVisible();
   });
 
+  it('numbers the items as decoration, hidden from assistive tech', async () => {
+    const screen = await render(<AiPracticeSection content={AI_PRACTICE_CONTENT} />);
+
+    const numbers = [...screen.container.querySelectorAll('[data-item-number]')];
+    expect(numbers.map((number) => number.textContent)).toEqual(['01', '02', '03']);
+    for (const number of numbers) {
+      expect(number.getAttribute('aria-hidden')).toBe('true');
+    }
+  });
+
   it('has no axe violations', async () => {
     const screen = await renderSection();
 
