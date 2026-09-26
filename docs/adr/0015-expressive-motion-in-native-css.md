@@ -25,9 +25,9 @@ Trois contraintes encadrent la réponse :
 - **Tout le mouvement est en CSS**, dans `src/styles/motion.css`. Aucune bibliothèque
   d'animation n'est ajoutée, et Motion n'est plus prévu.
   - Au chargement, une fois : lettres du nom, anneau du portrait, stickers.
-  - Au défilement, sans JavaScript (`animation-timeline: view()` / `scroll()`) : titres
-    qui se dévoilent, mots du profil qui s'encrent, jauges des chiffres clés, rail du
-    parcours, puces qui rebondissent, barre de progression de lecture.
+  - Au défilement, sans JavaScript (`animation-timeline: view()` / `scroll()`) : blocs et
+    titres qui montent en place, jauges des chiffres clés, rail du parcours et ses étapes,
+    puces qui rebondissent, barre de progression de lecture.
   - Au pointeur : inclinaison, aimant, halo de bordure. Les positions viennent d'un seul
     écouteur délégué (`usePointerGlow`) ; les composants s'inscrivent par un attribut
     `data-pointer`.
@@ -38,11 +38,12 @@ Trois contraintes encadrent la réponse :
   `@supports`. Sans eux, la page est statique et complète, jamais masquée.
 - **Une seule boucle**, le bandeau de technos. Il se met en pause au survol, a son bouton
   pause (WCAG 2.2.2) et disparaît au profit d'une liste immobile en mouvement réduit.
-- Les keyframes animent `translate`, `scale` et `rotate` : ils se composent avec les effets
-  de pointeur, qui possèdent `transform`.
+- **Seules les propriétés du compositeur sont animées** : `opacity`, `translate`, `scale`,
+  `rotate` (et `transform`, réservé aux effets de pointeur, avec lesquels les keyframes se
+  composent). Une couleur, un `clip-path` ou un `stroke` est recalculé sur le thread
+  principal à chaque image. Un test E2E (`motion.spec.ts`) refuse toute autre propriété.
 - **Le halo suit la bordure, jamais le fond du texte** : le contrat de contraste reste
-  valable. Les mots qui s'encrent passent de `fg-subtle` à `fg`, deux couleurs du contrat :
-  chaque étape intermédiaire passe aussi.
+  valable.
 - Les décorations (lettres animées, stickers, visuels des chiffres, rail, numéros) sont
   `aria-hidden` : le texte lisible dit déjà tout.
 
@@ -58,6 +59,13 @@ Trois contraintes encadrent la réponse :
   sans JavaScript ou en cas d'erreur, le contenu resterait caché.
 
 ## Conséquences
+
+- **Leçon de la première version** : 56 animations non composées (le profil qui s'encrait
+  mot à mot en `color`, les titres dévoilés en `clip-path`, les étapes du parcours en
+  `background-color`, l'anneau dessiné en `stroke-dashoffset`) triplaient le travail du
+  thread principal sur la machine de CI (≈ 500 → 1 550 ms). Le Total Blocking Time est
+  passé de 55 à 179 ms, pour un budget de 150. Ces effets ont été réécrits en opacité et
+  transformations, ou retirés (l'encrage mot à mot).
 
 - Firefox n'active pas encore les scroll-driven animations par défaut : la page y est
   statique, comme en mouvement réduit. Chrome, Edge et Safari 26 ont tout.

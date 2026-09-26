@@ -121,8 +121,8 @@ primary button is light orange with **dark** text. The validated tokens live in
 - Nothing auto-animates for more than 5 s without a visible pause control (2.2.2). The
   technology band is the only loop: it pauses on hover and has a pause button; with
   reduced motion it stands still and wraps.
-- Animated text stays readable text: split letters or words are `aria-hidden` behind a
-  visually hidden copy, or plain inline spans read as one sentence.
+- Animated text stays readable text: split letters are `aria-hidden` behind a visually
+  hidden copy.
 - The sticky header must never hide a focused control (2.4.11): `scroll-padding-top` on
   `html`, and no sticky header on short screens.
 - Theme: `data-theme` on `<html>`, set by an inline script in `index.html` **before first

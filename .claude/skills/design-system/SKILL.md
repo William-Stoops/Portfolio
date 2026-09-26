@@ -124,10 +124,10 @@ in the UI means adding it to that test first.**
   no stock keyframe animation (spin, ping, bounce) is available.
 - **All motion is CSS, in `src/styles/motion.css`** (ADR 0015); no animation library.
   Use its utilities, do not write one-off keyframes in components:
-  - on load, once: `enter-rise`, `enter-letter`, `enter-pop`, `enter-draw`;
-  - scroll-driven: `reveal`, `reveal-wipe`, `reveal-grow-x/y`, `reveal-pop`,
-    `reveal-shrink-x` (`--shrink-to`), `reveal-ink` (+ `ink-timeline`, `--n`),
-    `reveal-light-up`, `rail-fill` (+ `rail-timeline`), `scroll-progress`, `scroll-settle`;
+  - on load, once: `enter-rise`, `enter-letter`, `enter-pop`, `enter-zoom`;
+  - scroll-driven: `reveal`, `reveal-grow-x/y`, `reveal-pop`, `reveal-shrink-x`
+    (`--shrink-to`), `reveal-fill`, `rail-fill` (+ `rail-timeline`), `scroll-progress`,
+    `scroll-settle`;
   - pointer: `pointer-tilt`, `pointer-magnet`, `pointer-spotlight`, on an element marked
     `data-pointer` (fed by `usePointerGlow`); the magnet goes on a wrapper, never on an
     element with its own `transition`;
@@ -137,6 +137,9 @@ in the UI means adding it to that test first.**
 - Every utility sits behind `prefers-reduced-motion: no-preference`, scroll-driven ones
   behind `@supports`: without them the page is static and complete. **Never hide content
   until JavaScript reveals it.**
+- **Animate only compositor properties: `opacity`, `translate`, `scale`, `rotate`.**
+  Colour, `clip-path`, `stroke-*`, `background-*` run on the main thread every frame; 56
+  of them broke the Total Blocking Time budget in CI. `e2e/motion.spec.ts` rejects them.
 - Keyframes animate `translate` / `scale` / `rotate`, never `transform` (owned by the
   pointer effects). Only one loop on the page, and it has a pause control (WCAG 2.2.2).
 - The global `prefers-reduced-motion: reduce` reset lives in the base layer of
