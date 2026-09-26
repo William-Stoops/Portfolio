@@ -25,7 +25,9 @@ describe('whenIdle', () => {
 
     whenIdle(callback);
 
-    await expect.poll(() => callback.mock.calls.length).toBe(1);
+    // A busy page may have no idle period at all: whenIdle then runs the callback at its
+    // 2 s deadline. The poll must outlast it (its default is 1 s).
+    await expect.poll(() => callback.mock.calls.length, { timeout: 3000 }).toBe(1);
   });
 
   it.each([
