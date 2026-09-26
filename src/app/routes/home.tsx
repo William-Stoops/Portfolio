@@ -1,3 +1,5 @@
+import { Suspense } from 'react';
+
 import { PageSection } from '@/components/layout/page-section';
 import { SECTION_IDS } from '@/config/paths';
 import { SITE_TITLE } from '@/config/site';
@@ -27,19 +29,39 @@ export function HomeRoute() {
     <>
       <title>{SITE_TITLE}</title>
       <HeroSection content={HERO_CONTENT} headingRef={headingRef} />
-      <AboutSection content={ABOUT_CONTENT} />
-      <AxisBand axes={ABOUT_CONTENT.axes} />
-      <ExperienceSection experiences={EXPERIENCES} />
-      <ProjectsSection projects={PROJECTS} />
-      <AiPracticeSection content={AI_PRACTICE_CONTENT} />
-      {/* Two features in one section: composition belongs to the route, not to a feature. */}
-      <PageSection id={SECTION_IDS.skills} title="Compétences et formation">
-        <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,24rem),1fr))] gap-x-12 gap-y-10">
-          <SkillsOverview groups={SKILL_GROUPS} />
-          <EducationOverview entries={EDUCATION_ENTRIES} />
-        </div>
-      </PageSection>
-      <ContactSection content={CONTACT_CONTENT} />
+      {/*
+        Each section below the hero is its own Suspense boundary, hydrated as a separate
+        unit of work after the hero: React yields to the browser between them instead of
+        hydrating the whole page in one long task. Nothing here suspends; the boundaries
+        only split the hydration (ADR 0018).
+      */}
+      <Suspense>
+        <AboutSection content={ABOUT_CONTENT} />
+      </Suspense>
+      <Suspense>
+        <AxisBand axes={ABOUT_CONTENT.axes} />
+      </Suspense>
+      <Suspense>
+        <ExperienceSection experiences={EXPERIENCES} />
+      </Suspense>
+      <Suspense>
+        <ProjectsSection projects={PROJECTS} />
+      </Suspense>
+      <Suspense>
+        <AiPracticeSection content={AI_PRACTICE_CONTENT} />
+      </Suspense>
+      <Suspense>
+        {/* Two features in one section: composition belongs to the route, not to a feature. */}
+        <PageSection id={SECTION_IDS.skills} title="Compétences et formation">
+          <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,24rem),1fr))] gap-x-12 gap-y-10">
+            <SkillsOverview groups={SKILL_GROUPS} />
+            <EducationOverview entries={EDUCATION_ENTRIES} />
+          </div>
+        </PageSection>
+      </Suspense>
+      <Suspense>
+        <ContactSection content={CONTACT_CONTENT} />
+      </Suspense>
     </>
   );
 }
