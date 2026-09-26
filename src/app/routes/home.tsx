@@ -20,6 +20,7 @@ import { ExperienceSection } from '@/features/experience/components/experience-s
 import { EXPERIENCES } from '@/features/experience/data/experiences';
 import { ProjectsSection } from '@/features/projects/components/projects-section';
 import { PROJECTS } from '@/features/projects/data/projects';
+import { HeroScene } from '@/features/hero/components/hero-scene';
 import { HeroSection } from '@/features/hero/components/hero-section';
 import { HERO_CONTENT } from '@/features/hero/data/hero-content';
 import { usePageHeading } from '@/hooks/use-page-heading';
@@ -77,7 +78,7 @@ export function HomeRoute() {
         </PageSection>
       </Suspense>
       <Suspense>
-        <ContactSection content={CONTACT_CONTENT} />
+        <ContactSection content={CONTACT_CONTENT} backdrop={<HeroScene variant="finale" />} />
       </Suspense>
     </>
   );
