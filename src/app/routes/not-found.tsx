@@ -18,11 +18,11 @@ export function NotFoundRoute() {
         Page introuvable
       </h1>
       <p className="text-lead text-fg-muted">
-        L&apos;adresse demandée ne correspond à aucune page de ce site.
+        L’adresse demandée ne correspond à aucune page de ce site.
       </p>
       <p>
         <Link to={PATHS.home} className="inline-flex min-h-6 items-center">
-          Retour à l&apos;accueil
+          Retour à l’accueil
         </Link>
       </p>
     </div>
