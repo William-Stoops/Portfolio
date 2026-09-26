@@ -151,6 +151,20 @@ in the UI means adding it to that test first.**
   grey caption) separated by thin rules, real text read by assistive tech.
 - **Titles and sign-off**: section titles and the footer's giant name have letters that
   rise with the scroll (`reveal-letter`), behind a visually hidden copy.
+- **Section compositions**: STAXX is an editorial case study (a large figure row from
+  `KeyFigures`, the pitch beside it); each experience period is set large beside the
+  timeline and sticks while its card is read; skills and education are **sticky
+  chapters** (`StickyChapters`: the chapter title stays while its content scrolls,
+  named view timelines, a stacked fallback with real headings); the contact section
+  closes the page on the same volatility surface, **settled** and centred (`HeroScene
+variant="finale"`, loaded only when near).
+- **Footer**: quiet and integrated. Hairline rules, grey links whose hover draws a
+  hairline, the name in the display face at `h3` size with a round accent dot, and the
+  full-width name in filigree one step above the canvas (`text-surface-raised`). A
+  heavy solid giant wordmark, a square dot and a large tagline read as crude; a
+  one-pixel outline showed the variable font's overlapping contours. Texts that may be
+  on screen at load (the footer of a short page) take `reveal-slide`, never a fade, so
+  axe never measures them half transparent.
 - **Desktop touches** (`src/lib/desktop-enhancements.ts`, loaded on idle for a precise
   pointer): a cursor ring that trails the pointer (the native cursor stays) and **gives
   way** over links and buttons, whose own hover answers; `[data-scramble]` texts decode
