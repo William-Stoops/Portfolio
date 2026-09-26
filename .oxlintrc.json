@@ -102,6 +102,14 @@
       }
     },
     {
+      // Type augmentations: `export {}` is what makes a .d.ts a module, so that
+      // `declare module 'react'` merges with React's types instead of replacing them.
+      "files": ["src/types/*.d.ts"],
+      "rules": {
+        "unicorn/require-module-specifiers": "off"
+      }
+    },
+    {
       // Browser actions on one page are sequential by nature.
       "files": ["e2e/**"],
       "rules": {

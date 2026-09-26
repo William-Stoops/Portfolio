@@ -162,6 +162,16 @@ export default defineConfig([
   },
 
   {
+    // Type augmentations merge into a library's interface: that takes an `interface`, and
+    // a template-literal key (`--${string}`) takes an index signature.
+    files: ['src/types/*.d.ts'],
+    rules: {
+      '@typescript-eslint/consistent-type-definitions': 'off',
+      '@typescript-eslint/consistent-indexed-object-style': 'off',
+    },
+  },
+
+  {
     files: ['*.config.ts', 'e2e/**/*.ts', 'scripts/**/*.ts'],
     languageOptions: { globals: globals.node },
   },

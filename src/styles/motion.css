@@ -1,0 +1,347 @@
+/*
+ * Motion (docs/adr/0015). Pure CSS: no animation library, nothing on the main thread for
+ * scroll-linked effects. Every effect is progressive: with reduced motion, or in a browser
+ * without scroll-driven animations, the page is static and complete — never hidden.
+ *
+ * Keyframes animate the individual transform properties (translate, scale, rotate), so
+ * they compose with the pointer effects, which own `transform`.
+ */
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    translate: 0 2rem;
+  }
+}
+
+@keyframes letter-rise {
+  from {
+    translate: 0 110%;
+  }
+}
+
+@keyframes wipe {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+}
+
+@keyframes grow-x {
+  from {
+    scale: 0 1;
+  }
+}
+
+@keyframes grow-y {
+  from {
+    scale: 1 0;
+  }
+}
+
+@keyframes shrink-x {
+  to {
+    scale: var(--shrink-to, 0) 1;
+  }
+}
+
+@keyframes ink {
+  from {
+    color: --theme(--color-fg-subtle);
+  }
+}
+
+@keyframes pop {
+  from {
+    opacity: 0;
+    scale: 0.4;
+    rotate: 0deg;
+  }
+}
+
+@keyframes draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+}
+
+@keyframes marquee {
+  to {
+    translate: -50% 0;
+  }
+}
+
+@keyframes light-up {
+  to {
+    background-color: --theme(--color-accent);
+    scale: 1.35;
+  }
+}
+
+@keyframes header-settle {
+  from {
+    border-bottom-color: transparent;
+  }
+}
+
+@keyframes theme-reveal {
+  from {
+    clip-path: circle(0 at var(--theme-reveal-x, 50%) var(--theme-reveal-y, 0));
+  }
+
+  to {
+    clip-path: circle(150vmax at var(--theme-reveal-x, 50%) var(--theme-reveal-y, 0));
+  }
+}
+
+/*
+ * On load, once. `--i` (set inline) staggers siblings; the whole sequence stays under a
+ * second so the page is readable at once.
+ */
+@utility enter-rise {
+  @media (prefers-reduced-motion: no-preference) {
+    animation: rise 700ms var(--ease-out) both;
+    animation-delay: calc(var(--i, 0) * 60ms + 150ms);
+  }
+}
+
+@utility enter-letter {
+  @media (prefers-reduced-motion: no-preference) {
+    animation: letter-rise 800ms var(--ease-out) both;
+    animation-delay: calc(var(--i, 0) * 30ms + 100ms);
+  }
+}
+
+@utility enter-pop {
+  @media (prefers-reduced-motion: no-preference) {
+    animation: pop 600ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    animation-delay: calc(var(--i, 0) * 120ms + 700ms);
+  }
+}
+
+@utility enter-draw {
+  @media (prefers-reduced-motion: no-preference) {
+    animation: draw 1400ms var(--ease-out) both 200ms;
+  }
+}
+
+/*
+ * Scroll-driven: tied to the element crossing the viewport, reversible, no JavaScript.
+ * `--i` shifts the range so siblings arrive one after the other.
+ */
+@utility reveal {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: rise var(--ease-out) both;
+      animation-timeline: view();
+      animation-range: entry calc(var(--i, 0) * 8%) entry calc(90% + var(--i, 0) * 8%);
+    }
+  }
+}
+
+@utility reveal-wipe {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: wipe var(--ease-out) both;
+      animation-timeline: view();
+      animation-range: entry 10% cover 35%;
+    }
+  }
+}
+
+@utility reveal-grow-x {
+  transform-origin: 0 50%;
+
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: grow-x var(--ease-out) both;
+      animation-timeline: view();
+      animation-range: entry 20% cover 40%;
+    }
+  }
+}
+
+@utility reveal-pop {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: pop cubic-bezier(0.34, 1.56, 0.64, 1) both;
+      animation-timeline: view();
+      animation-range: entry calc(var(--i, 0) * 4%) entry calc(60% + var(--i, 0) * 4%);
+    }
+  }
+}
+
+/* A bar that shrinks to `--shrink-to` of its length while the figure crosses the view. */
+@utility reveal-shrink-x {
+  transform-origin: 0 50%;
+  scale: var(--shrink-to, 0) 1;
+
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      scale: 1 1;
+      animation: shrink-x var(--ease-out) both;
+      animation-timeline: view();
+      animation-range: entry 40% cover 55%;
+    }
+  }
+}
+
+@utility reveal-grow-y {
+  transform-origin: 50% 100%;
+
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: grow-y var(--ease-out) both;
+      animation-timeline: view();
+      animation-range: entry calc(30% + var(--i, 0) * 10%) cover calc(45% + var(--i, 0) * 10%);
+    }
+  }
+}
+
+/*
+ * Words inking in one after the other as their paragraph (`ink-timeline`) scrolls up:
+ * `--i` is the word's position, `--n` the word count. Both ends of the fade are contract
+ * colours on the canvas (fg-subtle, then fg), so every step in between passes too.
+ */
+@utility ink-timeline {
+  view-timeline-name: --ink;
+}
+
+@utility reveal-ink {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: ink linear both;
+      animation-timeline: --ink;
+      animation-range: cover calc(10% + var(--i, 0) / var(--n, 1) * 40%) cover
+        calc(15% + var(--i, 0) / var(--n, 1) * 40%);
+    }
+  }
+}
+
+/* A step that lights up when its item reaches the middle of the viewport. */
+@utility reveal-light-up {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: light-up linear both;
+      animation-timeline: view();
+      animation-range: cover 40% cover 50%;
+    }
+  }
+}
+
+/* A rail filling as its scroll container (named `--rail`) crosses the viewport. */
+@utility rail-fill {
+  transform-origin: 50% 0;
+
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: grow-y linear both;
+      animation-timeline: --rail;
+      animation-range: cover 20% cover 70%;
+    }
+  }
+}
+
+/* The header's bottom rule appears once the page has scrolled under it. */
+@utility scroll-settle {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: scroll()) {
+      animation: header-settle linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 8rem;
+    }
+  }
+}
+
+@utility scroll-progress {
+  display: none;
+  transform-origin: 0 50%;
+
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: scroll()) {
+      display: block;
+      animation: grow-x linear both;
+      animation-timeline: scroll(root);
+    }
+  }
+}
+
+/*
+ * Infinite, so it comes with its pause control (WCAG 2.2.2): paused by the button
+ * (`data-paused` on an ancestor), on hover, and absent with reduced motion.
+ */
+@utility marquee-track {
+  @media (prefers-reduced-motion: no-preference) {
+    animation: marquee 40s linear infinite;
+
+    :where([data-paused], [data-marquee]:hover) & {
+      animation-play-state: paused;
+    }
+  }
+}
+
+/*
+ * Pointer effects: only for a precise pointer that hovers. `--pointer-*` come from
+ * usePointerGlow on any `[data-pointer]` element: x/y in px from its top-left corner,
+ * rx/ry from -1 to 1 around its centre.
+ */
+@utility pointer-tilt {
+  @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    transform: perspective(60rem) rotateX(calc(var(--pointer-ry, 0) * -4deg))
+      rotateY(calc(var(--pointer-rx, 0) * 4deg));
+    transition: transform 450ms var(--ease-out);
+  }
+}
+
+@utility pointer-magnet {
+  @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    transform: translate(calc(var(--pointer-rx, 0) * 0.4rem), calc(var(--pointer-ry, 0) * 0.4rem));
+    transition: transform 250ms var(--ease-out);
+  }
+}
+
+/*
+ * A light following the pointer along the border only: text never sits on a gradient, so
+ * the contrast contract holds.
+ */
+@utility pointer-spotlight {
+  position: relative;
+  isolation: isolate;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    z-index: -1;
+    border-radius: inherit;
+    padding: 2px;
+    background: radial-gradient(
+      18rem circle at var(--pointer-x, -50%) var(--pointer-y, -50%),
+      --theme(--color-accent),
+      transparent 70%
+    );
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 250ms var(--ease-out);
+    pointer-events: none;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover::before {
+      opacity: 1;
+    }
+  }
+}
+
+/* Theme switch: the new theme spreads from the pressed button (useThemeToggle). */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-new(root) {
+  animation: theme-reveal 650ms var(--ease-out);
+}
