@@ -112,7 +112,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
                   index === 0 ? '(min-width: 72rem) 38rem, 46vw' : '(min-width: 72rem) 27rem, 46vw'
                 }
                 loading="lazy"
-                className={`block w-full scroll-parallax object-cover ${index === 0 ? 'aspect-square' : 'aspect-[4/5]'}`}
+                className={`block w-full scroll-parallax object-cover ${index === 0 ? 'aspect-[4/5] object-[50%_15%]' : 'aspect-[4/5]'}`}
               />
             </div>
           ))}

@@ -61,7 +61,7 @@ describe('projects', () => {
       photos: [
         {
           picture: NRJ_INTERVIEW_PICTURE,
-          alt: 'William Stoops répond aux questions d’un journaliste, un micro NRJ tendu vers lui',
+          alt: 'William Stoops écoute une question, face au micro NRJ que lui tend un journaliste',
         },
         {
           picture: NRJ_EXPLANATION_PICTURE,
