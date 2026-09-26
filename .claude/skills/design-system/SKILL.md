@@ -157,9 +157,14 @@ in the UI means adding it to that test first.**
   contrast). The axes are three columns under a hairline with the accent drawn on it,
   no icon discs (the kinetic band right after sets them large); the key figures are a
   **ledger** between hairlines (figure, what it measures, its drawing), not cards.
-- **Section compositions**: STAXX is an editorial case study (a large figure row from
-  `KeyFigures`, the pitch beside it); each experience period is set large beside the
-  timeline and sticks while its card is read; skills and education are chapters (stops) of one section on the flight path; the contact section
+- **Section compositions**: STAXX is an editorial case study told in the order it
+  happened (a large figure row from `KeyFigures`, the story, the radio, **the pitch**,
+  then the photo of the win). The pitch video sits on its own first frame, full width,
+  its title cut into the frame like the photos' captions (dropped on a small frame); it
+  opens like a film as it arrives (`letterbox-bar`, `poster-settle` on the frame's
+  `poster-timeline`) and grows into the player when pressed (`video-morph-frame`, typed
+  View Transition `video-morph`, ADR 0024); a striped placeholder poster read as empty
+  and was removed. Each experience period is set large beside the timeline and sticks while its card is read; skills and education are chapters (stops) of one section on the flight path; the contact section
   closes the page on the same volatility surface, **settled** and centred (`HeroScene
 variant="finale"`, loaded only when near).
 - **Footer**: quiet and integrated. Hairline rules, grey links whose hover draws a
