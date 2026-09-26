@@ -101,6 +101,20 @@ paint on demand, in its own chunk with its own size-limit budget (ADR 0016).
   `import { type X }` keeps a real import under `verbatimModuleSyntax` and pulls the chunk
   back into the main bundle. The loop draws nothing while the hero is off screen.
 
+## 6b. First render of a long page (ADR 0018)
+
+- Home sections go through `PageSection`, which carries `defer-render`
+  (`content-visibility: auto`): on load only the hero is styled, laid out and painted.
+  `useProgressiveRender` (root layout) renders the deferred blocks one per idle period, and
+  all at once as soon as the visitor moves (first scroll, in-page link, key, hash change);
+  a page opened on an anchor renders all from the inline script of `index.html`. Never
+  let a jump or a click happen over placeholder sizes: anchors drift, clicks miss.
+- Each section below the hero is its own `<Suspense>` boundary in `HomeRoute`: nothing
+  suspends, the boundaries split the hydration into short tasks (selective hydration).
+- To measure: a Chrome trace in mobile emulation with `--disable-gpu` and a 10× CPU
+  throttle; compare with the previous version, and look at style, layout and paint, not
+  only at scripting.
+
 ## 7. Budgets and measurement
 
 - Budgets in `quality-gates` §8 (size-limit, Lighthouse CI, coverage). A PR that breaks a
