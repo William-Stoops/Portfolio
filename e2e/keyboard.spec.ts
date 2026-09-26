@@ -125,6 +125,11 @@ test.describe('pages', () => {
     await openMenuIfCollapsed(page);
 
     await page.getByRole('button', { name: 'Thème sombre' }).click();
+    // The new theme spreads through a view transition: reload once it is applied.
+    await expect(page.getByRole('button', { name: 'Thème sombre' })).toHaveAttribute(
+      'aria-pressed',
+      'true',
+    );
     await page.reload();
     await openMenuIfCollapsed(page);
 
