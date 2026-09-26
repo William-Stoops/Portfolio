@@ -62,6 +62,34 @@ describe('HeroSection', () => {
     expect(list.getByRole('listitem').elements()).toHaveLength(HERO_CONTENT.technologies.length);
   });
 
+  it('lets the visitor pause the scrolling technology band (WCAG 2.2.2)', async () => {
+    const screen = await renderHero();
+
+    await screen.getByRole('button', { name: 'Mettre en pause le défilement' }).click();
+
+    await expect
+      .element(screen.getByRole('button', { name: 'Reprendre le défilement' }))
+      .toBeVisible();
+    expect(
+      screen.getByRole('list', { name: 'Technologies' }).element().closest('[data-paused]'),
+    ).not.toBeNull();
+  });
+
+  it('keeps the band copy that makes the loop seamless away from assistive tech', async () => {
+    const screen = await renderHero();
+
+    expect(screen.getByRole('list', { name: 'Technologies' }).elements()).toHaveLength(1);
+    expect(screen.container.querySelectorAll('[data-marquee] ul')).toHaveLength(2);
+  });
+
+  it('shows the stickers around the portrait as decoration only', async () => {
+    const screen = await renderHero();
+
+    for (const sticker of HERO_CONTENT.stickers) {
+      expect(screen.getByText(sticker).element().closest('[aria-hidden="true"]')).not.toBeNull();
+    }
+  });
+
   it('shows the portrait as a critical image', async () => {
     const screen = await renderHero();
 

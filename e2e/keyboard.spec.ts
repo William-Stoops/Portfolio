@@ -23,6 +23,7 @@ function expectedFocusOrderFor(page: Page): readonly string[] {
     ...header,
     'Me contacter',
     'Télécharger le CV (PDF, 56 Ko)',
+    'Mettre en pause le défilement',
     'Lire la vidéo : Pitch de STAXX au concours Epitech Summit',
     'Ouvrir la vidéo sur YouTube (nouvel onglet)',
     'william.stoops@epitech.eu',
