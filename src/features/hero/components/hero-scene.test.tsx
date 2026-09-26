@@ -59,6 +59,50 @@ describe('HeroScene', () => {
     await expect.poll(() => readsDrawnPixels(canvas)).toBe(true);
   });
 
+  it('sends a ripple across the surface on click, and keeps drawing', async () => {
+    await page.viewport(1280, 800);
+    const screen = await render(
+      <div style={{ position: 'relative', width: 1280, height: 700 }}>
+        <HeroScene />
+      </div>,
+    );
+    const canvas = sceneCanvas(screen.container);
+    await expect.poll(() => canvas.getAttribute('data-ready'), { timeout: 5000 }).toBe('');
+    const { left, top, width, height } = canvas.getBoundingClientRect();
+
+    window.dispatchEvent(
+      new PointerEvent('pointerdown', { clientX: left + width * 0.7, clientY: top + height * 0.8 }),
+    );
+
+    await expect.poll(() => readsDrawnPixels(canvas)).toBe(true);
+  });
+
+  it('follows the pointer, the theme and the visibility of the hero', async () => {
+    await page.viewport(1280, 800);
+    const screen = await render(
+      <div style={{ position: 'relative', width: 1280, height: 700 }}>
+        <HeroScene />
+      </div>,
+    );
+    const canvas = sceneCanvas(screen.container);
+    await expect.poll(() => canvas.getAttribute('data-ready'), { timeout: 5000 }).toBe('');
+    const { left, top, width, height } = canvas.getBoundingClientRect();
+
+    window.dispatchEvent(
+      new PointerEvent('pointermove', { clientX: left + width * 0.8, clientY: top + height * 0.9 }),
+    );
+    document.documentElement.setAttribute('data-theme', 'light');
+    document.documentElement.dispatchEvent(new PointerEvent('pointerleave'));
+    await expect.poll(() => readsDrawnPixels(canvas)).toBe(true);
+    document.documentElement.removeAttribute('data-theme');
+
+    // Off screen, the scene stops drawing; back on screen, it draws again.
+    canvas.style.transform = 'translateY(-5000px)';
+    await new Promise((resolve) => setTimeout(resolve, 300));
+    canvas.style.transform = '';
+    await expect.poll(() => readsDrawnPixels(canvas)).toBe(true);
+  });
+
   it('stays off on a small screen', async () => {
     await page.viewport(390, 800);
     const screen = await render(<HeroScene />);

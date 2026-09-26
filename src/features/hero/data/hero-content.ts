@@ -18,10 +18,12 @@ export const HERO_CONTENT = {
     'Agents',
     'MCP',
   ],
-  stickers: [
-    '1er au concours Epitech Summit',
-    'C++ · Rust · TypeScript',
-    'Agents & LLM au quotidien',
+  // "du calcul au produit": C++ and Rust for the computing work, TypeScript for the
+  // full-stack products, as the CV's three roles show.
+  highlights: [
+    { value: '1er', label: 'au concours Epitech Summit' },
+    { value: 'C++ · Rust · TS', label: 'du calcul au produit' },
+    { value: 'Agents & LLM', label: 'au quotidien' },
   ],
   portraitAlt: 'William Stoops, souriant, sur scène',
 } as const satisfies HeroContent;

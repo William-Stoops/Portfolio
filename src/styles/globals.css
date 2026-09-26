@@ -78,11 +78,18 @@
   --animate-*: initial;
 }
 
-/* Decorative dot grid, fading out from its centre (behind the portrait). */
-@utility dot-grid {
-  background-image: radial-gradient(--theme(--color-border-input) 1.5px, transparent 1.5px);
-  background-size: 1.5rem 1.5rem;
-  mask-image: radial-gradient(closest-side, #000 30%, transparent);
+/*
+ * Blocks below the fold skip style, layout and paint on load (ADR 0018): the first render
+ * only pays for the hero. They stay in the accessibility tree and in find-in-page. Their
+ * size is a placeholder until rendered, so useProgressiveRender renders them all at once
+ * (`data-render-all` on the root) as soon as the visitor moves: a scroll, an in-page link,
+ * the keyboard, or a page opened on an anchor (index.html).
+ */
+@utility defer-render {
+  :root:not([data-render-all]) & {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 60rem;
+  }
 }
 
 /* Building-site stripes (STAXX video poster): tinted, never behind body text. */
@@ -99,6 +106,7 @@
     color-scheme: light dark;
     /* Stacking order, lowest to highest. No magic numbers in class names. */
     --z-header: 50;
+    --z-cursor: 90;
     --z-skip-link: 100;
   }
 

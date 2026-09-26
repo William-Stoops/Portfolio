@@ -29,11 +29,11 @@ describe('hero content', () => {
     ]);
   });
 
-  it('writes the portrait stickers with facts from the CV only', () => {
-    expect(HERO_CONTENT.stickers).toEqual([
-      '1er au concours Epitech Summit',
-      'C++ · Rust · TypeScript',
-      'Agents & LLM au quotidien',
+  it('sums up the profile in three highlights, each backed by the CV', () => {
+    expect(HERO_CONTENT.highlights).toEqual([
+      { value: '1er', label: 'au concours Epitech Summit' },
+      { value: 'C++ · Rust · TS', label: 'du calcul au produit' },
+      { value: 'Agents & LLM', label: 'au quotidien' },
     ]);
   });
 

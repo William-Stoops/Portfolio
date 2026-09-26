@@ -73,4 +73,21 @@ describe('useThemeToggle', () => {
     expect(startViewTransition).not.toHaveBeenCalled();
     expect(document.documentElement.getAttribute('data-theme')).toBe('dark');
   });
+
+  it('lets a second choice interrupt the first transition without an error', async () => {
+    const button = document.createElement('button');
+    document.body.append(button);
+    const { result, act } = await renderHook(() => useThemeToggle());
+
+    await act(() => {
+      result.current.selectThemePreference('dark', button);
+      result.current.selectThemePreference('light', button);
+    });
+
+    // The skipped transition rejects its `ready` promise: it must be handled, or Vitest
+    // reports an unhandled rejection.
+    await expect.poll(() => document.documentElement.getAttribute('data-theme')).toBe('light');
+    await new Promise((resolve) => setTimeout(resolve, 300));
+    button.remove();
+  });
 });

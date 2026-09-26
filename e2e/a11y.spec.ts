@@ -21,7 +21,17 @@ for (const colorScheme of COLOR_SCHEMES) {
 
       const { violations } = await new AxeBuilder({ page }).withTags(AXE_TAGS).analyze();
 
-      expect(violations.map((violation) => violation.id)).toEqual([]);
+      // Each failing node with its selector and axe's summary: an id alone cannot be
+      // debugged from a CI log.
+      expect(
+        violations.flatMap(({ id, nodes }) =>
+          nodes.map(({ target, failureSummary }) => ({
+            id,
+            target: target.join(' '),
+            failure: failureSummary ?? '',
+          })),
+        ),
+      ).toEqual([]);
     });
   }
 }

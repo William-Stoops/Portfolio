@@ -13,7 +13,7 @@ export function AxisBand({ axes }: AxisBandProps) {
   const line = [...axes, ...axes].map(({ title }) => `${title} — `).join('');
 
   return (
-    <div aria-hidden="true" className="overflow-x-clip py-16 select-none">
+    <div aria-hidden="true" className="overflow-x-clip py-16 defer-render select-none">
       <p className={`drift-left text-fg ${LINE_CLASS_NAME}`}>{line}</p>
       <p
         className={`drift-right text-accent-fg [-webkit-text-fill-color:transparent] [-webkit-text-stroke-width:2px] ${LINE_CLASS_NAME}`}

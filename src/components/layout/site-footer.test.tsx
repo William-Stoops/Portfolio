@@ -69,6 +69,14 @@ describe('SiteFooter', () => {
       .not.toHaveAttribute('aria-current');
   });
 
+  it('signs off with the name in giant letters, as decoration', async () => {
+    const screen = await renderInRouter(<SiteFooter />);
+
+    const wordmark = screen.container.querySelector('[data-wordmark]');
+    expect(wordmark?.getAttribute('aria-hidden')).toBe('true');
+    expect(wordmark?.textContent.replaceAll(' ', '')).toBe('WilliamStoops');
+  });
+
   it('has no axe violations', async () => {
     const screen = await renderInRouter(<SiteFooter />);
 

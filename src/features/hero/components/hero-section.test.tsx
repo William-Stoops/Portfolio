@@ -33,9 +33,9 @@ describe('HeroSection', () => {
   it('marks the English job title and states the profile', async () => {
     const screen = await renderHero();
 
-    await expect
-      .element(screen.getByText('Software Engineer & AI Engineer'))
-      .toHaveAttribute('lang', 'en');
+    const role = screen.container.querySelector('[lang="en"]');
+    expect(role?.querySelector('.sr-only')?.textContent).toBe('Software Engineer & AI Engineer');
+    expect(role?.querySelector('[data-scramble]')?.getAttribute('aria-hidden')).toBe('true');
     await expect.element(screen.getByText(HERO_CONTENT.tagline)).toBeVisible();
   });
 
@@ -82,12 +82,16 @@ describe('HeroSection', () => {
     expect(screen.container.querySelectorAll('[data-marquee] ul')).toHaveLength(2);
   });
 
-  it('shows the stickers around the portrait as decoration only', async () => {
+  it('sums up three highlights under the calls to action, read as text', async () => {
     const screen = await renderHero();
 
-    for (const sticker of HERO_CONTENT.stickers) {
-      expect(screen.getByText(sticker).element().closest('[aria-hidden="true"]')).not.toBeNull();
-    }
+    const highlights = screen.getByRole('list', { name: 'En bref' });
+    expect(
+      highlights
+        .getByRole('listitem')
+        .elements()
+        .map((item) => item.textContent),
+    ).toEqual(HERO_CONTENT.highlights.map(({ value, label }) => `${value} ${label}`));
   });
 
   it('shows the portrait as a critical image', async () => {
