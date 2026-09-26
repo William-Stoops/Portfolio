@@ -1,12 +1,14 @@
 import { ExternalLink } from 'lucide-react';
+import { Fragment } from 'react';
 import { NavLink } from 'react-router';
 
 import { FOOTER_LINKS } from '@/config/navigation';
-import { CONTACT_EMAIL, LINKEDIN_URL } from '@/config/site';
+import { CONTACT_EMAIL, LINKEDIN_URL, SITE_OWNER } from '@/config/site';
+import { splitIntoLetters } from '@/utils/split-text';
 
 export function SiteFooter() {
   return (
-    <footer className="mx-auto w-full max-w-6xl px-gutter text-small text-fg-muted">
+    <footer className="@container mx-auto w-full max-w-6xl px-gutter text-small text-fg-muted">
       {/* The rule sits inside the gutter so it lines up with the content column. */}
       <div className="flex flex-col gap-4 border-t border-border py-8 sm:flex-row sm:flex-wrap sm:justify-between">
         <ul className="flex flex-wrap gap-x-6 gap-y-2">
@@ -49,6 +51,30 @@ export function SiteFooter() {
           </ul>
         </nav>
       </div>
+      {/*
+        The sign-off: the name across the whole width, its letters rising as the page
+        reaches its end. Decoration, hidden from assistive tech (the header says the name).
+      */}
+      <p
+        data-wordmark
+        aria-hidden="true"
+        className="-mb-[0.18em] overflow-clip pt-6 text-center font-display text-[13.5cqi] leading-none font-bold tracking-tighter whitespace-nowrap text-fg select-none"
+      >
+        {splitIntoLetters(SITE_OWNER).map(({ text, index, letters }) => (
+          <Fragment key={text}>
+            {index > 0 ? ' ' : null}
+            {letters.map((letter) => (
+              <span
+                key={letter.index}
+                style={{ '--i': letter.index }}
+                className="inline-block reveal-letter"
+              >
+                {letter.text}
+              </span>
+            ))}
+          </Fragment>
+        ))}
+      </p>
     </footer>
   );
 }
