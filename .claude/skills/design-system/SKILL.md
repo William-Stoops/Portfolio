@@ -165,6 +165,13 @@ variant="finale"`, loaded only when near).
   one-pixel outline showed the variable font's overlapping contours. Texts that may be
   on screen at load (the footer of a short page) take `reveal-slide`, never a fade, so
   axe never measures them half transparent.
+- **Photos** (STAXX): a photo is a moment, not a decoration. The Summit win spans the
+  whole case study, its frame opening up (`reveal-expand`) while the image drifts
+  slower than the page (`scroll-parallax`, enlarged only while it drifts); its caption
+  sits in a notch cut into the photo, on the canvas, so its contrast never depends on
+  the picture. The NRJ Lille pair is set apart in depth (`scroll-float` on the smaller
+  frame). Crops are chosen per container (`object-position`), centred on William.
+  Sources live in `docs/content/images/`, derivatives come from `pnpm images`.
 - **Desktop touches** (`src/lib/desktop-enhancements.ts`, loaded on idle for a precise
   pointer): a cursor ring that trails the pointer (the native cursor stays) and **gives
   way** over links and buttons, whose own hover answers; `[data-scramble]` texts decode

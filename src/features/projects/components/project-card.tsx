@@ -1,6 +1,7 @@
 import { Badge } from '@/components/ui/badge';
 import { EmphasizedText } from '@/components/ui/emphasized-text';
 import { KeyFigures } from '@/components/ui/key-figures';
+import { ResponsiveImage } from '@/components/ui/responsive-image';
 import { YouTubeFacade } from '@/components/ui/youtube-facade';
 import { type Project } from '@/features/projects/types/project';
 import { formatPeriod } from '@/utils/format-period';
@@ -8,7 +9,8 @@ import { formatPeriod } from '@/utils/format-period';
 type ProjectCardProps = { project: Project };
 
 // A case study rather than a card: the period as a small overline, the name set huge, the
-// tagline, the project in three figures, then the pitch video, large, beside the story.
+// tagline, the project in three figures, the photo of the win, the pitch video, large,
+// beside the story, and the project on the radio.
 // The container query (on the list item) puts video and story side by side once the
 // study itself is wide enough.
 export function ProjectCard({ project }: ProjectCardProps) {
@@ -34,6 +36,30 @@ export function ProjectCard({ project }: ProjectCardProps) {
         figures={project.figures}
         entrance="reveal"
       />
+
+      {project.photo === undefined ? null : (
+        // The moment the figures above stand for, across the whole study. The caption
+        // sits in a notch cut into the photo, on the page's own background: its contrast
+        // never depends on the picture.
+        <figure className="relative reveal-expand">
+          <div className="overflow-clip rounded-lg">
+            <ResponsiveImage
+              picture={project.photo.picture}
+              alt={project.photo.alt}
+              sizes="(min-width: 72rem) 67rem, 94vw"
+              loading="lazy"
+              // On a narrow frame, centred on William and the trophy rather than the group.
+              className="block aspect-[4/5] w-full scroll-parallax object-cover object-[35%_20%] sm:aspect-[3/2] sm:object-[50%_20%] @4xl:aspect-video"
+            />
+          </div>
+          <figcaption className="absolute start-0 bottom-0 flex flex-col gap-1 rounded-se-lg bg-canvas pe-6 pt-4 sm:pe-10 sm:pt-5">
+            <span className="text-small font-semibold tracking-[0.2em] text-accent-fg uppercase">
+              {project.photo.place}
+            </span>
+            <span className="font-display text-h3 font-semibold">{project.photo.caption}</span>
+          </figcaption>
+        </figure>
+      )}
 
       <div className="grid gap-10 @4xl:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] @4xl:items-start">
         {project.video === undefined ? null : (
@@ -65,6 +91,39 @@ export function ProjectCard({ project }: ProjectCardProps) {
           </ul>
         </div>
       </div>
+
+      {project.press === undefined ? null : (
+        // Two photos of the same moment, set apart in depth: the second rises faster than
+        // the page. The caption closes the pair, under the smaller photo.
+        <figure className="grid grid-cols-2 gap-4 @4xl:grid-cols-12 @4xl:gap-x-8 @4xl:gap-y-6">
+          {project.press.photos.map(({ picture, alt }, index) => (
+            <div
+              key={picture.basePath}
+              className={
+                index === 0
+                  ? 'reveal-expand self-start overflow-clip rounded-lg @4xl:col-span-7 @4xl:row-span-2'
+                  : 'self-start overflow-clip rounded-lg @4xl:col-span-5 @4xl:mt-16 @4xl:scroll-float'
+              }
+            >
+              <ResponsiveImage
+                picture={picture}
+                alt={alt}
+                sizes={
+                  index === 0 ? '(min-width: 72rem) 38rem, 46vw' : '(min-width: 72rem) 27rem, 46vw'
+                }
+                loading="lazy"
+                className={`block w-full scroll-parallax object-cover ${index === 0 ? 'aspect-square' : 'aspect-[4/5]'}`}
+              />
+            </div>
+          ))}
+          <figcaption className="col-span-2 flex reveal-slide flex-col gap-2 @4xl:col-span-5 @4xl:col-start-8 @4xl:self-end">
+            <span className="text-small font-semibold tracking-[0.2em] text-accent-fg uppercase">
+              {project.press.label} · {project.press.outlet}
+            </span>
+            <span className="text-lead">{project.press.summary}</span>
+          </figcaption>
+        </figure>
+      )}
     </article>
   );
 }
