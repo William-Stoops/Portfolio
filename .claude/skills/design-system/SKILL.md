@@ -176,14 +176,14 @@ variant="finale"`, loaded only when near).
   the picture. The NRJ Lille pair is set apart in depth (`scroll-float` on the smaller
   frame). Crops are chosen per container (`object-position`), centred on William.
   Sources live in `docs/content/images/`, derivatives come from `pnpm images`.
-- **One flight** (ADR 0022): below the hero the whole page is one flight path
-  (`FlightPath`): one rail from the first section to the contact, where the plane lands;
-  one sticky column of waypoints (a section's number and name, or a year), each sliding in
-  and out as it crosses the reading line; one header for every section and stop
-  (`StopHeader`: marker, branch, rising title, filigree). Sections, years, practices and
-  skill chapters all sit on it. New content joins the path; nothing gets a column, a rail
-  or a header of its own. Every waypoint's timeline is named after its anchor: anchors
-  must be unique.
+- **The flight path is for the story only** (ADR 0023): the rail, the plane and the column
+  of waypoints run along the Parcours section alone, from its title to "Aujourd'hui",
+  where the plane lands. Sections that are not told in time (À propos, IA, Compétences,
+  Contact) open like chapters off the rail (`StopHeader` without `onPath`: number in
+  filigree, rising title) and set their chapters as ruled rows (`ChapterRows`: header left,
+  content right). Three title sizes: a section, a stop of the journey, a chapter. Texts
+  written as they are read share `InkText`. Every waypoint's timeline is named after its
+  anchor: anchors must be unique.
 - **The journey** (ADR 0021): the Parcours section tells the years at Epitech, one stop a
   year (`FlightLog`). The rail is dotted like the flights; behind a plane riding the
   reading line (40 % down the viewport) it turns into a solid trail, measured against the
