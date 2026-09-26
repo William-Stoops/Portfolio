@@ -57,8 +57,10 @@ test.describe('motion', () => {
       const bookkeeping = new Set(['offset', 'computedOffset', 'easing', 'composite']);
       return [
         ...new Set(
+          // Keyframe animations only: transitions are one-off reactions to a hover or a
+          // theme switch, 150 to 450 ms long, not work repeated at every frame.
           document.getAnimations().flatMap((animation) =>
-            animation.effect instanceof KeyframeEffect
+            animation instanceof CSSAnimation && animation.effect instanceof KeyframeEffect
               ? animation.effect
                   .getKeyframes()
                   .flatMap((keyframe) => Object.keys(keyframe))

@@ -5,6 +5,7 @@ import { ButtonLink } from '@/components/ui/button-link';
 import { PATHS, SECTION_IDS } from '@/config/paths';
 import { CV_FILE, SITE_OWNER } from '@/config/site';
 import { HeroPortrait } from '@/features/hero/components/hero-portrait';
+import { HeroScene } from '@/features/hero/components/hero-scene';
 import { TechMarquee } from '@/features/hero/components/tech-marquee';
 import { type HeroContent } from '@/features/hero/types/hero-content';
 import { splitIntoLetters } from '@/utils/split-text';
@@ -17,7 +18,8 @@ type HeroSectionProps = {
 
 export function HeroSection({ content, headingRef }: HeroSectionProps) {
   return (
-    <section className="flex flex-1 flex-col justify-center gap-10 overflow-x-clip pb-section">
+    <section className="relative isolate flex flex-1 flex-col justify-center gap-10 overflow-x-clip pb-section">
+      <HeroScene />
       <div className="mx-auto grid w-full max-w-6xl items-center gap-x-12 gap-y-16 px-gutter pt-section lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
         <div className="flex flex-col gap-6">
           <p className="enter-rise font-display text-h3 font-semibold">

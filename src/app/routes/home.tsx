@@ -10,6 +10,7 @@ import { SKILL_GROUPS } from '@/features/skills/data/skill-groups';
 import { AiPracticeSection } from '@/features/ai-practice/components/ai-practice-section';
 import { AI_PRACTICE_CONTENT } from '@/features/ai-practice/data/ai-practice-content';
 import { AboutSection } from '@/features/about/components/about-section';
+import { AxisBand } from '@/features/about/components/axis-band';
 import { ABOUT_CONTENT } from '@/features/about/data/about-content';
 import { ExperienceSection } from '@/features/experience/components/experience-section';
 import { EXPERIENCES } from '@/features/experience/data/experiences';
@@ -27,6 +28,7 @@ export function HomeRoute() {
       <title>{SITE_TITLE}</title>
       <HeroSection content={HERO_CONTENT} headingRef={headingRef} />
       <AboutSection content={ABOUT_CONTENT} />
+      <AxisBand axes={ABOUT_CONTENT.axes} />
       <ExperienceSection experiences={EXPERIENCES} />
       <ProjectsSection projects={PROJECTS} />
       <AiPracticeSection content={AI_PRACTICE_CONTENT} />
