@@ -43,6 +43,7 @@ export function FlightLog({ stops, size = 'large' }: FlightLogProps) {
             overline={overline}
             isOverlineDecoration={isOverlineDecoration ?? false}
             size={size}
+            onPath
           />
           <div className="flex flex-col gap-10 *:reveal-from-rail">{content}</div>
         </li>
