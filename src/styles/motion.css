@@ -105,8 +105,8 @@
     translate: 0 2rem;
   }
 
-  25%,
-  75% {
+  12%,
+  88% {
     opacity: 1;
     translate: 0 0;
   }
@@ -440,16 +440,23 @@
   }
 }
 
+/*
+ * Chapters are watched through a reading line, 40 % down the viewport, not through the
+ * whole viewport: a line crosses one chapter at a time, so only one title shows. Seen
+ * through the whole viewport, two short chapters were in view together, and their titles
+ * overlapped.
+ */
 @utility chapter-timeline {
   view-timeline-name: var(--timeline);
+  view-timeline-inset: 40% 59%;
 }
 
-/* The label of the chapter crossing the middle of the viewport rises in, then out. */
+/* The title of the chapter under the reading line rises in, then out as the next comes. */
 @utility chapter-label {
   opacity: 0;
   animation: chapter-swap linear both;
   animation-timeline: var(--timeline);
-  animation-range: cover 15% cover 85%;
+  animation-range: cover 0% cover 100%;
 }
 
 @utility chapter-progress {

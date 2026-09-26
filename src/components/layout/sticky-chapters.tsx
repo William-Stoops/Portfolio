@@ -44,12 +44,13 @@ export function StickyChapters({ chapters }: StickyChaptersProps) {
           </div>
         </div>
       </div>
-      <div style={{ '--timeline': '--chapters' }} className="flex flex-col gap-20 chapter-timeline">
+      <div style={{ '--timeline': '--chapters' }} className="flex flex-col chapter-timeline">
+        {/* Contiguous chapters (spaced by padding, not gaps): one is always under the line. */}
         {chapters.map(({ id, title, content }, index) => (
           <div
             key={id}
             style={{ '--timeline': `--chapter-${String(index)}` }}
-            className="flex flex-col gap-6 chapter-timeline"
+            className="flex flex-col gap-6 pb-20 chapter-timeline"
           >
             <h3
               id={chapterHeadingId(id)}
