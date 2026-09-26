@@ -1,6 +1,6 @@
 # 0022 — Faire de toute la page un seul vol
 
-- Statut : Accepté
+- Statut : Remplacé en partie par 0023
 - Date : 2026-09-26
 
 ## Contexte
