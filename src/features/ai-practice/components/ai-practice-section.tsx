@@ -10,7 +10,11 @@ type AiPracticeSectionProps = { content: AiPracticeContent };
 // like every chapter of the page, their text inked in as it is read.
 export function AiPracticeSection({ content }: AiPracticeSectionProps) {
   return (
-    <PageSection id={SECTION_IDS.aiPractice} title={content.title}>
+    <PageSection
+      id={SECTION_IDS.aiPractice}
+      title={content.title}
+      lead={<p className="text-lead text-fg-muted">{content.subtitle}</p>}
+    >
       <ChapterRows
         rows={content.items.map(({ title, text }) => ({
           id: title,

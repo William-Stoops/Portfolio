@@ -42,7 +42,7 @@ test.describe('prerendered HTML', () => {
 
     expect(html).toContain('<li id="coree"');
     expect(html).toContain('안녕하세요');
-    expect(html).toContain('Ce que j’y ai entraîné');
+    expect(html).toContain('Modèles entraînés');
   });
 
   for (const { path, heading } of [

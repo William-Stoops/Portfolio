@@ -66,7 +66,7 @@ export function KoreaChapter({ content }: KoreaChapterProps) {
 
       <div className="grid gap-14 @4xl:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] @4xl:gap-16">
         <div className="flex flex-col gap-6 @4xl:order-last @4xl:pt-2">
-          <p className={`${OVERLINE_CLASS_NAME} text-fg-subtle`}>Ce que j’y ai entraîné</p>
+          <p className={`${OVERLINE_CLASS_NAME} text-fg-subtle`}>Modèles entraînés</p>
           <ul aria-label="Modèles entraînés à Korea University" className="flex flex-col">
             {content.models.map(({ name, detail }, index) => (
               <li

@@ -32,7 +32,7 @@ test.describe('main navigation', () => {
   for (const { link, heading, level, hash } of [
     {
       link: 'IA',
-      heading: 'IA\u00A0: pratique personnelle et travaux académiques',
+      heading: 'Intelligence artificielle',
       level: 2,
       hash: 'ia',
     },

@@ -9,7 +9,7 @@ describe('skill groups', () => {
       { id: 'langages', name: 'Langages', skills: ['TypeScript', 'Python', 'C++', 'Rust', 'SQL'] },
       {
         id: 'plateforme',
-        name: 'Plateforme',
+        name: 'Frameworks et outils',
         skills: [
           'NestJS',
           'Node.js',
@@ -23,15 +23,15 @@ describe('skill groups', () => {
       },
       {
         id: 'ia',
-        name: 'IA',
+        name: 'IA et data',
         skills: [
           'LLM OpenAI et Anthropic',
-          'function calling',
+          'Function calling',
           'JSON Schema',
-          'agents',
+          'Agents',
           'MCP',
           'Hugging Face',
-          'apprentissage par transfert',
+          'Apprentissage par transfert',
           'CNN',
           'YOLO',
           'pandas',

@@ -49,7 +49,7 @@ describe('projects', () => {
       picture: SUMMIT_PICTURE,
       alt: 'William Stoops, le trophée de la première place en main, entouré de six personnes sur la scène de l’Epitech Summit',
       place: 'Epitech Summit',
-      caption: 'Sur scène, le trophée en main.',
+      caption: 'La première place, trophée en main.',
     });
   });
 
@@ -57,7 +57,7 @@ describe('projects', () => {
     expect(PROJECTS[0].press).toEqual({
       label: 'À la radio',
       outlet: 'NRJ Lille',
-      summary: 'Nous sommes passés sur NRJ Lille, la radio régionale de NRJ, pour présenter STAXX.',
+      summary: 'Passage sur NRJ Lille, la radio régionale de NRJ, pour présenter STAXX.',
       photos: [
         {
           picture: NRJ_INTERVIEW_PICTURE,
