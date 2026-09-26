@@ -18,11 +18,13 @@ type HeroSectionProps = {
 
 export function HeroSection({ content, headingRef }: HeroSectionProps) {
   return (
-    <section className="relative isolate flex flex-1 flex-col justify-center gap-10 overflow-x-clip pb-section">
+    // The hero fills the first screen, its technology strip resting on the bottom edge like a
+    // horizon (not on short screens, where the content alone may exceed the viewport).
+    <section className="relative isolate flex min-h-[calc(100svh-4.75rem)] flex-col overflow-x-clip short:min-h-0">
       <HeroScene />
-      <div className="mx-auto grid w-full max-w-6xl items-center gap-x-12 gap-y-16 px-gutter pt-section lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
+      <div className="mx-auto grid w-full max-w-6xl flex-1 items-center gap-x-12 gap-y-16 px-gutter py-section lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
         <div className="flex flex-col gap-6">
-          <p className="enter-rise font-display text-h3 font-semibold">
+          <p className="enter-slide font-display text-h3 font-semibold">
             {content.greeting}
             <span className="inline-block enter-pop text-accent-fg">.</span>
           </p>
@@ -57,12 +59,16 @@ export function HeroSection({ content, headingRef }: HeroSectionProps) {
             <p
               lang="en"
               style={{ '--i': 4 }}
-              className="enter-rise font-display text-h2 font-semibold text-accent-fg"
+              className="enter-slide font-display text-h2 font-semibold text-accent-fg"
             >
-              {content.role}
+              {/* Read once; the copy decodes itself on hover (desktop enhancements). */}
+              <span className="sr-only">{content.role}</span>
+              <span aria-hidden="true" data-scramble>
+                {content.role}
+              </span>
             </p>
           </div>
-          <p style={{ '--i': 5 }} className="max-w-prose enter-rise text-lead text-fg-muted">
+          <p style={{ '--i': 5 }} className="max-w-prose enter-slide text-lead text-fg-muted">
             {content.tagline}
           </p>
           <div style={{ '--i': 6 }} className="flex enter-rise flex-wrap gap-3">
@@ -95,8 +101,26 @@ export function HeroSection({ content, headingRef }: HeroSectionProps) {
               </ButtonLink>
             </span>
           </div>
+          {/* The profile in three facts, set in the page rather than pinned on the photo. */}
+          <ul
+            aria-label="En bref"
+            className="mt-2 grid gap-5 border-t border-border pt-6 sm:grid-cols-3 sm:gap-0 sm:divide-x sm:divide-border"
+          >
+            {content.highlights.map(({ value, label }, index) => (
+              <li
+                key={value}
+                style={{ '--i': 7 + index }}
+                className="flex enter-slide flex-col gap-1 sm:px-5 sm:first:ps-0 sm:last:pe-0"
+              >
+                <span className="font-display text-lead font-semibold whitespace-nowrap text-fg">
+                  {value}
+                </span>{' '}
+                <span className="text-small text-fg-muted">{label}</span>
+              </li>
+            ))}
+          </ul>
         </div>
-        <HeroPortrait alt={content.portraitAlt} stickers={content.stickers} />
+        <HeroPortrait alt={content.portraitAlt} />
       </div>
       <TechMarquee technologies={content.technologies} />
     </section>

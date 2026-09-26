@@ -39,6 +39,7 @@ function runScene(renderer: SurfaceRenderer, canvas: HTMLCanvasElement): () => v
   let pointer: [number, number] = [0, 0];
   let pointerStrength = 0;
   let parallax = 0;
+  let ripple: { origin: readonly [number, number]; startTime: number } | null = null;
 
   function resize(): void {
     const pixelRatio = Math.min(window.devicePixelRatio, MAX_PIXEL_RATIO);
@@ -64,6 +65,8 @@ function runScene(renderer: SurfaceRenderer, canvas: HTMLCanvasElement): () => v
       pointerStrength,
       calm: Math.min(window.scrollY / Math.max(canvas.clientHeight, 1), 1),
       parallax,
+      ripple:
+        ripple === null ? null : { origin: ripple.origin, age: (now - ripple.startTime) / 1000 },
     });
     frameHandle = window.requestAnimationFrame(frame);
   }
@@ -81,6 +84,19 @@ function runScene(renderer: SurfaceRenderer, canvas: HTMLCanvasElement): () => v
     const screenY = 1 - ((event.clientY - top) / height) * 2;
     parallax = Math.max(-1, Math.min(1, screenX));
     pointerTarget = renderer.groundUnder(screenX, screenY);
+  }
+
+  function handlePointerDown(event: PointerEvent): void {
+    const { left, top, width, height } = canvas.getBoundingClientRect();
+    const screenX = ((event.clientX - left) / width) * 2 - 1;
+    const screenY = 1 - ((event.clientY - top) / height) * 2;
+    if (Math.abs(screenX) > 1 || Math.abs(screenY) > 1) {
+      return;
+    }
+    const origin = renderer.groundUnder(screenX, screenY);
+    if (origin !== null) {
+      ripple = { origin, startTime: performance.now() };
+    }
   }
 
   function handlePointerLeave(): void {
@@ -106,6 +122,7 @@ function runScene(renderer: SurfaceRenderer, canvas: HTMLCanvasElement): () => v
   const colorScheme = window.matchMedia('(prefers-color-scheme: dark)');
   colorScheme.addEventListener('change', handleThemeChange);
   window.addEventListener('pointermove', handlePointerMove, { passive: true });
+  window.addEventListener('pointerdown', handlePointerDown, { passive: true });
   document.documentElement.addEventListener('pointerleave', handlePointerLeave);
   setRunning(isVisible);
 
@@ -116,6 +133,7 @@ function runScene(renderer: SurfaceRenderer, canvas: HTMLCanvasElement): () => v
     themeObserver.disconnect();
     colorScheme.removeEventListener('change', handleThemeChange);
     window.removeEventListener('pointermove', handlePointerMove);
+    window.removeEventListener('pointerdown', handlePointerDown);
     document.documentElement.removeEventListener('pointerleave', handlePointerLeave);
     renderer.dispose();
   };

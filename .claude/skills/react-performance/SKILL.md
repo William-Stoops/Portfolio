@@ -90,7 +90,7 @@ Motion or GSAP would cost ~20 kB, and scroll-linked effects in CSS
 use one delegated listener (`usePointerGlow`) that writes CSS variables: no React
 re-render per mouse move. No layout animations on large lists.
 
-The initial JS budget is nearly spent (119.8 kB of 120): count what a new icon or
+The initial JS budget is 125 kB since ADR 0017 (120.4 kB used): count what a new icon or
 dependency costs before adding it, and load anything that is not needed for the first
 paint on demand, in its own chunk with its own size-limit budget (ADR 0016).
 

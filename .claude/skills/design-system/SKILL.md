@@ -12,11 +12,13 @@ framed by an orange ring, geometric sans headings, generous negative space, clea
 numeric highlights.** We keep that identity and make it ours:
 
 - The accent is **rare and meaningful**: primary action, key figures, the ring, the
-  reading progress, and **one** signature surface, the tilted technology band. If
-  everything is orange, nothing is.
-- **Playful, not noisy** (ADR 0015): the page reacts — letters rise, the ring draws
-  itself, stickers pop, figures are drawn, cards follow the pointer — but every effect is
-  tied to the content and none competes with reading.
+  reading progress, the peaks of the hero surface, the dots between technologies. No
+  large orange surfaces: a tilted orange tape and stickers on the portrait read as cheap
+  and were removed. If everything is orange, nothing is.
+- **Playful, not noisy** (ADR 0015): the page reacts — letters rise, the ring zooms in,
+  figures are drawn, cards follow the pointer — but every effect is tied to the content
+  and none competes with reading. Prefer **integrated, editorial** details (a horizon
+  strip, text set on the ring, thin rules) over objects stuck on top of the layout.
 - Content hierarchy comes from type scale and space, not from boxes and borders.
 - Metrics from the CV (10 h → 5 min, −99 %) are the visual heroes of the About section,
   set in the mono face — they echo "systèmes de calcul".
@@ -124,7 +126,10 @@ in the UI means adding it to that test first.**
   no stock keyframe animation (spin, ping, bounce) is available.
 - **All motion is CSS, in `src/styles/motion.css`** (ADR 0015); no animation library.
   Use its utilities, do not write one-off keyframes in components:
-  - on load, once: `enter-rise`, `enter-letter`, `enter-pop`, `enter-zoom`;
+  - on load, once: `enter-rise`, `enter-slide`, `enter-letter`, `enter-pop`, `enter-zoom`;
+    **large texts above the fold take `enter-slide` (no fade)**: a text fading in from
+    opacity 0 is not counted as painted until a later repaint, after hydration, and it
+    pushed the home page's LCP to 2.5 s in CI (`motion.spec.ts` guards it);
   - scroll-driven: `reveal`, `reveal-grow-x/y`, `reveal-pop`, `reveal-shrink-x`
     (`--shrink-to`), `reveal-fill`, `rail-fill` (+ `rail-timeline`), `scroll-progress`,
     `scroll-settle`;
@@ -134,9 +139,23 @@ in the UI means adding it to that test first.**
   - `marquee-track` for the one loop, with its pause button;
   - `drift-left` / `drift-right` for the giant kinetic lines (`AxisBand`).
 - **Signatures** (ADR 0016): the hero's WebGL volatility surface (tinted from
-  `text-accent` and `border-border-input` read on the canvas, masked under the text) and
-  the kinetic axis band. They carry the "wow"; keep the rest of the page calmer around
-  them.
+  `text-accent` and `border-border-input` read on the canvas, masked under the text,
+  ripples on click) and the kinetic axis band. They carry the "wow"; keep the rest of the
+  page calmer around them.
+- **Hero composition**: the hero fills the first screen; the technology strip rests on
+  its bottom edge like a horizon (solid canvas background, thin rules, grey text, accent
+  dots, faded edges); the portrait has its accent ring and nothing else on it (stickers,
+  a dot grid and a text ring around it were all tried and removed: the surface already
+  gives the depth, more layers only clutter the photo). The facts once pinned on it now
+  sit in the text column, under the calls to action: three highlights (strong value,
+  grey caption) separated by thin rules, real text read by assistive tech.
+- **Titles and sign-off**: section titles and the footer's giant name have letters that
+  rise with the scroll (`reveal-letter`), behind a visually hidden copy.
+- **Desktop touches** (`src/lib/desktop-enhancements.ts`, loaded on idle for a precise
+  pointer): a cursor ring that trails the pointer (the native cursor stays) and **gives
+  way** over links and buttons, whose own hover answers; `[data-scramble]` texts decode
+  themselves on hover (aria-hidden copies only). Never put anything over a control's
+  text: an accent disc labelled "Télécharger" over the CV button read as very cheap.
 - Stagger siblings with an inline `style={{ '--i': index }}` (typed by
   `src/types/css-custom-properties.d.ts`).
 - Every utility sits behind `prefers-reduced-motion: no-preference`, scroll-driven ones

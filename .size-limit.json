@@ -1,9 +1,22 @@
 [
-  { "name": "Initial JS", "path": "dist/assets/index-*.js", "limit": "120 kB" },
+  {
+    "name": "Initial JS",
+    "path": "dist/assets/index-*.js",
+    "limit": "125 kB"
+  },
   {
     "name": "Hero scene (WebGL, loaded on idle, large screens only)",
     "path": "dist/assets/hero-scene-runtime-*.js",
     "limit": "4 kB"
   },
-  { "name": "CSS", "path": "dist/assets/*.css", "limit": "15 kB" }
+  {
+    "name": "Desktop touches (cursor, decoding texts; loaded on idle, precise pointers only)",
+    "path": "dist/assets/desktop-enhancements-*.js",
+    "limit": "2 kB"
+  },
+  {
+    "name": "CSS",
+    "path": "dist/assets/*.css",
+    "limit": "15 kB"
+  }
 ]
