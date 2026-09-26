@@ -90,8 +90,16 @@ Motion or GSAP would cost ~20 kB, and scroll-linked effects in CSS
 use one delegated listener (`usePointerGlow`) that writes CSS variables: no React
 re-render per mouse move. No layout animations on large lists.
 
-The JS budget is nearly spent (119.2 kB of 120 after ADR 0015): count what a new icon or
-dependency costs before adding it.
+The initial JS budget is nearly spent (119.8 kB of 120): count what a new icon or
+dependency costs before adding it, and load anything that is not needed for the first
+paint on demand, in its own chunk with its own size-limit budget (ADR 0016).
+
+- **Hero WebGL scene** (ADR 0016): raw WebGL2, no library. `useHeroScene` only decides
+  (`canRunHeroScene`: ≥ 64rem, fine pointer, motion allowed, no data saver) and imports
+  `hero-scene-runtime` on idle; everything else (renderer, loop, pointer, theme) lives in
+  that chunk. Import its types with a top-level `import type`: an inline
+  `import { type X }` keeps a real import under `verbatimModuleSyntax` and pulls the chunk
+  back into the main bundle. The loop draws nothing while the hero is off screen.
 
 ## 7. Budgets and measurement
 

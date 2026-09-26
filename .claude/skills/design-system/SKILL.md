@@ -131,7 +131,12 @@ in the UI means adding it to that test first.**
   - pointer: `pointer-tilt`, `pointer-magnet`, `pointer-spotlight`, on an element marked
     `data-pointer` (fed by `usePointerGlow`); the magnet goes on a wrapper, never on an
     element with its own `transition`;
-  - `marquee-track` for the one loop, with its pause button.
+  - `marquee-track` for the one loop, with its pause button;
+  - `drift-left` / `drift-right` for the giant kinetic lines (`AxisBand`).
+- **Signatures** (ADR 0016): the hero's WebGL volatility surface (tinted from
+  `text-accent` and `border-border-input` read on the canvas, masked under the text) and
+  the kinetic axis band. They carry the "wow"; keep the rest of the page calmer around
+  them.
 - Stagger siblings with an inline `style={{ '--i': index }}` (typed by
   `src/types/css-custom-properties.d.ts`).
 - Every utility sits behind `prefers-reduced-motion: no-preference`, scroll-driven ones
