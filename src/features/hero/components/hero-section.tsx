@@ -107,6 +107,24 @@ export function HeroSection({ content, headingRef }: HeroSectionProps) {
               </ButtonLink>
             </span>
           </div>
+          {/* The profile in three facts, set in the page rather than pinned on the photo. */}
+          <ul
+            aria-label="En bref"
+            className="mt-2 grid gap-5 border-t border-border pt-6 sm:grid-cols-3 sm:gap-0 sm:divide-x sm:divide-border"
+          >
+            {content.highlights.map(({ value, label }, index) => (
+              <li
+                key={value}
+                style={{ '--i': 7 + index }}
+                className="flex enter-rise flex-col gap-1 sm:px-5 sm:first:ps-0 sm:last:pe-0"
+              >
+                <span className="font-display text-lead font-semibold whitespace-nowrap text-fg">
+                  {value}
+                </span>{' '}
+                <span className="text-small text-fg-muted">{label}</span>
+              </li>
+            ))}
+          </ul>
         </div>
         <HeroPortrait alt={content.portraitAlt} />
       </div>

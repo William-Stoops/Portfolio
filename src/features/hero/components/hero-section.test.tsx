@@ -82,6 +82,18 @@ describe('HeroSection', () => {
     expect(screen.container.querySelectorAll('[data-marquee] ul')).toHaveLength(2);
   });
 
+  it('sums up three highlights under the calls to action, read as text', async () => {
+    const screen = await renderHero();
+
+    const highlights = screen.getByRole('list', { name: 'En bref' });
+    expect(
+      highlights
+        .getByRole('listitem')
+        .elements()
+        .map((item) => item.textContent),
+    ).toEqual(HERO_CONTENT.highlights.map(({ value, label }) => `${value} ${label}`));
+  });
+
   it('shows the portrait as a critical image', async () => {
     const screen = await renderHero();
 

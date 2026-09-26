@@ -29,6 +29,14 @@ describe('hero content', () => {
     ]);
   });
 
+  it('sums up the profile in three highlights, each backed by the CV', () => {
+    expect(HERO_CONTENT.highlights).toEqual([
+      { value: '1er', label: 'au concours Epitech Summit' },
+      { value: 'C++ · Rust · TS', label: 'du calcul au produit' },
+      { value: 'Agents & LLM', label: 'au quotidien' },
+    ]);
+  });
+
   it('describes the portrait without claiming what the photo does not show', () => {
     expect(HERO_CONTENT.portraitAlt).toBe('William Stoops, souriant, sur scène');
   });
