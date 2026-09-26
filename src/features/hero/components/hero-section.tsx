@@ -18,9 +18,11 @@ type HeroSectionProps = {
 
 export function HeroSection({ content, headingRef }: HeroSectionProps) {
   return (
-    <section className="relative isolate flex flex-1 flex-col justify-center gap-10 overflow-x-clip pb-section">
+    // The hero fills the first screen, its technology strip resting on the bottom edge like a
+    // horizon (not on short screens, where the content alone may exceed the viewport).
+    <section className="relative isolate flex min-h-[calc(100svh-4.75rem)] flex-col overflow-x-clip short:min-h-0">
       <HeroScene />
-      <div className="mx-auto grid w-full max-w-6xl items-center gap-x-12 gap-y-16 px-gutter pt-section lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
+      <div className="mx-auto grid w-full max-w-6xl flex-1 items-center gap-x-12 gap-y-16 px-gutter py-section lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
         <div className="flex flex-col gap-6">
           <p className="enter-rise font-display text-h3 font-semibold">
             {content.greeting}
