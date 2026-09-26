@@ -41,6 +41,18 @@ describe('ProjectsSection', () => {
     expect(screen.container.querySelector('iframe')).toBeNull();
   });
 
+  it('opens the case study with the project in three figures', async () => {
+    const screen = await renderSection();
+
+    const figures = screen.getByRole('list', { name: 'STAXX en chiffres' });
+    expect(
+      figures
+        .getByRole('listitem')
+        .elements()
+        .map((item) => item.textContent),
+    ).toEqual(PROJECTS[0].figures.map(({ value, label }) => `${value} ${label}`));
+  });
+
   it('has no axe violations', async () => {
     const screen = await renderSection();
 
