@@ -22,5 +22,6 @@ fois accepté** : on ne le réécrit pas, on le remplace par un nouvel ADR qui l
 | 0014 | [Héberger sur Cloudflare Pages, avec un fichier HTML par page](0014-cloudflare-pages-one-html-per-route.md) | Accepté           |
 | 0015 | [Un mouvement expressif, en CSS natif](0015-expressive-motion-in-native-css.md)                             | Accepté           |
 | 0016 | [Une surface de volatilité en WebGL2 brut derrière le hero](0016-hero-webgl-surface.md)                     | Accepté           |
+| 0017 | [Relever le budget du JS initial à 125 kB](0017-initial-js-budget-125.md)                                   | Accepté           |
 
 Modèle : copier [template.md](template.md).
