@@ -122,16 +122,6 @@
   }
 }
 
-@keyframes odometer-step {
-  from {
-    translate: 0 0;
-  }
-
-  to {
-    translate: 0 -1lh;
-  }
-}
-
 @keyframes plane-away {
   0%,
   100% {
@@ -148,6 +138,11 @@
   from {
     opacity: 0;
     translate: 0 1.5rem;
+  }
+
+  to {
+    opacity: 1;
+    translate: 0 0;
   }
 }
 
@@ -208,24 +203,6 @@
 
   to {
     translate: var(--drift-to) 0;
-  }
-}
-
-@keyframes chapter-swap {
-  0% {
-    opacity: 0;
-    translate: 0 2rem;
-  }
-
-  12%,
-  88% {
-    opacity: 1;
-    translate: 0 0;
-  }
-
-  100% {
-    opacity: 0;
-    translate: 0 -2rem;
   }
 }
 
@@ -646,12 +623,28 @@
 }
 
 /*
- * The flight log (FlightLog): the journey's stops along one rail. Its stops are watched
- * through the reading line (chapter-timeline) and named in its timeline scope, so the
- * sticky odometer and labels beside them can follow them.
+ * The flight path (FlightPath): the whole page below the hero along one rail. It shares
+ * the timelines of its waypoints and flights with every section (timeline-scope), and
+ * places the rail and the content: --rail-x (the rail's centre) and --content-x (where
+ * content starts), from the column's left edge. On large screens the column of waypoints
+ * takes the left; without it (no scroll-driven animations, or reduced motion) the rail
+ * stays near the edge, as on smaller screens.
  */
-@utility flight-log-layout {
+@utility flight-path-layout {
   timeline-scope: var(--scope);
+  --rail-x: 0.5rem;
+  --content-x: 2.5rem;
+
+  @media (min-width: 48rem) {
+    --content-x: 4rem;
+  }
+
+  @media (min-width: 64rem) and (prefers-reduced-motion: no-preference) {
+    @supports (timeline-scope: none) and (animation-timeline: view()) {
+      --rail-x: 13.5rem;
+      --content-x: 17rem;
+    }
+  }
 }
 
 /* The rail's path, dotted like the flight to Seoul. */
@@ -676,13 +669,16 @@
 }
 
 /*
- * A stop's label beside the odometer: it rises in as the stop reaches the reading line and
+ * A waypoint's label beside the rail: it rises in as its section or stop reaches the reading
+ * line and
  * leaves as the stop ends, each over a fixed distance whatever the stop's length (two
  * elements, one animation each: a single keyframe set would stretch with long stops).
  */
 @utility stop-label-in {
   @media (prefers-reduced-motion: no-preference) {
     @supports (animation-timeline: view()) {
+      /* Hidden until its waypoint's timeline brings it in: never shown by default. */
+      opacity: 0;
       animation: label-in var(--ease-out) both;
       animation-timeline: var(--timeline);
       animation-range: cover 0% cover 6rem;
@@ -758,25 +754,6 @@
   }
 }
 
-/*
- * The odometer rolls one step as each stop after the first reaches the reading line. One
- * animation per stop (`--roll-names`, `--roll-timelines`, set by the component), all
- * added together: after the third stop the digits have rolled by three lines.
- */
-@utility odometer-roll {
-  @media (prefers-reduced-motion: no-preference) {
-    @supports (animation-timeline: view()) {
-      animation-name: var(--roll-names);
-      animation-duration: auto;
-      animation-timing-function: var(--ease-out);
-      animation-fill-mode: both;
-      animation-timeline: var(--roll-timelines);
-      animation-range: cover 0% cover 8rem;
-      animation-composition: add;
-    }
-  }
-}
-
 /* The header's bottom rule fades in once the page has scrolled under it. */
 @utility scroll-settle {
   @media (prefers-reduced-motion: no-preference) {
@@ -827,26 +804,6 @@
   }
 }
 
-/*
- * Sticky chapters (StickyChapters): the sticky column exists only on large screens, where
- * scroll-driven animations and named timeline scopes run and motion is welcome. There,
- * each chapter's heading is visually hidden (the column shows it); elsewhere the
- * chapters simply stack with their headings.
- */
-@utility chapters-layout {
-  display: flex;
-  flex-direction: column;
-  gap: 4rem;
-
-  @media (min-width: 64rem) and (prefers-reduced-motion: no-preference) {
-    @supports (timeline-scope: none) and (animation-timeline: view()) {
-      display: grid;
-      grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
-      timeline-scope: var(--scope);
-    }
-  }
-}
-
 @utility chapter-rail {
   display: none;
 
@@ -879,21 +836,6 @@
 @utility chapter-timeline {
   view-timeline-name: var(--timeline);
   view-timeline-inset: 40% 59%;
-}
-
-/* The title of the chapter under the reading line rises in, then out as the next comes. */
-@utility chapter-label {
-  opacity: 0;
-  animation: chapter-swap linear both;
-  animation-timeline: var(--timeline);
-  animation-range: cover 0% cover 100%;
-}
-
-@utility chapter-progress {
-  transform-origin: 50% 0;
-  animation: grow-y linear both;
-  animation-timeline: --chapters;
-  animation-range: contain 0% contain 100%;
 }
 
 /*

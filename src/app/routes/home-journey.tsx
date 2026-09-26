@@ -59,12 +59,12 @@ function journeyContent(id: string, note: string | undefined): ReactNode {
 // holding the cards that tell it.
 export function HomeJourney() {
   return (
-    <PageSection id={SECTION_IDS.experience} title="Parcours">
+    <PageSection id={SECTION_IDS.experience} title="Parcours" hasListedStops>
       <FlightLog
         stops={JOURNEY_STOPS.map(({ id, year, label, title, note }: JourneyStop) => ({
           id,
-          year,
-          label,
+          overline: `${String(year)} · ${label}`,
+          filigree: String(year),
           title,
           content: journeyContent(id, note),
         }))}
