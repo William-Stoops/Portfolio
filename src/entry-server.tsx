@@ -1,5 +1,5 @@
 import { StrictMode } from 'react';
-import { renderToString } from 'react-dom/server';
+import { prerender } from 'react-dom/static';
 import { createStaticHandler, createStaticRouter, StaticRouterProvider } from 'react-router';
 
 import { ROUTES } from '@/app/routes';
@@ -16,7 +16,11 @@ export const renderRoute: RenderRoute = async (path) => {
     throw new Error(`Prerendering ${path} returned a response (redirect?), not a page`);
   }
 
-  return renderToString(
+  // prerender, not renderToString: it waits for the sections whose code loads later
+  // (React.lazy), so the HTML carries them too (ADR 0020). Nothing is streamed: with no
+  // chunk size limit every boundary stays inline, instead of being moved into place by
+  // inline scripts, which would hide it without JavaScript and break a strict CSP.
+  const { prelude } = await prerender(
     <StrictMode>
       <StaticRouterProvider
         router={createStaticRouter(handler.dataRoutes, context)}
@@ -24,5 +28,7 @@ export const renderRoute: RenderRoute = async (path) => {
         hydrate={false}
       />
     </StrictMode>,
+    { progressiveChunkSize: Number.POSITIVE_INFINITY },
   );
+  return new Response(prelude).text();
 };

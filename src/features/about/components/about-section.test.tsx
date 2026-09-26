@@ -24,6 +24,14 @@ describe('AboutSection', () => {
     await expect.element(screen.getByText(ABOUT_CONTENT.profile)).toBeVisible();
   });
 
+  it('sets the profile word by word, so each word can be inked in as it is read', async () => {
+    const screen = await renderAbout();
+
+    const profile = screen.getByText(ABOUT_CONTENT.profile).element();
+    const words = Array.from(profile.querySelectorAll('[data-word]'), (word) => word.textContent);
+    expect(words.join(' ')).toBe(ABOUT_CONTENT.profile);
+  });
+
   it('lists the three axes with level-3 headings', async () => {
     const screen = await renderAbout();
 
@@ -34,6 +42,14 @@ describe('AboutSection', () => {
         .elements()
         .map((heading) => heading.textContent),
     ).toEqual(ABOUT_CONTENT.axes.map(({ title }) => title));
+  });
+
+  it('names the key figures by their visible caption', async () => {
+    const screen = await renderAbout();
+
+    const figures = screen.getByRole('list', { name: 'Chiffres clés' });
+    const captionId = figures.element().getAttribute('aria-labelledby') ?? '';
+    expect(document.getElementById(captionId)?.textContent).toBe('Chiffres clés');
   });
 
   it('lists the key figures, spoken in words when symbols would be misread', async () => {

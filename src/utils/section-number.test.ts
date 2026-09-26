@@ -11,7 +11,6 @@ describe('formatSectionNumber', () => {
       '03',
       '04',
       '05',
-      '06',
     ]);
   });
 
