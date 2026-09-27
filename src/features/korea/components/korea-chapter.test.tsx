@@ -2,7 +2,8 @@ import { describe, expect, it } from 'vitest';
 import { render } from 'vitest-browser-react';
 
 import { KoreaChapter } from '@/features/korea/components/korea-chapter';
-import { KOREA_CONTENT } from '@/features/korea/data/korea-content';
+import { KOREA_CONTENT as KOREA_CONTENT_EN } from '@/features/korea/data/korea-content.en';
+import { KOREA_CONTENT } from '@/features/korea/data/korea-content.fr';
 import { expectNoAxeViolations } from '@/testing/expect-no-axe-violations';
 
 async function renderSection() {
@@ -75,5 +76,16 @@ describe('KoreaChapter', () => {
     const screen = await renderSection();
 
     await expectNoAxeViolations(screen.container);
+  });
+
+  it('names its lists in English on the English page', async () => {
+    const screen = await render(<KoreaChapter content={KOREA_CONTENT_EN} />);
+
+    await expect
+      .element(screen.getByRole('list', { name: 'The year in figures' }))
+      .toBeInTheDocument();
+    await expect
+      .element(screen.getByRole('list', { name: 'Models trained at Korea University' }))
+      .toBeInTheDocument();
   });
 });

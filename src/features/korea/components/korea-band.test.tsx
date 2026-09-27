@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { render } from 'vitest-browser-react';
 
 import { KoreaBand } from '@/features/korea/components/korea-band';
-import { KOREA_CONTENT } from '@/features/korea/data/korea-content';
+import { KOREA_CONTENT } from '@/features/korea/data/korea-content.fr';
 
 describe('KoreaBand', () => {
   it('sets the Korean line and its translation, hidden from assistive tech', async () => {

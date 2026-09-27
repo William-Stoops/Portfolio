@@ -1,17 +1,9 @@
 import { type ReactNode } from 'react';
 
 import { FlightRoute } from '@/features/korea/components/flight-route';
-import { type KoreaRoute } from '@/features/korea/types/korea-content';
+import { type Greeting, type KoreaRoute } from '@/features/korea/types/korea-content';
 import { SCENE_LAYOUTS } from '@/features/korea/utils/voyage-layout';
 import { splitIntoLetters } from '@/utils/split-text';
-
-type Greeting = {
-  text: string;
-  // Set when the greeting is not French, for screen readers and fonts.
-  lang?: string;
-  // Its translation, in brackets after it.
-  translation?: string;
-};
 
 type FlightSceneProps = {
   direction: 'east' | 'west';

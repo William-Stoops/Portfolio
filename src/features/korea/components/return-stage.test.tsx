@@ -2,7 +2,8 @@ import { describe, expect, it } from 'vitest';
 import { render } from 'vitest-browser-react';
 
 import { ReturnStage } from '@/features/korea/components/return-stage';
-import { KOREA_CONTENT } from '@/features/korea/data/korea-content';
+import { KOREA_CONTENT as KOREA_CONTENT_EN } from '@/features/korea/data/korea-content.en';
+import { KOREA_CONTENT } from '@/features/korea/data/korea-content.fr';
 import { expectNoAxeViolations } from '@/testing/expect-no-axe-violations';
 
 async function renderStage() {
@@ -37,11 +38,23 @@ describe('ReturnStage', () => {
       1,
     );
     const greetings = screen
-      .getByText(KOREA_CONTENT.homecoming.greeting, { exact: true })
+      .getByText(KOREA_CONTENT.homecoming.greeting.text, { exact: true })
       .elements();
     expect(greetings.filter((greeting) => !greeting.closest('[aria-hidden="true"]'))).toHaveLength(
       1,
     );
+  });
+
+  it('marks the French hello as French on the English page, and translates it', async () => {
+    const screen = await render(<ReturnStage content={KOREA_CONTENT_EN} />);
+
+    const greeting = screen
+      .getByText('Bonjour.', { exact: true })
+      .elements()
+      .find((element) => !element.closest('[aria-hidden="true"]'));
+    expect(greeting?.getAttribute('lang')).toBe('fr');
+    await expect.element(screen.getByText('(goodbye)')).toBeInTheDocument();
+    await expect.element(screen.getByText('(hello)')).toBeInTheDocument();
   });
 
   it('has no axe violations', async () => {

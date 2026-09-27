@@ -8,10 +8,14 @@ import { type KoreaContent } from '@/features/korea/types/korea-content';
 // Source: docs/content/cv-source.md ("IA", "Formation"). The photos, and the Korean words
 // that frame them, come from William (see the same file).
 export const KOREA_CONTENT = {
-  greeting: { korean: '안녕하세요', french: 'bonjour' },
+  greeting: { korean: '안녕하세요', translation: 'bonjour' },
   lead: 'Une année à Korea University, à Séoul, suivie en anglais : deep learning et computer vision.',
   route: { origin: { name: 'France' }, destination: { name: 'Séoul', korean: '서울' } },
-  homecoming: { farewell: { korean: '안녕히 계세요', french: 'au revoir' }, greeting: 'Bonjour.' },
+  homecoming: {
+    farewell: { korean: '안녕히 계세요', translation: 'au revoir' },
+    // The page's own language: no `lang`, no translation.
+    greeting: { text: 'Bonjour.' },
+  },
   university: { korean: '고려대학교', name: 'Korea University' },
   figures: [
     { value: '61e', label: 'au classement mondial QS' },
@@ -47,4 +51,9 @@ export const KOREA_CONTENT = {
       caption: 'Un pavillon illuminé, reflété dans l’eau.',
     },
   ],
+  labels: {
+    yearFigures: 'L’année en chiffres',
+    models: 'Modèles entraînés',
+    modelsList: 'Modèles entraînés à Korea University',
+  },
 } as const satisfies KoreaContent;

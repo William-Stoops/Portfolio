@@ -16,7 +16,7 @@ export function VoyageStage({ content }: VoyageStageProps) {
       greeting={{
         text: content.greeting.korean,
         lang: 'ko',
-        translation: content.greeting.french,
+        translation: content.greeting.translation,
       }}
       aside={<p className="max-w-3xl text-lead text-fg-muted">{content.lead}</p>}
     />

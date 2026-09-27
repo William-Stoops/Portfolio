@@ -54,7 +54,11 @@ export function KoreaChapter({ content }: KoreaChapterProps) {
           <p className="reveal-slide font-display text-h2 font-semibold">
             {content.university.name}
           </p>
-          <KeyFigures label="L’année en chiffres" figures={content.figures} entrance="reveal" />
+          <KeyFigures
+            label={content.labels.yearFigures}
+            figures={content.figures}
+            entrance="reveal"
+          />
         </div>
         {stadium === undefined ? null : (
           <KoreaPhoto
@@ -66,8 +70,8 @@ export function KoreaChapter({ content }: KoreaChapterProps) {
 
       <div className="grid gap-14 @4xl:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] @4xl:gap-16">
         <div className="flex flex-col gap-6 @4xl:order-last @4xl:pt-2">
-          <p className={`${OVERLINE_CLASS_NAME} text-fg-subtle`}>Modèles entraînés</p>
-          <ul aria-label="Modèles entraînés à Korea University" className="flex flex-col">
+          <p className={`${OVERLINE_CLASS_NAME} text-fg-subtle`}>{content.labels.models}</p>
+          <ul aria-label={content.labels.modelsList} className="flex flex-col">
             {content.models.map(({ name, detail }, index) => (
               <li
                 key={name}
