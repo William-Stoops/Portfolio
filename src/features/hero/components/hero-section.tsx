@@ -3,8 +3,7 @@ import { Fragment, type Ref } from 'react';
 
 import { ButtonLink } from '@/components/ui/button-link';
 import { KeyFigures } from '@/components/ui/key-figures';
-import { PATHS, SECTION_IDS } from '@/config/paths';
-import { CV_FILE, SITE_OWNER } from '@/config/site';
+import { SITE_OWNER } from '@/config/site';
 import { HeroPortrait } from '@/features/hero/components/hero-portrait';
 import { HeroScene } from '@/features/hero/components/hero-scene';
 import { TechMarquee } from '@/features/hero/components/tech-marquee';
@@ -75,12 +74,8 @@ export function HeroSection({ content, headingRef }: HeroSectionProps) {
           <div style={{ '--i': 6 }} className="flex enter-rise flex-wrap gap-3">
             {/* The magnet moves the wrapper: the button keeps its own colour transition. */}
             <span data-pointer className="inline-block pointer-magnet">
-              <ButtonLink
-                variant="primary"
-                href={`${PATHS.home}#${SECTION_IDS.contact}`}
-                className="group"
-              >
-                Me contacter
+              <ButtonLink variant="primary" href={content.contact.href} className="group">
+                {content.contact.label}
                 <ArrowRight
                   aria-hidden="true"
                   focusable="false"
@@ -90,24 +85,28 @@ export function HeroSection({ content, headingRef }: HeroSectionProps) {
               </ButtonLink>
             </span>
             <span data-pointer className="inline-block pointer-magnet">
-              <ButtonLink variant="secondary" href={CV_FILE.href} download className="group">
+              <ButtonLink variant="secondary" href={content.cv.href} download className="group">
                 <Download
                   aria-hidden="true"
                   focusable="false"
                   className="size-5 transition-transform duration-250 ease-out group-hover:translate-y-0.5"
                   strokeWidth={1.75}
                 />
-                Télécharger le CV{' '}
-                <span className="font-normal text-fg-muted">({CV_FILE.formatAndWeight})</span>
+                {content.cv.label}{' '}
+                <span className="font-normal text-fg-muted">({content.cv.details})</span>
               </ButtonLink>
             </span>
           </div>
           {/* The profile in three facts, set in the page rather than pinned on the photo. */}
-          <KeyFigures label="En bref" figures={content.highlights} firstIndex={7} />
+          <KeyFigures
+            label={content.labels.highlights}
+            figures={content.highlights}
+            firstIndex={7}
+          />
         </div>
         <HeroPortrait alt={content.portraitAlt} />
       </div>
-      <TechMarquee technologies={content.technologies} />
+      <TechMarquee technologies={content.technologies} labels={content.labels} />
     </section>
   );
 }
