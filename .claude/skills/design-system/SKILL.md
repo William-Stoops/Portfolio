@@ -233,6 +233,13 @@ variant="finale"`, loaded only when near).
   bright disc there read as a glowing blob. The dark of the room is `bg-canvas scheme-dark`
   in both themes. Many dots = one SVG path per group (`M x y h0` with round caps), never
   one element per dot.
+- **The departures board** (ADR 0029): the journey's rail shows the year on tiles split
+  by a hinge and the label in small cells (`SplitFlap`, `flap-board`); a new stop's line
+  takes over at once and turns from the previous line's characters (2024 → 2025 turns one
+  digit). The stops' titles turn in letter by letter (`SplitFlapTitle`, `flap-title`) and
+  stop before the reading line. Cells keep their character's width; the glyphs they turn
+  through come from letters of the same kind and about the same width. Other headers keep
+  their rising letters: the board belongs to the journey, a flight.
 - **Photos are always whole**: framed at their own ratio, never cropped by a frame or by a
   parallax zoom, and set where they tell something (the stadium beside Korea University),
   not in a separate gallery. They move as a whole (`reveal-expand`, `scroll-float`).
