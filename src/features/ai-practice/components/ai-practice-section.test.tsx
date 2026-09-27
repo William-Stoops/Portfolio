@@ -2,7 +2,8 @@ import { describe, expect, it } from 'vitest';
 import { render } from 'vitest-browser-react';
 
 import { AiPracticeSection } from '@/features/ai-practice/components/ai-practice-section';
-import { AI_PRACTICE_CONTENT } from '@/features/ai-practice/data/ai-practice-content';
+import { AI_PRACTICE_CONTENT as AI_PRACTICE_CONTENT_EN } from '@/features/ai-practice/data/ai-practice-content.en';
+import { AI_PRACTICE_CONTENT } from '@/features/ai-practice/data/ai-practice-content.fr';
 import { expectNoAxeViolations } from '@/testing/expect-no-axe-violations';
 
 async function renderSection() {
@@ -47,5 +48,13 @@ describe('AiPracticeSection', () => {
     const screen = await renderSection();
 
     await expectNoAxeViolations(screen.container);
+  });
+
+  it('draws the English section under its English anchor', async () => {
+    const screen = await render(<AiPracticeSection content={AI_PRACTICE_CONTENT_EN} />);
+
+    await expect
+      .element(screen.getByRole('region', { name: 'Artificial intelligence' }))
+      .toHaveAttribute('id', 'ai');
   });
 });

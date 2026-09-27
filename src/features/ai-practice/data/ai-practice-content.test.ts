@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
-import { AI_PRACTICE_CONTENT } from '@/features/ai-practice/data/ai-practice-content';
+import { AI_PRACTICE_CONTENT as AI_PRACTICE_CONTENT_EN } from '@/features/ai-practice/data/ai-practice-content.en';
+import { AI_PRACTICE_CONTENT } from '@/features/ai-practice/data/ai-practice-content.fr';
 
 // Expected values are copied from docs/content/cv-source.md ("IA : pratique personnelle et
 // travaux académiques").
@@ -24,6 +25,15 @@ describe('AI practice content', () => {
         title: 'Modèles entraînés à Korea University',
         text: 'J’ai affiné un BERT (Hugging Face) pour de la classification de texte, entraîné un CNN reconnaissant l’état d’une partie d’échecs sur image du plateau, et déployé un détecteur de gestes temps réel de type YOLO sur flux webcam.',
       },
+    ]);
+  });
+
+  it('translates the three practices, under the English anchor', () => {
+    expect(AI_PRACTICE_CONTENT_EN.id).toBe('ai');
+    expect(AI_PRACTICE_CONTENT_EN.items.map(({ title }) => title)).toEqual([
+      'Agents and MCP',
+      'LLM integration',
+      'Models trained at Korea University',
     ]);
   });
 });

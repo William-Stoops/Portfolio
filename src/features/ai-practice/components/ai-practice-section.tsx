@@ -1,7 +1,6 @@
 import { ChapterRows } from '@/components/layout/chapter-rows';
 import { PageSection } from '@/components/layout/page-section';
 import { InkText } from '@/components/ui/ink-text';
-import { SECTION_IDS } from '@/config/paths';
 import { type AiPracticeContent } from '@/features/ai-practice/types/ai-practice-content';
 
 type AiPracticeSectionProps = { content: AiPracticeContent };
@@ -11,7 +10,7 @@ type AiPracticeSectionProps = { content: AiPracticeContent };
 export function AiPracticeSection({ content }: AiPracticeSectionProps) {
   return (
     <PageSection
-      id={SECTION_IDS.aiPractice}
+      id={content.id}
       title={content.title}
       lead={<p className="text-lead text-fg-muted">{content.subtitle}</p>}
     >

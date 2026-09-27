@@ -1,7 +1,9 @@
+import { SECTION_IDS } from '@/config/paths';
 import { type AiPracticeContent } from '@/features/ai-practice/types/ai-practice-content';
 
 // Source: docs/content/cv-source.md, "IA : pratique personnelle et travaux académiques".
 export const AI_PRACTICE_CONTENT = {
+  id: SECTION_IDS.fr.aiPractice,
   // The CV's section title, under a title a reader takes in at once.
   title: 'Intelligence artificielle',
   subtitle: 'Pratique personnelle et travaux académiques.',
