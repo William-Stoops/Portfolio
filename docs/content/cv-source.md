@@ -6,6 +6,9 @@
 >
 > Les données du site vivent dans `src/features/*/data/*.ts`, typées et validées par Zod,
 > recopiées depuis ce fichier. Toute divergence entre les deux est un bug.
+>
+> Le site existe aussi en anglais (ADR 0026, demande de William le 2026-09-27) : les
+> modules `*.en.ts` **traduisent** ce contenu, sans rien ajouter. William relit la traduction.
 
 ## Identité
 

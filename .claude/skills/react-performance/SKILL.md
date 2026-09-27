@@ -92,8 +92,10 @@ Motion or GSAP would cost ~20 kB, and scroll-linked effects in CSS
 use one delegated listener (`usePointerGlow`) that writes CSS variables: no React
 re-render per mouse move. No layout animations on large lists.
 
-The initial JS budget is 125 kB since ADR 0017 (120.4 kB used): count what a new icon or
-dependency costs before adding it, and load anything that is not needed for the first
+The initial JS budget is 125 kB since ADR 0017 (119.6 kB used, the content of the page's
+locale apart in its own chunk, ADR 0026). Never use top-level `await` in shipped code: it
+turns off Rolldown's chunk merging and splits shared modules into extra requests. Count
+what a new icon or dependency costs before adding it, and load anything that is not needed for the first
 paint on demand, in its own chunk with its own size-limit budget (ADR 0016).
 
 - **Hero WebGL scene** (ADR 0016): raw WebGL2, no library. `useHeroScene` only decides
