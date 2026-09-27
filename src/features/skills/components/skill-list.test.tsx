@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { render } from 'vitest-browser-react';
 
 import { SkillList } from '@/features/skills/components/skill-list';
-import { SKILL_GROUPS } from '@/features/skills/data/skill-groups';
+import { SKILL_GROUPS } from '@/features/skills/data/skill-groups.fr';
 import { expectNoAxeViolations } from '@/testing/expect-no-axe-violations';
 
 const [LANGUAGES] = SKILL_GROUPS;
