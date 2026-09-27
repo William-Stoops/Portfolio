@@ -54,6 +54,21 @@ describe('LegalNotice', () => {
     await expect.element(screen.getByText('mentions légales')).toHaveAttribute('lang', 'fr');
   });
 
+  it.each([
+    [
+      <LegalNotice key="fr" />,
+      'Continents du globe d’après Natural Earth, dans le domaine public.',
+    ],
+    [
+      <LegalNoticeEn key="en" />,
+      'The globe’s continents are drawn from Natural Earth, in the public domain.',
+    ],
+  ])('credits the map the globe is drawn from (%#)', async (notice, credit) => {
+    const screen = await render(notice);
+
+    expect(screen.container.textContent).toContain(credit);
+  });
+
   it('has no axe violations', async () => {
     const screen = await render(<LegalNotice />);
 

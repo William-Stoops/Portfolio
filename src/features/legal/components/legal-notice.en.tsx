@@ -53,6 +53,7 @@ export function LegalNotice() {
         <p>The texts and photographs on this site may not be reproduced without permission.</p>
         <p>
           Sora and Inter fonts under the SIL Open Font License, Lucide icons under the ISC license.
+          The globe’s continents are drawn from Natural Earth, in the public domain.
         </p>
       </LegalBlock>
       <LegalBlock title="Language of this notice">

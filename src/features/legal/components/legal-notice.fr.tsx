@@ -56,6 +56,7 @@ export function LegalNotice() {
         </p>
         <p>
           Polices Sora et Inter sous licence SIL Open Font License, icônes Lucide sous licence ISC.
+          Continents du globe d’après Natural Earth, dans le domaine public.
         </p>
       </LegalBlock>
     </>
