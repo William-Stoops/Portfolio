@@ -1,6 +1,11 @@
 import { describe, expect, it } from 'vitest';
 
-import { buildDotGrid, decodeLandMask, encodeLandMask } from '@/features/korea/utils/land-dots';
+import {
+  buildDotGrid,
+  decodeLandMask,
+  encodeLandMask,
+  landPoints,
+} from '@/features/korea/utils/land-dots';
 
 describe('buildDotGrid', () => {
   it('spaces the dots evenly over the sphere: fewer per row towards the poles', () => {
@@ -27,5 +32,17 @@ describe('land mask', () => {
     const land = [true, false, false, true, true, false, true, false, true, true, false];
 
     expect(decodeLandMask(encodeLandMask(land), land.length)).toEqual(land);
+  });
+});
+
+describe('landPoints', () => {
+  it('keeps the dots of the grid that fall on land, in order', () => {
+    const grid = { rowStep: 90, minLatitude: 0, maxLatitude: 0 };
+    const mask = encodeLandMask([false, true, false, true]);
+
+    expect(landPoints({ ...grid, count: 4, mask })).toEqual([
+      { latitude: 0, longitude: -45 },
+      { latitude: 0, longitude: 135 },
+    ]);
   });
 });
