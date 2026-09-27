@@ -954,6 +954,37 @@
   }
 }
 
+/*
+ * A split-flap cell (SplitFlap): a strip of the glyphs it turns through, one per line. At
+ * rest it shows its character, the last line; it turns one glyph per step (`--steps` in
+ * all), after the cells before it (`--i`). A cell that keeps its character never moves.
+ */
+@utility flap-title {
+  translate: 0 calc(var(--steps) * -1lh);
+
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: roll-up steps(var(--steps), jump-end) both;
+      animation-timeline: view();
+      animation-range: cover calc(6% + var(--i, 0) * 0.5%) cover calc(14% + var(--i, 0) * 0.5%);
+    }
+  }
+}
+
+/* The rail's board changes line as its waypoint crosses the reading line. */
+@utility flap-board {
+  translate: 0 calc(var(--steps) * -1lh);
+
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: roll-up steps(var(--steps), jump-end) both;
+      animation-timeline: var(--timeline);
+      animation-range: cover calc(0.25rem + var(--i, 0) * 0.35rem) cover
+        calc(3rem + var(--i, 0) * 0.35rem);
+    }
+  }
+}
+
 /* A stop's marker fills as the plane reaches it, on the stop's own reading-line timeline. */
 @utility stop-reached {
   @media (prefers-reduced-motion: no-preference) {
