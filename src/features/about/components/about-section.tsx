@@ -1,6 +1,5 @@
 import { PageSection } from '@/components/layout/page-section';
 import { InkText } from '@/components/ui/ink-text';
-import { SECTION_IDS } from '@/config/paths';
 import { MetricVisual } from '@/features/about/components/metric-visual';
 import { type AboutContent } from '@/features/about/types/about-content';
 
@@ -11,15 +10,15 @@ const FIGURES_CAPTION_ID = 'a-propos-chiffres';
 export function AboutSection({ content }: AboutSectionProps) {
   return (
     <PageSection
-      id={SECTION_IDS.about}
-      title="À propos"
+      id={content.id}
+      title={content.title}
       lead={
         // Inked in word by word as it is read (motion.css); the text itself stays whole
         // and at full contrast underneath.
         <InkText text={content.profile} />
       }
     >
-      <ul aria-label="Domaines d’expertise" className="grid gap-10 md:grid-cols-3 md:gap-8">
+      <ul aria-label={content.labels.axes} className="grid gap-10 md:grid-cols-3 md:gap-8">
         {content.axes.map(({ title, description }, index) => (
           <li key={title} style={{ '--i': index }} className="flex reveal-slide flex-col gap-4">
             {/* A hairline with the accent drawn on it, like each section's number. */}
@@ -38,7 +37,7 @@ export function AboutSection({ content }: AboutSectionProps) {
           id={FIGURES_CAPTION_ID}
           className="text-small font-semibold tracking-[0.2em] text-fg-subtle uppercase"
         >
-          Chiffres clés
+          {content.labels.figures}
         </p>
         <ul aria-labelledby={FIGURES_CAPTION_ID} className="border-b border-border">
           {content.metrics.map(({ value, spokenValue, label, visual }) => (

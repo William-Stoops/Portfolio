@@ -1,7 +1,10 @@
+import { SECTION_IDS } from '@/config/paths';
 import { type AboutContent } from '@/features/about/types/about-content';
 
 // Source: docs/content/cv-source.md (Profil, Expérience, Projets, "Chiffres clés").
 export const ABOUT_CONTENT = {
+  id: SECTION_IDS.fr.about,
+  title: 'À propos',
   profile:
     'Software Engineer, 3 ans d’expérience en entreprise. Je décide d’une architecture, je la mesure, je la livre. Je viens du calcul et de la performance, je construis des produits full stack en TypeScript, et je travaille tous les jours avec des agents et des LLM.',
   axes: [
@@ -43,4 +46,5 @@ export const ABOUT_CONTENT = {
       visual: { kind: 'podium' },
     },
   ],
+  labels: { axes: 'Domaines d’expertise', figures: 'Chiffres clés' },
 } as const satisfies AboutContent;

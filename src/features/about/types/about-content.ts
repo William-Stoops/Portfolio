@@ -10,7 +10,7 @@ type MetricVisual =
   | { kind: 'podium' };
 
 type AboutMetric = {
-  // As displayed, with symbols and French typographic spaces.
+  // As displayed, with symbols and the typography of the page's language.
   value: string;
   // What a screen reader should say instead, when symbols would be read badly.
   spokenValue?: string;
@@ -19,7 +19,11 @@ type AboutMetric = {
 };
 
 export type AboutContent = {
+  // Anchor of the section, in the page's language.
+  id: string;
+  title: string;
   profile: string;
   axes: readonly AboutAxis[];
   metrics: readonly AboutMetric[];
+  labels: { axes: string; figures: string };
 };

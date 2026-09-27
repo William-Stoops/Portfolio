@@ -2,7 +2,8 @@ import { describe, expect, it } from 'vitest';
 import { render } from 'vitest-browser-react';
 
 import { AboutSection } from '@/features/about/components/about-section';
-import { ABOUT_CONTENT } from '@/features/about/data/about-content';
+import { ABOUT_CONTENT as ABOUT_CONTENT_EN } from '@/features/about/data/about-content.en';
+import { ABOUT_CONTENT } from '@/features/about/data/about-content.fr';
 import { expectNoAxeViolations } from '@/testing/expect-no-axe-violations';
 
 async function renderAbout() {
@@ -83,5 +84,14 @@ describe('AboutSection', () => {
     const screen = await renderAbout();
 
     await expectNoAxeViolations(screen.container);
+  });
+
+  it('draws the English section from English content, under its English anchor', async () => {
+    const screen = await render(<AboutSection content={ABOUT_CONTENT_EN} />);
+
+    const region = screen.getByRole('region', { name: 'About' });
+    await expect.element(region).toHaveAttribute('id', 'about');
+    await expect.element(screen.getByRole('list', { name: 'Areas of expertise' })).toBeVisible();
+    await expect.element(screen.getByRole('list', { name: 'Key figures' })).toBeVisible();
   });
 });
