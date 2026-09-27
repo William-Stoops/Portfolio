@@ -104,6 +104,10 @@ paint on demand, in its own chunk with its own size-limit budget (ADR 0016).
   that chunk. Import its types with a top-level `import type`: an inline
   `import { type X }` keeps a real import under `verbatimModuleSyntax` and pulls the chunk
   back into the main bundle. The loop draws nothing while the hero is off screen.
+- **Hero opening** (ADR 0030): the fly-in and the dive live in the hero scene's chunk
+  (budget 4.5 kB with the shared WebGL helpers); the content's dive is compositor-only
+  CSS. A view timeline's inset defaults to the scroll padding (6rem under the header): set
+  it to 0 when an animation must start exactly at the top of the screen.
 - **Korea globe** (ADR 0027): the same pattern. `useFlightGlobe` only decides (the pinned
   scene's media query, scroll-driven animations, no data saver) and imports
   `flight-globe-runtime` 800 px before the scene (`whenNear`); the map ships inside that

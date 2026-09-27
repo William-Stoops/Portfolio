@@ -146,6 +146,12 @@ in the UI means adding it to that test first.**
   "wow"; keep the rest of the page calmer around them. A WebGL scene reads its tints from
   colour utilities set on its canvas (`text-*`, `border-*`, `decoration-*`), never from
   literal colours, and follows the theme through `onThemeChange`.
+- **The opening** (ADR 0030): as the hero's surface first appears, the camera flies in
+  from high and far while the relief rises, then lands in the hero's framing
+  (`heroCamera`, `intro`); as the hero scrolls away the camera dives among the waves
+  (`dive`) and the hero's content comes towards the reader (`hero-dive`, transforms only,
+  view timeline without inset). Never fade the hero's texts for an effect: they are the
+  page's first paint.
 - **Hero composition**: the hero fills the first screen; the technology strip rests on
   its bottom edge like a horizon (solid canvas background, thin rules, grey text, accent
   dots, faded edges); the portrait has its accent ring and nothing else on it (stickers,
