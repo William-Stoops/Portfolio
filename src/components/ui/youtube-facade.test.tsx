@@ -3,6 +3,7 @@ import { userEvent } from 'vitest/browser';
 import { render } from 'vitest-browser-react';
 
 import { YouTubeFacade } from '@/components/ui/youtube-facade';
+import { LocaleContext } from '@/i18n/locale-context';
 import { expectNoAxeViolations } from '@/testing/expect-no-axe-violations';
 
 const VIDEO = {
@@ -187,6 +188,23 @@ describe('YouTubeFacade', () => {
       expect(startViewTransition).not.toHaveBeenCalled();
     });
   }
+
+  it('speaks the language of the page', async () => {
+    const screen = await render(
+      <LocaleContext value="en">
+        <YouTubeFacade video={VIDEO} poster={POSTER} />
+      </LocaleContext>,
+    );
+
+    await screen.getByRole('button', { name: `Play the video: ${VIDEO.title}` }).click();
+
+    await expect
+      .element(screen.getByRole('dialog').getByRole('button', { name: 'Close the video' }))
+      .toHaveFocus();
+    await expect
+      .element(screen.getByRole('link', { name: 'Open the video on YouTube (new tab)' }))
+      .toBeInTheDocument();
+  });
 
   it('always offers the video on YouTube, announced as opening a new tab', async () => {
     const screen = await render(<YouTubeFacade video={VIDEO} poster={POSTER} />);

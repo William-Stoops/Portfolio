@@ -3,10 +3,36 @@ import { useId } from 'react';
 
 import { ResponsiveImage } from '@/components/ui/responsive-image';
 import { useVideoDialog } from '@/hooks/use-video-dialog';
+import { NEW_TAB_HINT } from '@/i18n/common-messages';
+import { useLocale, useLocalized } from '@/i18n/locale-context';
+import { type Localized } from '@/i18n/locales';
 import { cn } from '@/lib/cn';
 import { type ResponsivePicture } from '@/types/responsive-picture';
 import { type YouTubeVideo } from '@/types/youtube-video';
 import { buildYouTubeEmbedUrl, buildYouTubeWatchUrl } from '@/utils/youtube';
+
+type FacadeMessages = {
+  play: string;
+  // The button's accessible name: its visible text, then the video's title.
+  playTitled: (title: string) => string;
+  openOnYouTube: string;
+  close: string;
+};
+
+const FACADE_MESSAGES: Localized<FacadeMessages> = {
+  fr: {
+    play: 'Lire la vidéo',
+    playTitled: (title) => `Lire la vidéo : ${title}`,
+    openOnYouTube: 'Ouvrir la vidéo sur YouTube',
+    close: 'Fermer la vidéo',
+  },
+  en: {
+    play: 'Play the video',
+    playTitled: (title) => `Play the video: ${title}`,
+    openOnYouTube: 'Open the video on YouTube',
+    close: 'Close the video',
+  },
+};
 
 type YouTubeFacadeProps = {
   video: YouTubeVideo;
@@ -35,6 +61,8 @@ export function YouTubeFacade({ video, poster }: YouTubeFacadeProps) {
     handlePlayerLoad,
   } = useVideoDialog();
   const titleId = `${useId()}-titre`;
+  const locale = useLocale();
+  const messages = useLocalized(FACADE_MESSAGES);
 
   return (
     <div className="flex flex-col gap-3">
@@ -82,7 +110,7 @@ export function YouTubeFacade({ video, poster }: YouTubeFacadeProps) {
             </span>
           </span>
         </span>
-        <span className="sr-only">Lire la vidéo : {video.title}</span>
+        <span className="sr-only">{messages.playTitled(video.title)}</span>
         {/*
           Cut into the frame on the page's own background, like the photos' captions: its
           contrast never depends on the picture. A small frame keeps its picture and its play
@@ -93,7 +121,7 @@ export function YouTubeFacade({ video, poster }: YouTubeFacadeProps) {
           className="absolute start-0 bottom-0 hidden max-w-[85%] flex-col gap-1 rounded-se-lg bg-canvas pe-5 pt-3 @md:flex @xl:pe-8 @xl:pt-4"
         >
           <span className="text-small font-semibold tracking-[0.2em] text-accent-fg uppercase">
-            Lire la vidéo
+            {messages.play}
           </span>
           <span className="font-semibold text-balance">{video.title}</span>
         </span>
@@ -104,8 +132,8 @@ export function YouTubeFacade({ video, poster }: YouTubeFacadeProps) {
         rel="noopener noreferrer"
         className="inline-flex min-h-6 items-center gap-1 self-start text-small"
       >
-        Ouvrir la vidéo sur YouTube
-        <span className="sr-only"> (nouvel onglet)</span>
+        {messages.openOnYouTube}
+        <span className="sr-only">{NEW_TAB_HINT[locale]}</span>
         <ExternalLink aria-hidden="true" focusable="false" className="size-4" strokeWidth={1.75} />
       </a>
       {/*
@@ -131,7 +159,7 @@ export function YouTubeFacade({ video, poster }: YouTubeFacadeProps) {
               className="inline-grid size-11 shrink-0 place-items-center rounded-md hover:bg-surface-raised"
             >
               <X aria-hidden="true" focusable="false" className="size-6" strokeWidth={1.75} />
-              <span className="sr-only">Fermer la vidéo</span>
+              <span className="sr-only">{messages.close}</span>
             </button>
           </div>
           {/* A size container: the stage takes the largest 16:9 box that fits. */}

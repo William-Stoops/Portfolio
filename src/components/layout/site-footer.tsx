@@ -11,7 +11,35 @@ import {
   SITE_ROLE,
   SITE_TAGLINE,
 } from '@/config/site';
+import { NEW_TAB_HINT } from '@/i18n/common-messages';
+import { useLocale, useLocalized } from '@/i18n/locale-context';
+import { type Localized } from '@/i18n/locales';
 import { splitIntoLetters } from '@/utils/split-text';
+
+type FooterMessages = {
+  contact: string;
+  downloadCv: string;
+  navigation: string;
+  pages: string;
+  backToTop: string;
+};
+
+const FOOTER_MESSAGES: Localized<FooterMessages> = {
+  fr: {
+    contact: 'Contact',
+    downloadCv: 'Télécharger le CV',
+    navigation: 'Pied de page',
+    pages: 'Le site',
+    backToTop: 'Retour en haut',
+  },
+  en: {
+    contact: 'Contact',
+    downloadCv: 'Download my CV',
+    navigation: 'Footer',
+    pages: 'This site',
+    backToTop: 'Back to top',
+  },
+};
 
 const OVERLINE_CLASS_NAME = 'text-small font-semibold tracking-[0.2em] text-fg-subtle uppercase';
 
@@ -28,6 +56,9 @@ const ICON_CLASS_NAME = 'size-4 shrink-0';
 // pages, a thin bar with the way back to the top, and the name again as a one-pixel
 // outline across the width, like the lines of the hero surface, rising as the page ends.
 export function SiteFooter() {
+  const locale = useLocale();
+  const messages = useLocalized(FOOTER_MESSAGES);
+
   return (
     <footer className="@container mx-auto w-full max-w-6xl px-gutter">
       {/* The rule sits inside the gutter so it lines up with the content column. */}
@@ -41,11 +72,11 @@ export function SiteFooter() {
               className="ms-0.5 inline-block size-[0.22em] rounded-full bg-accent"
             />
           </p>
-          <p className="max-w-xs text-small text-fg-muted">{SITE_TAGLINE}</p>
+          <p className="max-w-xs text-small text-fg-muted">{SITE_TAGLINE[locale]}</p>
         </div>
         <div style={{ '--i': 1 }} className="flex reveal-slide flex-col gap-2">
           <p id="pied-de-page-contact" className={OVERLINE_CLASS_NAME}>
-            Contact
+            {messages.contact}
           </p>
           <ul aria-labelledby="pied-de-page-contact">
             <li>
@@ -61,7 +92,7 @@ export function SiteFooter() {
                 className={LINK_CLASS_NAME}
               >
                 LinkedIn
-                <span className="sr-only"> (nouvel onglet)</span>
+                <span className="sr-only">{NEW_TAB_HINT[locale]}</span>
                 <ExternalLink
                   aria-hidden="true"
                   focusable="false"
@@ -73,8 +104,8 @@ export function SiteFooter() {
             <li>
               <a href={CV_FILE.href} download className={LINK_CLASS_NAME}>
                 <span className="whitespace-nowrap">
-                  Télécharger le CV{' '}
-                  <span className="text-fg-subtle">({CV_FILE.formatAndWeight})</span>
+                  {messages.downloadCv}{' '}
+                  <span className="text-fg-subtle">({CV_FILE.details[locale]})</span>
                 </span>
                 <Download
                   aria-hidden="true"
@@ -87,15 +118,15 @@ export function SiteFooter() {
           </ul>
         </div>
         <nav
-          aria-label="Pied de page"
+          aria-label={messages.navigation}
           style={{ '--i': 2 }}
           className="flex reveal-slide flex-col gap-2"
         >
           <p aria-hidden="true" className={OVERLINE_CLASS_NAME}>
-            Le site
+            {messages.pages}
           </p>
           <ul>
-            {FOOTER_LINKS.map(({ label, path }) => (
+            {FOOTER_LINKS[locale].map(({ label, path }) => (
               <li key={path}>
                 {/* NavLink sets aria-current="page" on the link to the page being read. */}
                 <NavLink to={path} className={LINK_CLASS_NAME}>
@@ -111,7 +142,7 @@ export function SiteFooter() {
           © {SITE_OWNER} <span aria-hidden="true">—</span> <span lang="en">{SITE_ROLE}</span>
         </p>
         <a href="#main" className={`${LINK_CLASS_NAME} text-small`}>
-          Retour en haut
+          {messages.backToTop}
           <span
             aria-hidden="true"
             className="inline-grid size-8 place-items-center rounded-full border border-border-input transition-colors duration-250 group-hover:border-accent"
