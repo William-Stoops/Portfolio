@@ -21,8 +21,20 @@ describe('RouteErrorBoundary', () => {
       .toBeVisible();
     await expect
       .element(screen.getByRole('link', { name: 'Retour à l’accueil' }))
-      .toHaveAttribute('href', '/');
+      .toHaveAttribute('href', '/fr');
     await expect.poll(() => document.title).toBe('Erreur – William Stoops');
+  });
+
+  it('apologizes in English on an English page, and leads to the English home', async () => {
+    vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    const screen = await renderRoutes(BROKEN_ROUTES, { locale: 'en' });
+
+    await expect
+      .element(screen.getByRole('heading', { level: 1, name: 'Something went wrong' }))
+      .toBeVisible();
+    await expect
+      .element(screen.getByRole('link', { name: 'Back to the home page' }))
+      .toHaveAttribute('href', '/en');
   });
 
   it('does not leak the technical error message to visitors', async () => {
