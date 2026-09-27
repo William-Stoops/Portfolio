@@ -1,4 +1,5 @@
 import { type EducationEntry } from '@/features/education/types/education-entry';
+import { useLocale } from '@/i18n/locale-context';
 import { formatPeriod } from '@/utils/format-period';
 
 type EducationListProps = {
@@ -10,6 +11,9 @@ type EducationListProps = {
 // One ruled line per entry, like the skills above it: the school set large, the degree
 // and what was studied under it, the period on the right when there is one.
 export function EducationList({ entries, labelledBy }: EducationListProps) {
+  // The text comes from the entries; only the dates are formatted in the page's language.
+  const locale = useLocale();
+
   return (
     <ul aria-labelledby={labelledBy} className="border-t border-border">
       {entries.map(({ id, title, degree, description, period }, index) => (
@@ -29,7 +33,7 @@ export function EducationList({ entries, labelledBy }: EducationListProps) {
           </div>
           {period === undefined ? null : (
             <p className="text-small text-fg-muted tabular-nums md:pt-2 md:text-end">
-              {formatPeriod(period)}
+              {formatPeriod(period, locale)}
             </p>
           )}
         </li>
