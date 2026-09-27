@@ -15,9 +15,11 @@ describe('KineticBand', () => {
 
     const band = screen.container.firstElementChild;
     expect(band?.getAttribute('aria-hidden')).toBe('true');
-    expect([...(band?.querySelectorAll('p') ?? [])].map((line) => line.textContent)).toEqual(
-      LINES.map(({ text }) => text),
-    );
+    const [first, second] = band?.querySelectorAll('p') ?? [];
+    expect(first?.textContent).toBe(LINES[0].text);
+    // The second line is a picture of its words, in filigree: not text of the page.
+    expect(second?.textContent).toBe('');
+    expect(second?.getAttribute('data-filigree')).toBe(LINES[1].text);
   });
 
   it('marks a line written in another language, so the right font draws it', async () => {
@@ -26,6 +28,19 @@ describe('KineticBand', () => {
     const [korean, translation] = screen.container.querySelectorAll('p');
     expect(korean?.getAttribute('lang')).toBe('ko');
     expect(translation?.hasAttribute('lang')).toBe(false);
+  });
+
+  it('fills both lines: an outline of a variable font shows its overlapping contours', async () => {
+    const screen = await render(<KineticBand lines={LINES} />);
+
+    const [first, second] = screen.container.querySelectorAll('p');
+    for (const style of [
+      first === undefined ? undefined : getComputedStyle(first),
+      second === undefined ? undefined : getComputedStyle(second, '::before'),
+    ]) {
+      expect(style?.getPropertyValue('-webkit-text-stroke-width')).toBe('0px');
+      expect(style?.getPropertyValue('-webkit-text-fill-color')).toBe(style?.color);
+    }
   });
 
   it('never makes the page scroll sideways', async () => {

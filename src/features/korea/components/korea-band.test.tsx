@@ -13,6 +13,7 @@ describe('KoreaBand', () => {
     const [korean, translation] = band?.querySelectorAll('p') ?? [];
     expect(korean?.getAttribute('lang')).toBe('ko');
     expect(korean?.textContent).toContain('고려대학교');
-    expect(translation?.textContent).toContain('Korea University');
+    // Drawn in filigree by CSS, from its attribute: a picture of the words.
+    expect(translation?.getAttribute('data-filigree')).toContain('Korea University');
   });
 });

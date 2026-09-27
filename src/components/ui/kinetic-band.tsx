@@ -1,7 +1,8 @@
 type KineticLine = { text: string; lang?: string };
 
 type KineticBandProps = {
-  // Two lines: the first filled, drifting left; the second in outline, drifting right.
+  // Two lines: the first in the text colour, drifting left; the second in filigree, one
+  // step above the canvas in the accent's tint, drifting right.
   lines: readonly [KineticLine, KineticLine];
 };
 
@@ -18,12 +19,14 @@ export function KineticBand({ lines: [first, second] }: KineticBandProps) {
       <p lang={first.lang} className={`drift-left text-fg ${LINE_CLASS_NAME}`}>
         {first.text}
       </p>
+      {/* A picture of the words, drawn by CSS (a pseudo-element), not text of the page,
+          as the years in filigree are. Filled, never outlined: an outline of the variable
+          font shows the overlapping contours of its glyphs. */}
       <p
         lang={second.lang}
-        className={`drift-right text-accent-fg [-webkit-text-fill-color:transparent] [-webkit-text-stroke-width:2px] ${LINE_CLASS_NAME}`}
-      >
-        {second.text}
-      </p>
+        data-filigree={second.text}
+        className={`drift-right text-accent-tint before:content-[attr(data-filigree)] ${LINE_CLASS_NAME}`}
+      />
     </div>
   );
 }
