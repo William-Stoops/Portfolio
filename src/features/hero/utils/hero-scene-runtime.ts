@@ -1,8 +1,9 @@
-import { parseRgbColor } from '@/features/hero/utils/scene-support';
 import {
   createSurfaceRenderer,
   type SurfaceRenderer,
 } from '@/features/hero/utils/surface-renderer';
+import { onThemeChange } from '@/lib/theme-change';
+import { parseRgbColor } from '@/utils/parse-rgb-color';
 
 // Everything that runs the hero scene once it is allowed to: loaded on demand with the
 // renderer, in its own chunk, so none of it weighs on the initial bundle.
@@ -129,10 +130,7 @@ function runScene(
     setRunning(isVisible);
   });
   intersectionObserver.observe(canvas);
-  const themeObserver = new MutationObserver(handleThemeChange);
-  themeObserver.observe(document.documentElement, { attributeFilter: ['data-theme'] });
-  const colorScheme = window.matchMedia('(prefers-color-scheme: dark)');
-  colorScheme.addEventListener('change', handleThemeChange);
+  const stopThemeWatch = onThemeChange(handleThemeChange);
   window.addEventListener('pointermove', handlePointerMove, { passive: true });
   window.addEventListener('pointerdown', handlePointerDown, { passive: true });
   document.documentElement.addEventListener('pointerleave', handlePointerLeave);
@@ -142,8 +140,7 @@ function runScene(
     setRunning(false);
     resizeObserver.disconnect();
     intersectionObserver.disconnect();
-    themeObserver.disconnect();
-    colorScheme.removeEventListener('change', handleThemeChange);
+    stopThemeWatch();
     window.removeEventListener('pointermove', handlePointerMove);
     window.removeEventListener('pointerdown', handlePointerDown);
     document.documentElement.removeEventListener('pointerleave', handlePointerLeave);

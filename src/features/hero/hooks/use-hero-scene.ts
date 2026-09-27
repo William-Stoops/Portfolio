@@ -1,16 +1,9 @@
 import { type RefObject, useEffect, useRef, useState } from 'react';
-import * as z from 'zod/mini';
 
 import { canRunHeroScene } from '@/features/hero/utils/scene-support';
+import { isDataSaved } from '@/lib/save-data';
 import { whenIdle } from '@/lib/when-idle';
-
-// The Network Information API is Chromium-only and untyped: parsed, not trusted.
-const dataSaverSchema = z.object({ connection: z.object({ saveData: z.boolean() }) });
-
-function isDataSaved(): boolean {
-  const result = dataSaverSchema.safeParse(navigator);
-  return result.success && result.data.connection.saveData;
-}
+import { whenNear } from '@/lib/when-near';
 
 // hero: starts on idle, reacts to the scroll. finale: waits for the page to near it (it
 // sits at the bottom of the page: nothing is loaded for it at startup), and stays settled.
@@ -18,22 +11,6 @@ export type SceneVariant = 'hero' | 'finale';
 
 // How far ahead of the viewport the finale starts loading, so it is drawn when it appears.
 const FINALE_MARGIN = '400px';
-
-function whenNear(element: Element, callback: () => void): () => void {
-  const observer = new IntersectionObserver(
-    ([entry]) => {
-      if (entry?.isIntersecting === true) {
-        observer.disconnect();
-        callback();
-      }
-    },
-    { rootMargin: FINALE_MARGIN },
-  );
-  observer.observe(element);
-  return () => {
-    observer.disconnect();
-  };
-}
 
 // Decides whether the WebGL surface runs, and starts it where it can. The scene itself
 // (renderer and loop) is loaded on demand.
@@ -74,7 +51,8 @@ export function useHeroScene(variant: SceneVariant): {
         void startScene(canvas);
       }
     }
-    const cancelStart = variant === 'hero' ? whenIdle(start) : whenNear(canvas, start);
+    const cancelStart =
+      variant === 'hero' ? whenIdle(start) : whenNear(canvas, start, FINALE_MARGIN);
 
     return () => {
       isDisposed = true;
