@@ -1,3 +1,4 @@
+import { type FlightDirection } from '@/features/korea/types/flight-direction';
 import { FLIGHT_ARC } from '@/features/korea/utils/flight-arc';
 
 // A flight scene on large screens: the route spans most of the scene and the flag waits at
@@ -25,7 +26,7 @@ function format(value: number): string {
   return String(Number(value.toFixed(3)));
 }
 
-function arcToFlag(direction: 'east' | 'west'): string {
+function arcToFlag(direction: FlightDirection): string {
   const [from, entryX, sweep] =
     direction === 'east'
       ? [FLIGHT_ARC.start, CIRCLE.centreX + ENTRY_OFFSET, 1]
@@ -33,7 +34,7 @@ function arcToFlag(direction: 'east' | 'west'): string {
   return `M${format(from.x)} ${format(from.y)}A${format(CIRCLE.radius)} ${format(CIRCLE.radius)} 0 0 ${String(sweep)} ${entryX.toFixed(1)} ${FLAG_TOP_UNITS.toFixed(1)}`;
 }
 
-function layout(direction: 'east' | 'west') {
+function layout(direction: FlightDirection) {
   const routeLeft = direction === 'east' ? 0 : 100 - ROUTE_WIDTH;
   const landing = direction === 'east' ? FLIGHT_ARC.end.x : FLIGHT_ARC.start.x;
   return {

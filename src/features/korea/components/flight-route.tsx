@@ -1,10 +1,11 @@
 import { Plane } from 'lucide-react';
 
+import { type FlightDirection } from '@/features/korea/types/flight-direction';
 import { type KoreaRoute } from '@/features/korea/types/korea-content';
 import { FLIGHT_ARC } from '@/features/korea/utils/flight-arc';
 import { SCENE_LAYOUTS } from '@/features/korea/utils/voyage-layout';
 
-type FlightRouteProps = { route: KoreaRoute; direction: 'east' | 'west' };
+type FlightRouteProps = { route: KoreaRoute; direction: FlightDirection };
 
 type PlaceLabelProps = { place: KoreaRoute['origin']; left: string; isDestination: boolean };
 
@@ -84,6 +85,7 @@ export function FlightRoute({ route, direction }: FlightRouteProps) {
           className="absolute left-1/2 size-0 voyage-flight"
         >
           <div
+            data-flight-plane
             style={{ top: FLIGHT_ARC.planeTop }}
             className="absolute -left-5 size-10 voyage-altitude"
           >

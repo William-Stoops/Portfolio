@@ -2,7 +2,8 @@ import { expect, type Page, test } from '@playwright/test';
 
 import { isMobileLayout } from './support/interactions.ts';
 
-const SCENE_CHUNK = /hero-scene-runtime-[\w-]+\.js$/;
+// The scene's own chunk, and the WebGL helpers it shares with the Korea globe.
+const SCENE_CHUNK = /(?:hero-scene-runtime|webgl)-[\w-]+\.js$/;
 
 function recordSceneRequests(page: Page): string[] {
   const requests: string[] = [];
@@ -29,9 +30,13 @@ test.describe('hero scene', () => {
 
     // The hero's scene only: the finale, at the bottom of the page, waits to be neared.
     await expect(page.locator('canvas[data-ready]')).toHaveCount(1, { timeout: 10_000 });
-    for (const canvas of await page.locator('canvas').all()) {
-      await expect(canvas).toHaveAttribute('aria-hidden', 'true');
-    }
+    // Every canvas is decoration, hidden from assistive tech itself or by its container.
+    const hiddenCanvases = await page
+      .locator('canvas')
+      .evaluateAll((canvases) =>
+        canvases.map((canvas) => canvas.closest('[aria-hidden="true"]') !== null),
+      );
+    expect(hiddenCanvases).not.toContain(false);
     expect(errors).toEqual([]);
   });
 
