@@ -7,6 +7,7 @@ import {
   NRJ_INTERVIEW_PICTURE,
   PITCH_PICTURE,
   SUMMIT_PICTURE,
+  SUMMIT_SPOTLIGHT,
 } from '@/features/projects/data/staxx-pictures';
 
 // Expected values are copied from docs/content/cv-source.md ("Projets").
@@ -61,7 +62,23 @@ describe('projects', () => {
       alt: 'William Stoops, le trophée de la première place en main, entouré de six personnes sur la scène de l’Epitech Summit',
       place: 'Epitech Summit',
       caption: 'La première place, trophée en main.',
+      // "pitché devant 300 personnes": the room of the Summit, one seat per person.
+      audience: { count: 300, label: 'personnes au pitch' },
+      spotlight: SUMMIT_SPOTLIGHT,
     });
+  });
+
+  it('counts the audience as the figures do', () => {
+    const audienceFigure = PROJECTS[0].figures.find(({ label }) => label === 'personnes au pitch');
+
+    expect(String(PROJECTS[0].photo.audience.count)).toBe(audienceFigure?.value);
+  });
+
+  it('points the spotlights at the winner, inside the photo', () => {
+    expect(SUMMIT_SPOTLIGHT.x).toBeGreaterThan(0);
+    expect(SUMMIT_SPOTLIGHT.x).toBeLessThan(1);
+    expect(SUMMIT_SPOTLIGHT.y).toBeGreaterThan(0);
+    expect(SUMMIT_SPOTLIGHT.y).toBeLessThan(1);
   });
 
   it('tells the NRJ Lille radio appearance, with its two photos described', () => {
@@ -104,6 +121,8 @@ describe('projects', () => {
       staxx.pitch.poster,
       staxx.photo.picture,
     ]);
+    expect(english.photo.audience).toEqual({ count: 300, label: 'people at the pitch' });
+    expect(english.photo.spotlight).toBe(staxx.photo.spotlight);
     expect(english.press.photos.map(({ picture }) => picture)).toEqual(
       staxx.press.photos.map(({ picture }) => picture),
     );

@@ -3,6 +3,7 @@ import {
   NRJ_INTERVIEW_PICTURE,
   PITCH_PICTURE,
   SUMMIT_PICTURE,
+  SUMMIT_SPOTLIGHT,
 } from '@/features/projects/data/staxx-pictures';
 import { type Project, type ProjectLabels } from '@/features/projects/types/project';
 
@@ -40,6 +41,8 @@ export const PROJECTS = [
       alt: 'William Stoops, the first-place trophy in hand, surrounded by six people on the Epitech Summit stage',
       place: 'Epitech Summit',
       caption: 'First place, trophy in hand.',
+      audience: { count: 300, label: 'people at the pitch' },
+      spotlight: SUMMIT_SPOTLIGHT,
     },
     press: {
       label: 'On the radio',
