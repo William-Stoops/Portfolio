@@ -430,6 +430,10 @@
     @supports (animation-timeline: view()) {
       height: 260vh;
       view-timeline-name: var(--scene-timeline);
+      /* The story starts when the stage pins (its top at the top of the viewport), not
+         once past the header's scroll padding, which the default inset (auto) would
+         take: the globe reads the same timeline in script (flight-timeline.ts). */
+      view-timeline-inset: 0;
     }
   }
 }
