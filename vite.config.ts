@@ -17,6 +17,12 @@ const IS_VITEST = process.env['VITEST'] === 'true';
 
 const FILE_EXTENSION_PATTERN = /\.[\da-z]+$/i;
 
+// What the two WebGL scenes share (the hero's surface, the Korea globe): one chunk, loaded
+// with whichever scene comes first, under a stable name its budgets can target
+// (.size-limit.json), instead of a name Rolldown would take from one of its modules.
+const WEBGL_SHARED_MODULES =
+  /[\\/]src[\\/](?:lib[\\/](?:webgl-program|theme-change)|utils[\\/](?:matrix4|parse-rgb-color))\.ts$/;
+
 // Makes `vite preview` answer like the static host (Cloudflare Pages): assets as is,
 // prerendered pages from their .html file, any other URL with the nearest 404.html (its
 // locale's) and a real 404 status (no SPA fallback to a page).
@@ -76,5 +82,8 @@ export default defineConfig({
     sourcemap: true,
     // Read by scripts/prerender.ts to preload each locale's content chunk, then deleted.
     manifest: true,
+    rolldownOptions: {
+      output: { codeSplitting: { groups: [{ name: 'webgl', test: WEBGL_SHARED_MODULES }] } },
+    },
   },
 });
