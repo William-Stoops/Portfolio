@@ -2,19 +2,19 @@ import { expect, test } from '@playwright/test';
 
 test.describe('document', () => {
   test('declares French as page language', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/fr');
 
     await expect(page.locator('html')).toHaveAttribute('lang', 'fr');
   });
 
   test('has a descriptive title', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/fr');
 
     await expect(page).toHaveTitle('William Stoops – Software Engineer & AI Engineer');
   });
 
   test('describes the page for search engines', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/fr');
 
     await expect(page.locator('meta[name="description"]')).toHaveAttribute(
       'content',
@@ -23,7 +23,7 @@ test.describe('document', () => {
   });
 
   test('never blocks pinch zoom', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/fr');
 
     const viewport = page.locator('meta[name="viewport"]');
     await expect(viewport).toHaveAttribute('content', /width=device-width/);
@@ -31,7 +31,7 @@ test.describe('document', () => {
   });
 
   test('renders the main heading', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/fr');
 
     await expect(page.getByRole('heading', { level: 1, name: 'William Stoops' })).toBeVisible();
   });
@@ -42,7 +42,7 @@ test.describe('crawler files', () => {
     page,
     request,
   }) => {
-    await page.goto('/');
+    await page.goto('/fr');
     // Every picture, the portrait and the STAXX photos further down alike.
     const declaredFiles = await page.evaluate(() =>
       [...document.querySelectorAll('picture source, picture img')].flatMap((element) =>

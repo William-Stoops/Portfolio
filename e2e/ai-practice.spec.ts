@@ -4,7 +4,7 @@ test.describe('AI practice', () => {
   test('never lets one practice cover another while the page scrolls', async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'no-preference' });
     // Arriving on an anchor renders every deferred section (ADR 0018).
-    await page.goto('/#ia');
+    await page.goto('/fr#ia');
     const cards = page
       .getByRole('region', { name: 'Intelligence artificielle' })
       .getByRole('listitem');

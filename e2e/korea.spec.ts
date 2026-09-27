@@ -5,7 +5,7 @@ import { expect, type Page, test } from '@playwright/test';
 // small one, it must cross from one side to the other in the expected direction.
 async function samplePlaneTrack(page: Page, stopId: string): Promise<number[]> {
   await page.emulateMedia({ reducedMotion: 'no-preference' });
-  await page.goto(`/#${stopId}`);
+  await page.goto(`/fr#${stopId}`);
   const scene = page.locator(`#${stopId} .voyage-track`);
   const plane = scene.locator('[data-flight-route] .voyage-altitude');
   const { top, height } = await scene.evaluate((element) => {
@@ -41,7 +41,7 @@ async function samplePlaneTrack(page: Page, stopId: string): Promise<number[]> {
 test.describe('Korea section', () => {
   test('loads its three photos once reached', async ({ page }) => {
     // Arriving on an anchor renders every deferred section (ADR 0018).
-    await page.goto('/#coree');
+    await page.goto('/fr#coree');
     const section = page.locator('#coree');
 
     const photos = await section.getByRole('figure').getByRole('img').all();

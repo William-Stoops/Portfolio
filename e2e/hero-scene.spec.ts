@@ -25,7 +25,7 @@ test.describe('hero scene', () => {
       }
     });
 
-    await page.goto('/');
+    await page.goto('/fr');
 
     // The hero's scene only: the finale, at the bottom of the page, waits to be neared.
     await expect(page.locator('canvas[data-ready]')).toHaveCount(1, { timeout: 10_000 });
@@ -39,7 +39,7 @@ test.describe('hero scene', () => {
     page,
   }) => {
     test.skip(isMobileLayout(page), 'the scene only runs on large screens');
-    await page.goto('/');
+    await page.goto('/fr');
     await expect(page.locator('canvas[data-ready]')).toHaveCount(1, { timeout: 10_000 });
 
     // As a visitor does: through the navigation, which renders the deferred sections first.
@@ -55,7 +55,7 @@ test.describe('hero scene', () => {
     test.skip(!isMobileLayout(page), 'phones only');
     const sceneRequests = recordSceneRequests(page);
 
-    await page.goto('/');
+    await page.goto('/fr');
     await page.waitForTimeout(2000);
 
     await expect(page.locator('canvas[data-ready]')).toHaveCount(0);
@@ -66,7 +66,7 @@ test.describe('hero scene', () => {
     const sceneRequests = recordSceneRequests(page);
     await page.emulateMedia({ reducedMotion: 'reduce' });
 
-    await page.goto('/');
+    await page.goto('/fr');
     await page.waitForTimeout(2000);
 
     await expect(page.locator('canvas[data-ready]')).toHaveCount(0);

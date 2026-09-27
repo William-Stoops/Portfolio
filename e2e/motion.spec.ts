@@ -7,7 +7,7 @@ test.describe('motion', () => {
     page,
   }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' });
-    await page.goto('/');
+    await page.goto('/fr');
 
     // Scroll through every section: scroll-driven animations would start on the way.
     await page.keyboard.press('End');
@@ -45,7 +45,7 @@ test.describe('motion', () => {
 
   test('scrolls the technology band until the visitor pauses it (WCAG 2.2.2)', async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'no-preference' });
-    await page.goto('/');
+    await page.goto('/fr');
     const band = page.getByRole('list', { name: 'Technologies', exact: true }).locator('..');
     const playStates = () =>
       band.evaluate((track) => track.getAnimations().map((animation) => animation.playState));
@@ -61,14 +61,14 @@ test.describe('motion', () => {
   });
 
   test('keeps the header in view while the page scrolls', async ({ page }) => {
-    await page.goto('/#contact');
+    await page.goto('/fr#contact');
 
     await expect(page.getByRole('banner')).toBeInViewport();
   });
 
   test('animates only what the compositor can run off the main thread', async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'no-preference' });
-    await page.goto('/');
+    await page.goto('/fr');
     await page.keyboard.press('End');
 
     // Anything else (colour, clip-path, stroke…) is recomputed on the main thread at every
@@ -106,7 +106,7 @@ test.describe('motion', () => {
       }
     });
 
-    await page.goto('/');
+    await page.goto('/fr');
     await page.mouse.move(400, 300);
 
     if (isMobileLayout(page)) {
@@ -120,7 +120,7 @@ test.describe('motion', () => {
 
   test('keeps the large texts of the hero visible from the first paint (LCP)', async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'no-preference' });
-    await page.goto('/');
+    await page.goto('/fr');
 
     // A large text fading in from opacity 0 is not counted as painted until a later repaint
     // (after hydration): it pushed the Largest Contentful Paint past its budget.

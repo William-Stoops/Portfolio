@@ -3,7 +3,7 @@ import { expect, test } from '@playwright/test';
 test.describe('STAXX photos', () => {
   test('loads the Summit and NRJ Lille photos once the case study is reached', async ({ page }) => {
     // Arriving on an anchor renders every deferred section (ADR 0018).
-    await page.goto('/#projets');
+    await page.goto('/fr#projets');
     const staxx = page.getByRole('article', { name: 'STAXX' });
 
     for (const photo of await staxx.getByRole('figure').getByRole('img').all()) {

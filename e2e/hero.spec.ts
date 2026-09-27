@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 
 test.describe('hero', () => {
   test('states the real weight of the downloadable CV', async ({ page, request }) => {
-    await page.goto('/');
+    await page.goto('/fr');
     // The hero's link (the footer offers the same file).
     const link = page.getByRole('link', { name: /^Télécharger le CV/ }).first();
     const href = await link.getAttribute('href');
@@ -17,7 +17,7 @@ test.describe('hero', () => {
   });
 
   test('displays the portrait fully loaded', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/fr');
     const portrait = page.getByRole('img', { name: 'William Stoops, souriant, sur scène' });
 
     await expect(portrait).toBeVisible();

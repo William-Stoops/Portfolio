@@ -7,7 +7,7 @@ test.describe('flight path', () => {
     test.skip(isMobileLayout(page), 'The column of waypoints exists on large screens only.');
     await page.emulateMedia({ reducedMotion: 'no-preference' });
     // Arriving on an anchor renders every deferred section (ADR 0018).
-    await page.goto('/#a-propos');
+    await page.goto('/fr#a-propos');
     const waypoints = page.locator('[data-waypoint]');
     await expect(waypoints.first()).toBeAttached();
     const height = await page.evaluate(() => document.documentElement.scrollHeight);
@@ -31,7 +31,7 @@ test.describe('flight path', () => {
   });
 
   test('gives every element of the home page an id of its own', async ({ page }) => {
-    await page.goto('/#a-propos');
+    await page.goto('/fr#a-propos');
 
     const duplicates = await page.evaluate(() => {
       const ids = [...document.querySelectorAll('[id]')].map((element) => element.id);

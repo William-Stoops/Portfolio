@@ -11,7 +11,7 @@ test.describe('contact form', () => {
         return null;
       };
     });
-    await page.goto('/#contact');
+    await page.goto('/fr#contact');
     // Before hydration the prerendered form would submit natively and reload the page.
     await waitForHydration(page);
   });

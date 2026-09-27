@@ -15,6 +15,7 @@ function expectedFocusOrderFor(page: Page): readonly string[] {
         'Thème du système',
         'Thème clair',
         'Thème sombre',
+        'English',
       ];
   return [
     'Aller au contenu principal',
@@ -47,7 +48,7 @@ test.describe('keyboard navigation', () => {
     page,
     browserName,
   }) => {
-    await page.goto('/');
+    await page.goto('/fr');
 
     await pressTab(page, browserName);
     const skipLink = page.getByRole('link', { name: 'Aller au contenu principal' });
@@ -62,7 +63,7 @@ test.describe('keyboard navigation', () => {
     page,
     browserName,
   }) => {
-    await page.goto('/');
+    await page.goto('/fr');
 
     const expectedFocusOrder = expectedFocusOrderFor(page);
     for (const name of expectedFocusOrder) {
@@ -75,7 +76,7 @@ test.describe('keyboard navigation', () => {
     page,
     browserName,
   }) => {
-    await page.goto('/');
+    await page.goto('/fr');
 
     for (let step = 0; step < expectedFocusOrderFor(page).length; step += 1) {
       await pressTab(page, browserName);
@@ -116,7 +117,7 @@ test.describe('keyboard navigation', () => {
 
 test.describe('pages', () => {
   test('serves the not-found page for an unknown URL', async ({ page }) => {
-    await page.goto('/page-inexistante');
+    await page.goto('/fr/page-inexistante');
 
     await expect(page.getByRole('heading', { level: 1, name: 'Page introuvable' })).toBeVisible();
     await expect(page).toHaveTitle('Page introuvable – William Stoops');
@@ -124,7 +125,7 @@ test.describe('pages', () => {
 
   test('remembers the chosen theme across reloads', async ({ page }) => {
     await page.emulateMedia({ colorScheme: 'light' });
-    await page.goto('/');
+    await page.goto('/fr');
     await openMenuIfCollapsed(page);
 
     await page.getByRole('button', { name: 'Thème sombre' }).click();
