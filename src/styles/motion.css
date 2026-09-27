@@ -969,21 +969,30 @@
   }
 }
 
+/*
+ * From one page to another (the language switch, a section link from a legal page): the
+ * browser's own cross-fade between documents, both opting in. Nothing with reduced motion.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+}
+
 /* Theme switch: the new theme spreads from the pressed button (useThemeToggle). */
-::view-transition-old(root),
-::view-transition-new(root) {
+:root:active-view-transition-type(theme)::view-transition-old(root),
+:root:active-view-transition-type(theme)::view-transition-new(root) {
   animation: none;
   mix-blend-mode: normal;
 }
 
-::view-transition-new(root) {
+:root:active-view-transition-type(theme)::view-transition-new(root) {
   animation: theme-reveal 650ms var(--ease-out);
 }
 
 /*
  * Video morph (useVideoDialog): the poster's frame grows into the player's, or back, while
- * the dialog fades in over the page, or the page over the dialog. Typed, so the theme
- * switch keeps its reveal.
+ * the dialog fades in over the page, or the page over the dialog.
  */
 :root:active-view-transition-type(video-morph)::view-transition-group(*) {
   animation-duration: 450ms;

@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
-import { runViewTransition, settleViewTransition } from '@/lib/view-transition';
+import { runViewTransition } from '@/lib/view-transition';
 
 const typeSetDescriptor = Object.getOwnPropertyDescriptor(window, 'ViewTransitionTypeSet');
 
@@ -47,19 +47,18 @@ describe('runViewTransition', () => {
   });
 });
 
-describe('settleViewTransition', () => {
-  it.each(['AbortError', 'InvalidStateError'])(
-    'accepts a transition skipped with %s: the change still happens',
-    async (name) => {
-      const ready = Promise.reject(new DOMException('Skipped', name));
+describe('a transition interrupted by the next one', () => {
+  it('still applies both changes, without an unhandled rejection', async () => {
+    const first = vi.fn<() => Promise<void>>(() => Promise.resolve());
+    const second = vi.fn<() => Promise<void>>(() => Promise.resolve());
 
-      await expect(settleViewTransition({ ready })).resolves.toBeUndefined();
-    },
-  );
+    runViewTransition('theme', first);
+    runViewTransition('theme', second);
 
-  it('lets any other error through', async () => {
-    const ready = Promise.reject(new TypeError('Broken'));
-
-    await expect(settleViewTransition({ ready })).rejects.toThrow('Broken');
+    // The skipped transition rejects its `ready` promise: it must be handled, or Vitest
+    // reports an unhandled rejection.
+    await expect.poll(() => second.mock.calls.length).toBe(1);
+    await new Promise((resolve) => setTimeout(resolve, 300));
+    expect(first).toHaveBeenCalledOnce();
   });
 });

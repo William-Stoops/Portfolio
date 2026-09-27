@@ -1,12 +1,10 @@
-export function prefersReducedMotion(): boolean {
+function prefersReducedMotion(): boolean {
   return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 }
 
 // A transition interrupted by the next one, or started in a hidden tab, rejects its
 // `ready` promise: expected, the change still happens. Anything else is a real error.
-export async function settleViewTransition(
-  transition: Pick<ViewTransition, 'ready'>,
-): Promise<void> {
+async function settleViewTransition(transition: Pick<ViewTransition, 'ready'>): Promise<void> {
   try {
     await transition.ready;
   } catch (error) {
