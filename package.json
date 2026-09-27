@@ -13,6 +13,7 @@
     "preview": "vite preview",
     "images": "node scripts/generate-images.ts",
     "globe": "node scripts/generate-land-dots.ts",
+    "social-card": "node scripts/generate-social-card.ts",
     "typecheck": "tsc -b",
     "lint": "oxlint --max-warnings=0 && eslint . --max-warnings=0",
     "lint:fix": "oxlint --fix && eslint . --fix",
