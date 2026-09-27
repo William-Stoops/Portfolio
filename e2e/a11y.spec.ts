@@ -1,6 +1,8 @@
 import { AxeBuilder } from '@axe-core/playwright';
 import { expect, test } from '@playwright/test';
 
+import { waitForHydration } from './support/hydration.ts';
+
 const ROUTES = [
   '/fr',
   '/fr/page-inexistante',
@@ -27,6 +29,7 @@ for (const colorScheme of COLOR_SCHEMES) {
       // The page as a visitor sees it: a first key press renders the deferred sections
       // (ADR 0018). Left as placeholders, their content overflows the placeholder's size
       // into the footer, and axe measured links covering the form's button.
+      await waitForHydration(page);
       await page.keyboard.press('Shift');
       if (HOME_ROUTES.has(route)) {
         await expect(page.locator('html')).toHaveAttribute('data-render-all');
