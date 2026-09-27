@@ -31,5 +31,6 @@ fois accepté** : on ne le réécrit pas, on le remplace par un nouvel ADR qui l
 | 0023 | [Réserver la ligne de vol au récit](0023-flight-path-for-the-story-only.md)                                      | Accepté                           |
 | 0024 | [Ouvrir la vidéo du pitch depuis son affiche, sans plein écran forcé](0024-pitch-video-grows-from-its-poster.md) | Accepté                           |
 | 0025 | [Passer l'accent de l'orange corail à un bleu de confiance](0025-trusted-blue-accent.md)                         | Accepté                           |
+| 0026 | [Proposer le site en français et en anglais, la langue dans l'URL](0026-internationalisation.md)                 | Accepté                           |
 
 Modèle : copier [template.md](template.md).
