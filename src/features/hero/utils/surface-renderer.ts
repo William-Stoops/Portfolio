@@ -3,8 +3,9 @@ import {
   buildWireframeIndices,
   unprojectToGround,
 } from '@/features/hero/utils/surface-math';
+import { heroCamera, type SurfaceFraming } from '@/features/hero/utils/hero-camera';
 import { createShaderProgram } from '@/lib/webgl-program';
-import { invertMatrix, lookAt, multiplyMatrices, perspective } from '@/utils/matrix4';
+import { invertMatrix, lookAt, type Matrix4, multiplyMatrices, perspective } from '@/utils/matrix4';
 import { type RgbChannels } from '@/utils/parse-rgb-color';
 
 // An implied volatility surface, as William computes them: strikes across, maturities in
@@ -25,6 +26,7 @@ uniform float u_time;
 uniform vec2 u_pointer;
 uniform float u_pointerStrength;
 uniform float u_calm;
+uniform float u_rise;
 uniform float u_pointSize;
 uniform vec2 u_rippleOrigin;
 uniform float u_rippleAge;
@@ -36,7 +38,7 @@ float surfaceHeight(vec2 p) {
   float termStructure = -0.28 * (p.y + 1.0);
   float swell = 0.22 * sin(2.4 * p.x + u_time * 0.55) * cos(1.9 * p.y - u_time * 0.4);
   float ripple = 0.06 * sin(7.0 * length(p - vec2(0.3, -0.2)) - u_time * 1.3);
-  return (smile + termStructure + swell + ripple) * (1.0 - 0.65 * u_calm);
+  return (smile + termStructure + swell + ripple) * (1.0 - 0.65 * u_calm) * u_rise;
 }
 
 void main() {
@@ -85,6 +87,11 @@ type SurfaceFrame = {
   calm: number;
   // From -1 to 1: horizontal pointer position, for a slight camera parallax.
   parallax: number;
+  // The camera's fly-in as the scene starts, and its dive as the hero scrolls away (0 to 1):
+  // see heroCamera. `rise` scales the relief, from flat to full, as the surface comes up.
+  intro: number;
+  dive: number;
+  rise: number;
   // The last click on the surface (world units) and the seconds since, if any.
   ripple: { origin: readonly [number, number]; age: number } | null;
 };
@@ -99,29 +106,15 @@ export type SurfaceRenderer = {
   dispose: () => void;
 };
 
-// A slow sway, a touch of pointer parallax, and the camera rising as the hero scrolls
-// away. Looking left of the surface centre puts the surface on the right, behind the
-// portrait, away from the text.
-// right: the hero, the surface beside the portrait, away from the text column.
-// centre: the finale, the surface across the width, seen from a little higher.
-export type SurfaceFraming = 'right' | 'centre';
-
-const CAMERA_TARGETS: Readonly<Record<SurfaceFraming, readonly [number, number, number]>> = {
-  right: [-1.6, 0.45, -0.5],
-  centre: [0, 0.2, -0.6],
-};
-
-function cameraFor(
+function viewProjectionFor(
   framing: SurfaceFraming,
   aspect: number,
-  time: number,
-  calm: number,
-  parallax: number,
-): Float32Array {
-  const eyeX = 0.5 * Math.sin(time * 0.12) + 0.35 * parallax;
+  frame: { time: number; parallax: number; intro: number; dive: number },
+): Matrix4 {
+  const { eye, target, fieldOfView } = heroCamera(framing, frame);
   return multiplyMatrices(
-    perspective(0.8, aspect, 0.1, 30),
-    lookAt([eyeX, 1.25 + 0.8 * calm, 4.3], CAMERA_TARGETS[framing], [0, 1, 0]),
+    perspective(fieldOfView, aspect, 0.1, 30),
+    lookAt(eye, target, [0, 1, 0]),
   );
 }
 
@@ -163,6 +156,7 @@ export function createSurfaceRenderer(
     rippleOrigin: uniform('u_rippleOrigin'),
     rippleAge: uniform('u_rippleAge'),
     calm: uniform('u_calm'),
+    rise: uniform('u_rise'),
     low: uniform('u_low'),
     high: uniform('u_high'),
     pointSize: uniform('u_pointSize'),
@@ -173,7 +167,9 @@ export function createSurfaceRenderer(
   gl.useProgram(program);
   gl.enable(gl.BLEND);
   gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
-  let inverseViewProjection = invertMatrix(cameraFor(framing, 1, 0, 0, 0));
+  let inverseViewProjection = invertMatrix(
+    viewProjectionFor(framing, 1, { time: 0, parallax: 0, intro: 1, dive: 0 }),
+  );
   let pixelRatio = 1;
 
   return {
@@ -187,9 +183,9 @@ export function createSurfaceRenderer(
       gl.uniform3f(locations.low, ...low);
       gl.uniform3f(locations.high, ...high);
     },
-    draw({ time, pointer, pointerStrength, calm, parallax, ripple }) {
+    draw({ time, pointer, pointerStrength, calm, parallax, ripple, intro, dive, rise }) {
       const aspect = canvas.width / Math.max(canvas.height, 1);
-      const viewProjection = cameraFor(framing, aspect, time, calm, parallax);
+      const viewProjection = viewProjectionFor(framing, aspect, { time, parallax, intro, dive });
       inverseViewProjection = invertMatrix(viewProjection);
       gl.clearColor(0, 0, 0, 0);
       gl.clear(gl.COLOR_BUFFER_BIT);
@@ -198,6 +194,7 @@ export function createSurfaceRenderer(
       gl.uniform2f(locations.pointer, ...pointer);
       gl.uniform1f(locations.pointerStrength, pointerStrength);
       gl.uniform1f(locations.calm, calm);
+      gl.uniform1f(locations.rise, rise);
       gl.uniform2f(locations.rippleOrigin, ...(ripple?.origin ?? [0, 0]));
       // Without a click, an age so large the ring has long died out.
       gl.uniform1f(locations.rippleAge, ripple?.age ?? 1000);

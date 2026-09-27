@@ -37,6 +37,17 @@ export function startHeroScene(
 
 // A settled scene (the finale) keeps a calm surface instead of flattening with the scroll.
 const SETTLED_CALM = 0.45;
+// The hero's opening (ADR 0030): the camera flies in over the surface as it rises, then
+// lands behind the name; as the hero scrolls away it dives among the waves, faster and
+// faster, the surface only a little calmer.
+const INTRO_DURATION = 2800;
+const SCROLL_CALM = 0.3;
+// The relief the surface rises from, as a share of its full height.
+const FLAT_RELIEF = 0.25;
+
+function easeOutCubic(progress: number): number {
+  return 1 - (1 - progress) ** 3;
+}
 
 function runScene(
   renderer: SurfaceRenderer,
@@ -51,6 +62,8 @@ function runScene(
   let pointerStrength = 0;
   let parallax = 0;
   let ripple: { origin: readonly [number, number]; startTime: number } | null = null;
+  // The first frame's time: the fly-in starts when the surface is first drawn.
+  let introStart: number | null = null;
 
   function resize(): void {
     const pixelRatio = Math.min(window.devicePixelRatio, MAX_PIXEL_RATIO);
@@ -70,16 +83,25 @@ function runScene(
       ];
     }
     pointerStrength += ((hasTarget ? 1 : 0) - pointerStrength) * POINTER_EASING;
+    introStart ??= now;
+    const intro = isSettled ? 1 : easeOutCubic(Math.min((now - introStart) / INTRO_DURATION, 1));
+    if (intro === 1 && canvas.dataset['landed'] === undefined) {
+      // Tells the page (and the tests) the camera has landed.
+      canvas.dataset['landed'] = '';
+    }
+    const scroll = Math.min(window.scrollY / Math.max(canvas.clientHeight, 1), 1);
     renderer.draw({
       time: (now - startTime) / 1000,
       pointer,
       pointerStrength,
-      calm: isSettled
-        ? SETTLED_CALM
-        : Math.min(window.scrollY / Math.max(canvas.clientHeight, 1), 1),
+      calm: isSettled ? SETTLED_CALM : SCROLL_CALM * scroll,
       parallax,
       ripple:
         ripple === null ? null : { origin: ripple.origin, age: (now - ripple.startTime) / 1000 },
+      intro,
+      // Slow at first, then faster: a plunge.
+      dive: isSettled ? 0 : scroll ** 2,
+      rise: FLAT_RELIEF + (1 - FLAT_RELIEF) * intro,
     });
     frameHandle = window.requestAnimationFrame(frame);
   }

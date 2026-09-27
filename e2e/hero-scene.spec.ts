@@ -56,6 +56,19 @@ test.describe('hero scene', () => {
     await expect(page.locator('canvas[data-ready]')).toHaveCount(2, { timeout: 10_000 });
   });
 
+  test('flies in over the surface as it rises, then lands behind the name', async ({ page }) => {
+    test.skip(isMobileLayout(page), 'the scene only runs on large screens');
+    await page.emulateMedia({ reducedMotion: 'no-preference' });
+
+    await page.goto('/fr');
+    const canvas = page.locator('canvas[data-ready]');
+    await expect(canvas).toHaveCount(1, { timeout: 10_000 });
+
+    // The flight lasts under three seconds: under way, then landed.
+    await expect(canvas).not.toHaveAttribute('data-landed');
+    await expect(canvas).toHaveAttribute('data-landed', '', { timeout: 10_000 });
+  });
+
   test('never loads the scene on a phone', async ({ page }) => {
     test.skip(!isMobileLayout(page), 'phones only');
     const sceneRequests = recordSceneRequests(page);
