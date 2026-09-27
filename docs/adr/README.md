@@ -33,5 +33,6 @@ fois accepté** : on ne le réécrit pas, on le remplace par un nouvel ADR qui l
 | 0025 | [Passer l'accent de l'orange corail à un bleu de confiance](0025-trusted-blue-accent.md)                         | Accepté                           |
 | 0026 | [Proposer le site en français et en anglais, la langue dans l'URL](0026-internationalisation.md)                 | Accepté                           |
 | 0027 | [Faire voler l'avion de la Corée au-dessus d'un globe](0027-korea-flight-over-a-globe.md)                        | Accepté                           |
+| 0028 | [Mettre en scène la victoire à l'Epitech Summit](0028-summit-win-as-a-scene.md)                                  | Accepté                           |
 
 Modèle : copier [template.md](template.md).
