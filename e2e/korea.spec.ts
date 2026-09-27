@@ -32,7 +32,7 @@ function recordRequests(page: Page, chunk: RegExp): string[] {
 async function samplePlaneTrack(page: Page, stopId: string): Promise<number[]> {
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.goto(`/fr#${stopId}`);
-  const scene = page.locator(`#${stopId} .voyage-track`);
+  const scene = page.locator(`#${stopId} .scene-track`);
   const flightMap = flightMapOf(page);
   if (flightMap === 'globe') {
     await expect(scene.locator('[data-globe]')).toBeAttached({ timeout: 10_000 });
@@ -127,7 +127,7 @@ test.describe('Korea globe', () => {
       .getByRole('navigation', { name: 'Navigation principale' })
       .getByRole('link', { name: 'Parcours', exact: true })
       .click();
-    const voyage = page.locator('#coree .voyage-track');
+    const voyage = page.locator('#coree .scene-track');
     await voyage.scrollIntoViewIfNeeded();
     await expect(voyage.locator('[data-globe]')).toBeAttached({ timeout: 10_000 });
     await expect(voyage.locator('[data-flight-globe] canvas')).toBeVisible();

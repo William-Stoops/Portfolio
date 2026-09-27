@@ -94,8 +94,8 @@ export function FlightScene({
   const parts = (isGlobe ? GLOBE_PARTS : ARC_PARTS)[direction];
 
   return (
-    <div ref={trackRef} style={{ '--scene-timeline': timeline }} className="voyage-track">
-      <div className="voyage-stage flex flex-col">
+    <div ref={trackRef} style={{ '--scene-timeline': timeline }} className="scene-track">
+      <div className="scene-stage flex flex-col">
         <div className="@container">
           <div
             data-globe={isGlobe ? '' : undefined}

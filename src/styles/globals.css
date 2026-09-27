@@ -6,6 +6,17 @@
 /* Short screens (landscape phones, 400 % zoom): see the responsive-design skill. */
 @custom-variant short (@media (max-height: 30rem));
 
+/* Where a scene is pinned while its track scrolls by (motion.css, scene-track): motion
+   allowed, a large and tall enough screen, scroll-driven animations. For the layout a
+   pinned scene takes there. */
+@custom-variant pinned {
+  @media (prefers-reduced-motion: no-preference) and (min-width: 64rem) and (min-height: 40rem) {
+    @supports (animation-timeline: view()) {
+      @slot;
+    }
+  }
+}
+
 /*
  * Closed palette. Tailwind's default colours are removed: a utility such as `bg-red-500`
  * does not exist in this project. Each token holds its light and dark value; the used

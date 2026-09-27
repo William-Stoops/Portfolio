@@ -418,23 +418,23 @@
 }
 
 /*
- * The voyage to Seoul (VoyageStage). On a large, tall enough screen the stage is pinned
- * while its track scrolls by, and one timeline (--voyage) runs the story: the flight,
- * the flag unfurling at the landing, the greeting. Elsewhere each piece runs on its own
- * view, and without scroll-driven animations or with reduced motion everything simply
- * stands in its final place: plane at the top of the arc, flag complete, greeting shown.
- * The pinned condition, (min-width: 64rem) and (min-height: 40rem), is repeated below.
+ * A pinned scene: the voyage to Seoul and the way home, the Epitech Summit. On a large,
+ * tall enough screen the stage is pinned while its track scrolls by, and the track's
+ * timeline, named by --scene-timeline, runs the story. Elsewhere each piece runs on its
+ * own view, and without scroll-driven animations or with reduced motion everything simply
+ * stands in its final place. The pinned condition, (min-width: 64rem) and
+ * (min-height: 40rem), is repeated below and in the `pinned` variant (globals.css).
  */
-@utility voyage-track {
+@utility scene-track {
   @media (prefers-reduced-motion: no-preference) and (min-width: 64rem) and (min-height: 40rem) {
     @supports (animation-timeline: view()) {
       height: 260vh;
-      view-timeline-name: var(--scene-timeline, --voyage);
+      view-timeline-name: var(--scene-timeline);
     }
   }
 }
 
-@utility voyage-stage {
+@utility scene-stage {
   @media (prefers-reduced-motion: no-preference) and (min-width: 64rem) and (min-height: 40rem) {
     @supports (animation-timeline: view()) {
       position: sticky;
@@ -446,6 +446,12 @@
     }
   }
 }
+
+/*
+ * The voyage to Seoul (VoyageStage) runs on --voyage, the way home on --homecoming: the
+ * flight, the flag unfurling at the landing, the greeting. Still, the plane rests at the
+ * top of the arc, the flag is complete and the greeting shown.
+ */
 
 /* The route's own timeline, for the flight on a small screen. */
 @utility flight-timeline {

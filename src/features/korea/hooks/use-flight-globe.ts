@@ -4,7 +4,7 @@ import { type FlightDirection } from '@/features/korea/types/flight-direction';
 import { isDataSaved } from '@/lib/save-data';
 import { whenNear } from '@/lib/when-near';
 
-// Where the flight scene is pinned (motion.css, voyage-track): the globe turns with the
+// Where the flight scene is pinned (motion.css, scene-track): the globe turns with the
 // scroll across the pinned stretch, so it needs it. The same query as the CSS.
 const PINNED_SCENE_QUERY =
   '(prefers-reduced-motion: no-preference) and (min-width: 64rem) and (min-height: 40rem)';
