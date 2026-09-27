@@ -10,6 +10,9 @@ export const SITE_TAGLINE = {
   fr: 'Je décide d’une architecture, je la mesure, je la livre.',
   en: 'I choose an architecture, I measure it, I ship it.',
 } as const satisfies Localized<string>;
+// Where the site is served (Cloudflare Pages, ADR 0031): absolute URLs for crawlers and link
+// previews (canonical, alternates, Open Graph, sitemap).
+export const SITE_ORIGIN = 'https://william-stoops.pages.dev';
 export const CONTACT_EMAIL = 'william.stoops@epitech.eu';
 export const LINKEDIN_URL = 'https://www.linkedin.com/in/william-stoops-a1029b233';
 

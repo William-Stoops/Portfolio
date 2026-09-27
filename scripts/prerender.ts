@@ -5,8 +5,9 @@ import { createServer, createServerModuleRunner } from 'vite';
 import { LOCALES } from '../src/i18n/locales.ts';
 import { type RenderRoute } from '../src/types/prerender.ts';
 import { chunkPreloads, parseViteManifest } from './chunk-preloads.ts';
-import { injectRenderedPage } from './inject-rendered-page.ts';
+import { injectRenderedPage, renderedMetadata } from './inject-rendered-page.ts';
 import { renderLocaleGateway } from './locale-gateway.ts';
+import { pageHeadTags, robotsTxt, sitemapXml } from './page-head.ts';
 import {
   GATEWAY_PAGE,
   localeOfPage,
@@ -49,9 +50,17 @@ try {
   await Promise.all(
     [...PRERENDERED_PAGES, ...NOT_FOUND_PAGES].map(async ({ path, file }) => {
       const locale = localeOfPage(path);
-      const page = injectRenderedPage(template, await renderRoute(path), {
+      const rendered = await renderRoute(path);
+      // A page that is found has an address and a link preview; a 404 has neither.
+      const metadata = NOT_FOUND_PAGES.some((page) => page.path === path)
+        ? undefined
+        : renderedMetadata(rendered);
+      const page = injectRenderedPage(template, rendered, {
         lang: locale,
         preloads: preloadsByLocale[locale] ?? [],
+        ...(metadata === undefined
+          ? {}
+          : { extraHead: pageHeadTags({ path, locale, ...metadata }) }),
       });
       await writeFile(new URL(file, DIST_DIRECTORY), page);
       process.stdout.write(`prerendered ${path} → dist/${file}\n`);
@@ -59,6 +68,9 @@ try {
   );
   await writeFile(new URL(GATEWAY_PAGE.file, DIST_DIRECTORY), renderLocaleGateway());
   process.stdout.write(`wrote the locale gateway → dist/${GATEWAY_PAGE.file}\n`);
+  await writeFile(new URL('sitemap.xml', DIST_DIRECTORY), sitemapXml(PRERENDERED_PAGES));
+  await writeFile(new URL('robots.txt', DIST_DIRECTORY), robotsTxt());
+  process.stdout.write('wrote sitemap.xml and robots.txt\n');
 
   // Only the prerender reads the manifest: it is not shipped.
   await rm(MANIFEST_DIRECTORY, { recursive: true });

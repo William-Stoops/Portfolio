@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { injectRenderedPage } from './inject-rendered-page.ts';
+import { injectRenderedPage, renderedMetadata } from './inject-rendered-page.ts';
 
 const TEMPLATE = `<!doctype html>
 <html lang="fr">
@@ -75,9 +75,32 @@ describe('injectRenderedPage', () => {
     );
   });
 
+  it('adds the page’s own head tags (addresses, link preview) before the head closes', () => {
+    const page = injectRenderedPage(TEMPLATE, '<h1>Accueil</h1>', {
+      ...FRENCH,
+      extraHead: '<link rel="canonical" href="https://example.test/fr">',
+    });
+
+    expect(page).toContain('<link rel="canonical" href="https://example.test/fr">  </head>');
+  });
+
   it('fails loudly when the template has no empty root element', () => {
     expect(() => injectRenderedPage('<html><body></body></html>', '<h1>x</h1>', FRENCH)).toThrow(
       /<div id="root"><\/div>/,
     );
+  });
+});
+
+describe('renderedMetadata', () => {
+  it('reads the title and the description a page rendered, as written', () => {
+    expect(
+      renderedMetadata(
+        '<title>Accueil – William Stoops</title><meta name="description" content="Profil &amp; parcours"/><h1>x</h1>',
+      ),
+    ).toEqual({ title: 'Accueil – William Stoops', description: 'Profil &amp; parcours' });
+  });
+
+  it('gives nothing for a page without a title', () => {
+    expect(renderedMetadata('<h1>x</h1>')).toBeUndefined();
   });
 });

@@ -72,3 +72,56 @@ test.describe('crawler files', () => {
     expect(await response.text()).toMatch(/^User-agent: \*\nAllow: \/$/m);
   });
 });
+
+const ORIGIN = 'https://william-stoops.pages.dev';
+
+test.describe('addresses and link previews', () => {
+  test('gives each page its address and the same page in the other language', async ({ page }) => {
+    await page.goto('/en/legal-notice');
+
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+      'href',
+      `${ORIGIN}/en/legal-notice`,
+    );
+    await expect(page.locator('link[rel="alternate"][hreflang="fr"]')).toHaveAttribute(
+      'href',
+      `${ORIGIN}/fr/mentions-legales`,
+    );
+    await expect(page.locator('link[rel="alternate"][hreflang="x-default"]')).toHaveAttribute(
+      'href',
+      `${ORIGIN}/`,
+    );
+  });
+
+  test('shows a card when the link is shared, an image the site serves', async ({
+    page,
+    request,
+  }) => {
+    await page.goto('/fr');
+
+    await expect(page.locator('meta[property="og:title"]')).toHaveAttribute(
+      'content',
+      await page.title(),
+    );
+    await expect(page.locator('meta[property="og:locale"]')).toHaveAttribute('content', 'fr_FR');
+    const image = await page.locator('meta[property="og:image"]').getAttribute('content');
+    expect(image?.startsWith(`${ORIGIN}/images/`)).toBe(true);
+    const response = await request.get(new URL(image ?? '').pathname);
+    expect(response.status()).toBe(200);
+    expect(response.headers()['content-type']).toBe('image/jpeg');
+  });
+
+  test('lists every page of both languages in a sitemap robots.txt points to', async ({
+    request,
+  }) => {
+    const robots = await (await request.get('/robots.txt')).text();
+    expect(robots).toContain(`Sitemap: ${ORIGIN}/sitemap.xml`);
+
+    const sitemap = await request.get('/sitemap.xml');
+    expect(sitemap.status()).toBe(200);
+    const xml = await sitemap.text();
+    for (const path of ['/fr', '/en', '/fr/mentions-legales', '/en/site-map']) {
+      expect(xml).toContain(`<loc>${ORIGIN}${path}</loc>`);
+    }
+  });
+});

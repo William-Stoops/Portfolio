@@ -76,8 +76,17 @@ describe('locale gateway', () => {
     expect(PAGE).toContain('<a href="/en" hreflang="en" lang="en">English</a>');
   });
 
+  it('points crawlers at both languages, and at itself as the default', () => {
+    const page = renderLocaleGateway();
+
+    expect(page).toContain('<link rel="canonical" href="https://william-stoops.pages.dev/">');
+    expect(page).toContain('hreflang="en" href="https://william-stoops.pages.dev/en"');
+    expect(page).toContain('hreflang="x-default" href="https://william-stoops.pages.dev/"');
+  });
+
   it('is a small page of its own, without the app bundle', () => {
     expect(PAGE).not.toContain('type="module"');
-    expect(new TextEncoder().encode(PAGE).length).toBeLessThan(2048);
+    // Its script, its fallback links and the addresses crawlers read (ADR 0031).
+    expect(new TextEncoder().encode(PAGE).length).toBeLessThan(2560);
   });
 });

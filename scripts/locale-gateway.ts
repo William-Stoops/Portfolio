@@ -2,6 +2,7 @@ import { anchorsOf, PAGE_PATHS } from '../src/config/paths.ts';
 import { SITE_TITLE } from '../src/config/site.ts';
 import { DEFAULT_LOCALE, LOCALE_NAMES, LOCALES } from '../src/i18n/locales.ts';
 import { LOCALE_STORAGE_KEY } from '../src/i18n/locale-preference.ts';
+import { gatewayHeadTags } from './page-head.ts';
 
 // Each anchor, in any locale, with its id in every locale: `parcours` → { fr, en }.
 function anchorTranslations(): Record<string, Record<string, string>> {
@@ -58,6 +59,7 @@ export function renderLocaleGateway(): string {
     <title>${SITE_TITLE.replace('&', '&amp;')}</title>
     <script>${gatewayScript()}</script>
     <noscript><meta http-equiv="refresh" content="0; url=${PAGE_PATHS[DEFAULT_LOCALE].home}"></noscript>
+    ${gatewayHeadTags()}
   </head>
   <body>
     <main><ul>${links}</ul></main>

@@ -8,7 +8,22 @@ type PageHead = {
   lang: string;
   // Chunks to fetch in parallel with the entry: the locale's content, which hydration awaits.
   preloads: readonly string[];
+  // The page's own tags for crawlers and link previews (scripts/page-head.ts).
+  extraHead?: string;
 };
+
+// The title and the description a page rendered, as React wrote them (escaped for HTML):
+// what its link preview repeats.
+export function renderedMetadata(
+  renderedHtml: string,
+): { title: string; description: string } | undefined {
+  const title = /<title>([\s\S]*?)<\/title>/.exec(renderedHtml)?.[1];
+  if (title === undefined) {
+    return undefined;
+  }
+  const description = /<meta name="description" content="([^"]*)"/.exec(renderedHtml)?.[1] ?? '';
+  return { title, description };
+}
 
 // React renders a page's <title> and <meta name="description"> where the component sits; in
 // a document they belong in the <head>. On the client, React 19 hoists the same elements
@@ -16,7 +31,7 @@ type PageHead = {
 export function injectRenderedPage(
   template: string,
   renderedHtml: string,
-  { lang, preloads }: PageHead,
+  { lang, preloads, extraHead = '' }: PageHead,
 ): string {
   if (!template.includes(ROOT_MARKER)) {
     throw new Error(`The HTML template must contain an empty ${ROOT_MARKER}`);
@@ -35,6 +50,6 @@ export function injectRenderedPage(
 
   return head
     .replace(LANG_PATTERN, `<html lang="${lang}">`)
-    .replace('  </head>', `${preloadLinks}  </head>`)
+    .replace('  </head>', `${preloadLinks}${extraHead}  </head>`)
     .replace(ROOT_MARKER, `<div id="root">${bodyHtml}</div>`);
 }

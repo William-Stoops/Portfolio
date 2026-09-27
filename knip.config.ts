@@ -5,12 +5,13 @@ import { type KnipConfig } from 'knip';
 // The Vite plugin already derives the entry from index.html; src/testing is test-only code.
 // src/entry-server.tsx is loaded by scripts/prerender.ts through Vite's module runner, by
 // URL string, which Knip cannot follow. scripts/locale-gateway.ts writes the page served at
-// `/` (dist/index.html): it ships, so what it reads from src/ is production code.
+// `/` (dist/index.html), with the addresses of scripts/page-head.ts: both ship, so they and
+// what they read from src/ are production code.
 // Exports tagged `@internal` serve a build-time script and its tests only: the land-dots
 // grid and mask codec, shared by the globe with scripts/generate-land-dots.ts, which does
 // not ship. `--production` skips them; plain `knip` still requires them to be used.
 const config: KnipConfig = {
-  entry: ['src/entry-server.tsx!', 'scripts/locale-gateway.ts!'],
+  entry: ['src/entry-server.tsx!', 'scripts/locale-gateway.ts!', 'scripts/page-head.ts!'],
   project: ['src/**/*.{ts,tsx,css}!', '!src/testing/**!', 'e2e/**/*.ts', 'scripts/**/*.ts'],
   rules: {
     duplicates: 'error',
