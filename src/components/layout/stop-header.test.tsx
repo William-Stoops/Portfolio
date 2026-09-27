@@ -16,6 +16,21 @@ describe('StopHeader', () => {
     expect([...letters].map((letter) => letter.textContent).join('')).toBe('Àpropos');
   });
 
+  it('draws its title as it is given instead of rising letters, still read as one title', async () => {
+    const screen = await render(
+      <StopHeader
+        level={3}
+        title="Retour en France"
+        visualTitle={<span aria-hidden="true" data-testid="drawn" />}
+        onPath
+      />,
+    );
+
+    const heading = screen.getByRole('heading', { level: 3, name: 'Retour en France' });
+    await expect.element(heading.getByTestId('drawn')).toBeInTheDocument();
+    expect(heading.element().querySelectorAll('.reveal-letter')).toHaveLength(0);
+  });
+
   it('says the overline in words, unless it is decoration', async () => {
     const said = await render(<StopHeader level={3} title="Séoul" overline="2024 · 4e année" />);
     expect(said.getByText('2024 · 4e année').element().closest('[aria-hidden="true"]')).toBeNull();

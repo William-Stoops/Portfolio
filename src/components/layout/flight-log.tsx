@@ -1,6 +1,7 @@
 import { type ReactNode } from 'react';
 
 import { StopHeader } from '@/components/layout/stop-header';
+import { SplitFlapTitle } from '@/components/ui/split-flap';
 import { waypointTimeline } from '@/utils/waypoint-timeline';
 
 type FlightLogStop = {
@@ -22,7 +23,8 @@ type FlightLogProps = {
 // Stops along the flight path, within a section: the years of the journey, the practices,
 // the chapters of the skills. Each stop is watched through the reading line on its own
 // timeline, which fills its marker as the plane reaches it and, when the path lists it,
-// shows its label beside the rail (FlightPath). What a stop holds comes in from the rail.
+// shows its label beside the rail (FlightPath). Its title turns in like a departures
+// board's, as a flight's. What a stop holds comes in from the rail.
 // Stops are contiguous (spaced by padding, not gaps): one is always under the line.
 export function FlightLog({ stops, size = 'large' }: FlightLogProps) {
   return (
@@ -44,6 +46,7 @@ export function FlightLog({ stops, size = 'large' }: FlightLogProps) {
             isOverlineDecoration={isOverlineDecoration ?? false}
             size={size}
             onPath
+            visualTitle={<SplitFlapTitle title={title} />}
           />
           <div className="flex flex-col gap-10 *:reveal-from-rail">{content}</div>
         </li>

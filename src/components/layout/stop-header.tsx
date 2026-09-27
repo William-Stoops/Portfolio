@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, type ReactNode } from 'react';
 
 import { cn } from '@/lib/cn';
 import { splitIntoLetters } from '@/utils/split-text';
@@ -18,6 +18,9 @@ type StopHeaderProps = {
   // On the flight path (the journey): a marker on the rail, a branch out to the stop, and
   // the overline shown beside the rail on large screens. Off it, a chapter opener only.
   onPath?: boolean;
+  // The title as the eyes see it, in place of its letters rising (the journey's stops turn
+  // theirs like a departures board's): decoration, the title itself is read.
+  visualTitle?: ReactNode;
 };
 
 // The header of every chapter of the page, and of every stop of the journey: the title
@@ -37,6 +40,7 @@ export function StopHeader({
   filigree,
   size = 'large',
   onPath = false,
+  visualTitle,
 }: StopHeaderProps) {
   // Three steps, so the outline reads at a glance: a section, a stop of the journey, a
   // chapter of a section.
@@ -46,28 +50,31 @@ export function StopHeader({
     level === 3 && size === 'large' && 'text-h1',
     level === 3 && size === 'medium' && 'text-h2',
   );
-  // Read as one title; its letters rise one by one for the eyes only.
+  // Read as one title; for the eyes only, its letters rise one by one, unless it is drawn
+  // otherwise (visualTitle).
   const heading = (
     <>
       <span className="sr-only">{title}</span>
-      <span aria-hidden="true">
-        {splitIntoLetters(title).map(({ text, index: wordIndex, letters }) => (
-          <Fragment key={`${text}-${String(wordIndex)}`}>
-            {wordIndex > 0 ? ' ' : null}
-            <span className="-mb-[0.15em] inline-block overflow-clip pb-[0.15em]">
-              {letters.map((letter) => (
-                <span
-                  key={letter.index}
-                  style={{ '--i': letter.index }}
-                  className="inline-block reveal-letter"
-                >
-                  {letter.text}
-                </span>
-              ))}
-            </span>
-          </Fragment>
-        ))}
-      </span>
+      {visualTitle ?? (
+        <span aria-hidden="true">
+          {splitIntoLetters(title).map(({ text, index: wordIndex, letters }) => (
+            <Fragment key={`${text}-${String(wordIndex)}`}>
+              {wordIndex > 0 ? ' ' : null}
+              <span className="-mb-[0.15em] inline-block overflow-clip pb-[0.15em]">
+                {letters.map((letter) => (
+                  <span
+                    key={letter.index}
+                    style={{ '--i': letter.index }}
+                    className="inline-block reveal-letter"
+                  >
+                    {letter.text}
+                  </span>
+                ))}
+              </span>
+            </Fragment>
+          ))}
+        </span>
+      )}
     </>
   );
 
