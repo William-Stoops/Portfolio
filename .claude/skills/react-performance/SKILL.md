@@ -109,6 +109,10 @@ paint on demand, in its own chunk with its own size-limit budget (ADR 0016).
   `flight-globe-runtime` 800 px before the scene (`whenNear`); the map ships inside that
   chunk as a 1 kB bit mask, precomputed by `pnpm globe`, never as GeoJSON. It draws only
   on scroll, while the scene is near.
+- **Scenes without script** (ADR 0028): the Epitech Summit is pure CSS on a scroll
+  timeline, prerendered; its 300 seats are 31 SVG paths (11 kB of HTML, 2 kB compressed)
+  and 30 animated elements. Before reaching for canvas or WebGL, check whether prerendered
+  SVG and compositor-only CSS can draw it.
 - **Shared WebGL helpers** (`utils/matrix4`, `utils/parse-rgb-color`, `lib/webgl-program`,
   `lib/theme-change`) form the named chunk `webgl` (`WEBGL_SHARED_MODULES` in
   `vite.config.ts`), loaded with whichever scene comes first and counted in both scenes'

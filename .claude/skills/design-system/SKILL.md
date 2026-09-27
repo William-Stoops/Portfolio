@@ -218,6 +218,21 @@ variant="finale"`, loaded only when near).
   the greeting face it; the plane and the places are HTML moved by script on the CSS
   timeline (`flight-timeline.ts` reads `motion.css`, a test holds them together). A pinned scene must be **worth its scroll**: a pinned photo gallery that
   panned a short strip over a long track felt like scrolling for nothing, and was removed.
+- **Pinned scenes** share `scene-track` (260vh, the view timeline named by
+  `--scene-timeline`, inset 0 so the story starts when the stage pins) and `scene-stage`
+  (sticky, 100dvh); the `pinned:` variant gives their layout the same condition (motion
+  allowed, ≥ 64rem wide, ≥ 40rem tall, scroll-driven animations). Every piece has a still,
+  complete final state: pinned or not, the page reads the same without motion.
+- **The Epitech Summit** (`features/projects`, ADR 0028) closes the STAXX study as a
+  pinned scene on `--summit`: a seating plan of 300 dots (one per person, concentric rows
+  around the stage, `border` empty, `accent` taken) fills ten by ten while a mechanical
+  counter (`steps()` digit strips) ticks up to 300; two follow spots search the dark stage
+  and meet on the winner, then the lights come up. A follow spot is a round window onto a
+  silent copy of the photo that moves the other way (`--sign`): only the light moves, on
+  the compositor. Spots sweep at face height, never over the bright screen behind: a
+  bright disc there read as a glowing blob. The dark of the room is `bg-canvas scheme-dark`
+  in both themes. Many dots = one SVG path per group (`M x y h0` with round caps), never
+  one element per dot.
 - **Photos are always whole**: framed at their own ratio, never cropped by a frame or by a
   parallax zoom, and set where they tell something (the stadium beside Korea University),
   not in a separate gallery. They move as a whole (`reveal-expand`, `scroll-float`).
