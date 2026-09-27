@@ -67,6 +67,19 @@ re-allows `any`, `unknown` or assertions anywhere.
 `eslint-disable` / `oxlint-disable` comments are forbidden. If a rule is wrong for a case,
 change the rule in config with a comment explaining why, in its own commit.
 
+## 2 ter. Deployment (ADR 0031)
+
+- Production: Cloudflare Pages, project `william-stoops`, https://william-stoops.pages.dev
+  (`SITE_ORIGIN` in `src/config/site.ts`, the one source of the address).
+- `.github/workflows/deploy.yml` publishes `main` once CI has passed on it, building the
+  commit CI tested; skipped until the repository has `CLOUDFLARE_ACCOUNT_ID` (variable)
+  and `CLOUDFLARE_API_TOKEN` (secret, Pages: Edit). By hand: `pnpm build && pnpm dlx
+wrangler pages deploy dist --project-name william-stoops --branch main`.
+- `public/_headers` sets caching and security headers. `vite preview` does not apply it:
+  a header that could break the page (a CSP) needs a test on the served headers.
+- The build writes the head tags crawlers and link previews read (`scripts/page-head.ts`),
+  `sitemap.xml` and `robots.txt`; E2E check them on the built pages.
+
 ## 3. Knip — only necessary code
 
 Knip reports unused **files, exports, types, enum members, dependencies,
