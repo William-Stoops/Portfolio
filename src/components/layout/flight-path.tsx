@@ -1,6 +1,8 @@
 import { Plane } from 'lucide-react';
 import { type ReactNode } from 'react';
 
+import { SplitFlap } from '@/components/ui/split-flap';
+import { flapLine } from '@/utils/split-flap';
 import { waypointTimeline } from '@/utils/waypoint-timeline';
 
 type Waypoint = {
@@ -19,8 +21,9 @@ type FlightPathProps = {
 // The flight path of the story (the journey), the only part of the page told in time. One
 // dotted rail runs along it; behind a plane riding the reading line it turns into a solid
 // trail, and it lands at the end, today. Beside it, on large screens, a sticky column names
-// where the reader is (the section, then each year), each label sliding in and out as its
-// waypoint crosses the reading line. The section and its stops set their markers on this
+// where the reader is (the section, then each year) on a departures board: as a waypoint
+// crosses the reading line, its line takes over from the one before, whose characters its
+// cells turn from (2024 → 2025 turns the last digit only). The section and its stops set their markers on this
 // rail (StopHeader), placed from the variables this path defines (flight-path-layout). The
 // plane steps away while a flight scene flies its own. All of it is scroll-driven CSS and
 // drawing, hidden from assistive tech.
@@ -41,23 +44,41 @@ export function FlightPath({ waypoints, children }: FlightPathProps) {
           <div className="relative h-full">
             <div className="absolute inset-y-0 start-0 chapter-rail w-44">
               <div className="sticky top-32 h-28">
-                {waypoints.map(({ id, value, label }) => (
-                  <div
-                    key={id}
-                    data-waypoint
-                    style={{ '--timeline': waypointTimeline(id) }}
-                    className="absolute inset-x-0 top-0 stop-label-in"
-                  >
-                    <div className="flex stop-label-out flex-col gap-3">
-                      <p className="font-display text-[clamp(2.75rem,1.5rem+2vw,3.75rem)] leading-none font-bold whitespace-nowrap text-accent-fg tabular-nums">
-                        {value}
-                      </p>
-                      <p className="text-small font-semibold tracking-[0.2em] text-fg-muted uppercase">
-                        {label}
-                      </p>
+                {waypoints.map(({ id, value, label }, index) => {
+                  const previous = waypoints[index - 1];
+                  return (
+                    <div
+                      key={id}
+                      data-waypoint
+                      style={{ '--timeline': waypointTimeline(id) }}
+                      className="absolute inset-x-0 top-0 stop-label-in"
+                    >
+                      <div className="flex stop-label-out flex-col gap-3">
+                        <p className="font-display text-[clamp(2.75rem,1.5rem+2vw,3.75rem)] leading-none font-bold whitespace-nowrap text-accent-fg tabular-nums">
+                          <SplitFlap
+                            cells={flapLine(value, {
+                              ...(previous === undefined ? {} : { previous: previous.value }),
+                              flips: 4,
+                              key: `${id}:value`,
+                            })}
+                            motion="flap-board"
+                            tiles
+                          />
+                        </p>
+                        <p className="text-small font-semibold tracking-[0.2em] whitespace-nowrap text-fg-muted uppercase">
+                          <SplitFlap
+                            cells={flapLine(label, {
+                              ...(previous === undefined ? {} : { previous: previous.label }),
+                              flips: 2,
+                              key: `${id}:label`,
+                            })}
+                            motion="flap-board"
+                          />
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
 
