@@ -3,23 +3,26 @@ import { EmphasizedText } from '@/components/ui/emphasized-text';
 import { KeyFigures } from '@/components/ui/key-figures';
 import { ResponsiveImage } from '@/components/ui/responsive-image';
 import { YouTubeFacade } from '@/components/ui/youtube-facade';
-import { type Project } from '@/features/projects/types/project';
+import { type Project, type ProjectLabels } from '@/features/projects/types/project';
+import { useLocale } from '@/i18n/locale-context';
 import { formatPeriod } from '@/utils/format-period';
 
-type ProjectCardProps = { project: Project };
+type ProjectCardProps = { project: Project; labels: ProjectLabels };
 
 // A case study rather than a card, told in the order it happened: the period as a small
 // overline, the name set huge, the tagline, the project in three figures and in its own
 // words, then the radio, the pitch and the win it brought. The pitch is the video, on the
 // frame it opens on; the photo of the trophy answers it.
-export function ProjectCard({ project }: ProjectCardProps) {
+export function ProjectCard({ project, labels }: ProjectCardProps) {
   const headingId = `${project.id}-titre`;
+  // The text comes from the props; only the dates are formatted in the page's language.
+  const locale = useLocale();
 
   return (
     <article aria-labelledby={headingId} className="flex flex-col gap-10">
       <header className="flex flex-col gap-4">
         <p className="reveal text-small font-semibold tracking-[0.2em] text-fg-subtle uppercase">
-          {formatPeriod(project.period)}
+          {formatPeriod(project.period, locale)}
         </p>
         <h4
           id={headingId}
@@ -31,7 +34,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
       </header>
 
       <KeyFigures
-        label={`${project.name} en chiffres`}
+        label={labels.figures(project.name)}
         figures={project.figures}
         entrance="reveal"
       />
@@ -47,7 +50,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
             </li>
           ))}
         </ul>
-        <ul aria-label="Technologies utilisées" className="flex reveal flex-wrap gap-2">
+        <ul aria-label={labels.technologies} className="flex reveal flex-wrap gap-2">
           {project.stack.map((technology) => (
             <li key={technology}>
               <Badge>{technology}</Badge>

@@ -2,7 +2,12 @@ import { assert, describe, expect, it } from 'vitest';
 import { render } from 'vitest-browser-react';
 
 import { ProjectCard } from '@/features/projects/components/project-card';
-import { PROJECTS } from '@/features/projects/data/projects';
+import {
+  PROJECT_LABELS as PROJECT_LABELS_EN,
+  PROJECTS as PROJECTS_EN,
+} from '@/features/projects/data/projects.en';
+import { PROJECT_LABELS, PROJECTS } from '@/features/projects/data/projects.fr';
+import { LocaleContext } from '@/i18n/locale-context';
 import { expectNoAxeViolations } from '@/testing/expect-no-axe-violations';
 
 const [STAXX] = PROJECTS;
@@ -10,7 +15,7 @@ const [STAXX] = PROJECTS;
 async function renderSection() {
   return render(
     <div className="@container">
-      <ProjectCard project={STAXX} />
+      <ProjectCard project={STAXX} labels={PROJECT_LABELS} />
     </div>,
   );
 }
@@ -111,5 +116,22 @@ describe('ProjectCard', () => {
     const screen = await renderSection();
 
     await expectNoAxeViolations(screen.container);
+  });
+
+  it('draws the English case study, from its tagline to the radio', async () => {
+    const [staxx] = PROJECTS_EN;
+    const screen = await render(
+      <LocaleContext value="en">
+        <div className="@container">
+          <ProjectCard project={staxx} labels={PROJECT_LABELS_EN} />
+        </div>
+      </LocaleContext>,
+    );
+
+    const article = screen.getByRole('article', { name: 'STAXX' });
+    await expect.element(article.getByText('Since 2024')).toBeVisible();
+    await expect.element(article.getByRole('list', { name: 'STAXX in figures' })).toBeVisible();
+    await expect.element(article.getByRole('figure', { name: /^The pitch/ })).toBeVisible();
+    await expect.element(article.getByRole('figure', { name: /^On the radio/ })).toBeVisible();
   });
 });

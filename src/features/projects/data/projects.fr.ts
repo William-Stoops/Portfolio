@@ -4,7 +4,7 @@ import {
   PITCH_PICTURE,
   SUMMIT_PICTURE,
 } from '@/features/projects/data/staxx-pictures';
-import { type Project } from '@/features/projects/types/project';
+import { type Project, type ProjectLabels } from '@/features/projects/types/project';
 
 // Source: docs/content/cv-source.md, "Projets".
 export const PROJECTS = [
@@ -62,3 +62,8 @@ export const PROJECTS = [
     },
   },
 ] as const satisfies readonly Project[];
+
+export const PROJECT_LABELS = {
+  technologies: 'Technologies utilisées',
+  figures: (projectName) => `${projectName} en chiffres`,
+} as const satisfies ProjectLabels;

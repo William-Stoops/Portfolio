@@ -5,6 +5,13 @@ import { type YouTubeVideo } from '@/types/youtube-video';
 
 type ProjectPhoto = { picture: ResponsivePicture; alt: string };
 
+// Interface text of the case study, in the page's language.
+export type ProjectLabels = {
+  technologies: string;
+  // Names the list of key figures, around the project's name.
+  figures: (projectName: string) => string;
+};
+
 export type Project = {
   id: string;
   name: string;

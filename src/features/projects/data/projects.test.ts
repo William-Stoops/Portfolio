@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
-import { PROJECTS } from '@/features/projects/data/projects';
+import { PROJECTS as PROJECTS_EN } from '@/features/projects/data/projects.en';
+import { PROJECTS } from '@/features/projects/data/projects.fr';
 import {
   NRJ_EXPLANATION_PICTURE,
   NRJ_INTERVIEW_PICTURE,
@@ -90,5 +91,22 @@ describe('projects', () => {
     ]) {
       expect(Math.max(...picture.widths)).toBeLessThanOrEqual(picture.width);
     }
+  });
+
+  it('translates STAXX without changing a figure, a picture or the video', () => {
+    const [staxx] = PROJECTS;
+    const [english] = PROJECTS_EN;
+
+    expect(english.figures.map(({ value }) => value)).toEqual(['1st', '300', '3']);
+    expect(english.pitch.video.youtubeId).toBe(staxx.pitch.video.youtubeId);
+    expect(english.pitch.video.startSeconds).toBe(staxx.pitch.video.startSeconds);
+    expect([english.pitch.poster, english.photo.picture]).toEqual([
+      staxx.pitch.poster,
+      staxx.photo.picture,
+    ]);
+    expect(english.press.photos.map(({ picture }) => picture)).toEqual(
+      staxx.press.photos.map(({ picture }) => picture),
+    );
+    expect(english.stack).toEqual(staxx.stack);
   });
 });
