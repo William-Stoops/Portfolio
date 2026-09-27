@@ -19,7 +19,7 @@ fois accepté** : on ne le réécrit pas, on le remplace par un nouvel ADR qui l
 | 0011 | [Pré-rendre les pages au build, en restant en mode data](0011-build-time-prerendering.md)                        | Accepté                           |
 | 0012 | [Générer les images en fichiers statiques, hors du bundler](0012-static-generated-images.md)                     | Accepté                           |
 | 0013 | [Mesurer Lighthouse en bridage réel, sur la médiane des passes](0013-lighthouse-devtools-throttling.md)          | Accepté                           |
-| 0014 | [Héberger sur Cloudflare Pages, avec un fichier HTML par page](0014-cloudflare-pages-one-html-per-route.md)      | Accepté                           |
+| 0014 | [Héberger sur Cloudflare Pages, avec un fichier HTML par page](0014-cloudflare-pages-one-html-per-route.md)      | Accepté, complété par 0031        |
 | 0015 | [Un mouvement expressif, en CSS natif](0015-expressive-motion-in-native-css.md)                                  | Accepté                           |
 | 0016 | [Une surface de volatilité en WebGL2 brut derrière le hero](0016-hero-webgl-surface.md)                          | Accepté                           |
 | 0017 | [Relever le budget du JS initial à 125 kB](0017-initial-js-budget-125.md)                                        | Accepté                           |
@@ -36,5 +36,6 @@ fois accepté** : on ne le réécrit pas, on le remplace par un nouvel ADR qui l
 | 0028 | [Mettre en scène la victoire à l'Epitech Summit](0028-summit-win-as-a-scene.md)                                  | Accepté                           |
 | 0029 | [Afficher le parcours sur un tableau des départs](0029-journey-departures-board.md)                              | Accepté                           |
 | 0030 | [Ouvrir la page comme un plan de cinéma](0030-cinematic-opening.md)                                              | Accepté                           |
+| 0031 | [Déployer sur Cloudflare Pages](0031-deploy-on-cloudflare-pages.md)                                              | Accepté                           |
 
 Modèle : copier [template.md](template.md).
