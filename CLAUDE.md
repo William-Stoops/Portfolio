@@ -131,6 +131,7 @@ coder de mémoire**.
 ```
 src/
   app/                 # composition : routes.tsx (table des routes), routes/* (pages, layout, erreur)
+    content/           # SiteContent : le contenu d'une langue (site-content.fr.tsx, .en.tsx), un chunk par langue
   components/
     ui/                # primitives du design system (shadcn adapté), sans métier
     layout/            # skip-link, site-header, site-footer, page-shell
@@ -143,6 +144,7 @@ src/
       types/           # types dérivés
       utils/           # fonctions pures
   hooks/               # hooks génériques (use-media-query, use-page-heading…)
+  i18n/                # locales, contexte de la langue, préférence enregistrée (ADR 0026)
   lib/                 # cn(), adaptateurs externes
   config/              # env.ts (Zod), paths.ts, site.ts
   styles/              # globals.css (@theme), base.css
@@ -165,7 +167,7 @@ pnpm typecheck      # tsc -b
 pnpm test           # vitest (unit + browser)
 pnpm test:coverage  # avec seuils
 pnpm test:e2e       # playwright (build + preview)
-pnpm build          # build de prod + pré-rendu HTML (dist/index.html, dist/404.html)
+pnpm build          # build de prod + pré-rendu HTML des deux langues et de la passerelle `/`
 pnpm knip           # code mort : fichiers, exports, types, dépendances inutilisés
 pnpm knip:production # idem sur le seul code livré, dépendances de prod strictes
 pnpm size           # budget de bundle (size-limit)
@@ -191,20 +193,21 @@ pnpm verify         # tout ce qui précède, identique à la CI
 
 ## Skills du projet
 
-| Skill                  | Charger avant de…                                                      |
-| ---------------------- | ---------------------------------------------------------------------- |
-| `feature-architecture` | créer un fichier, une feature, déplacer du code, ajouter un import     |
-| `react-components`     | écrire ou modifier un composant ou un hook                             |
-| `typescript-standards` | écrire du TypeScript, un type, un schéma Zod                           |
-| `design-system`        | toucher aux couleurs, typo, espacements, composants `ui/`, animations  |
-| `accessibility`        | écrire du markup, un composant interactif, une route, un formulaire    |
-| `responsive-design`    | poser une mise en page, une grille, une image, un comportement tactile |
-| `tdd-workflow`         | écrire la moindre ligne de production (le test vient d'abord)          |
-| `react-performance`    | ajouter une route, une image, une police, une dépendance, une anim     |
-| `state-and-forms`      | ajouter de l'état partagé, un formulaire, une donnée persistée         |
-| `content-data`         | afficher un contenu issu du CV                                         |
-| `quality-gates`        | configurer lint, tests, hooks, CI ; avant d'ouvrir une PR              |
-| `git-workflow`         | créer une branche, committer, ouvrir une PR                            |
+| Skill                  | Charger avant de…                                                         |
+| ---------------------- | ------------------------------------------------------------------------- |
+| `feature-architecture` | créer un fichier, une feature, déplacer du code, ajouter un import        |
+| `react-components`     | écrire ou modifier un composant ou un hook                                |
+| `typescript-standards` | écrire du TypeScript, un type, un schéma Zod                              |
+| `design-system`        | toucher aux couleurs, typo, espacements, composants `ui/`, animations     |
+| `accessibility`        | écrire du markup, un composant interactif, une route, un formulaire       |
+| `responsive-design`    | poser une mise en page, une grille, une image, un comportement tactile    |
+| `tdd-workflow`         | écrire la moindre ligne de production (le test vient d'abord)             |
+| `react-performance`    | ajouter une route, une image, une police, une dépendance, une anim        |
+| `state-and-forms`      | ajouter de l'état partagé, un formulaire, une donnée persistée            |
+| `content-data`         | afficher un contenu issu du CV                                            |
+| `quality-gates`        | configurer lint, tests, hooks, CI ; avant d'ouvrir une PR                 |
+| `i18n`                 | écrire un texte affiché, une page, un chemin, un format de date ou nombre |
+| `git-workflow`         | créer une branche, committer, ouvrir une PR                               |
 
 ## Feuille de route
 
@@ -234,7 +237,8 @@ pnpm verify         # tout ce qui précède, identique à la CI
 | 22  | `william/feat/site-harmony`                    | La ligne de vol réservée au parcours, chapitres hors du temps en rangées, hiérarchie (ADR 0023)                     |
 | 23  | `william/feat/pitch-stage`                     | Vidéo du pitch sur sa première image, ouverte depuis l'affiche, récit STAXX dans l'ordre (ADR 0024)                 |
 | 24  | `william/feat/trust-blue`                      | Accent bleu de confiance à la place de l'orange corail, jugé alarmant (ADR 0025)                                    |
-| 25  | `william/perf/lighthouse-budget` + déploiement | Budgets, Open Graph, déploiement sur Cloudflare Pages (ADR 0014)                                                    |
+| 25  | `william/feat/i18n`                            | Site en français et en anglais : langue dans l'URL, passerelle `/`, un chunk par langue (ADR 0026)                  |
+| 26  | `william/perf/lighthouse-budget` + déploiement | Budgets, Open Graph, déploiement sur Cloudflare Pages (ADR 0014)                                                    |
 
 Questions encore ouvertes : un traitement serveur du formulaire de contact (service
-tiers ou fonction serverless) au-delà du `mailto:`, une éventuelle version anglaise.
+tiers ou fonction serverless) au-delà du `mailto:`.
