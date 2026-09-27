@@ -84,7 +84,10 @@ lint-staged and commitlint plugins are auto-enabled from `package.json`. Config:
 - shadcn components are copied **one at a time, when a feature needs them** — never the
   whole catalogue — so Knip never has to ignore `components/ui/`.
 - An export used only by its own test is dead: inline it or test through the public
-  function.
+  function. The one exception: code shared with a build-time script
+  (`scripts/generate-land-dots.ts` and the land-dots grid) is tagged `/** @internal */`,
+  which `--production` skips while plain `knip` still checks it is used; justify each tag
+  in `knip.config.ts`.
 
 ## 3 bis. Dependencies and pnpm
 

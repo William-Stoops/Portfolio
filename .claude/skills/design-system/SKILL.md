@@ -140,10 +140,12 @@ in the UI means adding it to that test first.**
     element with its own `transition`;
   - `marquee-track` for the one loop, with its pause button;
   - `drift-left` / `drift-right` for the giant kinetic lines (`AxisBand`).
-- **Signatures** (ADR 0016): the hero's WebGL volatility surface (tinted from
+- **Signatures** (ADR 0016, 0027): the hero's WebGL volatility surface (tinted from
   `text-accent` and `border-border-input` read on the canvas, masked under the text,
-  ripples on click) and the kinetic axis band. They carry the "wow"; keep the rest of the
-  page calmer around them.
+  ripples on click), the kinetic axis band, and the Korea globe (below). They carry the
+  "wow"; keep the rest of the page calmer around them. A WebGL scene reads its tints from
+  colour utilities set on its canvas (`text-*`, `border-*`, `decoration-*`), never from
+  literal colours, and follows the theme through `onThemeChange`.
 - **Hero composition**: the hero fills the first screen; the technology strip rests on
   its bottom edge like a horizon (solid canvas background, thin rules, grey text, accent
   dots, faded edges); the portrait has its accent ring and nothing else on it (stickers,
@@ -208,7 +210,13 @@ variant="finale"`, loaded only when near).
   corners), then 안녕하세요 rises. Everywhere else each piece runs on its own view, and
   without scroll-driven animations everything stands in its final place. The flag keeps
   its official colours (ADR 0019). Korean words carry `lang="ko"` and are never
-  letter-spaced. A pinned scene must be **worth its scroll**: a pinned photo gallery that
+  letter-spaced. Where the scene is pinned and WebGL2 runs, the flight crosses a **dotted
+  globe** instead of the arc (ADR 0027): Natural Earth continents as dots in `fg-subtle`
+  on a `surface` disc with a `border` hairline, the great-circle route dotted in
+  `border-input` and lit in `accent` where flown, the places pinned as dots with their
+  names on a `surface` chip. The globe takes one side, the departure words, the flag and
+  the greeting face it; the plane and the places are HTML moved by script on the CSS
+  timeline (`flight-timeline.ts` reads `motion.css`, a test holds them together). A pinned scene must be **worth its scroll**: a pinned photo gallery that
   panned a short strip over a long track felt like scrolling for nothing, and was removed.
 - **Photos are always whole**: framed at their own ratio, never cropped by a frame or by a
   parallax zoom, and set where they tell something (the stadium beside Korea University),

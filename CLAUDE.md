@@ -238,7 +238,8 @@ pnpm verify         # tout ce qui précède, identique à la CI
 | 23  | `william/feat/pitch-stage`                     | Vidéo du pitch sur sa première image, ouverte depuis l'affiche, récit STAXX dans l'ordre (ADR 0024)                 |
 | 24  | `william/feat/trust-blue`                      | Accent bleu de confiance à la place de l'orange corail, jugé alarmant (ADR 0025)                                    |
 | 25  | `william/feat/i18n`                            | Site en français et en anglais : langue dans l'URL, passerelle `/`, un chunk par langue (ADR 0026)                  |
-| 26  | `william/perf/lighthouse-budget` + déploiement | Budgets, Open Graph, déploiement sur Cloudflare Pages (ADR 0014)                                                    |
+| 26  | `william/feat/korea-globe`                     | Vol de la Corée au-dessus d'un globe WebGL2, continents Natural Earth, route en grand cercle (ADR 0027)             |
+| 27  | `william/perf/lighthouse-budget` + déploiement | Budgets, Open Graph, déploiement sur Cloudflare Pages (ADR 0014)                                                    |
 
 Questions encore ouvertes : un traitement serveur du formulaire de contact (service
 tiers ou fonction serverless) au-delà du `mailto:`.

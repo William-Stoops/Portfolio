@@ -104,6 +104,17 @@ paint on demand, in its own chunk with its own size-limit budget (ADR 0016).
   that chunk. Import its types with a top-level `import type`: an inline
   `import { type X }` keeps a real import under `verbatimModuleSyntax` and pulls the chunk
   back into the main bundle. The loop draws nothing while the hero is off screen.
+- **Korea globe** (ADR 0027): the same pattern. `useFlightGlobe` only decides (the pinned
+  scene's media query, scroll-driven animations, no data saver) and imports
+  `flight-globe-runtime` 800 px before the scene (`whenNear`); the map ships inside that
+  chunk as a 1 kB bit mask, precomputed by `pnpm globe`, never as GeoJSON. It draws only
+  on scroll, while the scene is near.
+- **Shared WebGL helpers** (`utils/matrix4`, `utils/parse-rgb-color`, `lib/webgl-program`,
+  `lib/theme-change`) form the named chunk `webgl` (`WEBGL_SHARED_MODULES` in
+  `vite.config.ts`), loaded with whichever scene comes first and counted in both scenes'
+  budgets. A new helper shared by the scenes joins that pattern, or Rolldown names a new
+  chunk after it and the initial JS budget counts it. The E2E checks it never loads on a
+  phone.
 
 ## 6b. First render of a long page (ADR 0018)
 
