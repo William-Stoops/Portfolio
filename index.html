@@ -15,20 +15,48 @@
           document.documentElement.setAttribute('data-theme', storedTheme);
         }
       } catch (error) {}
-      // Opened on an anchor (/#contact): render every section at once, so the browser
-      // scrolls to the exact position (see useProgressiveRender).
-      if (location.hash !== '') {
+      // Opened on an anchor (/fr#contact), or from the other language at the place being
+      // read (src/lib/reading-position.ts): render every section at once, so the page lands
+      // at the exact position (see useProgressiveRender).
+      var hasTarget = location.hash !== '';
+      try {
+        var position = JSON.parse(sessionStorage.getItem('locale-switch-position'));
+        hasTarget = hasTarget || (position !== null && position.destination === location.pathname);
+      } catch (error) {}
+      if (hasTarget) {
         document.documentElement.setAttribute('data-render-all', '');
       }
     </script>
     <title>William Stoops – Software Engineer &amp; AI Engineer</title>
-    <meta
-      name="description"
-      content="William Stoops, Software Engineer & AI Engineer : systèmes de calcul en C++ et Rust, produits full stack en TypeScript, agents et LLM au quotidien."
-    />
   </head>
   <body>
     <div id="root"></div>
+    <!--
+      Before the first paint, the page opens where the reader was in the other language:
+      mirrors restoreReadingPosition (src/lib/reading-position.ts, same key, same reading
+      blocks), which applies it again after hydration and forgets it. A Content-Security-Policy
+      must allow its hash.
+    -->
+    <script>
+      try {
+        var saved = JSON.parse(sessionStorage.getItem('locale-switch-position'));
+        var main = document.getElementById('main');
+        if (saved !== null && main !== null && saved.destination === location.pathname) {
+          var blocks = Array.prototype.filter.call(
+            main.querySelectorAll(
+              'h1, h2, h3, h4, h5, h6, p, li:not(:has(li, p, h2, h3, h4)), dt, dd, img, figcaption',
+            ),
+            function (element) {
+              return element.closest('[aria-hidden="true"]') === null;
+            },
+          );
+          var block = blocks[saved.block];
+          if (block) {
+            window.scrollTo(0, window.scrollY + block.getBoundingClientRect().top - saved.top);
+          }
+        }
+      } catch (error) {}
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
