@@ -32,7 +32,10 @@ function recordRequests(page: Page, chunk: RegExp): string[] {
 async function samplePlaneTrack(page: Page, stopId: string): Promise<number[]> {
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.goto(`/fr#${stopId}`);
-  const scene = page.locator(`#${stopId} .scene-track`);
+  // The stop's flight scene: 2025 also pins the Epitech Summit.
+  const scene = page
+    .locator(`#${stopId} .scene-track`)
+    .filter({ has: page.locator('[data-flight-route]') });
   const flightMap = flightMapOf(page);
   if (flightMap === 'globe') {
     await expect(scene.locator('[data-globe]')).toBeAttached({ timeout: 10_000 });

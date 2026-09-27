@@ -3,6 +3,7 @@ import { EmphasizedText } from '@/components/ui/emphasized-text';
 import { KeyFigures } from '@/components/ui/key-figures';
 import { ResponsiveImage } from '@/components/ui/responsive-image';
 import { YouTubeFacade } from '@/components/ui/youtube-facade';
+import { SummitScene } from '@/features/projects/components/summit-scene';
 import { type Project, type ProjectLabels } from '@/features/projects/types/project';
 import { useLocale } from '@/i18n/locale-context';
 import { formatPeriod } from '@/utils/format-period';
@@ -12,7 +13,7 @@ type ProjectCardProps = { project: Project; labels: ProjectLabels };
 // A case study rather than a card, told in the order it happened: the period as a small
 // overline, the name set huge, the tagline, the project in three figures and in its own
 // words, then the radio, the pitch and the win it brought. The pitch is the video, on the
-// frame it opens on; the photo of the trophy answers it.
+// frame it opens on; the win answers it as a scene, in the room of the Summit.
 export function ProjectCard({ project, labels }: ProjectCardProps) {
   const headingId = `${project.id}-titre`;
   // The text comes from the props; only the dates are formatted in the page's language.
@@ -110,29 +111,8 @@ export function ProjectCard({ project, labels }: ProjectCardProps) {
         </figure>
       )}
 
-      {project.photo === undefined ? null : (
-        // The win the pitch brought, across the whole study. The caption sits in a notch
-        // cut into the photo, on the page's own background: its contrast never depends on
-        // the picture.
-        <figure className="relative reveal-expand">
-          <div className="overflow-clip rounded-lg">
-            <ResponsiveImage
-              picture={project.photo.picture}
-              alt={project.photo.alt}
-              sizes="(min-width: 72rem) 67rem, 94vw"
-              loading="lazy"
-              // On a narrow frame, centred on William and the trophy rather than the group.
-              className="block aspect-[4/5] w-full scroll-parallax object-cover object-[35%_20%] sm:aspect-[3/2] sm:object-[50%_20%] @4xl:aspect-video"
-            />
-          </div>
-          <figcaption className="absolute start-0 bottom-0 flex flex-col gap-1 rounded-se-lg bg-canvas pe-6 pt-4 sm:pe-10 sm:pt-5">
-            <span className="text-small font-semibold tracking-[0.2em] text-accent-fg uppercase">
-              {project.photo.place}
-            </span>
-            <span className="font-display text-h3 font-semibold">{project.photo.caption}</span>
-          </figcaption>
-        </figure>
-      )}
+      {/* The win the pitch brought, staged: the room, the spotlights, then the lights. */}
+      {project.photo === undefined ? null : <SummitScene photo={project.photo} />}
     </article>
   );
 }

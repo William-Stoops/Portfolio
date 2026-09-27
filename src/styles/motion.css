@@ -218,6 +218,75 @@
   }
 }
 
+@keyframes fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+/* A digit strip of the Summit's counter, from 0 up to the digit it shows at rest. */
+@keyframes roll-up {
+  from {
+    translate: 0 0;
+  }
+}
+
+/* The dark of the Summit's room lifts: the lights come up on the winners. */
+@keyframes lights-up {
+  from {
+    opacity: 0.9;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+/*
+ * The Summit's follow spots (summit-spot). Each keyframe places a spot's centre on the
+ * stage, in container units of the stage (56cqh wide windows: 28cqh from edge to centre),
+ * times --sign: 1 for the window, -1 for the photo inside, which moves back so it stays
+ * put. A enters from the left, crosses, comes back; B the other way round; both meet on
+ * the winner (--spot-x, --spot-y), A a little above, B a little below.
+ */
+@keyframes follow-spot-a {
+  0% {
+    translate: calc(var(--sign) * (-15cqw - 28cqh)) calc(var(--sign) * 22cqh);
+  }
+
+  35% {
+    translate: calc(var(--sign) * (60cqw - 28cqh)) calc(var(--sign) * 14cqh);
+  }
+
+  70% {
+    translate: calc(var(--sign) * (82cqw - 28cqh)) calc(var(--sign) * 27cqh);
+  }
+
+  100% {
+    translate: calc(var(--sign) * (var(--spot-x) * 100cqw - 3cqw - 28cqh))
+      calc(var(--sign) * (var(--spot-y) * 100cqh - 7cqh - 28cqh));
+  }
+}
+
+@keyframes follow-spot-b {
+  0% {
+    translate: calc(var(--sign) * (115cqw - 28cqh)) calc(var(--sign) * 30cqh);
+  }
+
+  35% {
+    translate: calc(var(--sign) * (35cqw - 28cqh)) calc(var(--sign) * 32cqh);
+  }
+
+  70% {
+    translate: calc(var(--sign) * (12cqw - 28cqh)) calc(var(--sign) * 20cqh);
+  }
+
+  100% {
+    translate: calc(var(--sign) * (var(--spot-x) * 100cqw + 3cqw - 28cqh))
+      calc(var(--sign) * (var(--spot-y) * 100cqh + 6cqh - 28cqh));
+  }
+}
+
 @keyframes zoom-in {
   from {
     opacity: 0;
@@ -574,6 +643,127 @@
         animation-timeline: var(--scene-timeline, --voyage);
         animation-range: contain calc(70% + var(--i, 0) * 2%) contain calc(80% + var(--i, 0) * 2%);
       }
+    }
+  }
+}
+
+/*
+ * The Epitech Summit (SummitScene), pinned on --summit: the room fills and its counter
+ * ticks up (4 % → 48 %), two follow spots search the dark stage and meet on the winner
+ * (6 % → 62 %), then the lights come up (62 % → 74 %) and the moment holds. On a small
+ * screen only the room fills, as it crosses the view (--summit-room). Still, or without
+ * scroll-driven animations, the room is full, the counter at its count, the photo lit.
+ */
+@utility summit-room {
+  view-timeline: --summit-room;
+}
+
+/* The seats taken at one tick of the counter (`--tick` of `--ticks`), in step with it. */
+@utility summit-seats {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: fade-in linear both;
+      animation-timeline: --summit-room;
+      animation-range: cover calc(15% + var(--tick) / var(--ticks) * 35%) cover
+        calc(15% + (var(--tick) + 1) / var(--ticks) * 35%);
+
+      @media (min-width: 64rem) and (min-height: 40rem) {
+        animation-timeline: --summit;
+        animation-range: contain calc(4% + var(--tick) / var(--ticks) * 44%) contain
+          calc(4% + (var(--tick) + 1) / var(--ticks) * 44%);
+      }
+    }
+  }
+}
+
+/* A digit strip of the counter: at rest it shows the digit of the count; it rolls up from
+   0, one digit per tick (`--steps` in all). A strip that never moves has no animation. */
+@utility summit-digits {
+  translate: 0 calc(var(--steps) * -1em);
+
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: roll-up steps(var(--steps), jump-end) both;
+      animation-timeline: --summit-room;
+      animation-range: cover 15% cover 50%;
+
+      @media (min-width: 64rem) and (min-height: 40rem) {
+        animation-timeline: --summit;
+        animation-range: contain 4% contain 48%;
+      }
+    }
+  }
+}
+
+/* The dark of the room, only where the scene is pinned: elsewhere the photo is lit. */
+@utility summit-veil {
+  display: none;
+
+  @media (prefers-reduced-motion: no-preference) and (min-width: 64rem) and (min-height: 40rem) {
+    @supports (animation-timeline: view()) {
+      display: block;
+      animation: lights-up linear both;
+      animation-timeline: --summit;
+      animation-range: contain 62% contain 74%;
+    }
+  }
+}
+
+/*
+ * A follow spot: a round window onto the lit photo, soft-edged. The window crosses the
+ * stage while the photo inside moves the other way (--sign), so the photo stays put and
+ * only the light moves: two opposite translations, both on the compositor. The spots
+ * fade as the lights come up. Only where the scene is pinned.
+ */
+@utility summit-spot {
+  display: none;
+
+  @media (prefers-reduced-motion: no-preference) and (min-width: 64rem) and (min-height: 40rem) {
+    @supports (animation-timeline: view()) {
+      --sign: 1;
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 56cqh;
+      height: 56cqh;
+      overflow: clip;
+      border-radius: 50%;
+      mask-image: radial-gradient(closest-side, #000 72%, transparent);
+      animation:
+        var(--spot-path) ease-in-out both,
+        fade-out linear both;
+      animation-timeline: --summit, --summit;
+      animation-range:
+        contain 6% contain 62%,
+        contain 62% contain 74%;
+    }
+  }
+}
+
+@utility summit-spot-a {
+  --spot-path: follow-spot-a;
+}
+
+@utility summit-spot-b {
+  --spot-path: follow-spot-b;
+}
+
+/* The lit photo inside a spot: the stage's size and crop, moved back as the spot moves. */
+@utility summit-spot-photo {
+  --sign: -1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100cqw;
+  max-width: none;
+  height: 100cqh;
+
+  @media (prefers-reduced-motion: no-preference) and (min-width: 64rem) and (min-height: 40rem) {
+    @supports (animation-timeline: view()) {
+      animation: var(--spot-path) ease-in-out both;
+      animation-timeline: --summit;
+      animation-range: contain 6% contain 62%;
     }
   }
 }
