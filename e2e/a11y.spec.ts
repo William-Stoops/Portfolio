@@ -1,7 +1,7 @@
 import { AxeBuilder } from '@axe-core/playwright';
 import { expect, test } from '@playwright/test';
 
-import { waitForHydration } from './support/hydration.ts';
+import { renderEverySection } from './support/hydration.ts';
 
 const ROUTES = [
   '/fr',
@@ -29,10 +29,8 @@ for (const colorScheme of COLOR_SCHEMES) {
       // The page as a visitor sees it: a first key press renders the deferred sections
       // (ADR 0018). Left as placeholders, their content overflows the placeholder's size
       // into the footer, and axe measured links covering the form's button.
-      await waitForHydration(page);
-      await page.keyboard.press('Shift');
+      await renderEverySection(page);
       if (HOME_ROUTES.has(route)) {
-        await expect(page.locator('html')).toHaveAttribute('data-render-all');
         // The journey's code loads on demand (ADR 0020): let it arrive and hydrate, or axe
         // may measure nodes React is replacing (detached, they have no colour of their own).
         await page.waitForLoadState('networkidle');

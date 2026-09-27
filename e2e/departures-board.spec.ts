@@ -1,6 +1,6 @@
 import { expect, type Locator, type Page, test } from '@playwright/test';
 
-import { waitForHydration } from './support/hydration.ts';
+import { renderEverySection } from './support/hydration.ts';
 import { isMobileLayout } from './support/interactions.ts';
 
 // What a run of split-flap cells shows right now: for each strip, the glyph its
@@ -44,9 +44,7 @@ const TITLE_STRIPS = '#annee-2025 h3 [data-flap-character] + *';
 // without an anchor: the browser's own scroll to it would land after ours.
 async function openJourney(page: Page): Promise<void> {
   await page.goto('/fr');
-  await waitForHydration(page);
-  await page.keyboard.press('Shift');
-  await expect(page.locator('html')).toHaveAttribute('data-render-all');
+  await renderEverySection(page);
   await expect(page.locator('#annee-2025 h3')).toBeAttached();
 }
 

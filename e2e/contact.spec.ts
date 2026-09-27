@@ -13,7 +13,7 @@ test.describe('contact form', () => {
     });
     await page.goto('/fr#contact');
     // Before hydration the prerendered form would submit natively and reload the page.
-    await waitForHydration(page);
+    await waitForHydration(page, '#contact form');
   });
 
   test('points out every missing field and focuses the first one', async ({ page }) => {
