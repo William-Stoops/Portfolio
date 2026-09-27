@@ -69,6 +69,40 @@ test.describe('hero scene', () => {
     await expect(canvas).toHaveAttribute('data-landed', '', { timeout: 10_000 });
   });
 
+  test('dives into the page as the hero scrolls away', async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'no-preference' });
+    await page.goto('/fr');
+    const content = page.locator('main section').first().locator('.hero-dive');
+    const scale = () => content.evaluate((element) => getComputedStyle(element).scale);
+
+    expect(['none', '1']).toContain(await scale());
+    // The content's bottom halfway up the screen: well into its way out, on any screen.
+    await content.evaluate((element) => {
+      const { bottom } = element.getBoundingClientRect();
+      window.scrollTo({
+        top: window.scrollY + bottom - window.innerHeight / 2,
+        behavior: 'instant',
+      });
+    });
+
+    await expect.poll(async () => Number.parseFloat(await scale())).toBeGreaterThan(1);
+  });
+
+  test('keeps the hero still when the visitor asks for reduced motion', async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.goto('/fr');
+    await page.evaluate(() => {
+      window.scrollTo({ top: window.innerHeight * 0.7, behavior: 'instant' });
+    });
+
+    const scale = await page
+      .locator('main section')
+      .first()
+      .locator('.hero-dive')
+      .evaluate((element) => getComputedStyle(element).scale);
+    expect(['none', '1']).toContain(scale);
+  });
+
   test('never loads the scene on a phone', async ({ page }) => {
     test.skip(!isMobileLayout(page), 'phones only');
     const sceneRequests = recordSceneRequests(page);

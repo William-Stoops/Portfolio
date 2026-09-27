@@ -215,6 +215,14 @@
   }
 }
 
+/* The hero's content comes towards the reader and past them: a dive into the page. */
+@keyframes dive-through {
+  to {
+    scale: 1.12;
+    translate: 0 -12vh;
+  }
+}
+
 @keyframes fade-out {
   to {
     opacity: 0;
@@ -640,6 +648,23 @@
         animation-timeline: var(--scene-timeline, --voyage);
         animation-range: contain calc(70% + var(--i, 0) * 2%) contain calc(80% + var(--i, 0) * 2%);
       }
+    }
+  }
+}
+
+/*
+ * The hero's dive (ADR 0030): as the hero scrolls away, its content comes towards the
+ * reader and past them while the camera of the surface dives among the waves. Transforms
+ * only: the hero's texts keep their first paint (LCP), and nothing fades.
+ */
+@utility hero-dive {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: dive-through linear both;
+      /* Inset 0: the dive starts as the content leaves the top of the screen, not at load
+         (the default inset would take the header's scroll padding). */
+      animation-timeline: view(block 0px);
+      animation-range: exit 0% exit 100%;
     }
   }
 }
