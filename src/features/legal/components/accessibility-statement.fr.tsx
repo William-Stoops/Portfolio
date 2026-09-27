@@ -52,7 +52,7 @@ export function AccessibilityStatement() {
       </LegalBlock>
 
       <LegalBlock title="Établissement de cette déclaration">
-        <p>Déclaration établie le 25 septembre 2026.</p>
+        <p>Déclaration établie le 25 septembre 2026, mise à jour le 27 septembre 2026.</p>
         <ul>
           <li>Technologies : HTML, CSS, JavaScript (React), WAI-ARIA.</li>
           <li>
@@ -61,7 +61,7 @@ export function AccessibilityStatement() {
           </li>
           <li>
             Pages concernées : accueil, déclaration d’accessibilité, mentions légales, plan du site,
-            page d’erreur 404.
+            page d’erreur 404, en français et en anglais.
           </li>
         </ul>
       </LegalBlock>

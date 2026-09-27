@@ -18,7 +18,7 @@ export function LegalNotice() {
         <p>
           <strong>{HOSTING_PROVIDER.name}</strong>
           <br />
-          {HOSTING_PROVIDER.address}
+          {HOSTING_PROVIDER.address.fr}
           <br />
           Téléphone : {HOSTING_PROVIDER.phone}
           <br />
@@ -30,8 +30,10 @@ export function LegalNotice() {
         <p>Ce site ne collecte aucune donnée personnelle et ne dépose aucun cookie.</p>
         <ul>
           <li>
-            Le choix du thème (clair, sombre ou système) est enregistré dans le stockage local de
-            votre navigateur. Il n’est transmis à personne et s’efface avec les données du site.
+            Le choix du thème (clair, sombre ou système) et, si vous en changez, celui de la langue
+            sont enregistrés dans le stockage local de votre navigateur. Ils ne sont transmis à
+            personne et s’effacent avec les données du site. Quand vous changez de langue, l’endroit
+            de la page où vous lisiez est gardé le temps d’ouvrir l’autre version, puis effacé.
           </li>
           <li>
             Le formulaire de contact n’envoie rien à un serveur : il prépare un e-mail dans votre
@@ -50,7 +52,7 @@ export function LegalNotice() {
 
       <LegalBlock title="Propriété intellectuelle">
         <p>
-          Les textes et la photographie de ce site ne peuvent être reproduits sans autorisation.
+          Les textes et les photographies de ce site ne peuvent être reproduits sans autorisation.
         </p>
         <p>
           Polices Sora et Inter sous licence SIL Open Font License, icônes Lucide sous licence ISC.
