@@ -1,4 +1,4 @@
-import { type Experience } from '@/features/experience/types/experience';
+import { type Experience, type ExperienceLabels } from '@/features/experience/types/experience';
 
 // Source: docs/content/cv-source.md, "Expérience professionnelle", most recent first.
 // **Passages** are those the CV sets in bold.
@@ -37,3 +37,7 @@ export const EXPERIENCES = [
     ],
   },
 ] as const satisfies readonly Experience[];
+
+export const EXPERIENCE_LABELS = {
+  technologies: 'Technologies utilisées',
+} as const satisfies ExperienceLabels;
