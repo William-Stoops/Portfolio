@@ -20,39 +20,41 @@ function lanesOf(container: Element): string[][] {
 }
 
 describe('CycleRace', () => {
-  it('puts both versions on the start line, each with the pace of its cycle', async () => {
+  it('puts both versions on the start line, each with the pace of its cycle, to scale', async () => {
     const screen = await render(<CycleRace race={CYCLE_RACE} />);
 
     await expect
-      .element(
-        screen.getByRole('heading', {
-          level: 4,
-          name: 'Un cycle de calcul, avant et après la refonte',
-        }),
-      )
+      .element(screen.getByRole('heading', { level: 5, name: 'Un cycle complet, à l’échelle' }))
       .toBeVisible();
+    await expect.element(screen.getByText('1 heure = 1,2 seconde')).toBeVisible();
     expect(lanesOf(screen.container)).toEqual([
-      ['Avant la refonte · 10\u202Fh par cycle', 'Temps de calcul écoulé 00:00'],
-      ['Après la refonte · 5\u202Fmin par cycle', '0 cycle terminé'],
+      ['Avant la refonte10 h par cycle', '0 / 1 cycle'],
+      ['Après5 min par cycle', '0 cycle'],
     ]);
-    await expect.element(screen.getByRole('button', { name: 'Lancer la course' })).toBeVisible();
+    await expect.element(screen.getByText('Temps simulé : 0 h 00')).toBeVisible();
+    await expect
+      .element(screen.getByRole('button', { name: 'Lancer les deux calculs' }))
+      .toBeVisible();
   });
 
   it('shows and says the result when the visitor starts it, at once with reduced motion', async () => {
     emulateMediaQuery('(prefers-reduced-motion: reduce)', true);
     const screen = await render(<CycleRace race={CYCLE_RACE} />);
 
-    await screen.getByRole('button', { name: 'Lancer la course' }).click();
+    await screen.getByRole('button', { name: 'Lancer les deux calculs' }).click();
 
-    await expect.element(screen.getByRole('button', { name: 'Relancer la course' })).toBeVisible();
+    await expect
+      .element(screen.getByRole('button', { name: 'Relancer les deux calculs' }))
+      .toBeVisible();
     expect(lanesOf(screen.container)).toEqual([
-      ['Avant la refonte · 10\u202Fh par cycle', 'Temps de calcul écoulé 10:00'],
-      ['Après la refonte · 5\u202Fmin par cycle', '120 cycles terminés'],
+      ['Avant la refonte10 h par cycle', '1 / 1 cycle'],
+      ['Après5 min par cycle', '120 cycles'],
     ]);
+    await expect.element(screen.getByText('Temps simulé : 10 h 00')).toBeVisible();
     const result = screen.getByRole('status').element();
     expect(result.getAttribute('aria-live')).toBe('polite');
     expect(result.textContent).toBe(
-      'Pendant qu’un cycle d’avant s’achève, la version refondue en boucle 120 : des valeurs de nouveau à jour.',
+      'Pendant qu’un cycle d’avant s’achève, la version refondue en boucle 120\u202F: des valeurs de nouveau à jour.',
     );
   });
 
@@ -60,12 +62,13 @@ describe('CycleRace', () => {
     emulateMediaQuery('(prefers-reduced-motion: reduce)', true);
     const screen = await render(<CycleRace race={CYCLE_RACE_EN} />);
 
-    await screen.getByRole('button', { name: 'Start the race' }).click();
+    await screen.getByRole('button', { name: 'Run both computations' }).click();
 
     expect(lanesOf(screen.container)).toEqual([
-      ['Before the redesign · 10\u202Fh per cycle', 'Computing time elapsed 10:00'],
-      ['After the redesign · 5\u202Fmin per cycle', '120 cycles completed'],
+      ['Before the redesign10 h per cycle', '1 / 1 cycle'],
+      ['After5 min per cycle', '120 cycles'],
     ]);
+    await expect.element(screen.getByText('Simulated time: 10 h 00')).toBeVisible();
     expect(screen.getByRole('status').element().textContent).toBe(
       'While one old cycle completes, the redesigned version runs 120: values up to date again.',
     );

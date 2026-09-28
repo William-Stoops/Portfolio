@@ -4,16 +4,19 @@ export type CycleTimes = { beforeMinutes: number; afterMinutes: number };
 
 type Lane = { name: string; pace: string };
 
-// The two cycles raced to scale (ADR 0032), with their words in the page's language.
+// The two cycles raced to scale (ADR 0032), under the lab's surface, with their words in
+// the page's language.
 export type CycleRaceContent = {
   times: CycleTimes;
-  overline: string;
   title: string;
+  // The scale, stated beside the title: an hour lasts 1.2 seconds.
   scale: string;
   lanes: Readonly<Record<'before' | 'after', Lane>>;
-  // Said before the old version's clock.
-  elapsed: string;
+  // Where the old version stands: its one cycle, done or not.
+  beforeProgress: (cycles: number) => string;
   cycles: (count: number) => string;
+  // The simulated time, as the old version's cycle runs.
+  clock: (hours: number, minutes: number) => string;
   start: string;
   restart: string;
   result: (laps: number) => string;
