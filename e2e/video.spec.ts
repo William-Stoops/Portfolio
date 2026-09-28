@@ -39,50 +39,26 @@ test.describe('pitch video', () => {
     expect(new URL(source).pathname).toMatch(/^\/images\/staxx-pitch-v1-/);
   });
 
-  test('plays the privacy-enhanced player over the whole screen, until Escape', async ({
-    page,
-  }) => {
+  test('plays the privacy-enhanced player right where the poster was', async ({ page }) => {
     // The player's own network traffic is not what this test is about.
     await page.route(/youtube-nocookie\.com/, (route) => route.fulfill({ status: 204 }));
     await page.goto('/fr#projets');
     const playButton = page.getByRole('button', { name: /^Lire la vidéo/ });
+    await playButton.scrollIntoViewIfNeeded();
+    const posterBox = await playButton.boundingBox();
 
     await playButton.click();
 
-    const dialog = page.getByRole('dialog', { name: 'Pitch de STAXX au concours Epitech Summit' });
-    const player = dialog.locator('iframe');
+    const player = page.getByTitle('Pitch de STAXX au concours Epitech Summit');
     await expect(player).toHaveAttribute(
       'src',
       'https://www.youtube-nocookie.com/embed/K_TsQ0Itoek?start=3741&autoplay=1',
     );
-    // The largest 16:9 box that fits: it spans the width on a portrait phone and most of
-    // the height on a landscape screen.
-    const viewport = page.viewportSize();
-    const box = await player.boundingBox();
-    expect(viewport).not.toBeNull();
-    expect(box).not.toBeNull();
-    if (viewport !== null && box !== null) {
-      const widthShare = box.width / viewport.width;
-      const heightShare = box.height / viewport.height;
-      expect(Math.max(widthShare, heightShare)).toBeGreaterThan(0.75);
-    }
-
-    await page.keyboard.press('Escape');
-
-    await expect(dialog).toBeHidden();
-    await expect(player).toHaveCount(0);
-  });
-
-  test('stays dark in the light theme', async ({ page }) => {
-    await page.route(/youtube-nocookie\.com/, (route) => route.fulfill({ status: 204 }));
-    await page.emulateMedia({ colorScheme: 'light' });
-    await page.goto('/fr#projets');
-
-    await page.getByRole('button', { name: /^Lire la vidéo/ }).click();
-
-    // The dark canvas token: the production CSS transpiles light-dark(), which must still
-    // follow the dialog's own colour scheme.
-    await expect(page.getByRole('dialog')).toHaveCSS('background-color', 'rgb(20, 21, 23)');
-    await expect(page.locator('html')).toHaveCSS('background-color', 'rgb(255, 255, 255)');
+    await expect(player).toBeFocused();
+    // In the page, in the poster's frame: no dialog, no other player.
+    const playerBox = await player.boundingBox();
+    expect(playerBox?.width).toBeCloseTo(posterBox?.width ?? 0, 0);
+    expect(playerBox?.height).toBeCloseTo(posterBox?.height ?? 0, 0);
+    await expect(page.getByRole('dialog')).toHaveCount(0);
   });
 });

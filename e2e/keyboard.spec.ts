@@ -22,7 +22,6 @@ function expectedFocusOrderFor(page: Page): readonly (string | RegExp)[] {
     'Incliner vers le bas',
     'Lancer les deux calculs',
     'Lire la vidéo : Pitch de STAXX au concours Epitech Summit',
-    'Ouvrir la vidéo sur YouTube (nouvel onglet)',
     'william.stoops@epitech.eu',
     'Copier l’adresse e-mail',
     'LinkedIn (nouvel onglet)',

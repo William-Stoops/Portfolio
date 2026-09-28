@@ -6,7 +6,7 @@ import { type YouTubeVideo } from '@/types/youtube-video';
 type ProjectPhoto = { picture: ResponsivePicture; alt: string };
 
 // A photo of a moment on stage, captioned by where it was taken.
-export type StagePhoto = ProjectPhoto & { place: string; caption: string };
+type StagePhoto = ProjectPhoto & { place: string; caption: string };
 
 // Interface text of the case study, in the page's language.
 export type ProjectLabels = {
