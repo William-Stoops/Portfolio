@@ -1099,26 +1099,17 @@
   }
 }
 
-/* The header's bottom rule fades in once the page has scrolled under it. */
-@utility scroll-settle {
+/* The site menu (ADR 0037) settles into place, a card dropping from the bar. Closing is
+   immediate: the page is what the visitor asked for. */
+@utility menu-panel {
   @media (prefers-reduced-motion: no-preference) {
-    @supports (animation-timeline: scroll()) {
-      animation: fade-in linear both;
-      animation-timeline: scroll(root);
-      animation-range: 0 8rem;
-    }
-  }
-}
+    transition:
+      translate 350ms var(--ease-out),
+      opacity 350ms var(--ease-out);
 
-@utility scroll-progress {
-  display: none;
-  transform-origin: 0 50%;
-
-  @media (prefers-reduced-motion: no-preference) {
-    @supports (animation-timeline: scroll()) {
-      display: block;
-      animation: grow-x linear both;
-      animation-timeline: scroll(root);
+    @starting-style {
+      translate: 0 -0.5rem;
+      opacity: 0;
     }
   }
 }

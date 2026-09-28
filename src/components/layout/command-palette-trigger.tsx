@@ -1,4 +1,5 @@
 import { Search } from 'lucide-react';
+import { type RefObject } from 'react';
 
 import { openCommandPalette, useCommandPalette } from '@/hooks/use-command-palette';
 import { useShortcutLabel } from '@/hooks/use-shortcut-label';
@@ -17,9 +18,16 @@ function preload(): void {
   void loadCommandPalette();
 }
 
-// The quick search's button in the header, for those who do not know ⌘K. Its name says
-// the shortcut; wide screens show it beside the icon.
-export function CommandPaletteTrigger() {
+type CommandPaletteTriggerProps = {
+  // In the site menu, the menu closes as the search opens (onOpen), taking this button with
+  // it: the focus then goes back to the menu's own button when the search closes.
+  onOpen?: () => void;
+  returnFocusTo?: RefObject<HTMLElement | null>;
+};
+
+// The quick search's button, for those who do not know ⌘K. Its name says the shortcut;
+// wide screens show it beside the icon.
+export function CommandPaletteTrigger({ onOpen, returnFocusTo }: CommandPaletteTriggerProps) {
   const isOpen = useCommandPalette();
   const shortcut = useShortcutLabel();
   const messages = useLocalized(TRIGGER_MESSAGES);
@@ -30,7 +38,8 @@ export function CommandPaletteTrigger() {
       aria-haspopup="dialog"
       aria-expanded={isOpen}
       onClick={(event) => {
-        openCommandPalette(event.currentTarget);
+        onOpen?.();
+        openCommandPalette(returnFocusTo?.current ?? event.currentTarget);
       }}
       onPointerEnter={preload}
       onFocus={preload}

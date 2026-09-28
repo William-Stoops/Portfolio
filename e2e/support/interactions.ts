@@ -1,6 +1,6 @@
 import { type BrowserType, expect, type Page } from '@playwright/test';
 
-// Below 64rem the header navigation and theme choice sit behind the "Menu" disclosure.
+// Below 64rem the section links sit in the menu only; from 64rem they are in the bar too.
 const MOBILE_LAYOUT_MAX_WIDTH = 1023;
 
 export function isMobileLayout(page: Page): boolean {
@@ -9,8 +9,13 @@ export function isMobileLayout(page: Page): boolean {
 
 export async function openMenuIfCollapsed(page: Page): Promise<void> {
   if (isMobileLayout(page)) {
-    await page.getByRole('button', { name: 'Menu' }).click();
+    await openSiteMenu(page);
   }
+}
+
+// The quick search, the theme and the other language are in the menu at every width.
+export async function openSiteMenu(page: Page): Promise<void> {
+  await page.getByRole('button', { name: 'Menu' }).click();
 }
 
 // Safari only puts links in the Tab order with Option+Tab (or a preference turned on):

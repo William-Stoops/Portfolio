@@ -1,30 +1,21 @@
 import { expect, type Page, test } from '@playwright/test';
 
-import { isMobileLayout, openMenuIfCollapsed, pressTab } from './support/interactions.ts';
+import { isMobileLayout, openSiteMenu, pressTab } from './support/interactions.ts';
 
 // Every focusable stop of the home page, in DOM order (= visual order).
-function expectedFocusOrderFor(page: Page): readonly string[] {
-  const header = isMobileLayout(page)
-    ? ['Menu']
-    : [
-        'À propos',
-        'Parcours',
-        'IA',
-        'Compétences',
-        'Contact',
-        'Recherche rapide (Ctrl K)',
-        'Thème du système',
-        'Thème clair',
-        'Thème sombre',
-        'English',
-      ];
+function expectedFocusOrderFor(page: Page): readonly (string | RegExp)[] {
+  const sections = isMobileLayout(page)
+    ? []
+    : ['À propos', 'Parcours', 'IA', 'Compétences', 'Contact'];
   return [
     'Aller au contenu principal',
     'William Stoops',
-    ...header,
+    ...sections,
+    'Télécharger le CV (PDF, 56 Ko)',
+    'Menu',
     'Me contacter',
     'Télécharger le CV (PDF, 56 Ko)',
-    'Mettre en pause le défilement',
+    /^IT-Finance · calcul de volatilité implicite.*Voir le calcul$/,
     'Lancer la course',
     'Lire la vidéo : Pitch de STAXX au concours Epitech Summit',
     'Ouvrir la vidéo sur YouTube (nouvel onglet)',
@@ -130,7 +121,7 @@ test.describe('pages', () => {
   test('remembers the chosen theme across reloads', async ({ page }) => {
     await page.emulateMedia({ colorScheme: 'light' });
     await page.goto('/fr');
-    await openMenuIfCollapsed(page);
+    await openSiteMenu(page);
 
     await page.getByRole('button', { name: 'Thème sombre' }).click();
     // The new theme spreads through a view transition: reload once it is applied.
@@ -139,7 +130,7 @@ test.describe('pages', () => {
       'true',
     );
     await page.reload();
-    await openMenuIfCollapsed(page);
+    await openSiteMenu(page);
 
     await expect(page.getByRole('button', { name: 'Thème sombre' })).toHaveAttribute(
       'aria-pressed',

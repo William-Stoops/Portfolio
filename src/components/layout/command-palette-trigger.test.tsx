@@ -1,3 +1,4 @@
+import { createRef } from 'react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { render } from 'vitest-browser-react';
 
@@ -47,6 +48,25 @@ describe('CommandPaletteTrigger', () => {
 
     await expect.element(screen.getByRole('button')).toHaveAttribute('aria-haspopup', 'dialog');
     await expect.element(screen.getByRole('button')).toHaveAttribute('aria-expanded', 'true');
+  });
+
+  it('warns the menu it sits in, and sends the focus back to the menu’s button', async () => {
+    const leaveMenu = vi.fn<() => void>();
+    const menuButtonRef = createRef<HTMLButtonElement>();
+    const screen = await render(
+      <>
+        <button ref={menuButtonRef} type="button">
+          Menu
+        </button>
+        <CommandPaletteTrigger onOpen={leaveMenu} returnFocusTo={menuButtonRef} />
+      </>,
+    );
+
+    await screen.getByRole('button', { name: /^Recherche rapide/ }).click();
+    expect(leaveMenu).toHaveBeenCalledOnce();
+    closeCommandPalette();
+
+    await expect.element(screen.getByRole('button', { name: 'Menu' })).toHaveFocus();
   });
 
   it('is a target a finger can hit, without accessibility violations', async () => {

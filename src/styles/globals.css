@@ -185,7 +185,7 @@
     color: --theme(--color-fg);
     font-family: var(--font-sans);
     text-size-adjust: 100%;
-    /* Anchors and focused controls land below the sticky header (WCAG 2.4.11). */
+    /* A section reached by its link lands with room above its title, not against the edge. */
     scroll-padding-top: 6rem;
 
     @variant short {

@@ -1,6 +1,6 @@
 import { expect, type Page, test } from '@playwright/test';
 
-import { openMenuIfCollapsed } from './support/interactions.ts';
+import { openSiteMenu } from './support/interactions.ts';
 
 // Collects console errors and uncaught exceptions. When a not-found document is expected,
 // the browser logs its 404 status: that one message is the intended behaviour. (Compared by
@@ -96,7 +96,7 @@ test.describe('hydration', () => {
       const errors = collectErrors(page, isNotFound ? path : undefined);
 
       await page.goto(path);
-      await openMenuIfCollapsed(page);
+      await openSiteMenu(page);
       await page.getByRole('button', { name: darkTheme }).click();
 
       await expect(page.getByRole('button', { name: darkTheme })).toHaveAttribute(
@@ -116,7 +116,7 @@ test.describe('hydration', () => {
     });
 
     await page.goto('/fr');
-    await openMenuIfCollapsed(page);
+    await openSiteMenu(page);
 
     await expect(page.getByRole('button', { name: 'Thème sombre' })).toHaveAttribute(
       'aria-pressed',
@@ -127,7 +127,7 @@ test.describe('hydration', () => {
 
   test('keeps a single document title after hydration', async ({ page }) => {
     await page.goto('/fr');
-    await openMenuIfCollapsed(page);
+    await openSiteMenu(page);
     await page.getByRole('button', { name: 'Thème clair' }).click();
 
     await expect(page.locator('title')).toHaveCount(1);

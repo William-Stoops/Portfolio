@@ -42,12 +42,6 @@ test.describe('motion', () => {
     expect(transitions).toBe(0);
   });
 
-  test('keeps the header in view while the page scrolls', async ({ page }) => {
-    await page.goto('/fr#contact');
-
-    await expect(page.getByRole('banner')).toBeInViewport();
-  });
-
   test('animates only what the compositor can run off the main thread', async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'no-preference' });
     await page.goto('/fr');

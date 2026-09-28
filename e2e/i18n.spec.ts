@@ -1,14 +1,13 @@
 import { expect, type Page, test } from '@playwright/test';
 
-import { isMobileLayout, openMenuIfCollapsed } from './support/interactions.ts';
+import { openSiteMenu } from './support/interactions.ts';
 
 // Opens the header menu on a small screen, and clicks the link where it is, as a pointer
 // does: Playwright's own click first scrolls a sticky header control "into view", which
 // would move the page (and the place being read).
+// The other language is in the menu: opened without scrolling to its button.
 async function openMenuInPlace(page: Page): Promise<void> {
-  if (isMobileLayout(page)) {
-    await page.getByRole('button', { name: 'Menu' }).dispatchEvent('click');
-  }
+  await page.getByRole('button', { name: 'Menu' }).dispatchEvent('click');
 }
 
 async function followLink(page: Page, name: string): Promise<void> {
@@ -19,7 +18,10 @@ async function followLink(page: Page, name: string): Promise<void> {
 // what the header (and its open menu) leaves visible.
 async function readFromEpitechTitle(page: Page): Promise<void> {
   await page.getByRole('heading', { level: 3, name: 'Epitech' }).evaluate((heading) => {
-    const headerBottom = document.querySelector('header')?.getBoundingClientRect().bottom ?? 0;
+    const headerBottom = Math.max(
+      0,
+      document.querySelector('header')?.getBoundingClientRect().bottom ?? 0,
+    );
     const readingLine = headerBottom + (window.innerHeight - headerBottom) * 0.4;
     window.scrollBy(0, heading.getBoundingClientRect().top - (readingLine - 10));
   });
@@ -169,7 +171,7 @@ test.describe('the language switch', () => {
 
   test('leads from a page to the same page in the other language', async ({ page }) => {
     await page.goto('/fr/plan-du-site');
-    await openMenuIfCollapsed(page);
+    await openSiteMenu(page);
 
     await page.getByRole('link', { name: 'English' }).click();
 

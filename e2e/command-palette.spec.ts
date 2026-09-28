@@ -1,7 +1,7 @@
 import { expect, type Page, test } from '@playwright/test';
 
 import { waitForHydration } from './support/hydration.ts';
-import { openMenuIfCollapsed, pressQuickSearchShortcut } from './support/interactions.ts';
+import { openSiteMenu, pressQuickSearchShortcut } from './support/interactions.ts';
 
 // The requests for the quick search's own chunk, as they happen.
 function paletteChunkRequests(page: Page): string[] {
@@ -39,19 +39,22 @@ test.describe('the quick search', () => {
     expect(chunks).toHaveLength(1);
   });
 
-  test('opens from its button, and gives the focus back to it on Escape', async ({ page }) => {
+  test('opens from the menu, and gives the focus back to the menu button on Escape', async ({
+    page,
+  }) => {
     await page.goto('/fr/coulisses');
     await waitForHydration(page);
-    await openMenuIfCollapsed(page);
-    const trigger = page.getByRole('button', { name: /^Recherche rapide/ });
+    await openSiteMenu(page);
 
-    await trigger.click();
+    // The menu closes as the search opens: its button takes the focus back.
+    await page.getByRole('button', { name: /^Recherche rapide/ }).click();
     const palette = page.getByRole('dialog', { name: 'Recherche rapide' });
     await expect(palette).toBeVisible();
+    await expect(page.getByRole('dialog', { name: 'Menu' })).toBeHidden();
     await page.keyboard.press('Escape');
 
     await expect(palette).toBeHidden();
-    await expect(trigger).toBeFocused();
+    await expect(page.getByRole('button', { name: 'Menu' })).toBeFocused();
   });
 
   test('reaches a section of the home page from another page', async ({ page }) => {

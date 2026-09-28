@@ -17,7 +17,7 @@ export function LanguageSwitch() {
       onClick={(event) => {
         select(event.currentTarget);
       }}
-      className="inline-flex min-h-11 items-center gap-2 rounded-md px-2 font-semibold text-fg-muted no-underline transition-colors duration-150 hover:bg-surface-raised hover:text-fg"
+      className="inline-flex min-h-11 items-center gap-2 rounded-md px-2 text-fg-muted no-underline transition-colors duration-150 hover:bg-surface-raised hover:text-fg"
     >
       <Languages aria-hidden="true" focusable="false" className="size-5" strokeWidth={1.75} />
       {name}
