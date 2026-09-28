@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, describe, expect, it } from 'vitest';
 import { userEvent } from 'vitest/browser';
 
 import { type SurfaceReading } from '@/features/experience/types/volatility-lab';
@@ -48,20 +48,16 @@ afterEach(() => {
 });
 
 describe('startVolatilitySurface', () => {
-  it('solves the surface in the browser, says how long it took, and draws it', async () => {
+  it('solves the surface in the browser and draws it', async () => {
     const canvas = labCanvas();
-    const onMeasured = vi.fn<(milliseconds: number) => void>();
 
     stop = startVolatilitySurface(canvas, {
       axes: AXES,
       controls: canvas,
       isStill: true,
-      onMeasured,
       onReadout: () => undefined,
     });
 
-    expect(onMeasured).toHaveBeenCalledOnce();
-    expect(onMeasured.mock.calls[0]?.[0]).toBeGreaterThan(0);
     await expect.poll(() => hasViridisTeal(canvas)).toBe(true);
   });
 
@@ -72,7 +68,6 @@ describe('startVolatilitySurface', () => {
       axes: AXES,
       controls: canvas,
       isStill: false,
-      onMeasured: () => undefined,
       onReadout: () => undefined,
     });
 
@@ -86,7 +81,6 @@ describe('startVolatilitySurface', () => {
       axes: AXES,
       controls: canvas,
       isStill: true,
-      onMeasured: () => undefined,
       onReadout: (reading) => {
         readings.push(reading);
       },
@@ -119,7 +113,6 @@ describe('startVolatilitySurface', () => {
       axes: AXES,
       controls,
       isStill: true,
-      onMeasured: () => undefined,
       onReadout: () => undefined,
     });
     await expect.poll(() => hasViridisTeal(canvas)).toBe(true);
@@ -136,7 +129,6 @@ describe('startVolatilitySurface', () => {
       axes: AXES,
       controls: canvas,
       isStill: true,
-      onMeasured: () => undefined,
       onReadout: () => undefined,
     });
     await expect.poll(() => hasViridisTeal(canvas)).toBe(true);
@@ -155,7 +147,6 @@ describe('startVolatilitySurface', () => {
       axes: AXES,
       controls: canvas,
       isStill: true,
-      onMeasured: () => undefined,
       onReadout: (reading) => {
         readings.push(reading);
       },
@@ -188,7 +179,6 @@ describe('startVolatilitySurface', () => {
       axes: AXES,
       controls: canvas,
       isStill: true,
-      onMeasured: () => undefined,
       onReadout: (reading) => {
         readings.push(reading);
       },
@@ -214,7 +204,6 @@ describe('startVolatilitySurface', () => {
       axes: AXES,
       controls: canvas,
       isStill: true,
-      onMeasured: () => undefined,
       onReadout: () => undefined,
     });
 

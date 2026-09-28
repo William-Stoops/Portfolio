@@ -1,4 +1,3 @@
-import { SURFACE_GRID } from '@/features/experience/data/surface-grid';
 import { VOLATILITY_RANGE } from '@/features/experience/data/volatility-range';
 import { type VolatilityLabContent } from '@/features/experience/types/volatility-lab';
 import { formatNumber } from '@/utils/format-number';
@@ -14,11 +13,6 @@ export const VOLATILITY_LAB = {
   title: 'Volatilité implicite',
   explanation:
     'Le prix d’une option dépend de la volatilité qu’on attend du sous-jacent. La volatilité implicite est celle qui, dans le modèle de Black-Scholes, redonne le prix observé : une par prix d’exercice et par échéance. Ensemble, elles forment cette surface.',
-  measure: {
-    solved: `${formatNumber(SURFACE_GRID.strikes * SURFACE_GRID.maturities, 'fr')} volatilités retrouvées par Newton-Raphson`,
-    duration: (milliseconds) => ` en ${decimals(milliseconds, 2)} ms`,
-    where: ', dans votre navigateur. Prix simulés.',
-  },
   legend: {
     low: `σ ${percent(VOLATILITY_RANGE.low)} %`,
     high: `${percent(VOLATILITY_RANGE.high)} %`,

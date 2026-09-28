@@ -26,7 +26,7 @@ const TURN_BUTTONS: readonly { turn: SurfaceTurn; Icon: LucideIcon }[] = [
 // out from its container's width: the surface across the top, then its words, in a column;
 // side by side from 64rem. The canvas always fills its box, the drawing fits the canvas.
 export function VolatilityLab({ lab, race }: VolatilityLabProps) {
-  const { controlsRef, canvasRef, milliseconds, reading } = useVolatilitySurface(lab.axes);
+  const { controlsRef, canvasRef, reading } = useVolatilitySurface(lab.axes);
   const headingId = useId();
   const descriptionId = useId();
 
@@ -99,15 +99,6 @@ export function VolatilityLab({ lab, race }: VolatilityLabProps) {
             {lab.title}
           </h4>
           <p className="text-fg-muted">{lab.explanation}</p>
-          <p>
-            {lab.measure.solved}
-            {milliseconds === null ? null : (
-              <span className="font-semibold text-accent-fg">
-                {lab.measure.duration(milliseconds)}
-              </span>
-            )}
-            {lab.measure.where}
-          </p>
           <p className="flex items-center gap-3 text-small text-fg-muted tabular-nums">
             <span>{lab.legend.low}</span>
             <span

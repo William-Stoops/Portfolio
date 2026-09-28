@@ -17,7 +17,6 @@ import {
   sigmaAt,
   solveSurface,
   strikeAt,
-  type VolatilitySurface,
 } from '@/features/experience/utils/volatility-grid';
 import { onThemeChange } from '@/lib/theme-change';
 
@@ -30,12 +29,9 @@ type SurfaceOptions = {
   controls: HTMLElement;
   // Reduced motion: the surface is drawn at once, where it rests.
   isStill: boolean;
-  onMeasured: (milliseconds: number) => void;
   onReadout: (reading: SurfaceReading | null) => void;
 };
 
-// The solve is timed until the clock is meaningful: a surface takes about a millisecond.
-const MEASURE_MS = 8;
 const MAX_PIXEL_RATIO = 2;
 // Room around the surface for its ticks and titles, centred on their anchor: a share of the
 // canvas, never less than half the widest title, in CSS pixels.
@@ -60,18 +56,6 @@ const easeOut = (value: number): number => 1 - (1 - value) ** 3;
 const easeInOut = (value: number): number =>
   value < 0.5 ? 4 * value ** 3 : 1 - (-2 * value + 2) ** 3 / 2;
 
-function solveTimed(): { surface: VolatilitySurface; milliseconds: number } {
-  const prices = marketPrices();
-  const start = performance.now();
-  let surface = solveSurface(prices);
-  let runs = 1;
-  while (performance.now() - start < MEASURE_MS) {
-    surface = solveSurface(prices);
-    runs += 1;
-  }
-  return { surface, milliseconds: (performance.now() - start) / runs };
-}
-
 // The tokens set on the canvas (see VolatilityLab): read again when the theme changes.
 function readColors(canvas: HTMLCanvasElement): SurfaceColors {
   const style = getComputedStyle(canvas);
@@ -85,20 +69,19 @@ function readColors(canvas: HTMLCanvasElement): SurfaceColors {
   };
 }
 
-// Solves the lab's surface in the visitor's browser, says how long it took, draws it (rising
+// Solves the lab's surface in the visitor's browser, draws it (rising
 // from a heat map unless motion is unwelcome), lets it turn with the pointer or the arrows
 // and reads the point under the pointer. Returns the function that stops everything; null
 // without a 2D canvas.
 export function startVolatilitySurface(
   canvas: HTMLCanvasElement,
-  { axes, controls, isStill, onMeasured, onReadout }: SurfaceOptions,
+  { axes, controls, isStill, onReadout }: SurfaceOptions,
 ): (() => void) | null {
   const context = canvas.getContext('2d');
   if (context === null) {
     return null;
   }
-  const { surface, milliseconds } = solveTimed();
-  onMeasured(milliseconds);
+  const surface = solveSurface(marketPrices());
 
   let colors = readColors(canvas);
   let pixelRatio = 1;

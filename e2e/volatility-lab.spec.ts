@@ -33,15 +33,10 @@ function paintedShare(figure: Locator): Promise<number> {
 }
 
 test.describe('the volatility lab', () => {
-  test('solves the surface in the browser, draws it and says how long it took', async ({
-    page,
-  }) => {
+  test('solves the surface in the browser and draws it', async ({ page }) => {
     const figure = await openLab(page, '/fr', 'Surface de volatilité implicite');
 
     await expect.poll(() => paintedShare(figure), { timeout: 8000 }).toBeGreaterThan(0.2);
-    await expect(
-      page.getByText(/volatilités retrouvées par Newton-Raphson en \d+,\d\d ms/),
-    ).toBeVisible();
   });
 
   test('turns the surface with its buttons', async ({ page }) => {
@@ -62,8 +57,5 @@ test.describe('the volatility lab', () => {
     const figure = await openLab(page, '/en', 'Implied volatility surface');
 
     await expect(figure.getByRole('group', { name: 'Turn the surface' })).toBeVisible();
-    await expect(
-      page.getByText(/volatilities found by Newton-Raphson in \d+\.\d\d ms/),
-    ).toBeVisible();
   });
 });

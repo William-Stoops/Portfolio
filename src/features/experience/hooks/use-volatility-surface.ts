@@ -9,17 +9,15 @@ const REDUCED_MOTION = '(prefers-reduced-motion: reduce)';
 const START_MARGIN = '0px 0px -20% 0px';
 
 // Starts the lab's surface when the visitor reaches it: the solver and the drawing are a
-// separate chunk, fetched only then. Gives back how long the solve took and the point read
-// under the pointer, for the words around the figure.
+// separate chunk, fetched only then. Gives back the point read under the pointer, for the
+// words over the figure.
 export function useVolatilitySurface(axes: SurfaceAxes): {
   controlsRef: RefObject<HTMLFieldSetElement | null>;
   canvasRef: RefObject<HTMLCanvasElement | null>;
-  milliseconds: number | null;
   reading: SurfaceReading | null;
 } {
   const controlsRef = useRef<HTMLFieldSetElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [milliseconds, setMilliseconds] = useState<number | null>(null);
   const [reading, setReading] = useState<SurfaceReading | null>(null);
 
   useEffect(() => {
@@ -43,7 +41,6 @@ export function useVolatilitySurface(axes: SurfaceAxes): {
             axes,
             controls: labControls,
             isStill: window.matchMedia(REDUCED_MOTION).matches,
-            onMeasured: setMilliseconds,
             onReadout: setReading,
           });
       if (stopSurface !== null) {
@@ -65,5 +62,5 @@ export function useVolatilitySurface(axes: SurfaceAxes): {
     };
   }, [axes]);
 
-  return { controlsRef, canvasRef, milliseconds, reading };
+  return { controlsRef, canvasRef, reading };
 }

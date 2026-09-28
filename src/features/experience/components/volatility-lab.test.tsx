@@ -65,19 +65,6 @@ describe('VolatilityLab', () => {
     await expect.element(screen.getByText('30 %', { exact: true })).toBeVisible();
   });
 
-  it('solves the surface in the browser and says how long it took', async () => {
-    const screen = await renderLab();
-    screen.getByRole('figure', { name: VOLATILITY_LAB.figure }).element().scrollIntoView();
-
-    await expect
-      .poll(
-        () => screen.getByText(/volatilités retrouvées par Newton-Raphson/).element().textContent,
-      )
-      .toMatch(
-        /^1 536 volatilités retrouvées par Newton-Raphson en \d+,\d\d ms, dans votre navigateur\. Prix simulés\.$/,
-      );
-  });
-
   it('reads the point under the pointer', async () => {
     const screen = await renderLab();
     const figure = screen.getByRole('figure', { name: VOLATILITY_LAB.figure }).element();
@@ -86,7 +73,6 @@ describe('VolatilityLab', () => {
       throw new Error('no canvas');
     }
     figure.scrollIntoView({ block: 'center' });
-    await expect.poll(() => screen.getByText(/ en \d/).elements().length).toBe(1);
 
     // The surface rises from a flat heat map: point at it until it has cells to read.
     const pointAtCentre = (): string => {

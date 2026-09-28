@@ -1,4 +1,3 @@
-import { SURFACE_GRID } from '@/features/experience/data/surface-grid';
 import { VOLATILITY_RANGE } from '@/features/experience/data/volatility-range';
 import { type VolatilityLabContent } from '@/features/experience/types/volatility-lab';
 import { formatNumber } from '@/utils/format-number';
@@ -13,11 +12,6 @@ export const VOLATILITY_LAB = {
   title: 'Implied volatility',
   explanation:
     'An option’s price depends on the volatility expected of the underlying. Implied volatility is the one that, in the Black-Scholes model, gives back the observed price: one per strike and maturity. Together, they form this surface.',
-  measure: {
-    solved: `${formatNumber(SURFACE_GRID.strikes * SURFACE_GRID.maturities, 'en')} volatilities found by Newton-Raphson`,
-    duration: (milliseconds) => ` in ${decimals(milliseconds, 2)} ms`,
-    where: ', in your browser. Simulated prices.',
-  },
   legend: {
     low: `σ ${percent(VOLATILITY_RANGE.low)}%`,
     high: `${percent(VOLATILITY_RANGE.high)}%`,

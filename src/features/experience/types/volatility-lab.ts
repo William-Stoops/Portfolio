@@ -17,8 +17,6 @@ export type VolatilityLabContent = {
   overline: string;
   title: string;
   explanation: string;
-  // "1 536 volatilities found by Newton-Raphson", "in 0.73 ms" once measured, then where.
-  measure: { solved: string; duration: (milliseconds: number) => string; where: string };
   legend: { low: string; high: string };
   hint: string;
   // The figure's name, and what it shows for those who do not see it.
