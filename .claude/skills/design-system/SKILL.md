@@ -7,30 +7,34 @@ description: The portfolio's design system — visual direction from the referen
 
 ## Visual direction
 
-The reference is [dennissnellenberg.com](https://dennissnellenberg.com), chosen by William
-after a moodboard (ADR 0036): **take its language, never its pieces** (its font, visuals and
-copy are its own).
+A living hero in the spirit of Stripe (ADR 0037), chosen by William after six attempts on
+the Dennis Snellenberg reference of ADR 0036: **take the language, never the pieces**
+(Stripe's gradient, colours and product mock-ups are its own).
 
-- **The person first.** A dark hero where the portrait melts into the charcoal, the name set
-  immense and light, sliding with the scroll (never on its own), a place pill and the role.
-  Nothing a stranger would need explained: no chart, no event, no project name up there.
-- **Airy white sections.** Hierarchy comes from type scale and space: very large light
-  titles, regular text, hairlines. Few boxes.
-- **One family, one accent.** Inter Tight for everything; one calm blue (ADR 0025) for
-  what the reader can act on (buttons, links, focus). Colour otherwise comes from the
-  photographs and from the data charts (viridis, inside the charts only).
-- **Premium means restraint.** One interaction per idea: the name that slides, buttons
-  that lean towards the pointer, the work preview that follows it, the footer's curve.
+- **A living field of colour** at the top of the home page, cut on a slant: a WebGL2 shader
+  blends the four `flow-*` tokens with slow noise (`FlowField`). Its still CSS gradient of
+  the same tokens is the field without JavaScript, without WebGL2, with reduced motion or
+  data saving. It is the only gradient of the site.
+- **The sentence of the CV as the headline**, then the profile, one filled button and one
+  plain link. Text is `fg` on the field: the contrast test holds it on every tint.
+- **The photo large, framed in a card** (4:5, rounded, `shadow-card`): never full-bleed
+  behind the text — a sunlit street photo shows its flaws at that size. Small cards float
+  on its edges (where William works, one proof with its figure), never over the face.
+- **Precise cards, soft shadows** below: white on the page, `shadow-card`, generous
+  padding, no borders needed. Hierarchy from type scale and space.
+- **One family, one accent.** Inter Tight for everything (semibold headlines, regular
+  text); the blue `accent` only for what the reader acts on. The flow tints and viridis
+  (charts) are decoration, never meaning.
 - Only CV content (`content-data`); never the reference's copy.
 
 ### Anti-"AI slop" rules
 
-Rejected on the prototypes (ADR 0036): tile grids tinted in several hues, labels floating
-over a photo, glowing cards, several accents sharing the page, a chart in the hero. Still
-banned: purple/blue gradients, glassmorphism, glowing blobs, emoji as icons, sparkle
-motifs, gradient text, 3-column icon-feature grids, fake testimonials or logos, stock
-illustrations. Every element must have a reason tied to the content. Icons:
-`lucide-react`, one stroke width (1.75), sized to the text.
+Rejected on the prototypes (ADR 0036, 0037): tile grids tinted in several hues, a portrait
+full-bleed behind the name, a chart or an event nobody knows in the hero, a halftone
+portrait, glowing cards. Still banned: gradients other than the hero's field, gradient
+text, glassmorphism, glowing blobs, emoji as icons, sparkle motifs, 3-column icon-feature
+grids, fake testimonials or logos, stock illustrations. Every element must have a reason
+tied to the content. Icons: `lucide-react`, sized to the text.
 
 ## Colour tokens
 
@@ -58,6 +62,10 @@ in the UI means adding it to that test first.**
 | `accent-fg`      | `#2F4CE0` | `#8FA3FF` | Accent text, links (underlined)                        |
 | `accent-tint`    | `#E8ECFE` | `#23294D` | Text selection, tinted badge background                |
 | `on-accent`      | `#FFFFFF` | `#FFFFFF` | Text on `accent` / `accent-hover`                      |
+| `flow-sky`       | `#78D2FF` | `#0F3D66` | Hero field tint (decoration; `fg` readable on it)      |
+| `flow-blue`      | `#8098FF` | `#1F2D8A` | Hero field tint, and the still gradient's base         |
+| `flow-violet`    | `#B09CFF` | `#3A2475` | Hero field tint                                        |
+| `flow-peach`     | `#FFC7AE` | `#5A2A3E` | Hero field tint                                        |
 | `focus`          | `#2A44D6` | `#8FA3FF` | Focus outline (3 px, offset 2 px)                      |
 | `border`         | `#E4E4E1` | `#2C2D31` | Hairlines, decorative only — never a control outline   |
 | `border-input`   | `#7F8288` | `#75787E` | Input and control borders (≥ 3:1)                      |
@@ -113,8 +121,9 @@ regular one (400), emphasis 500; figures add `tabular-nums`.
   exposed as utilities `py-section`, `px-gutter`. No arbitrary `px` values in class names.
 - Radius (`--radius-*: initial`): `rounded-sm` 0.375rem (badges), `rounded-md` 0.75rem
   (buttons, inputs), `rounded-lg` 1.25rem (cards), `rounded-full` (portrait ring, pills).
-- Elevation on dark: surfaces get lighter (`surface` → `surface-raised`), not shadowed.
-  One shadow token, `shadow-overlay`, for overlays only (`--shadow-*: initial`).
+- Elevation: two shadow tokens (`--shadow-*: initial`): `shadow-card` for the cards that
+  float over the page (the hero's photo and its small cards, the menu), `shadow-overlay`
+  for overlays. On dark, surfaces also get lighter (`surface` → `surface-raised`).
 - z-index: named tokens (`--z-header`, `--z-overlay`, `--z-skip-link`) are introduced with
   the app shell, the first code that stacks layers — no magic numbers.
 

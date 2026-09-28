@@ -67,6 +67,12 @@
   --color-border-input: light-dark(#7f8288, #75787e);
   --color-error: light-dark(#b3261e, #ff8a80);
   --color-success: light-dark(#1d7a3c, #6fd08c);
+  /* The living field of the hero (ADR 0037): decoration only, like viridis in the charts.
+     Light tints in the light theme, deep ones in the dark, the text readable on each. */
+  --color-flow-sky: light-dark(#78d2ff, #0f3d66);
+  --color-flow-blue: light-dark(#8098ff, #1f2d8a);
+  --color-flow-violet: light-dark(#b09cff, #3a2475);
+  --color-flow-peach: light-dark(#ffc7ae, #5a2a3e);
   /* Flags (ADR 0019, 0021): their official colours, the same in both themes. The white
      field is shared; South Korea, then France. */
   --color-flag-field: light-dark(#ffffff, #ffffff);
@@ -111,9 +117,12 @@
   --radius-md: 0.75rem;
   --radius-lg: 1.25rem;
 
-  /* On a dark canvas elevation comes from lighter surfaces; one shadow for overlays only. */
+  /* Two shadows only: overlays, and the cards that float over the page. */
   --shadow-*: initial;
   --shadow-overlay: 0 1.5rem 3rem -1rem rgb(0 0 0 / 0.45);
+  /* Cards that float over the page (ADR 0037): a wide, soft shadow tinted with the blue. */
+  --shadow-card:
+    0 3rem 6rem -1.25rem rgb(50 50 93 / 0.25), 0 1.75rem 3.5rem -1.75rem rgb(0 0 0 / 0.3);
 
   --ease-*: initial;
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
