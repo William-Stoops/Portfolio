@@ -72,7 +72,10 @@ describe('application routes', () => {
   it('tells each role in its year: GDS Élec in 2022, then Strattt before INTM in 2023', async () => {
     await renderSite('/fr');
 
-    await expect.poll(() => rolesIn('annee-2022')).toEqual(['Full Stack Engineer, GDS Élec']);
+    // The journey's code loads as hydration reaches it: slower on a busy CI machine.
+    await expect
+      .poll(() => rolesIn('annee-2022'), { timeout: 5000 })
+      .toEqual(['Full Stack Engineer, GDS Élec']);
     expect(rolesIn('annee-2023')).toEqual([
       'Full Stack Engineer, Strattt',
       'Full Stack Engineer, INTM Groupe',
