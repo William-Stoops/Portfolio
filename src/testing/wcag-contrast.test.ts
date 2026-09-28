@@ -12,7 +12,7 @@ describe('contrastRatio', () => {
   });
 
   it('is symmetric', () => {
-    expect(contrastRatio('#FF7A45', '#12151C')).toBe(contrastRatio('#12151C', '#FF7A45'));
+    expect(contrastRatio('#6EA8FE', '#12151C')).toBe(contrastRatio('#12151C', '#6EA8FE'));
   });
 
   it('matches the WCAG reference value for #767676 on white (4.54)', () => {
