@@ -35,6 +35,16 @@ test.describe('prerendered HTML', () => {
     expect(html).toContain('<title>William Stoops – Software Engineer &amp; AI Engineer</title>');
   });
 
+  test('carries the sections whose code loads later, such as Korea, in the HTML too', async ({
+    request,
+  }) => {
+    const html = await (await request.get('/')).text();
+
+    expect(html).toContain('<li id="coree"');
+    expect(html).toContain('안녕하세요');
+    expect(html).toContain('Ce que j’y ai entraîné');
+  });
+
   for (const { path, heading } of [
     { path: '/accessibilite', heading: 'Déclaration d’accessibilité' },
     { path: '/mentions-legales', heading: 'Mentions légales' },

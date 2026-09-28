@@ -1,5 +1,7 @@
 import { expect, test } from '@playwright/test';
 
+import { waitForHydration } from './support/hydration.ts';
+
 test.describe('contact form', () => {
   test.beforeEach(async ({ page }) => {
     // Record the prepared mailto: link instead of launching a mail client.
@@ -10,6 +12,8 @@ test.describe('contact form', () => {
       };
     });
     await page.goto('/#contact');
+    // Before hydration the prerendered form would submit natively and reload the page.
+    await waitForHydration(page);
   });
 
   test('points out every missing field and focuses the first one', async ({ page }) => {

@@ -24,5 +24,8 @@ fois accepté** : on ne le réécrit pas, on le remplace par un nouvel ADR qui l
 | 0016 | [Une surface de volatilité en WebGL2 brut derrière le hero](0016-hero-webgl-surface.md)                      | Accepté           |
 | 0017 | [Relever le budget du JS initial à 125 kB](0017-initial-js-budget-125.md)                                    | Accepté           |
 | 0018 | [Différer le rendu hors écran et découper l'hydratation](0018-defer-offscreen-render-and-split-hydration.md) | Accepté           |
+| 0019 | [Ajouter les couleurs du drapeau coréen à la palette fermée](0019-korean-flag-colours.md)                    | Accepté           |
+| 0020 | [Pré-rendre avec `prerender` et charger la section Corée à la demande](0020-prerender-lazy-sections.md)      | Accepté           |
+| 0021 | [Raconter la page d'accueil comme un parcours](0021-home-page-as-a-journey.md)                               | Accepté           |
 
 Modèle : copier [template.md](template.md).
