@@ -23,10 +23,6 @@ export const SUMMIT_PICTURE = {
   height: 1232,
 } as const satisfies ResponsivePicture;
 
-// Where William holds the trophy in the photo's 16:9 crop (centred across, 20 % down):
-// the Summit scene's spotlights meet there. Shares of the crop's width and height.
-export const SUMMIT_SPOTLIGHT = { x: 0.28, y: 0.57 } as const;
-
 export const NRJ_INTERVIEW_PICTURE = {
   basePath: '/images/staxx-nrj-lille-interview-v2',
   widths: [480, 800, 1200],

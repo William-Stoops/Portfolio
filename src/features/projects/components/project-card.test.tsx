@@ -73,6 +73,17 @@ describe('ProjectCard', () => {
     await expect.element(photo.getByText(PROJECTS[0].photo.caption)).toBeVisible();
   });
 
+  it('shows the win as the photo itself: no room, no spotlights, no veil', async () => {
+    const screen = await renderSection();
+
+    const photo = screen
+      .getByRole('article', { name: 'STAXX' })
+      .getByRole('figure', { name: /^Epitech Summit/ })
+      .element();
+    expect(photo.querySelectorAll('img')).toHaveLength(1);
+    expect(photo.querySelectorAll('[aria-hidden="true"]')).toHaveLength(0);
+  });
+
   it('sets the pitch as a captioned figure, on the frame the video opens on', async () => {
     const screen = await renderSection();
 
