@@ -3,11 +3,12 @@ import { describe, expect, it } from 'vitest';
 import { SKILL_GROUPS as SKILL_GROUPS_EN } from '@/features/skills/data/skill-groups.en';
 import { SKILL_GROUPS } from '@/features/skills/data/skill-groups.fr';
 
-// Expected values are copied from docs/content/cv-source.md ("Compétences techniques").
+// Expected values are copied from docs/content/cv-source.md ("Compétences techniques"),
+// with the changes William asked for on 2026-09-28.
 describe('skill groups', () => {
-  it('lists the three groups of the CV with their skills, in order', () => {
+  it('lists the two groups the site shows, as William trimmed them, in order', () => {
     expect(SKILL_GROUPS).toEqual([
-      { id: 'langages', name: 'Langages', skills: ['TypeScript', 'Python', 'C++', 'Rust', 'SQL'] },
+      { id: 'langages', name: 'Langages', skills: ['TypeScript', 'Python', 'C++', 'Rust'] },
       {
         id: 'plateforme',
         name: 'Frameworks et outils',
@@ -19,25 +20,8 @@ describe('skill groups', () => {
           'Prisma',
           'Drizzle',
           'Docker',
+          'Jenkins',
           'CI/CD',
-        ],
-      },
-      {
-        id: 'ia',
-        name: 'IA et data',
-        skills: [
-          'LLM OpenAI et Anthropic',
-          'Function calling',
-          'JSON Schema',
-          'Agents',
-          'MCP',
-          'Hugging Face',
-          'Apprentissage par transfert',
-          'CNN',
-          'YOLO',
-          'pandas',
-          'numpy',
-          'scikit-learn',
         ],
       },
     ]);
@@ -50,7 +34,6 @@ describe('skill groups', () => {
     expect(SKILL_GROUPS_EN.map(({ name }) => name)).toEqual([
       'Programming languages',
       'Frameworks and tools',
-      'AI and data',
     ]);
   });
 });

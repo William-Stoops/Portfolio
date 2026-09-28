@@ -122,6 +122,10 @@ Légende : « Devant 300 personnes, sur la scène de l'Epitech Summit. »
 | Plateforme | NestJS, Node.js, React, PostgreSQL, Prisma, Drizzle, Docker, CI/CD                                                                                     |
 | IA         | LLM OpenAI et Anthropic, function calling, JSON Schema, agents, MCP, Hugging Face, apprentissage par transfert, CNN, YOLO, pandas, numpy, scikit-learn |
 
+Sur le site, à la demande de William le 2026-09-28 : SQL retiré des langages, **Jenkins**
+ajouté aux frameworks et outils, et le groupe IA retiré (une liste de noms qui ne prouvait
+rien seule ; la pratique IA reste racontée dans sa section).
+
 ## Formation
 
 - **Epitech** — Master of Science, Expert en Technologies de l'Information, 2021 – 2026.
