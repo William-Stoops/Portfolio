@@ -20,26 +20,27 @@ fois accepté** : on ne le réécrit pas, on le remplace par un nouvel ADR qui l
 | 0012 | [Générer les images en fichiers statiques, hors du bundler](0012-static-generated-images.md)                     | Accepté                           |
 | 0013 | [Mesurer Lighthouse en bridage réel, sur la médiane des passes](0013-lighthouse-devtools-throttling.md)          | Accepté                           |
 | 0014 | [Héberger sur Cloudflare Pages, avec un fichier HTML par page](0014-cloudflare-pages-one-html-per-route.md)      | Accepté, complété par 0031        |
-| 0015 | [Un mouvement expressif, en CSS natif](0015-expressive-motion-in-native-css.md)                                  | Accepté                           |
-| 0016 | [Une surface de volatilité en WebGL2 brut derrière le hero](0016-hero-webgl-surface.md)                          | Accepté                           |
+| 0015 | [Un mouvement expressif, en CSS natif](0015-expressive-motion-in-native-css.md)                                  | Remplacé en partie par 0036       |
+| 0016 | [Une surface de volatilité en WebGL2 brut derrière le hero](0016-hero-webgl-surface.md)                          | Remplacé par 0036                 |
 | 0017 | [Relever le budget du JS initial à 125 kB](0017-initial-js-budget-125.md)                                        | Accepté                           |
 | 0018 | [Différer le rendu hors écran et découper l'hydratation](0018-defer-offscreen-render-and-split-hydration.md)     | Accepté                           |
-| 0019 | [Ajouter les couleurs du drapeau coréen à la palette fermée](0019-korean-flag-colours.md)                        | Accepté                           |
+| 0019 | [Ajouter les couleurs du drapeau coréen à la palette fermée](0019-korean-flag-colours.md)                        | Remplacé par 0036                 |
 | 0020 | [Pré-rendre avec `prerender` et charger la section Corée à la demande](0020-prerender-lazy-sections.md)          | Accepté                           |
-| 0021 | [Raconter la page d'accueil comme un parcours](0021-home-page-as-a-journey.md)                                   | Accepté                           |
-| 0022 | [Faire de toute la page un seul vol](0022-one-flight-for-the-whole-page.md)                                      | Remplacé en partie par 0023       |
-| 0023 | [Réserver la ligne de vol au récit](0023-flight-path-for-the-story-only.md)                                      | Accepté                           |
+| 0021 | [Raconter la page d'accueil comme un parcours](0021-home-page-as-a-journey.md)                                   | Remplacé par 0036                 |
+| 0022 | [Faire de toute la page un seul vol](0022-one-flight-for-the-whole-page.md)                                      | Remplacé par 0036                 |
+| 0023 | [Réserver la ligne de vol au récit](0023-flight-path-for-the-story-only.md)                                      | Remplacé par 0036                 |
 | 0024 | [Ouvrir la vidéo du pitch depuis son affiche, sans plein écran forcé](0024-pitch-video-grows-from-its-poster.md) | Accepté                           |
 | 0025 | [Passer l'accent de l'orange corail à un bleu de confiance](0025-trusted-blue-accent.md)                         | Accepté                           |
 | 0026 | [Proposer le site en français et en anglais, la langue dans l'URL](0026-internationalisation.md)                 | Accepté                           |
-| 0027 | [Faire voler l'avion de la Corée au-dessus d'un globe](0027-korea-flight-over-a-globe.md)                        | Accepté                           |
-| 0028 | [Mettre en scène la victoire à l'Epitech Summit](0028-summit-win-as-a-scene.md)                                  | Accepté                           |
-| 0029 | [Afficher le parcours sur un tableau des départs](0029-journey-departures-board.md)                              | Accepté                           |
-| 0030 | [Ouvrir la page comme un plan de cinéma](0030-cinematic-opening.md)                                              | Accepté                           |
+| 0027 | [Faire voler l'avion de la Corée au-dessus d'un globe](0027-korea-flight-over-a-globe.md)                        | Remplacé par 0036                 |
+| 0028 | [Mettre en scène la victoire à l'Epitech Summit](0028-summit-win-as-a-scene.md)                                  | Remplacé par 0036                 |
+| 0029 | [Afficher le parcours sur un tableau des départs](0029-journey-departures-board.md)                              | Remplacé par 0036                 |
+| 0030 | [Ouvrir la page comme un plan de cinéma](0030-cinematic-opening.md)                                              | Remplacé par 0036                 |
 | 0031 | [Déployer sur Cloudflare Pages](0031-deploy-on-cloudflare-pages.md)                                              | Accepté                           |
 | 0032 | [Faire la course des deux cycles de calcul, à l'échelle](0032-cycle-race-to-scale.md)                            | Accepté                           |
 | 0033 | [Montrer les coulisses du site, avec des chiffres vérifiés](0033-behind-the-scenes-page.md)                      | Accepté                           |
 | 0034 | [Une recherche rapide (⌘K), en éléments natifs, dans son propre chunk](0034-quick-search.md)                     | Accepté                           |
-| 0035 | [Des sons discrets, synthétisés, coupés par défaut](0035-discreet-sounds.md)                                     | Accepté                           |
+| 0035 | [Des sons discrets, synthétisés, coupés par défaut](0035-discreet-sounds.md)                                     | Remplacé par 0036                 |
+| 0036 | [Une direction premium : la personne, la typographie, une seule couleur](0036-premium-direction.md)              | Accepté                           |
 
 Modèle : copier [template.md](template.md).
