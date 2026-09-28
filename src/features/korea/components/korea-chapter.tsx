@@ -70,20 +70,16 @@ export function KoreaChapter({ content }: KoreaChapterProps) {
         </div>
         {/* The pair set apart in depth: the second photo rises faster than the page. */}
         <div className="grid gap-10 @2xl:grid-cols-2 @2xl:items-start @2xl:gap-6">
-          {cafe === undefined ? null : (
+          <KoreaPhoto
+            photo={cafe}
+            sizes="(min-width: 72rem) 19rem, (min-width: 40rem) 45vw, 92vw"
+          />
+          <div className="@2xl:mt-24 @2xl:scroll-float">
             <KoreaPhoto
-              photo={cafe}
+              photo={night}
               sizes="(min-width: 72rem) 19rem, (min-width: 40rem) 45vw, 92vw"
             />
-          )}
-          {night === undefined ? null : (
-            <div className="@2xl:mt-24 @2xl:scroll-float">
-              <KoreaPhoto
-                photo={night}
-                sizes="(min-width: 72rem) 19rem, (min-width: 40rem) 45vw, 92vw"
-              />
-            </div>
-          )}
+          </div>
         </div>
       </div>
     </div>

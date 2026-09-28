@@ -74,7 +74,7 @@ describe('startVolatilitySurface', () => {
     await expect.poll(() => hasViridisTeal(canvas), { timeout: 4000 }).toBe(true);
   });
 
-  it('reads the point under the pointer: its volatility, strike and maturity', () => {
+  it('reads the point under the pointer: its volatility, strike and maturity', async () => {
     const canvas = labCanvas();
     const readings: (SurfaceReading | null)[] = [];
     stop = startVolatilitySurface(canvas, {
@@ -85,6 +85,8 @@ describe('startVolatilitySurface', () => {
         readings.push(reading);
       },
     });
+    await expect.poll(() => hasViridisTeal(canvas)).toBe(true);
+    const before = pixels(canvas).join();
 
     const box = canvas.getBoundingClientRect();
     canvas.dispatchEvent(
@@ -100,6 +102,8 @@ describe('startVolatilitySurface', () => {
     expect(reading?.sigma).toBeLessThan(0.3);
     expect(reading?.strike).toBeGreaterThanOrEqual(70);
     expect(reading?.maturity).toBeGreaterThan(0);
+    // Then drawn on the surface, on the next frame: the smile, the term structure, the point.
+    await expect.poll(() => pixels(canvas).join()).not.toBe(before);
   });
 
   it('turns with its buttons', async () => {

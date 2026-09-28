@@ -44,6 +44,7 @@ export type KoreaContent = {
   models: readonly { name: string; detail: string }[];
   // The kinetic band: a line in Korean, and its translation drifting the other way.
   band: { korean: readonly string[]; translation: readonly string[] };
-  photos: readonly KoreaPhoto[];
+  // The café where the code was written, then the pavilion at night.
+  photos: readonly [KoreaPhoto, KoreaPhoto];
   labels: { yearFigures: string; models: string; modelsList: string };
 };
