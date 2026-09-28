@@ -147,6 +147,13 @@ par cycle avant la refonte, 5 minutes après, des valeurs de nouveau à jour. Le
 120 cycles en est déduit (600 minutes divisées par 5) ; l'échelle (une heure = 1,2 seconde)
 est affichée.
 
+## Les coulisses du site
+
+Demandées par William le 2026-09-28 (ADR 0033) : une page sur la façon dont le site est
+fait, pas sur William. Ses chiffres sont ceux de la configuration du dépôt (budgets, seuils,
+couverture, appareils, nombre de décisions), vérifiés par un test, et les mesures du
+navigateur du lecteur. Le dépôt est public : https://github.com/William-Stoops/Portfolio.
+
 ## Libellés propres au site
 
 Choisis avec William le 2026-09-26 pour des lecteurs recruteurs : ils reformulent des

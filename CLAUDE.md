@@ -249,6 +249,7 @@ pnpm verify         # tout ce qui précède, identique à la CI
 | 31  | `william/chore/deploy`               | En ligne sur william-stoops.pages.dev : adresses, Open Graph, sitemap, en-têtes, workflow de déploiement (ADR 0031) |
 | 32  | `william/feat/lost-flight-404`       | 404 ludique : le vol 404 dérouté sur le tableau, l'avion en attente autour, d'autres destinations                   |
 | 33  | `william/feat/cycle-race`            | La course « 10 h → 5 min » : les deux cycles de calcul à l'échelle, sous le rôle IT-Finance (ADR 0032)              |
+| 34  | `william/feat/behind-the-scenes`     | Les coulisses : mesures du navigateur en direct, contrôles de la CI aux seuils vérifiés, décisions (ADR 0033)       |
 
 Questions encore ouvertes : un traitement serveur du formulaire de contact (service
 tiers ou fonction serverless) au-delà du `mailto:`.

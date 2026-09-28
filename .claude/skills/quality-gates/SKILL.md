@@ -178,6 +178,11 @@ lint, TypeScript capped `<7`). pnpm's own `minimumReleaseAge` (24 h) stays on.
 | LCP / CLS / TBT (Lighthouse, mobile)                 | ≤ 2.0 s / ≤ 0.05 / ≤ 150 ms — real (devtools) throttling, median of 3 runs, indexable pages only (ADR 0013)  |
 | Coverage (lines / functions / statements / branches) | 90 / 90 / 90 / 85 on `src/`, excluding `main.tsx` and `testing/`                                             |
 
+The behind-the-scenes page states these budgets and thresholds, the device count and the
+number of ADRs (`SITE_FACTS`, ADR 0033), and `site-facts.test.ts` reads each one back from
+the file that enforces it. **Changing a budget, a threshold, the coverage, the device
+matrix or adding an ADR means updating `SITE_FACTS` in the same PR**, or CI fails.
+
 ## 9. Adding a dependency
 
 Before `pnpm add`: is it needed (can the platform or 20 lines do it)? Is it maintained
