@@ -1,12 +1,12 @@
 import {
   buildSurfaceGrid,
   buildWireframeIndices,
-  invertMatrix,
-  lookAt,
-  multiplyMatrices,
-  perspective,
   unprojectToGround,
 } from '@/features/hero/utils/surface-math';
+import { heroCamera, type SurfaceFraming } from '@/features/hero/utils/hero-camera';
+import { createShaderProgram } from '@/lib/webgl-program';
+import { invertMatrix, lookAt, type Matrix4, multiplyMatrices, perspective } from '@/utils/matrix4';
+import { type RgbChannels } from '@/utils/parse-rgb-color';
 
 // An implied volatility surface, as William computes them: strikes across, maturities in
 // depth, the volatility "smile" rising on both wings. Drawn in wireframe with raw WebGL2:
@@ -26,6 +26,7 @@ uniform float u_time;
 uniform vec2 u_pointer;
 uniform float u_pointerStrength;
 uniform float u_calm;
+uniform float u_rise;
 uniform float u_pointSize;
 uniform vec2 u_rippleOrigin;
 uniform float u_rippleAge;
@@ -37,7 +38,7 @@ float surfaceHeight(vec2 p) {
   float termStructure = -0.28 * (p.y + 1.0);
   float swell = 0.22 * sin(2.4 * p.x + u_time * 0.55) * cos(1.9 * p.y - u_time * 0.4);
   float ripple = 0.06 * sin(7.0 * length(p - vec2(0.3, -0.2)) - u_time * 1.3);
-  return (smile + termStructure + swell + ripple) * (1.0 - 0.65 * u_calm);
+  return (smile + termStructure + swell + ripple) * (1.0 - 0.65 * u_calm) * u_rise;
 }
 
 void main() {
@@ -76,8 +77,6 @@ void main() {
   color = vec4(mix(u_low, u_high, heat) * alpha, alpha);
 }`;
 
-type RgbChannels = readonly [number, number, number];
-
 type SurfaceFrame = {
   // Seconds since the scene started.
   time: number;
@@ -88,6 +87,11 @@ type SurfaceFrame = {
   calm: number;
   // From -1 to 1: horizontal pointer position, for a slight camera parallax.
   parallax: number;
+  // The camera's fly-in as the scene starts, and its dive as the hero scrolls away (0 to 1):
+  // see heroCamera. `rise` scales the relief, from flat to full, as the surface comes up.
+  intro: number;
+  dive: number;
+  rise: number;
   // The last click on the surface (world units) and the seconds since, if any.
   ripple: { origin: readonly [number, number]; age: number } | null;
 };
@@ -102,62 +106,29 @@ export type SurfaceRenderer = {
   dispose: () => void;
 };
 
-// A slow sway, a touch of pointer parallax, and the camera rising as the hero scrolls
-// away. Looking left of the surface centre puts the surface on the right, behind the
-// portrait, away from the text.
-function cameraFor(aspect: number, time: number, calm: number, parallax: number): Float32Array {
-  const eyeX = 0.5 * Math.sin(time * 0.12) + 0.35 * parallax;
+function viewProjectionFor(
+  framing: SurfaceFraming,
+  aspect: number,
+  frame: { time: number; parallax: number; intro: number; dive: number },
+): Matrix4 {
+  const { eye, target, fieldOfView } = heroCamera(framing, frame);
   return multiplyMatrices(
-    perspective(0.8, aspect, 0.1, 30),
-    lookAt([eyeX, 1.25 + 0.8 * calm, 4.3], [-1.6, 0.45, -0.5], [0, 1, 0]),
+    perspective(fieldOfView, aspect, 0.1, 30),
+    lookAt(eye, target, [0, 1, 0]),
   );
-}
-
-function compileShader(
-  gl: WebGL2RenderingContext,
-  type: GLenum,
-  source: string,
-): WebGLShader | null {
-  const shader = gl.createShader(type);
-  if (shader === null) {
-    return null;
-  }
-  gl.shaderSource(shader, source);
-  gl.compileShader(shader);
-  if (gl.getShaderParameter(shader, gl.COMPILE_STATUS) !== true) {
-    gl.deleteShader(shader);
-    return null;
-  }
-  return shader;
-}
-
-function createProgram(gl: WebGL2RenderingContext): WebGLProgram | null {
-  const vertexShader = compileShader(gl, gl.VERTEX_SHADER, VERTEX_SHADER);
-  const fragmentShader = compileShader(gl, gl.FRAGMENT_SHADER, FRAGMENT_SHADER);
-  const program = gl.createProgram();
-  if (vertexShader === null || fragmentShader === null) {
-    return null;
-  }
-  gl.attachShader(program, vertexShader);
-  gl.attachShader(program, fragmentShader);
-  gl.linkProgram(program);
-  gl.deleteShader(vertexShader);
-  gl.deleteShader(fragmentShader);
-  if (gl.getProgramParameter(program, gl.LINK_STATUS) !== true) {
-    gl.deleteProgram(program);
-    return null;
-  }
-  return program;
 }
 
 // Null when the browser has no WebGL2 or the shaders do not build: the caller keeps the
 // static hero, which is complete on its own.
-export function createSurfaceRenderer(canvas: HTMLCanvasElement): SurfaceRenderer | null {
+export function createSurfaceRenderer(
+  canvas: HTMLCanvasElement,
+  framing: SurfaceFraming,
+): SurfaceRenderer | null {
   const gl = canvas.getContext('webgl2', { antialias: true, alpha: true });
   if (gl === null) {
     return null;
   }
-  const program = createProgram(gl);
+  const program = createShaderProgram(gl, VERTEX_SHADER, FRAGMENT_SHADER);
   if (program === null) {
     return null;
   }
@@ -185,6 +156,7 @@ export function createSurfaceRenderer(canvas: HTMLCanvasElement): SurfaceRendere
     rippleOrigin: uniform('u_rippleOrigin'),
     rippleAge: uniform('u_rippleAge'),
     calm: uniform('u_calm'),
+    rise: uniform('u_rise'),
     low: uniform('u_low'),
     high: uniform('u_high'),
     pointSize: uniform('u_pointSize'),
@@ -195,7 +167,9 @@ export function createSurfaceRenderer(canvas: HTMLCanvasElement): SurfaceRendere
   gl.useProgram(program);
   gl.enable(gl.BLEND);
   gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
-  let inverseViewProjection = invertMatrix(cameraFor(1, 0, 0, 0));
+  let inverseViewProjection = invertMatrix(
+    viewProjectionFor(framing, 1, { time: 0, parallax: 0, intro: 1, dive: 0 }),
+  );
   let pixelRatio = 1;
 
   return {
@@ -209,9 +183,9 @@ export function createSurfaceRenderer(canvas: HTMLCanvasElement): SurfaceRendere
       gl.uniform3f(locations.low, ...low);
       gl.uniform3f(locations.high, ...high);
     },
-    draw({ time, pointer, pointerStrength, calm, parallax, ripple }) {
+    draw({ time, pointer, pointerStrength, calm, parallax, ripple, intro, dive, rise }) {
       const aspect = canvas.width / Math.max(canvas.height, 1);
-      const viewProjection = cameraFor(aspect, time, calm, parallax);
+      const viewProjection = viewProjectionFor(framing, aspect, { time, parallax, intro, dive });
       inverseViewProjection = invertMatrix(viewProjection);
       gl.clearColor(0, 0, 0, 0);
       gl.clear(gl.COLOR_BUFFER_BIT);
@@ -220,6 +194,7 @@ export function createSurfaceRenderer(canvas: HTMLCanvasElement): SurfaceRendere
       gl.uniform2f(locations.pointer, ...pointer);
       gl.uniform1f(locations.pointerStrength, pointerStrength);
       gl.uniform1f(locations.calm, calm);
+      gl.uniform1f(locations.rise, rise);
       gl.uniform2f(locations.rippleOrigin, ...(ripple?.origin ?? [0, 0]));
       // Without a click, an age so large the ring has long died out.
       gl.uniform1f(locations.rippleAge, ripple?.age ?? 1000);

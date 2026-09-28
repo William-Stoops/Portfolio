@@ -12,6 +12,7 @@
     "build": "vite build && node scripts/prerender.ts",
     "preview": "vite preview",
     "images": "node scripts/generate-images.ts",
+    "globe": "node scripts/generate-land-dots.ts",
     "typecheck": "tsc -b",
     "lint": "oxlint --max-warnings=0 && eslint . --max-warnings=0",
     "lint:fix": "oxlint --fix && eslint . --fix",
@@ -80,6 +81,7 @@
     "typescript-eslint": "8.70.1",
     "vite": "8.3.1",
     "vitest": "5.0.1",
-    "vitest-browser-react": "2.3.0"
+    "vitest-browser-react": "2.3.0",
+    "world-atlas": "2.0.2"
   }
 }

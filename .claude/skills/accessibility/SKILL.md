@@ -73,31 +73,31 @@ and VoiceOver — double announcements are likely. Live regions (`role="status"`
   shadcn's default `ring-ring/50` measures 2.5–2.9:1 — a failure.
 - `outline-hidden` (transparent, survives forced colours), never `outline-none`, when a
   custom indicator replaces the outline.
-- The offset is mandatory: focus `#FF9466` touching an `#FF7A45` button is 1.19:1.
+- The offset is mandatory: focus `#93BEFF` touching a `#6EA8FE` button is 1.27:1.
 - `html { scroll-padding-top }` ≥ sticky header height so a focused element is never hidden
   (2.4.11). Header becomes `position: static` under `@media (max-height: 30rem)`.
 
 ## 3. Colour and contrast (1.4.3, 1.4.6, 1.4.11, RGAA 3.x)
 
-Hard constraint, proven by computation: on `#1B1F2A`, **no orange can both be readable
-text (≥ 4.5:1) and carry white text (≥ 4.5:1)**. Therefore, in the dark theme, the
-primary button is light orange with **dark** text. The validated tokens live in
+Hard constraint, proven by computation: on `#1B1F2A`, **no accent — orange then, blue now
+(ADR 0025) — can both be readable text (≥ 4.5:1) and carry white text (≥ 4.5:1)**.
+Therefore, in the dark theme, the primary button is light blue with **dark** text. The validated tokens live in
 `design-system`; never introduce a colour outside them.
 
 | Pair (dark theme)                           | Ratio | Verdict       |
 | ------------------------------------------- | ----- | ------------- |
 | `fg` `#E6E8EF` on `canvas` `#1B1F2A`        | 13.44 | AAA           |
 | `fg-muted` `#A9B0C2` on `canvas`            | 7.58  | AAA           |
-| `accent-fg` `#FF8A5B` on `canvas`           | 7.08  | AAA           |
-| `on-accent` `#12151C` on `accent` `#FF7A45` | 7.06  | AAA           |
-| `focus` `#FF9466` on `canvas`               | 7.59  | ≥ 3:1 ✓       |
+| `accent-fg` `#7FB2FF` on `canvas`           | 7.61  | AAA           |
+| `on-accent` `#12151C` on `accent` `#6EA8FE` | 7.56  | AAA           |
+| `focus` `#93BEFF` on `canvas`               | 8.66  | ≥ 3:1 ✓       |
 | `border-input` `#7D869C` on `surface`       | 3.98  | ≥ 3:1 ✓       |
-| white on `#FF7A45`                          | 2.59  | **forbidden** |
+| white on `#6EA8FE`                          | 2.42  | **forbidden** |
 
 - Any opacity (`/50`), gradient or `backdrop-blur` behind text ⇒ recompute on the
   composited colour, add the pair to the contrast unit test (`design-system` §tests).
 - Links inside prose are **always underlined** (1.4.1). Errors = icon + "Erreur :" prefix
-  - colour — the accent orange is too close to red to carry meaning alone.
+  - colour — colour alone never carries meaning (1.4.1).
 - Both themes must pass: axe runs per route × `light`/`dark` in Playwright.
 
 ## 4. Sizing, zoom, spacing
@@ -175,10 +175,11 @@ document shares the key `default` and the previous page's position undoes the ju
   mandatory (visually hidden if not shown) — the primitive handles the focus trap, Escape
   and focus return; verify it in the keyboard E2E spec anyway.
 - Custom modal: native `<dialog>.showModal()`; never hand-roll a focus trap. Give the
-  focus back to the opener on close yourself (`useFullscreenDialog`): not every browser
-  does, and none can while an element is fullscreen (Chrome makes the rest inert). Keep
-  the first focus on a control of the page, not in a cross-origin iframe: keys pressed
-  inside the iframe never reach the page, so Escape would no longer close the dialog.
+  focus back to the opener on close yourself (`useVideoDialog`): not every browser does.
+  Keep the first focus on a control of the page, not in a cross-origin iframe: keys
+  pressed inside the iframe never reach the page, so Escape would no longer close the
+  dialog. When Escape must run the same closing as the close button (the video morph),
+  prevent the `cancel` event and close through that path.
 
 ## 9. Tests (all mandatory for a feature PR)
 
