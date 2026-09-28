@@ -13,6 +13,7 @@ import { VolatilityLab } from '@/features/experience/components/volatility-lab';
 import { KoreaChapter } from '@/features/korea/components/korea-chapter';
 import { ReturnStage } from '@/features/korea/components/return-stage';
 import { ProjectCard } from '@/features/projects/components/project-card';
+import { useScrollHeading } from '@/hooks/use-scroll-heading';
 import { useLocale } from '@/i18n/locale-context';
 import { type Locale } from '@/i18n/locales';
 
@@ -73,6 +74,8 @@ function journeyContent(
 // holding the cards that tell it. The only section on the flight path: the only story. It
 // opens straight on its first year, the rail naming each year beside it.
 export function HomeJourney() {
+  // Its planes face the way the reader goes (plane-heading).
+  useScrollHeading();
   const content = useSiteContent();
   const locale = useLocale();
   const { journey } = content;

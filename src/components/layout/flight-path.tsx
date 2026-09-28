@@ -85,11 +85,14 @@ export function FlightPath({ waypoints, children }: FlightPathProps) {
                     className="relative size-full flight-log-plane"
                   >
                     <span className="absolute inset-1 rounded-full bg-canvas" />
-                    {/* The icon's nose points up and to the right: three eighths of a turn face down. */}
-                    <Plane
-                      strokeWidth={1.75}
-                      className="relative size-full rotate-135 p-1.5 text-accent-fg"
-                    />
+                    {/* The icon's nose points up and to the right: three eighths of a turn face down;
+                        half a turn more when the reader scrolls back up. */}
+                    <span className="relative block size-full plane-heading">
+                      <Plane
+                        strokeWidth={1.75}
+                        className="size-full rotate-135 p-1.5 text-accent-fg"
+                      />
+                    </span>
                   </div>
                 </div>
               </div>

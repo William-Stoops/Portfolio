@@ -70,11 +70,10 @@ export function FlightGlobe({ ref, route, direction, className }: FlightGlobePro
       <GlobePlace place={route.origin} end="origin" side={originSide} />
       <GlobePlace place={route.destination} end="destination" side={destinationSide} />
       <div data-globe-plane data-flight-plane className="absolute top-0 left-0">
-        <Plane
-          aria-hidden="true"
-          strokeWidth={1.75}
-          className="absolute -top-5 -left-5 size-10 text-accent-fg"
-        />
+        {/* Heading along the route (set by the runtime), and back when the reader scrolls up. */}
+        <span className="absolute -top-5 -left-5 size-10 plane-heading">
+          <Plane aria-hidden="true" strokeWidth={1.75} className="size-full text-accent-fg" />
+        </span>
       </div>
     </div>
   );

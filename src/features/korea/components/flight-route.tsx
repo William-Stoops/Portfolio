@@ -102,18 +102,21 @@ export function FlightRoute({ route, direction }: FlightRouteProps) {
             style={{ top: FLIGHT_ARC.planeTop }}
             className="absolute -left-5 size-10 voyage-altitude"
           >
-            {/* A contrail, fading out behind the plane: it turns with the arm, along the arc. */}
-            <span
-              className={`absolute top-1/2 h-0.5 w-24 -translate-y-1/2 rounded-full from-accent to-transparent ${
-                isEast ? 'right-1/2 bg-linear-to-l' : 'left-1/2 bg-linear-to-r'
-              }`}
-            />
-            {/* The icon's nose points up and to the right: turned to face east, or west. */}
-            <Plane
-              aria-hidden="true"
-              strokeWidth={1.75}
-              className={`relative size-full text-accent-fg ${isEast ? 'rotate-45' : 'rotate-225'}`}
-            />
+            {/* The plane and its contrail turn around together when the reader scrolls back. */}
+            <span className="absolute inset-0 plane-heading">
+              {/* A contrail, fading out behind the plane: it turns with the arm, along the arc. */}
+              <span
+                className={`absolute top-1/2 h-0.5 w-24 -translate-y-1/2 rounded-full from-accent to-transparent ${
+                  isEast ? 'right-1/2 bg-linear-to-l' : 'left-1/2 bg-linear-to-r'
+                }`}
+              />
+              {/* The icon's nose points up and to the right: turned to face east, or west. */}
+              <Plane
+                aria-hidden="true"
+                strokeWidth={1.75}
+                className={`relative size-full text-accent-fg ${isEast ? 'rotate-45' : 'rotate-225'}`}
+              />
+            </span>
           </div>
         </div>
         <PlaceLabel place={left} end="start" isDestination={!isEast} />

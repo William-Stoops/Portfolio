@@ -709,6 +709,19 @@
   }
 }
 
+/* A plane of the journey faces the way the reader goes: scrolling back, it turns around and
+   flies back rather than reverse, tail first (useScrollHeading). Turned on the spot, over
+   a moment; at once under reduced motion. */
+@utility plane-heading {
+  :root[data-scroll-heading='up'] & {
+    rotate: 180deg;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    transition: rotate 450ms var(--ease-out);
+  }
+}
+
 /* The site menu (ADR 0037) settles into place, a card dropping from the bar. Closing is
    immediate: the page is what the visitor asked for. */
 @utility menu-panel {
