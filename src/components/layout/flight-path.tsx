@@ -1,8 +1,6 @@
 import { Plane } from 'lucide-react';
 import { type ReactNode } from 'react';
 
-import { SplitFlap } from '@/components/ui/split-flap';
-import { flapLine } from '@/utils/split-flap';
 import { waypointTimeline } from '@/utils/waypoint-timeline';
 
 type Waypoint = {
@@ -44,8 +42,7 @@ export function FlightPath({ waypoints, children }: FlightPathProps) {
           <div className="relative h-full">
             <div className="absolute inset-y-0 start-0 chapter-rail w-44">
               <div className="sticky top-32 h-28">
-                {waypoints.map(({ id, value, label }, index) => {
-                  const previous = waypoints[index - 1];
+                {waypoints.map(({ id, value, label }) => {
                   return (
                     <div
                       key={id}
@@ -55,25 +52,10 @@ export function FlightPath({ waypoints, children }: FlightPathProps) {
                     >
                       <div className="flex stop-label-out flex-col gap-3">
                         <p className="font-display text-[clamp(2.75rem,1.5rem+2vw,3.75rem)] leading-none font-bold whitespace-nowrap text-accent-fg tabular-nums">
-                          <SplitFlap
-                            cells={flapLine(value, {
-                              ...(previous === undefined ? {} : { previous: previous.value }),
-                              flips: 4,
-                              key: `${id}:value`,
-                            })}
-                            motion="flap-board"
-                            tiles
-                          />
+                          {value}
                         </p>
                         <p className="text-small font-semibold tracking-[0.2em] whitespace-nowrap text-fg-muted uppercase">
-                          <SplitFlap
-                            cells={flapLine(label, {
-                              ...(previous === undefined ? {} : { previous: previous.label }),
-                              flips: 2,
-                              key: `${id}:label`,
-                            })}
-                            motion="flap-board"
-                          />
+                          {label}
                         </p>
                       </div>
                     </div>

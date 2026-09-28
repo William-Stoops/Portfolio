@@ -112,16 +112,6 @@
   }
 }
 
-@keyframes ink-lift {
-  from {
-    opacity: 0.78;
-  }
-
-  to {
-    opacity: 0;
-  }
-}
-
 @keyframes plane-away {
   0%,
   100% {
@@ -215,13 +205,6 @@
 @keyframes holding {
   from {
     rotate: -2turn;
-  }
-}
-
-/* A strip of glyphs, from the first up to the one it shows at rest (the split-flaps). */
-@keyframes roll-up {
-  from {
-    translate: 0 0;
   }
 }
 
@@ -548,38 +531,6 @@
   }
 }
 
-/*
-  A statement written as it is read: each word lies under a veil of the canvas colour
-  that lifts, one word after the other, while the paragraph crosses the screen. The
-  veil is a pseudo-element over real text at full contrast, and only its opacity
-  moves; without scroll-driven animations there is no veil at all. The paragraph
-  (`ink-timeline`) gives the timeline and its word count (`--n`); each word its index
-  (`--i`).
-*/
-@utility ink-timeline {
-  view-timeline: --ink;
-}
-
-@utility reveal-ink {
-  position: relative;
-
-  @media (prefers-reduced-motion: no-preference) {
-    @supports (animation-timeline: view()) {
-      &::after {
-        content: '';
-        position: absolute;
-        inset: -0.1em 0;
-        background: --theme(--color-canvas);
-        pointer-events: none;
-        animation: ink-lift linear both;
-        animation-timeline: --ink;
-        animation-range: cover calc(15% + var(--i, 0) * 35% / var(--n, 1)) cover
-          calc(15% + (var(--i, 0) + 1) * 35% / var(--n, 1));
-      }
-    }
-  }
-}
-
 @utility reveal-grow-x {
   transform-origin: 0 50%;
 
@@ -706,52 +657,6 @@
       animation: label-out linear both;
       animation-timeline: var(--timeline);
       animation-range: cover calc(100% - 0.25rem) cover 100%;
-    }
-  }
-}
-
-/*
- * A split-flap cell (SplitFlap): a strip of the glyphs it turns through, one per line. At
- * rest it shows its character, the last line; it turns one glyph per step (`--steps` in
- * all), after the cells before it (`--i`). A cell that keeps its character never moves.
- */
-@utility flap-title {
-  translate: 0 calc(var(--steps) * -1lh);
-
-  @media (prefers-reduced-motion: no-preference) {
-    @supports (animation-timeline: view()) {
-      animation: roll-up steps(var(--steps), jump-end) both;
-      animation-timeline: view();
-      animation-range: cover calc(6% + var(--i, 0) * 0.5%) cover calc(14% + var(--i, 0) * 0.5%);
-    }
-  }
-}
-
-/*
- * A board that turns in on its own as the page opens (the diverted flight of the
- * not-found page), on the clock rather than the scroll: one glyph every 90 ms, the cells
- * one after the other, all at rest within a second and a half.
- */
-@utility flap-enter {
-  translate: 0 calc(var(--steps) * -1lh);
-
-  @media (prefers-reduced-motion: no-preference) {
-    animation: roll-up steps(var(--steps), jump-end) both;
-    animation-duration: calc(var(--steps) * 90ms);
-    animation-delay: calc(var(--i, 0) * 120ms + 200ms);
-  }
-}
-
-/* The rail's board changes line as its waypoint crosses the reading line. */
-@utility flap-board {
-  translate: 0 calc(var(--steps) * -1lh);
-
-  @media (prefers-reduced-motion: no-preference) {
-    @supports (animation-timeline: view()) {
-      animation: roll-up steps(var(--steps), jump-end) both;
-      animation-timeline: var(--timeline);
-      animation-range: cover calc(0.25rem + var(--i, 0) * 0.35rem) cover
-        calc(3rem + var(--i, 0) * 0.35rem);
     }
   }
 }

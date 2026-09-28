@@ -1,6 +1,6 @@
 import { ChapterRows } from '@/components/layout/chapter-rows';
 import { PageSection } from '@/components/layout/page-section';
-import { InkText } from '@/components/ui/ink-text';
+import { Statement } from '@/components/ui/statement';
 import { type AiPracticeContent } from '@/features/ai-practice/types/ai-practice-content';
 
 type AiPracticeSectionProps = { content: AiPracticeContent };
@@ -18,7 +18,7 @@ export function AiPracticeSection({ content }: AiPracticeSectionProps) {
         rows={content.items.map(({ title, text }) => ({
           id: title,
           title,
-          content: <InkText text={text} size="body" />,
+          content: <Statement text={text} size="body" />,
         }))}
       />
     </PageSection>

@@ -5,7 +5,7 @@ import { useSiteContent } from '@/app/content/site-content-context';
 import { FlightLog } from '@/components/layout/flight-log';
 import { FlightPath } from '@/components/layout/flight-path';
 import { PageSection } from '@/components/layout/page-section';
-import { InkText } from '@/components/ui/ink-text';
+import { Statement } from '@/components/ui/statement';
 import { JOURNEY_ANCHORS } from '@/config/paths';
 import { ExperienceCard } from '@/features/experience/components/experience-card';
 import { VolatilityLab } from '@/features/experience/components/volatility-lab';
@@ -25,7 +25,7 @@ function journeyContent(
   content: SiteContent,
   locale: Locale,
 ): ReactNode {
-  const noteParagraph = note === undefined ? null : <InkText text={note} />;
+  const noteParagraph = note === undefined ? null : <Statement text={note} />;
   const [itFinance, intm, strattt] = content.experiences.entries;
   const { labels } = content.experiences;
   switch (year) {

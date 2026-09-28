@@ -22,12 +22,11 @@ describe('AiPracticeSection', () => {
   it('gives each practice a level-3 heading and its CV text', async () => {
     const screen = await renderSection();
 
-    // Each read as one title (its rising letters are hidden from assistive tech).
     expect(
       screen
         .getByRole('heading', { level: 3 })
         .elements()
-        .map((heading) => heading.querySelector('.sr-only')?.textContent),
+        .map((heading) => heading.textContent),
     ).toEqual(AI_PRACTICE_CONTENT.items.map(({ title }) => title));
     await expect
       .element(screen.getByText(/Pennylane, outils Google, Context7, 21st.dev/))

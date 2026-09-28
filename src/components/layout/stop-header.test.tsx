@@ -5,30 +5,15 @@ import { StopHeader } from '@/components/layout/stop-header';
 import { expectNoAxeViolations } from '@/testing/expect-no-axe-violations';
 
 describe('StopHeader', () => {
-  it('titles the stop at its level, read as one title while its letters rise', async () => {
+  it('titles the stop at its level, whole from the first paint: no letter rises', async () => {
     const screen = await render(
       <StopHeader level={2} headingId="a-propos-titre" title="À propos" overline="01" />,
     );
 
     const heading = screen.getByRole('heading', { level: 2, name: 'À propos' });
     await expect.element(heading).toHaveAttribute('id', 'a-propos-titre');
-    const letters = heading.element().querySelectorAll('[aria-hidden="true"] [style*="--i"]');
-    expect([...letters].map((letter) => letter.textContent).join('')).toBe('Àpropos');
-  });
-
-  it('draws its title as it is given instead of rising letters, still read as one title', async () => {
-    const screen = await render(
-      <StopHeader
-        level={3}
-        title="Retour en France"
-        visualTitle={<span aria-hidden="true" data-testid="drawn" />}
-        onPath
-      />,
-    );
-
-    const heading = screen.getByRole('heading', { level: 3, name: 'Retour en France' });
-    await expect.element(heading.getByTestId('drawn')).toBeInTheDocument();
-    expect(heading.element().querySelectorAll('.reveal-letter')).toHaveLength(0);
+    expect(heading.element().textContent).toBe('À propos');
+    expect(heading.element().querySelectorAll('[style*="--i"]')).toHaveLength(0);
   });
 
   it('says the overline in words, unless it is decoration', async () => {

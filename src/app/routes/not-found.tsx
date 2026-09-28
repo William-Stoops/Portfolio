@@ -1,13 +1,11 @@
 import { DestinationBoard } from '@/components/layout/destination-board';
 import { PageMetadata } from '@/components/layout/page-metadata';
 import { HoldingPattern } from '@/components/ui/holding-pattern';
-import { SplitFlap } from '@/components/ui/split-flap';
 import { DETOURS } from '@/config/navigation';
 import { usePageHeading } from '@/hooks/use-page-heading';
 import { useLocale, useLocalized } from '@/i18n/locale-context';
 import { type Localized } from '@/i18n/locales';
 import { formatPageTitle } from '@/utils/format-page-title';
-import { flapLine } from '@/utils/split-flap';
 
 type NotFoundMessages = {
   // Said to assistive tech; the board shows its own line, in capitals, for the eyes.
@@ -48,10 +46,7 @@ export function NotFoundRoute() {
       <div className="flex max-w-prose flex-col gap-5">
         <p className="text-small font-semibold tracking-[0.2em] text-accent-fg">
           <span className="sr-only">{messages.flight.spoken}</span>
-          <SplitFlap
-            cells={flapLine(messages.flight.board, { flips: 2, key: 'flight' })}
-            motion="flap-enter"
-          />
+          <span aria-hidden="true">{messages.flight.board}</span>
         </p>
         <h1
           ref={headingRef}
@@ -70,7 +65,7 @@ export function NotFoundRoute() {
           the words that say the same (it is decoration, so the reading order is theirs). */}
       <HoldingPattern className="-order-1 max-w-56 sm:max-w-xs lg:order-none lg:max-w-sm">
         <p className="font-display text-[clamp(3.5rem,2rem+6vw,6rem)] leading-none font-bold text-accent-fg tabular-nums">
-          <SplitFlap cells={flapLine('404', { flips: 6, key: 'lost' })} motion="flap-enter" tiles />
+          <span aria-hidden="true">404</span>
         </p>
       </HoldingPattern>
     </div>

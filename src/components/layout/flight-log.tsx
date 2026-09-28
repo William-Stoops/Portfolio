@@ -1,7 +1,6 @@
 import { type ReactNode } from 'react';
 
 import { StopHeader } from '@/components/layout/stop-header';
-import { SplitFlapTitle } from '@/components/ui/split-flap';
 import { waypointTimeline } from '@/utils/waypoint-timeline';
 
 type FlightLogStop = {
@@ -46,7 +45,6 @@ export function FlightLog({ stops, size = 'large' }: FlightLogProps) {
             isOverlineDecoration={isOverlineDecoration ?? false}
             size={size}
             onPath
-            visualTitle={<SplitFlapTitle title={title} />}
           />
           <div className="flex flex-col gap-10 *:reveal-from-rail">{content}</div>
         </li>

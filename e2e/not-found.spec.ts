@@ -64,8 +64,8 @@ test.describe('not-found page', () => {
     await page.goto('/fr/page-inexistante');
 
     const animations = await clockAnimations(page);
-    // The plane's turns, and the board's cells turning in.
-    expect(new Set(animations.map(({ name }) => name))).toEqual(new Set(['holding', 'roll-up']));
+    // The plane's turns: the board's words are set, not turned in.
+    expect(new Set(animations.map(({ name }) => name))).toEqual(new Set(['holding']));
     expect(Math.max(...animations.map(({ endTime }) => endTime))).toBeLessThanOrEqual(5000);
   });
 

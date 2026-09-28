@@ -9,13 +9,6 @@ const WAYPOINTS = [
   { id: 'annee-2021', value: '2021', label: '1re année' },
 ];
 
-// What a line of the board shows at rest: the character of each cell.
-function boardText(line: Element): string {
-  return [...line.querySelectorAll('[data-flap-character]')]
-    .map((character) => character.textContent)
-    .join('');
-}
-
 async function renderPath() {
   return render(
     <FlightPath waypoints={WAYPOINTS}>
@@ -44,30 +37,13 @@ describe('FlightPath', () => {
     const screen = await renderPath();
 
     const waypoints = [...screen.container.querySelectorAll('[data-waypoint]')];
-    expect(waypoints.map((waypoint) => boardText(waypoint))).toEqual([
+    expect(waypoints.map((waypoint) => waypoint.textContent)).toEqual([
       '01À propos',
       '20211re année',
     ]);
     for (const waypoint of waypoints) {
       expect(waypoint.closest('[aria-hidden="true"]')).not.toBeNull();
     }
-  });
-
-  it('turns each line of the board from the line before, as a departures board', async () => {
-    const screen = await renderPath();
-
-    const [, year] = [...screen.container.querySelectorAll('[data-waypoint]')];
-    const strips = [...(year?.querySelectorAll('[data-flap-character] + *') ?? [])].map(
-      (strip) => strip.textContent,
-    );
-    // "01" then blank cells, turning into "2021".
-    expect(strips.slice(0, 4).map((strip) => strip.split('\n')[0])).toEqual(['0', '1', ' ', ' ']);
-    expect(strips.slice(0, 4).map((strip) => strip.split('\n').at(-1))).toEqual([
-      '2',
-      '0',
-      '2',
-      '1',
-    ]);
   });
 
   it('shares the waypoints’ timelines and the flights’ with the whole page', async () => {

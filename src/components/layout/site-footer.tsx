@@ -1,5 +1,4 @@
 import { ArrowUp, Download, ExternalLink } from 'lucide-react';
-import { Fragment } from 'react';
 import { NavLink } from 'react-router';
 
 import { FOOTER_LINKS } from '@/config/navigation';
@@ -14,7 +13,6 @@ import {
 import { NEW_TAB_HINT } from '@/i18n/common-messages';
 import { useLocale, useLocalized } from '@/i18n/locale-context';
 import { type Localized } from '@/i18n/locales';
-import { splitIntoLetters } from '@/utils/split-text';
 
 type FooterMessages = {
   contact: string;
@@ -53,8 +51,7 @@ const ICON_CLASS_NAME = 'size-4 shrink-0';
 
 // The page's last word, in the site's own vocabulary of hairlines and restraint: the name
 // with its accent dot and the profile sentence, the ways to reach William and the site's
-// pages, a thin bar with the way back to the top, and the name again as a one-pixel
-// outline across the width, like the lines of the hero surface, rising as the page ends.
+// pages, and a thin bar with the way back to the top.
 export function SiteFooter() {
   const locale = useLocale();
   const messages = useLocalized(FOOTER_MESSAGES);
@@ -155,32 +152,6 @@ export function SiteFooter() {
           </span>
         </a>
       </div>
-      {/*
-        The sign-off in filigree: the name across the whole width, one step above the
-        background (an outline would show the variable font's overlapping contours), letters
-        rising as the page reaches its end. Decoration, hidden from assistive tech (the name
-        is said above).
-      */}
-      <p
-        data-wordmark
-        aria-hidden="true"
-        className="-mb-[0.2em] overflow-clip pt-2 text-center font-display text-[13.5cqi] leading-none font-semibold tracking-tighter whitespace-nowrap text-surface-raised select-none"
-      >
-        {splitIntoLetters(SITE_OWNER).map(({ text, index, letters }) => (
-          <Fragment key={text}>
-            {index > 0 ? ' ' : null}
-            {letters.map((letter) => (
-              <span
-                key={letter.index}
-                style={{ '--i': letter.index }}
-                className="inline-block reveal-letter"
-              >
-                {letter.text}
-              </span>
-            ))}
-          </Fragment>
-        ))}
-      </p>
     </footer>
   );
 }

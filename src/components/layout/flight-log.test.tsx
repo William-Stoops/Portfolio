@@ -49,11 +49,11 @@ describe('FlightLog', () => {
     ).toEqual(['--wp-annee-2021', '--wp-coree']);
   });
 
-  it('flips the stops’ titles like a departures board', async () => {
+  it('titles each stop in plain words, whole from the first paint', async () => {
     const screen = await render(<FlightLog stops={STOPS} />);
 
     const heading = screen.getByRole('heading', { level: 3, name: 'Séoul' }).element();
-    expect(heading.querySelectorAll('[data-flap-character]')).toHaveLength(5);
+    expect(heading.textContent).toBe('Séoul');
   });
 
   it('marks each stop on the rail, as decoration', async () => {
