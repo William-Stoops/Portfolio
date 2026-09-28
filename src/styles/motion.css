@@ -630,12 +630,13 @@
 @utility stop-label-in {
   @media (prefers-reduced-motion: no-preference) {
     @supports (animation-timeline: view()) {
-      /* Hidden until its waypoint's timeline brings it in: never shown by default. The line
-         takes over at once, its cells turning from the characters of the line before. */
+      /* Hidden until its waypoint's timeline brings it in: never shown by default. It comes
+         in over the second half of its stop's entry into the reading band, once the label
+         before has gone over the first half: never two labels at once. */
       opacity: 0;
       animation: label-in linear both;
       animation-timeline: var(--timeline);
-      animation-range: cover 0% cover 0.25rem;
+      animation-range: entry 50% entry 100%;
     }
   }
 }
@@ -645,7 +646,7 @@
     @supports (animation-timeline: view()) {
       animation: label-out linear both;
       animation-timeline: var(--timeline);
-      animation-range: cover calc(100% - 0.25rem) cover 100%;
+      animation-range: exit 0% exit 50%;
     }
   }
 }
