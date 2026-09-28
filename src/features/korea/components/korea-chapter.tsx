@@ -3,7 +3,6 @@ import { KoreaBand } from '@/features/korea/components/korea-band';
 import { KoreaPhoto } from '@/features/korea/components/korea-photo';
 import { VoyageStage } from '@/features/korea/components/voyage-stage';
 import { type KoreaContent } from '@/features/korea/types/korea-content';
-import { splitIntoLetters } from '@/utils/split-text';
 
 type KoreaChapterProps = { content: KoreaContent };
 
@@ -12,60 +11,39 @@ const OVERLINE_CLASS_NAME = 'text-small font-semibold tracking-[0.2em] uppercase
 // The Seoul stop of the journey, in two movements after the words of the year drifting in
 // Korean: the voyage (the flight, the flag, the greeting),
 // then the university and what was built there, with the photos set where they tell
-// something: the stadium in the university's colours beside its name, the café where the
-// code was written beside the models. Korean words carry `lang="ko"`, for screen readers
+// something: the café where the code was written and the pavilion at night, beside the
+// models. Korean words carry `lang="ko"`, for screen readers
 // and for the browser to pick a font that has their glyphs.
 export function KoreaChapter({ content }: KoreaChapterProps) {
-  const [stadium, cafe, night] = content.photos;
+  const [cafe, night] = content.photos;
 
   return (
     <div className="@container flex flex-col gap-24">
       <KoreaBand band={content.band} />
       <VoyageStage content={content} />
 
-      <div className="grid gap-14 @4xl:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] @4xl:items-center @4xl:gap-16">
-        <div className="flex flex-col gap-6">
-          <p className={`${OVERLINE_CLASS_NAME} reveal-slide text-accent-fg`}>
-            {/* Hangul is never letter-spaced: its syllables are already set as blocks. */}
-            <span lang="ko" className="tracking-normal">
-              {content.route.destination.korean}
-            </span>{' '}
-            · {content.route.destination.name}
-          </p>
-          {/* The name in Hangul, letters rising: read once, in Latin letters, just below. */}
-          <p
-            aria-hidden="true"
-            lang="ko"
-            className="font-display text-[clamp(3.5rem,1rem+8vw,8rem)] leading-none font-bold"
-          >
-            {splitIntoLetters(content.university.korean).map(({ letters }) =>
-              letters.map((letter) => (
-                <span
-                  key={letter.index}
-                  className="-mb-[0.15em] inline-block overflow-clip pb-[0.15em]"
-                >
-                  <span style={{ '--i': letter.index }} className="inline-block reveal-letter">
-                    {letter.text}
-                  </span>
-                </span>
-              )),
-            )}
-          </p>
-          <p className="reveal-slide font-display text-h2 font-semibold">
-            {content.university.name}
-          </p>
-          <KeyFigures
-            label={content.labels.yearFigures}
-            figures={content.figures}
-            entrance="reveal"
-          />
-        </div>
-        {stadium === undefined ? null : (
-          <KoreaPhoto
-            photo={stadium}
-            sizes="(min-width: 72rem) 27rem, (min-width: 64rem) 38vw, 92vw"
-          />
-        )}
+      <div className="flex flex-col gap-6">
+        <p className={`${OVERLINE_CLASS_NAME} reveal-slide text-accent-fg`}>
+          {/* Hangul is never letter-spaced: its syllables are already set as blocks. */}
+          <span lang="ko" className="tracking-normal">
+            {content.route.destination.korean}
+          </span>{' '}
+          · {content.route.destination.name}
+        </p>
+        {/* The name in Hangul: read once, in Latin letters, just below. */}
+        <p
+          aria-hidden="true"
+          lang="ko"
+          className="font-display text-[clamp(3.5rem,1rem+8vw,8rem)] leading-none font-bold"
+        >
+          {content.university.korean}
+        </p>
+        <p className="reveal-slide font-display text-h2 font-semibold">{content.university.name}</p>
+        <KeyFigures
+          label={content.labels.yearFigures}
+          figures={content.figures}
+          entrance="reveal"
+        />
       </div>
 
       <div className="grid gap-14 @4xl:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] @4xl:gap-16">

@@ -2,11 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import { KOREA_CONTENT as KOREA_CONTENT_EN } from '@/features/korea/data/korea-content.en';
 import { KOREA_CONTENT } from '@/features/korea/data/korea-content.fr';
-import {
-  BASEBALL_STADIUM_PICTURE,
-  HANOK_CAFE_PICTURE,
-  NIGHT_PAVILION_PICTURE,
-} from '@/features/korea/data/korea-pictures';
+import { HANOK_CAFE_PICTURE, NIGHT_PAVILION_PICTURE } from '@/features/korea/data/korea-pictures';
 
 // Facts are copied from docs/content/cv-source.md ("IA", "Formation"); the photos and the
 // Korean words were provided or asked for by William.
@@ -49,14 +45,8 @@ describe('Korea content', () => {
     });
   });
 
-  it('shows the three photos, each described and captioned in Korean and French', () => {
+  it('shows the two photos William kept, each described and captioned in Korean and French', () => {
     expect(KOREA_CONTENT.photos).toEqual([
-      {
-        picture: BASEBALL_STADIUM_PICTURE,
-        alt: 'William Stoops, de dos, en blouson de Korea University, agite un drapeau dans les tribunes d’un stade de baseball',
-        korean: '야구장',
-        caption: 'Au stade, aux couleurs de Korea University.',
-      },
       {
         picture: HANOK_CAFE_PICTURE,
         alt: 'Un ordinateur portable ouvert sur du code, dans un café aux poutres de bois traditionnelles, face aux montagnes',

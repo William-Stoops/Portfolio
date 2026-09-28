@@ -1,8 +1,4 @@
-import {
-  BASEBALL_STADIUM_PICTURE,
-  HANOK_CAFE_PICTURE,
-  NIGHT_PAVILION_PICTURE,
-} from '@/features/korea/data/korea-pictures';
+import { HANOK_CAFE_PICTURE, NIGHT_PAVILION_PICTURE } from '@/features/korea/data/korea-pictures';
 import { type KoreaContent } from '@/features/korea/types/korea-content';
 
 // Translation of korea-content.fr.ts (ADR 0026): the same year, words and photos. Coming
@@ -31,12 +27,6 @@ export const KOREA_CONTENT = {
     translation: ['Korea University', 'South Korea', 'Deep learning', 'Computer vision'],
   },
   photos: [
-    {
-      picture: BASEBALL_STADIUM_PICTURE,
-      alt: 'William Stoops, seen from behind in a Korea University jacket, waves a flag in the stands of a baseball stadium',
-      korean: '야구장',
-      caption: 'At the ballpark, in Korea University colors.',
-    },
     {
       picture: HANOK_CAFE_PICTURE,
       alt: 'An open laptop showing code, in a café with traditional wooden beams, facing the mountains',

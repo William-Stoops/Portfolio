@@ -145,10 +145,11 @@ rien seule ; la pratique IA reste racontée dans sa section).
 - **Epitech** — Master of Science, Expert en Technologies de l'Information, 2021 – 2026.
 - **Korea University** (Corée du Sud) — année suivie en anglais, deep learning et computer vision.
 
-Hors CV, fourni par William le 2026-09-26 pour la section « Corée du Sud » : trois photos
-(`docs/content/images/korea-*.jpg` : au stade de baseball en blouson de Korea University, du
-code dans un café face aux montagnes, un pavillon illuminé de nuit) et quelques mots en
-coréen qui les encadrent (안녕하세요, 고려대학교, 서울, 딥러닝, 컴퓨터 비전, 야구장, 카페, 밤).
+Hors CV, fourni par William le 2026-09-26 pour la section « Corée du Sud » : des photos
+(`docs/content/images/korea-*.jpg` : du code dans un café face aux montagnes, un pavillon
+illuminé de nuit) et quelques mots en coréen qui les encadrent (안녕하세요, 고려대학교, 한국,
+딥러닝, 컴퓨터 비전, 카페, 밤). La photo au stade de baseball est retirée à la demande de
+William le 2026-09-28.
 
 - Anglais professionnel, **TOEIC 820**.
 

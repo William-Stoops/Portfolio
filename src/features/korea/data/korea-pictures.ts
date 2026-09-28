@@ -10,11 +10,6 @@ const KOREA_PHOTO_FORMAT = {
   height: 2000,
 } as const;
 
-export const BASEBALL_STADIUM_PICTURE = {
-  basePath: '/images/korea-baseball-stadium-v1',
-  ...KOREA_PHOTO_FORMAT,
-} as const satisfies ResponsivePicture;
-
 export const HANOK_CAFE_PICTURE = {
   basePath: '/images/korea-hanok-cafe-v1',
   ...KOREA_PHOTO_FORMAT,

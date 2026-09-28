@@ -77,13 +77,13 @@ async function samplePlaneTrack(page: Page, stopId: string): Promise<number[]> {
 }
 
 test.describe('Korea section', () => {
-  test('loads its three photos once reached', async ({ page }) => {
+  test('loads its two photos once reached', async ({ page }) => {
     // Arriving on an anchor renders every deferred section (ADR 0018).
     await page.goto('/fr#coree');
     const section = page.locator('#coree');
 
     const photos = await section.getByRole('figure').getByRole('img').all();
-    expect(photos).toHaveLength(3);
+    expect(photos).toHaveLength(2);
     for (const photo of photos) {
       await photo.scrollIntoViewIfNeeded();
       await expect

@@ -4,7 +4,6 @@ import sharp, { type Sharp } from 'sharp';
 
 import { PORTRAIT_PICTURE } from '../src/features/hero/data/portrait-picture.ts';
 import {
-  BASEBALL_STADIUM_PICTURE,
   HANOK_CAFE_PICTURE,
   NIGHT_PAVILION_PICTURE,
 } from '../src/features/korea/data/korea-pictures.ts';
@@ -39,10 +38,6 @@ const IMAGE_JOBS: readonly { source: URL; picture: ResponsivePicture }[] = [
   {
     source: new URL('../docs/content/images/staxx-nrj-lille-explanation.jpg', import.meta.url),
     picture: NRJ_EXPLANATION_PICTURE,
-  },
-  {
-    source: new URL('../docs/content/images/korea-baseball-stadium.jpg', import.meta.url),
-    picture: BASEBALL_STADIUM_PICTURE,
   },
   {
     source: new URL('../docs/content/images/korea-hanok-cafe.jpg', import.meta.url),

@@ -1,8 +1,4 @@
-import {
-  BASEBALL_STADIUM_PICTURE,
-  HANOK_CAFE_PICTURE,
-  NIGHT_PAVILION_PICTURE,
-} from '@/features/korea/data/korea-pictures';
+import { HANOK_CAFE_PICTURE, NIGHT_PAVILION_PICTURE } from '@/features/korea/data/korea-pictures';
 import { type KoreaContent } from '@/features/korea/types/korea-content';
 
 // Source: docs/content/cv-source.md ("IA", "Formation"). The photos, and the Korean words
@@ -32,12 +28,6 @@ export const KOREA_CONTENT = {
     translation: ['Korea University', 'Corée du Sud', 'Deep learning', 'Computer vision'],
   },
   photos: [
-    {
-      picture: BASEBALL_STADIUM_PICTURE,
-      alt: 'William Stoops, de dos, en blouson de Korea University, agite un drapeau dans les tribunes d’un stade de baseball',
-      korean: '야구장',
-      caption: 'Au stade, aux couleurs de Korea University.',
-    },
     {
       picture: HANOK_CAFE_PICTURE,
       alt: 'Un ordinateur portable ouvert sur du code, dans un café aux poutres de bois traditionnelles, face aux montagnes',
