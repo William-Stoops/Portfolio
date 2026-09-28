@@ -97,6 +97,8 @@ regular one (400), emphasis 500; figures add `tabular-nums`.
 - Self-hosted via Fontsource (no third-party request), `font-display: swap`,
   `unicode-range` subsets so only the needed files download. Preloading and metric-matched
   fallbacks are added **only if Lighthouse shows font-driven LCP or CLS** (measure first).
+  It did for CLS: `Inter Tight Fallback` (local Arial or Liberation Sans, sized to Inter
+  Tight with `size-adjust` and the line overrides) stands in while the font loads.
 - Fluid scale in `@theme` (`--text-*: initial` then `display`, `h1`, `h2`, `h3`, `lead`,
   `body`, `small`, each with its `--line-height`): utilities `text-display`, `text-h2`,
   `text-lead`, `text-metric` (key figures, one step under `h2`, never wraps)… Tailwind's

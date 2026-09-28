@@ -2,6 +2,24 @@
 @import '@fontsource-variable/inter-tight';
 @import './motion.css';
 
+/*
+ * A local stand-in for Inter Tight while it loads, sized to it: its letters are 3.65 %
+ * narrower than Arial's, its line box as tall. A text wraps the same before and after the
+ * swap, so what follows it does not move: the hero's photo, under its text on a phone,
+ * shifted by 0.053 (CLS) when the fallback was DejaVu Sans, on Linux. Liberation Sans shares
+ * Arial's metrics there. Values measured from the font files (fontTools, at weight 400).
+ */
+@font-face {
+  font-family: 'Inter Tight Fallback';
+  src:
+    local('Arial'), local('ArialMT'), local('Liberation Sans'), local('LiberationSans'),
+    local('Helvetica');
+  size-adjust: 96.35%;
+  ascent-override: 100.55%;
+  descent-override: 25.04%;
+  line-gap-override: 0%;
+}
+
 /* Short screens (landscape phones, 400 % zoom): see the responsive-design skill. */
 @custom-variant short (@media (max-height: 30rem));
 
@@ -62,8 +80,9 @@
 @theme {
   --font-*: initial;
   /* One family for everything (ADR 0036): light for the large titles, regular for text. */
-  --font-display: 'Inter Tight Variable', ui-sans-serif, system-ui, sans-serif;
-  --font-sans: 'Inter Tight Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-display:
+    'Inter Tight Variable', 'Inter Tight Fallback', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'Inter Tight Variable', 'Inter Tight Fallback', ui-sans-serif, system-ui, sans-serif;
 
   /* Fluid scale: every clamp() mixes rem and vw so text still grows with browser zoom. */
   --text-*: initial;

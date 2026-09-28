@@ -13,6 +13,23 @@ describe('base styles', () => {
     expect(regularFaces.length).toBeGreaterThan(0);
   });
 
+  it('stands a local face in while the family loads, sized to it so nothing moves at the swap', async () => {
+    const screen = await render(<p>Texte de secours</p>);
+    const family = getComputedStyle(screen.getByText('Texte de secours').element()).fontFamily;
+
+    expect(
+      family
+        .split(',')
+        .slice(0, 2)
+        .map((name) => name.trim().replaceAll('"', '')),
+    ).toEqual(['Inter Tight Variable', 'Inter Tight Fallback']);
+    const fallback = [...document.styleSheets]
+      .flatMap((sheet) => Array.from(sheet.cssRules))
+      .filter((rule) => rule instanceof CSSFontFaceRule)
+      .find((rule) => rule.style.getPropertyValue('font-family').includes('Inter Tight Fallback'));
+    expect(fallback?.style.getPropertyValue('size-adjust')).toBe('96.35%');
+  });
+
   it('sets headings in the same family, with balanced wrapping', async () => {
     const screen = await render(<h2>Expérience</h2>);
     const heading = screen.getByRole('heading', { level: 2 }).element();
