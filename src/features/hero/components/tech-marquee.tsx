@@ -1,8 +1,12 @@
 import { Pause, Play } from 'lucide-react';
 
 import { useMarqueePause } from '@/features/hero/hooks/use-marquee-pause';
+import { type HeroContent } from '@/features/hero/types/hero-content';
 
-type TechMarqueeProps = { technologies: readonly string[] };
+type TechMarqueeProps = {
+  technologies: readonly string[];
+  labels: Pick<HeroContent['labels'], 'technologies' | 'stack' | 'pauseBand' | 'resumeBand'>;
+};
 
 type BandListProps = { technologies: readonly string[] };
 
@@ -25,7 +29,7 @@ function BandItems({ technologies }: BandListProps) {
 // rendered twice so that sliding by half its width loops without a seam; the copy is
 // hidden from assistive tech. It pauses on hover and with its button (WCAG 2.2.2); with
 // reduced motion it stands still and wraps, and the button goes.
-export function TechMarquee({ technologies }: TechMarqueeProps) {
+export function TechMarquee({ technologies, labels }: TechMarqueeProps) {
   const { isPaused, togglePause } = useMarqueePause();
 
   return (
@@ -34,7 +38,7 @@ export function TechMarquee({ technologies }: TechMarqueeProps) {
         aria-hidden="true"
         className="hidden shrink-0 items-center border-e border-border px-gutter text-small font-semibold tracking-[0.2em] text-fg-subtle uppercase sm:flex"
       >
-        Stack
+        {labels.stack}
       </p>
       <div
         data-marquee
@@ -43,7 +47,7 @@ export function TechMarquee({ technologies }: TechMarqueeProps) {
       >
         <div className="flex w-max marquee-track motion-reduce:w-full">
           <ul
-            aria-label="Technologies"
+            aria-label={labels.technologies}
             className="flex shrink-0 items-center gap-8 py-4 pe-8 font-display text-lead font-medium text-fg-muted motion-reduce:flex-wrap motion-reduce:px-gutter"
           >
             <BandItems technologies={technologies} />
@@ -66,9 +70,7 @@ export function TechMarquee({ technologies }: TechMarqueeProps) {
         ) : (
           <Pause aria-hidden="true" focusable="false" className="size-5" strokeWidth={1.75} />
         )}
-        <span className="sr-only">
-          {isPaused ? 'Reprendre le défilement' : 'Mettre en pause le défilement'}
-        </span>
+        <span className="sr-only">{isPaused ? labels.resumeBand : labels.pauseBand}</span>
       </button>
     </div>
   );

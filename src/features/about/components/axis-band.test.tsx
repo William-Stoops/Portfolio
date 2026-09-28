@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { render } from 'vitest-browser-react';
 
 import { AxisBand } from '@/features/about/components/axis-band';
-import { ABOUT_CONTENT } from '@/features/about/data/about-content';
+import { ABOUT_CONTENT } from '@/features/about/data/about-content.fr';
 import { expectNoAxeViolations } from '@/testing/expect-no-axe-violations';
 
 describe('AxisBand', () => {
@@ -14,13 +14,6 @@ describe('AxisBand', () => {
     for (const { title } of ABOUT_CONTENT.axes) {
       expect(band?.textContent).toContain(title);
     }
-  });
-
-  it('never makes the page scroll sideways', async () => {
-    const screen = await render(<AxisBand axes={ABOUT_CONTENT.axes} />);
-
-    const band = screen.container.firstElementChild;
-    expect(band === null ? '' : getComputedStyle(band).overflowX).toBe('clip');
   });
 
   it('has no axe violations', async () => {

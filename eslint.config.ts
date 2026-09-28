@@ -105,7 +105,7 @@ export default defineConfig([
         { type: 'feature', pattern: 'src/features/*', capture: ['featureName'] },
         {
           type: 'shared',
-          pattern: 'src/{assets,components,config,hooks,lib,styles,testing,types,utils}',
+          pattern: 'src/{assets,components,config,hooks,i18n,lib,styles,testing,types,utils}',
         },
       ],
     },

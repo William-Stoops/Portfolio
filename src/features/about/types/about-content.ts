@@ -1,5 +1,4 @@
-// Which drawing stands for the axis; the icon itself is chosen by the component.
-type AboutAxis = { title: string; description: string; icon: 'performance' | 'full-stack' | 'ai' };
+type AboutAxis = { title: string; description: string };
 
 // A decorative drawing of the figure, computed from its own numbers.
 type MetricVisual =
@@ -11,7 +10,7 @@ type MetricVisual =
   | { kind: 'podium' };
 
 type AboutMetric = {
-  // As displayed, with symbols and French typographic spaces.
+  // As displayed, with symbols and the typography of the page's language.
   value: string;
   // What a screen reader should say instead, when symbols would be read badly.
   spokenValue?: string;
@@ -20,7 +19,11 @@ type AboutMetric = {
 };
 
 export type AboutContent = {
+  // Anchor of the section, in the page's language.
+  id: string;
+  title: string;
   profile: string;
   axes: readonly AboutAxis[];
   metrics: readonly AboutMetric[];
+  labels: { axes: string; figures: string };
 };

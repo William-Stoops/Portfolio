@@ -1,8 +1,9 @@
-import { parseRgbColor } from '@/features/hero/utils/scene-support';
 import {
   createSurfaceRenderer,
   type SurfaceRenderer,
 } from '@/features/hero/utils/surface-renderer';
+import { onThemeChange } from '@/lib/theme-change';
+import { parseRgbColor } from '@/utils/parse-rgb-color';
 
 // Everything that runs the hero scene once it is allowed to: loaded on demand with the
 // renderer, in its own chunk, so none of it weighs on the initial bundle.
@@ -26,12 +27,22 @@ function applyThemeColors(renderer: SurfaceRenderer, canvas: HTMLCanvasElement):
 // Draws the surface while the hero is on screen, feeds it the pointer, the scroll and the
 // theme, and returns the function that stops and cleans everything. Null without WebGL2:
 // the static hero stays.
-export function startHeroScene(canvas: HTMLCanvasElement): (() => void) | null {
-  const renderer = createSurfaceRenderer(canvas);
-  return renderer === null ? null : runScene(renderer, canvas);
+export function startHeroScene(
+  canvas: HTMLCanvasElement,
+  { isSettled }: { isSettled: boolean },
+): (() => void) | null {
+  const renderer = createSurfaceRenderer(canvas, isSettled ? 'centre' : 'right');
+  return renderer === null ? null : runScene(renderer, canvas, isSettled);
 }
 
-function runScene(renderer: SurfaceRenderer, canvas: HTMLCanvasElement): () => void {
+// A settled scene (the finale) keeps a calm surface instead of flattening with the scroll.
+const SETTLED_CALM = 0.45;
+
+function runScene(
+  renderer: SurfaceRenderer,
+  canvas: HTMLCanvasElement,
+  isSettled: boolean,
+): () => void {
   const startTime = performance.now();
   let frameHandle = 0;
   let isVisible = true;
@@ -63,7 +74,9 @@ function runScene(renderer: SurfaceRenderer, canvas: HTMLCanvasElement): () => v
       time: (now - startTime) / 1000,
       pointer,
       pointerStrength,
-      calm: Math.min(window.scrollY / Math.max(canvas.clientHeight, 1), 1),
+      calm: isSettled
+        ? SETTLED_CALM
+        : Math.min(window.scrollY / Math.max(canvas.clientHeight, 1), 1),
       parallax,
       ripple:
         ripple === null ? null : { origin: ripple.origin, age: (now - ripple.startTime) / 1000 },
@@ -117,10 +130,7 @@ function runScene(renderer: SurfaceRenderer, canvas: HTMLCanvasElement): () => v
     setRunning(isVisible);
   });
   intersectionObserver.observe(canvas);
-  const themeObserver = new MutationObserver(handleThemeChange);
-  themeObserver.observe(document.documentElement, { attributeFilter: ['data-theme'] });
-  const colorScheme = window.matchMedia('(prefers-color-scheme: dark)');
-  colorScheme.addEventListener('change', handleThemeChange);
+  const stopThemeWatch = onThemeChange(handleThemeChange);
   window.addEventListener('pointermove', handlePointerMove, { passive: true });
   window.addEventListener('pointerdown', handlePointerDown, { passive: true });
   document.documentElement.addEventListener('pointerleave', handlePointerLeave);
@@ -130,8 +140,7 @@ function runScene(renderer: SurfaceRenderer, canvas: HTMLCanvasElement): () => v
     setRunning(false);
     resizeObserver.disconnect();
     intersectionObserver.disconnect();
-    themeObserver.disconnect();
-    colorScheme.removeEventListener('change', handleThemeChange);
+    stopThemeWatch();
     window.removeEventListener('pointermove', handlePointerMove);
     window.removeEventListener('pointerdown', handlePointerDown);
     document.documentElement.removeEventListener('pointerleave', handlePointerLeave);
