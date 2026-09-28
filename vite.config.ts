@@ -7,6 +7,7 @@ import tailwindcss from '@tailwindcss/vite';
 import react, { reactCompilerPreset } from '@vitejs/plugin-react';
 import { defineConfig, type Plugin } from 'vite';
 
+import { acceptedEncoding, createPageCompressor } from './scripts/compressed-page.ts';
 import { renderLocaleGateway } from './scripts/locale-gateway.ts';
 import { GATEWAY_PAGE, notFoundFileFor, PRERENDERED_PAGES } from './scripts/prerender-pages.ts';
 
@@ -24,14 +25,15 @@ const WEBGL_SHARED_MODULES =
   /[\\/]src[\\/](?:lib[\\/](?:webgl-program|theme-change)|utils[\\/](?:matrix4|parse-rgb-color))\.ts$/;
 
 // Makes `vite preview` answer like the static host (Cloudflare Pages): assets as is,
-// prerendered pages from their .html file, any other URL with the nearest 404.html (its
-// locale's) and a real 404 status (no SPA fallback to a page).
+// prerendered pages from their .html file, compressed, any other URL with the nearest
+// 404.html (its locale's) and a real 404 status (no SPA fallback to a page).
 function servePrerenderedPages(): Plugin {
   return {
     name: 'serve-prerendered-pages',
     configurePreviewServer(server) {
       const fileInBuild = (file: string): string =>
         resolve(server.config.root, server.config.build.outDir, file);
+      const compressPage = createPageCompressor();
       server.middlewares.use((request, response, next) => {
         const { pathname } = new URL(request.url ?? '/', 'http://localhost');
         if (FILE_EXTENSION_PATTERN.test(pathname)) {
@@ -42,7 +44,18 @@ function servePrerenderedPages(): Plugin {
         const page = [GATEWAY_PAGE, ...PRERENDERED_PAGES].find((entry) => entry.path === path);
         response.statusCode = page === undefined ? 404 : 200;
         response.setHeader('Content-Type', 'text/html; charset=utf-8');
-        response.end(readFileSync(fileInBuild(page?.file ?? notFoundFileFor(path))));
+        const file = fileInBuild(page?.file ?? notFoundFileFor(path));
+        const html = readFileSync(file);
+        // Compressed, as the static host serves it: the page is the first and largest
+        // download, and sent raw it held the bandwidth the hero's photo needs.
+        const encoding = acceptedEncoding(request.headers['accept-encoding'] ?? '');
+        response.setHeader('Vary', 'Accept-Encoding');
+        if (encoding === undefined) {
+          response.end(html);
+          return;
+        }
+        response.setHeader('Content-Encoding', encoding);
+        response.end(compressPage(file, html, encoding));
       });
     },
   };

@@ -23,6 +23,15 @@ function collectErrors(page: Page, expectedNotFoundPath?: string): string[] {
 }
 
 test.describe('prerendered HTML', () => {
+  test('serves the pages compressed, as the host does', async ({ request }) => {
+    for (const path of ['/fr', '/en', '/fr/page-inexistante']) {
+      const response = await request.get(path, { headers: { 'Accept-Encoding': 'br, gzip' } });
+
+      expect(response.headers()['content-encoding'], path).toBe('br');
+      expect(response.headers()['vary'], path).toBe('Accept-Encoding');
+    }
+  });
+
   test('carries the home page content in the HTML response itself', async ({ request }) => {
     const response = await request.get('/fr');
 
