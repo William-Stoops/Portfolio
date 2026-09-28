@@ -251,6 +251,7 @@ pnpm verify         # tout ce qui précède, identique à la CI
 | 33  | `william/feat/cycle-race`            | La course « 10 h → 5 min » : les deux cycles de calcul à l'échelle, sous le rôle IT-Finance (ADR 0032)              |
 | 34  | `william/feat/behind-the-scenes`     | Les coulisses : mesures du navigateur en direct, contrôles de la CI aux seuils vérifiés, décisions (ADR 0033)       |
 | 35  | `william/feat/command-palette`       | Recherche rapide ⌘K : sections, pages, thème, langue, CV, contact, en éléments natifs (ADR 0034)                    |
+| 36  | `william/feat/discreet-sounds`       | Sons discrets coupés par défaut : tap, ouverture, carillon de cabine, synthétisés (ADR 0035)                        |
 
 Questions encore ouvertes : un traitement serveur du formulaire de contact (service
 tiers ou fonction serverless) au-delà du `mailto:`.

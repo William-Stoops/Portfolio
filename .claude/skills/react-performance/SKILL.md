@@ -131,6 +131,10 @@ paint on demand, in its own chunk with its own size-limit budget (ADR 0016).
   React itself out of the main chunk into a shared `jsx-runtime-*.js` (+1.06 kB of initial
   JS); the host passes the icons in instead. `ls dist/assets` must show no unexpected
   shared chunk.
+- **Sounds** (ADR 0035): the synthesiser is its own chunk (415 B), loaded with the first
+  sound once the visitor turned them on. Its inline `import { type SoundName }` kept a real
+  import of a main-chunk module and made Rolldown move Zod's core into a `schemas-*.js`
+  chunk (+0.67 kB): a lazy chunk takes its types with a top-level `import type`.
 
 ## 6b. First render of a long page (ADR 0018)
 

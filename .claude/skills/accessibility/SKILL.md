@@ -188,6 +188,11 @@ document shares the key `default` and the previous page's position undoes the ju
   The focus goes back to the button that opened it, passed explicitly: Safari does not
   focus a button it clicks. `prefer-tag-over-role` rejects listbox/option/group roles.
 
+- Sounds (ADR 0035): off by default, turned on by a toggle with `aria-pressed` (footer)
+  or the quick search. Only after the visitor's first gesture
+  (`navigator.userActivation.hasBeenActive`), short and quiet, never longer than three
+  seconds (WCAG 1.4.2), never tied to the scroll.
+
 ## 9. Tests (all mandatory for a feature PR)
 
 | Layer                | Tool                                                                                           | What                                                                                                                     |
