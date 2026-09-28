@@ -7,8 +7,9 @@ import { colorTokens } from './design-tokens.ts';
 import { SOCIAL_CARD } from './page-head.ts';
 
 // Run with `pnpm social-card` when the name, the role or the portrait changes, then commit
-// the image: the card a shared link shows (Open Graph), 1200 × 630, dark like the hero.
-// Drawn by the browser with the site's own fonts and colour tokens, so it matches the page.
+// the image: the card a shared link shows (Open Graph), 1200 × 630, drawn like the hero
+// (ADR 0037): the still field of colour on a slant, the name, the photo in a card. Drawn by
+// the browser with the site's own fonts and colour tokens, so it matches the page.
 const SOURCES = {
   interTight: new URL(
     '../node_modules/@fontsource-variable/inter-tight/files/inter-tight-latin-wght-normal.woff2',
@@ -18,8 +19,8 @@ const SOURCES = {
   tokens: new URL('../src/styles/globals.css', import.meta.url),
 };
 const TARGET = new URL(`../public${SOCIAL_CARD.path}`, import.meta.url);
-// The hero's highlights that need no translation: the card serves both languages.
-const TECHNOLOGIES = 'C++ · Rust · TS  ·  Agents & LLM';
+// Keywords of the CV that need no translation: the card serves both languages.
+const TECHNOLOGIES = 'TypeScript · Python · C++ · Rust · LLM';
 
 async function dataUrl(source: URL, type: string): Promise<string> {
   return `data:${type};base64,${(await readFile(source)).toString('base64')}`;
@@ -31,37 +32,41 @@ function escapeHtml(text: string): string {
 
 async function cardHtml(): Promise<string> {
   const tokens = colorTokens(await readFile(SOURCES.tokens, 'utf8'));
-  const color = (name: string): string => tokens[name]?.dark ?? '#000000';
+  // The light theme, as the hero opens by default.
+  const color = (name: string): string => tokens[name]?.light ?? '#000000';
   return `<!doctype html>
 <html lang="en">
 <head>
 <style>
   @font-face { font-family: 'Inter Tight'; src: url(${await dataUrl(SOURCES.interTight, 'font/woff2')}) format('woff2'); font-weight: 100 900; }
   * { box-sizing: border-box; margin: 0; }
-  body { width: ${String(SOCIAL_CARD.width)}px; height: ${String(SOCIAL_CARD.height)}px; overflow: hidden;
+  body { position: relative; width: ${String(SOCIAL_CARD.width)}px; height: ${String(SOCIAL_CARD.height)}px; overflow: hidden;
     background: ${color('canvas')}; color: ${color('fg')}; font-family: 'Inter Tight', sans-serif;
-    display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 56px; padding: 0 88px; }
-  h1 { font-weight: 300; font-size: 96px; line-height: 1; letter-spacing: -0.035em; }
-  .role { margin-top: 20px; font-weight: 400; font-size: 40px; line-height: 1.15; text-wrap: balance; color: ${color('accent-fg')}; }
-  .rule { margin-top: 40px; width: 72px; height: 4px; border-radius: 2px; background: ${color('accent')}; }
-  .stack { margin-top: 28px; font-size: 28px; color: ${color('fg-muted')}; white-space: pre; }
-  .site { position: absolute; left: 88px; bottom: 48px; font-size: 20px; letter-spacing: 0.2em;
-    text-transform: uppercase; color: ${color('fg-subtle')}; }
-  .portrait { width: 360px; height: 360px; border-radius: 50%; padding: 10px;
-    border: 5px solid ${color('accent')}; }
-  .portrait img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; object-position: 50% 30%; display: block; }
-  .horizon { position: absolute; inset: auto 0 0; height: 1px; background: ${color('border')}; bottom: 104px; left: 88px; right: 88px; }
+    display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 64px; padding: 0 88px; }
+  .field { position: absolute; z-index: -1; left: 0; right: 0; top: -300px; height: 700px;
+    transform: skewY(-9deg); transform-origin: 0 100%;
+    background-color: ${color('flow-blue')};
+    background-image:
+      radial-gradient(60% 80% at 15% 30%, ${color('flow-sky')}, transparent 70%),
+      radial-gradient(55% 70% at 85% 35%, ${color('flow-violet')}, transparent 70%),
+      radial-gradient(60% 70% at 55% 95%, ${color('flow-peach')}, transparent 70%); }
+  h1 { font-weight: 600; font-size: 88px; line-height: 1; letter-spacing: -0.05em; }
+  .role { margin-top: 22px; font-weight: 500; font-size: 36px; line-height: 1.15; letter-spacing: -0.01em; }
+  .stack { margin-top: 30px; font-size: 26px; font-weight: 500; color: ${color('fg-muted')}; }
+  .site { position: absolute; left: 88px; bottom: 44px; font-size: 20px; font-weight: 500; color: ${color('fg-muted')}; }
+  .photo { width: 360px; height: 450px; border-radius: 20px; overflow: hidden;
+    box-shadow: 0 48px 96px -20px rgb(50 50 93 / 0.3), 0 28px 56px -28px rgb(0 0 0 / 0.35); }
+  .photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; display: block; }
 </style>
 </head>
 <body>
+  <div class="field"></div>
   <main>
     <h1>${escapeHtml(SITE_OWNER)}</h1>
     <p class="role">${escapeHtml(SITE_ROLE)}</p>
-    <div class="rule"></div>
     <p class="stack">${escapeHtml(TECHNOLOGIES)}</p>
   </main>
-  <div class="portrait"><img src="${await dataUrl(SOURCES.portrait, 'image/jpeg')}" alt=""></div>
-  <div class="horizon"></div>
+  <div class="photo"><img src="${await dataUrl(SOURCES.portrait, 'image/jpeg')}" alt=""></div>
   <p class="site">${escapeHtml(new URL(SITE_ORIGIN).host)}</p>
 </body>
 </html>`;
