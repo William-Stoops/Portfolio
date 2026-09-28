@@ -7,19 +7,16 @@ export const ABOUT_CONTENT = {
   axes: [
     {
       title: 'Calcul & performance',
-      icon: 'performance',
       description:
         'Volatilité implicite en C++ sur l’univers d’options OPRA, service d’actualités migré en Rust. Les optimisations partent de la mesure.',
     },
     {
       title: 'Produits full stack',
-      icon: 'full-stack',
       description:
         'En TypeScript, du schéma PostgreSQL aux écrans React, back-end NestJS compris, livrés seul ou en menant une équipe.',
     },
     {
       title: 'IA, agents & LLM',
-      icon: 'ai',
       description:
         'Agents de code et serveurs MCP au quotidien, API OpenAI et Anthropic avec function calling et sorties contraintes par schéma, modèles entraînés à Korea University.',
     },

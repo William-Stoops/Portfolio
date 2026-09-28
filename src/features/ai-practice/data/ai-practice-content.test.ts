@@ -5,8 +5,9 @@ import { AI_PRACTICE_CONTENT } from '@/features/ai-practice/data/ai-practice-con
 // Expected values are copied from docs/content/cv-source.md ("IA : pratique personnelle et
 // travaux académiques").
 describe('AI practice content', () => {
-  it('uses the CV section title', () => {
-    expect(AI_PRACTICE_CONTENT.title).toBe('IA : pratique personnelle et travaux académiques');
+  it('titles the section for a reader, the CV’s own title under it', () => {
+    expect(AI_PRACTICE_CONTENT.title).toBe('Intelligence artificielle');
+    expect(AI_PRACTICE_CONTENT.subtitle).toBe('Pratique personnelle et travaux académiques.');
   });
 
   it('quotes the three items of the CV word for word', () => {
@@ -20,7 +21,7 @@ describe('AI practice content', () => {
         text: 'J’appelle les API OpenAI et Anthropic depuis mon code : function calling avec fonctions déclarées, sorties contraintes par schéma, gestion du contexte et des tokens, arbitrage coût / latence entre modèles.',
       },
       {
-        title: 'Modèles entraînés à Korea University (61e mondiale, QS)',
+        title: 'Modèles entraînés à Korea University',
         text: 'J’ai affiné un BERT (Hugging Face) pour de la classification de texte, entraîné un CNN reconnaissant l’état d’une partie d’échecs sur image du plateau, et déployé un détecteur de gestes temps réel de type YOLO sur flux webcam.',
       },
     ]);

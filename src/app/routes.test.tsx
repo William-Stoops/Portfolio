@@ -49,7 +49,7 @@ describe('application routes', () => {
   it('brings the visitor back home from the not-found page with focus on the heading', async () => {
     const screen = await renderRoutes(ROUTES, '/page-inexistante');
 
-    await screen.getByRole('link', { name: "Retour à l'accueil" }).click();
+    await screen.getByRole('link', { name: 'Retour à l’accueil' }).click();
 
     await expect
       .element(screen.getByRole('heading', { level: 1, name: 'William Stoops' }))
