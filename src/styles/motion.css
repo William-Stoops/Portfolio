@@ -229,6 +229,13 @@
   }
 }
 
+/* Two turns clockwise, ending where the plane started. */
+@keyframes holding {
+  from {
+    rotate: -2turn;
+  }
+}
+
 /* A digit strip of the Summit's counter, from 0 up to the digit it shows at rest. */
 @keyframes roll-up {
   from {
@@ -364,6 +371,17 @@
 @utility enter-zoom {
   @media (prefers-reduced-motion: no-preference) {
     animation: zoom-in 900ms var(--ease-out) both 200ms;
+  }
+}
+
+/*
+ * A plane in a holding pattern (HoldingPattern): two turns of its circuit as the page
+ * opens, slowing into its wait at the top, where it started. It runs once and rests before
+ * five seconds, so it needs no pause control (WCAG 2.2.2).
+ */
+@utility holding-orbit {
+  @media (prefers-reduced-motion: no-preference) {
+    animation: holding 4.4s cubic-bezier(0.45, 0, 0.15, 1) both 300ms;
   }
 }
 
