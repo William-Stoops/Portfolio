@@ -10,10 +10,12 @@ tests, la CI, les ADR et l'historique git. Chaque PR doit pouvoir être montrée
 - Contenu : [docs/content/cv-source.md](docs/content/cv-source.md), **seule source de
   vérité**. On n'affiche rien qui ne figure pas dans le CV sans l'accord explicite de William.
 - Décisions : [docs/adr/](docs/adr/)
-- Maquette de référence : thème sombre bleu nuit, hero avec portrait dans un anneau, bandeau de technos, « À propos » avec axes et chiffres clés, projets.
-  S'en inspirer, **ne pas la copier**. Zéro esthétique générique « AI slop ». Son accent
-  orange corail a laissé place à un bleu de confiance (ADR 0025) : l'orange évoquait une
-  alerte.
+- Référence de niveau : [dennissnellenberg.com](https://dennissnellenberg.com), choisie par
+  William (ADR 0036). Hero sombre centré sur la personne, nom immense et fin qui glisse au
+  défilement, sections blanches aérées, liste des travaux en très grands caractères, une
+  seule famille (Inter Tight), une palette neutre et **un seul accent bleu** (ADR 0025).
+  S'en inspirer, **ne pas la copier**. Zéro esthétique générique « AI slop » : pas de
+  grilles de tuiles teintées, pas d'étiquettes flottantes, pas de scènes empilées.
 
 ## Invariants — non négociables
 
@@ -252,6 +254,7 @@ pnpm verify         # tout ce qui précède, identique à la CI
 | 34  | `william/feat/behind-the-scenes`     | Les coulisses : mesures du navigateur en direct, contrôles de la CI aux seuils vérifiés, décisions (ADR 0033)       |
 | 35  | `william/feat/command-palette`       | Recherche rapide ⌘K : sections, pages, thème, langue, CV, contact, en éléments natifs (ADR 0034)                    |
 | 36  | `william/feat/discreet-sounds`       | Sons discrets coupés par défaut : tap, ouverture, carillon de cabine, synthétisés (ADR 0035)                        |
+| 37  | `william/docs/premium-direction`     | Direction premium : la personne, la typographie, un seul accent ; scènes et sons retirés (ADR 0036)                 |
 
 Questions encore ouvertes : un traitement serveur du formulaire de contact (service
 tiers ou fonction serverless) au-delà du `mailto:`.
