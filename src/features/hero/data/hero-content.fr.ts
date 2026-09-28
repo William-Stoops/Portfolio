@@ -14,7 +14,6 @@ export const HERO_CONTENT = {
     downloadCv: 'Télécharger le CV',
     cvDetails: CV_FILE.details.fr,
   },
-  place: 'Basé à Paris · ouvert à Lille ou en full remote',
   proof: {
     context: 'IT-Finance · calcul de volatilité implicite',
     before: '10 h',

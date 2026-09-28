@@ -70,10 +70,10 @@ describe('HeroSection', () => {
     expect(photo.element().getBoundingClientRect().height).toBeGreaterThan(450);
   });
 
-  it('says where William works from, beside the photo', async () => {
+  it('keeps the photo clear of any card but the proof', async () => {
     const screen = await renderHero();
 
-    await expect.element(screen.getByText(HERO_CONTENT.place)).toBeVisible();
+    await expect.element(screen.getByText(/Basé à Paris/)).not.toBeInTheDocument();
   });
 
   it('leads to the IT-Finance rework with its figure', async () => {

@@ -31,9 +31,8 @@ const CHEVRON = (
 const CHIP_CLASS_NAME = 'absolute rounded-md bg-canvas text-fg shadow-card enter-slide';
 
 // The opening of the home page (ADR 0037): a living field of colour behind the sentence of
-// the CV, the ways to act on it, and William's photo, large, framed in a card, with where
-// he works from and one proof floating on its edges. The field is decoration; everything
-// else is read in order.
+// the CV, the ways to act on it, and William's photo, large, framed in a card, with one
+// proof floating on its edge. The field is decoration; everything else is read in order.
 export function HeroSection({ content, headingRef, contactHref, proofHref }: HeroSectionProps) {
   return (
     <section className="relative isolate overflow-hidden pt-(--header-height)">
@@ -83,13 +82,6 @@ export function HeroSection({ content, headingRef, contactHref, proofHref }: Her
               className="size-full object-cover object-[50%_30%]"
             />
           </div>
-          <p
-            style={{ '--i': 4 }}
-            className={`${CHIP_CLASS_NAME} -end-3 top-[7%] flex items-center gap-2.5 px-4 py-3 text-small font-medium lg:-end-6`}
-          >
-            <span aria-hidden="true" className="size-2 rounded-full bg-accent" />
-            {content.place}
-          </p>
           <a
             href={proofHref}
             style={{ '--i': 6 }}

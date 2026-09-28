@@ -12,16 +12,16 @@ describe('renderRoute', () => {
     );
     expect(html).toContain('<title>William Stoops – Software Engineer &amp; AI Engineer</title>');
     expect(html).toMatch(/<meta name="description" content="William Stoops, [^"]*au quotidien\."/);
-    expect(html).toContain('Basé à Paris · ouvert à Lille ou en full remote');
+    expect(html).toContain('Je viens du calcul et de la performance');
   });
 
   it('renders the English home page in English, from the English content', async () => {
     const html = await renderRoute('/en');
 
-    expect(html).toContain('Based in Paris · open to Lille or fully remote');
+    expect(html).toContain('I come from computing and performance');
     expect(html).toMatch(/<meta name="description" content="[^"]*every day\."/);
     expect(html).toContain('href="/fr"');
-    expect(html).not.toContain('Basé à Paris');
+    expect(html).not.toContain('Je viens du calcul');
   });
 
   it('renders the not-found page of each locale, French outside both', async () => {

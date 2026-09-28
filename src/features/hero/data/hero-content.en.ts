@@ -13,7 +13,6 @@ export const HERO_CONTENT = {
     downloadCv: 'Download my CV',
     cvDetails: CV_FILE.details.en,
   },
-  place: 'Based in Paris · open to Lille or fully remote',
   proof: {
     context: 'IT-Finance · implied volatility computation',
     before: '10 h',

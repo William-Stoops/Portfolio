@@ -18,10 +18,6 @@ describe('hero content', () => {
     expect(HERO_CONTENT.eyebrow).toBe('Software Engineer & AI Engineer · Paris');
   });
 
-  it('says where William works from, as the CV puts it', () => {
-    expect(HERO_CONTENT.place).toBe('Basé à Paris · ouvert à Lille ou en full remote');
-  });
-
   it('points to the IT-Finance rework with its figure', () => {
     expect(HERO_CONTENT.proof).toEqual({
       context: 'IT-Finance · calcul de volatilité implicite',
@@ -59,7 +55,6 @@ describe('hero content', () => {
       'I come from computing and performance, I build full stack products in TypeScript, and I work with agents and LLMs every day.',
     );
     expect(HERO_CONTENT_EN.eyebrow).toBe('Software Engineer & AI Engineer · Paris');
-    expect(HERO_CONTENT_EN.place).toBe('Based in Paris · open to Lille or fully remote');
     expect(HERO_CONTENT_EN.proof).toEqual({
       context: 'IT-Finance · implied volatility computation',
       before: '10 h',
