@@ -1,7 +1,9 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
+import { page, userEvent } from 'vitest/browser';
 import { renderHook } from 'vitest-browser-react';
 
 import { useCycleRace } from '@/features/experience/hooks/use-cycle-race';
+import { setSoundOn } from '@/lib/sound-preference';
 import { emulateMediaQuery } from '@/testing/emulate-media-query';
 
 const TIMES = { beforeMinutes: 600, afterMinutes: 5 } as const;
@@ -94,5 +96,30 @@ describe('useCycleRace', () => {
     await unmount();
 
     expect(vi.getTimerCount()).toBe(0);
+  });
+
+  it('taps at the start and rings the cabin chime at the finish, sounds on', async () => {
+    // A gesture of the visitor's first: before one, a browser plays nothing.
+    await userEvent.click(page.elementLocator(document.body));
+    const started = vi.spyOn(OscillatorNode.prototype, 'start');
+    const pitches = () =>
+      started.mock.contexts.map((oscillator) =>
+        oscillator instanceof OscillatorNode ? oscillator.frequency.value : Number.NaN,
+      );
+    setSoundOn(true);
+    emulateMediaQuery(REDUCED_MOTION, false);
+    useRaceClock();
+    const { result, act } = await renderHook(() => useCycleRace(TIMES));
+
+    await act(() => {
+      result.current.start();
+    });
+    await expect.poll(pitches).toEqual([1568]);
+    await act(() => {
+      vi.advanceTimersByTime(12_000);
+    });
+
+    await expect.poll(pitches).toEqual([1568, 659.25, 523.25]);
+    setSoundOn(false);
   });
 });

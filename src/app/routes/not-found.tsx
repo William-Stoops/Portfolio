@@ -4,6 +4,7 @@ import { HoldingPattern } from '@/components/ui/holding-pattern';
 import { SplitFlap } from '@/components/ui/split-flap';
 import { DETOURS } from '@/config/navigation';
 import { usePageHeading } from '@/hooks/use-page-heading';
+import { useSoundOnArrival } from '@/hooks/use-sound-on-arrival';
 import { useLocale, useLocalized } from '@/i18n/locale-context';
 import { type Localized } from '@/i18n/locales';
 import { formatPageTitle } from '@/utils/format-page-title';
@@ -41,6 +42,8 @@ export function NotFoundRoute() {
   const headingRef = usePageHeading();
   const locale = useLocale();
   const messages = useLocalized(NOT_FOUND_MESSAGES);
+  // The cabin chime of a diverted flight, if the visitor turned the sounds on.
+  useSoundOnArrival('chime');
 
   return (
     <div className="mx-auto grid w-full max-w-6xl flex-1 items-center gap-x-16 gap-y-12 px-gutter py-section lg:grid-cols-[minmax(0,1fr)_minmax(0,24rem)]">

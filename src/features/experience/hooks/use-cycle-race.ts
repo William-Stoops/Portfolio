@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import { type CycleTimes } from '@/features/experience/types/cycle-race';
 import { type RaceFrame, raceFrame, raceMinutes } from '@/features/experience/utils/cycle-race';
+import { playSound } from '@/lib/play-sound';
 
 type RacePhase = 'ready' | 'running' | 'finished';
 
@@ -32,10 +33,12 @@ export function useCycleRace(times: CycleTimes): {
     [],
   );
 
+  // The cabin chime rings as the old cycle lands, if the visitor turned the sounds on.
   function finish(): void {
     window.clearInterval(timer.current);
     setMinutes(times.beforeMinutes);
     setPhase('finished');
+    playSound('chime');
   }
 
   function start(): void {
@@ -47,6 +50,7 @@ export function useCycleRace(times: CycleTimes): {
     const startedAt = performance.now();
     setMinutes(0);
     setPhase('running');
+    playSound('tap');
     timer.current = window.setInterval(() => {
       const covered = raceMinutes(performance.now() - startedAt, times);
       if (covered >= times.beforeMinutes) {
