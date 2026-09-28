@@ -1,4 +1,4 @@
-import { type ReactNode } from 'react';
+import { type ReactNode, useEffect, useState } from 'react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { renderHook } from 'vitest-browser-react';
 
@@ -18,6 +18,27 @@ function Painted({ children }: { children: ReactNode }) {
   );
 }
 
+// A page that shifts once it has painted: a block pushed in above its text, with no input
+// to explain it, moves the text down.
+function Shifting({ children }: { children: ReactNode }) {
+  const [isPushed, setIsPushed] = useState(false);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsPushed(true);
+    }, 300);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, []);
+  return (
+    <>
+      {isPushed ? <div style={{ height: 240 }} /> : null}
+      <p>Mesures de la page</p>
+      {children}
+    </>
+  );
+}
+
 describe('usePageVitals', () => {
   it('reads the vitals of this very page from the browser', async () => {
     const { result } = await renderHook(() => usePageVitals(), { wrapper: Painted });
@@ -27,6 +48,14 @@ describe('usePageVitals', () => {
     expect(result.current.cumulativeLayoutShift).toEqual(expect.any(Number));
     await expect.poll(() => result.current.javascriptBytes).toBeGreaterThan(0);
     expect(result.current.requests).toBeGreaterThan(1);
+  });
+
+  it('adds up the layout shifts the page makes', async () => {
+    const { result } = await renderHook(() => usePageVitals(), { wrapper: Shifting });
+
+    await expect
+      .poll(() => result.current.cumulativeLayoutShift, { timeout: 5000 })
+      .toBeGreaterThan(0);
   });
 
   it('says what this browser does not measure', async () => {
