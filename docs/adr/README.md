@@ -39,5 +39,6 @@ fois accepté** : on ne le réécrit pas, on le remplace par un nouvel ADR qui l
 | 0031 | [Déployer sur Cloudflare Pages](0031-deploy-on-cloudflare-pages.md)                                              | Accepté                           |
 | 0032 | [Faire la course des deux cycles de calcul, à l'échelle](0032-cycle-race-to-scale.md)                            | Accepté                           |
 | 0033 | [Montrer les coulisses du site, avec des chiffres vérifiés](0033-behind-the-scenes-page.md)                      | Accepté                           |
+| 0034 | [Une recherche rapide (⌘K), en éléments natifs, dans son propre chunk](0034-quick-search.md)                     | Accepté                           |
 
 Modèle : copier [template.md](template.md).
