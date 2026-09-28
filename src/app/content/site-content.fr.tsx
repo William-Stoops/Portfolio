@@ -4,6 +4,7 @@ import { ABOUT_CONTENT } from '@/features/about/data/about-content.fr';
 import { AI_PRACTICE_CONTENT } from '@/features/ai-practice/data/ai-practice-content.fr';
 import { CONTACT_CONTENT } from '@/features/contact/data/contact-content.fr';
 import { EDUCATION_ENTRIES } from '@/features/education/data/education-entries.fr';
+import { CYCLE_RACE } from '@/features/experience/data/cycle-race.fr';
 import { EXPERIENCE_LABELS, EXPERIENCES } from '@/features/experience/data/experiences.fr';
 import { HERO_CONTENT } from '@/features/hero/data/hero-content.fr';
 import { JOURNEY_CONTENT } from '@/features/journey/data/journey-stops.fr';
@@ -22,7 +23,7 @@ export const SITE_CONTENT: SiteContent = {
   hero: HERO_CONTENT,
   about: ABOUT_CONTENT,
   journey: JOURNEY_CONTENT,
-  experiences: { entries: EXPERIENCES, labels: EXPERIENCE_LABELS },
+  experiences: { entries: EXPERIENCES, labels: EXPERIENCE_LABELS, race: CYCLE_RACE },
   korea: KOREA_CONTENT,
   projects: { entries: PROJECTS, labels: PROJECT_LABELS },
   aiPractice: AI_PRACTICE_CONTENT,

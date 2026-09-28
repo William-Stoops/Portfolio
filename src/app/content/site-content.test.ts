@@ -17,6 +17,7 @@ function structureOf(content: SiteContent) {
       period,
       stack,
     })),
+    race: content.experiences.race.times,
     koreaPhotos: content.korea.photos.map(({ picture }) => picture),
     projects: content.projects.entries.map(({ id, period }) => ({ id, period })),
     aiPractices: content.aiPractice.items.length,

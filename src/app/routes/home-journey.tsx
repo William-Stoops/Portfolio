@@ -7,6 +7,7 @@ import { FlightPath } from '@/components/layout/flight-path';
 import { PageSection } from '@/components/layout/page-section';
 import { InkText } from '@/components/ui/ink-text';
 import { JOURNEY_ANCHORS } from '@/config/paths';
+import { CycleRace } from '@/features/experience/components/cycle-race';
 import { ExperienceCard } from '@/features/experience/components/experience-card';
 import { KoreaChapter } from '@/features/korea/components/korea-chapter';
 import { ReturnStage } from '@/features/korea/components/return-stage';
@@ -49,6 +50,7 @@ function journeyContent(
           <ReturnStage content={content.korea} />
           {noteParagraph}
           <ExperienceCard experience={itFinance} labels={labels} />
+          <CycleRace race={content.experiences.race} />
           <div id={JOURNEY_ANCHORS[locale].projects} className="@container">
             <ProjectCard project={staxx} labels={content.projects.labels} />
           </div>

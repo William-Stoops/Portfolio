@@ -4,6 +4,7 @@ import { type AboutContent } from '@/features/about/types/about-content';
 import { type AiPracticeContent } from '@/features/ai-practice/types/ai-practice-content';
 import { type ContactContent } from '@/features/contact/types/contact-content';
 import { type EducationEntry } from '@/features/education/types/education-entry';
+import { type CycleRaceContent } from '@/features/experience/types/cycle-race';
 import { type Experience, type ExperienceLabels } from '@/features/experience/types/experience';
 import { type HeroContent } from '@/features/hero/types/hero-content';
 import { type JourneyContent } from '@/features/journey/types/journey-stop';
@@ -24,6 +25,8 @@ export type SiteContent = {
   experiences: {
     entries: readonly [Experience, Experience, Experience];
     labels: ExperienceLabels;
+    // IT-Finance's cycle of ten hours brought to five minutes, raced to scale (ADR 0032).
+    race: CycleRaceContent;
   };
   korea: KoreaContent;
   projects: { entries: readonly [Project]; labels: ProjectLabels };
