@@ -5,10 +5,12 @@ import type { Localized } from '@/i18n/locales';
 export const SITE_OWNER = 'William Stoops';
 export const SITE_TITLE = 'William Stoops – Software Engineer & AI Engineer';
 export const SITE_ROLE = 'Software Engineer & AI Engineer';
-// The profile sentence of the CV: the hero's tagline and the footer's sign-off.
+// The profile sentence of the CV: the hero's tagline and the footer's sign-off. Non-breaking
+// spaces keep each pronoun and article with the word it introduces, and each short clause
+// whole, so no line of the large headline ends on "I", "an" or "d’une".
 export const SITE_TAGLINE = {
-  fr: 'Je décide d’une architecture, je la mesure, je la livre.',
-  en: 'I choose an architecture, I measure it, I ship it.',
+  fr: 'Je\u00a0décide d’une\u00a0architecture, je\u00a0la\u00a0mesure, je\u00a0la\u00a0livre.',
+  en: 'I\u00a0choose an\u00a0architecture, I\u00a0measure\u00a0it, I\u00a0ship\u00a0it.',
 } as const satisfies Localized<string>;
 // Where the site is served (Cloudflare Pages, ADR 0031): absolute URLs for crawlers and link
 // previews (canonical, alternates, Open Graph, sitemap).

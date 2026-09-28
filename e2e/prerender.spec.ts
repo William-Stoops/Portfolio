@@ -40,7 +40,7 @@ test.describe('prerendered HTML', () => {
     const html = await response.text();
     // The sentence of the CV heads the page, and says whose it is.
     expect(html).toMatch(
-      /<h1[^>]*><span class="sr-only">William Stoops : <\/span>Je décide d’une architecture/,
+      /<h1[^>]*><span class="sr-only">William Stoops : <\/span>Je\u00a0décide d’une\u00a0architecture/,
     );
     expect(html).toContain('<title>William Stoops – Software Engineer &amp; AI Engineer</title>');
   });

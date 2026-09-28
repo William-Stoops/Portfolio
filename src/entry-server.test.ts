@@ -8,7 +8,7 @@ describe('renderRoute', () => {
 
     expect(html).toContain('<main id="main"');
     expect(html).toMatch(
-      /<h1[^>]*><span class="sr-only">William Stoops : <\/span>Je décide d’une architecture/,
+      /<h1[^>]*><span class="sr-only">William Stoops : <\/span>Je\u00a0décide d’une\u00a0architecture/,
     );
     expect(html).toContain('<title>William Stoops – Software Engineer &amp; AI Engineer</title>');
     expect(html).toMatch(/<meta name="description" content="William Stoops, [^"]*au quotidien\."/);
