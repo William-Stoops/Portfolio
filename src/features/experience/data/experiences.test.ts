@@ -17,11 +17,12 @@ function boldPassages(highlights: readonly string[]): number[] {
 // Expected values are copied from docs/content/cv-source.md, with French typography
 // (apostrophes, non-breaking spaces) and **bold** passages as in the CV.
 describe('experiences', () => {
-  it('lists the three roles of the CV, most recent first', () => {
+  it('lists the four roles, most recent first', () => {
     expect(EXPERIENCES.map(({ role, company }) => `${role} — ${company}`)).toEqual([
       'Software Engineer — IT-Finance, éditeur de ProRealTime',
       'Full Stack Engineer — INTM Groupe',
-      'Full Stack Engineer — Strattt, puis GDS Élec',
+      'Full Stack Engineer — Strattt',
+      'Full Stack Engineer — GDS Élec',
     ]);
   });
 
@@ -29,7 +30,8 @@ describe('experiences', () => {
     expect(EXPERIENCES.map(({ period }) => period)).toEqual([
       { start: '2025-09' },
       { start: '2024', end: '2024' },
-      { start: '2022', end: '2024' },
+      { start: '2023-09', end: '2024-02' },
+      { start: '2022-07', end: '2023-01' },
     ]);
   });
 
@@ -41,19 +43,22 @@ describe('experiences', () => {
     ]);
   });
 
-  it('quotes the INTM and Strattt highlights word for word', () => {
+  it('quotes the INTM, Strattt and GDS Élec highlights word for word', () => {
     expect(EXPERIENCES[1].highlights).toEqual([
       'J’ai livré **seul et from scratch** l’outil interne de pilotage d’activité de l’entreprise : KPI des business managers, suivi du statut des consultants (en formation, en mission, chez quel client). Du schéma PostgreSQL aux écrans React, back NestJS compris.',
     ]);
     expect(EXPERIENCES[2].highlights).toEqual([
-      'J’ai automatisé une chaîne comptable de bout en bout, et livré trois applications mobiles en production.',
+      'J’ai automatisé une chaîne comptable de bout en bout.',
+    ]);
+    expect(EXPERIENCES[3].highlights).toEqual([
+      'J’ai livré une application en production qui gère à distance des bornes de recharge électriques, via le **protocole OCPP**.',
     ]);
   });
 
   it('lists a stack only where the CV names one', () => {
     expect(
       EXPERIENCES.map((experience) => ('stack' in experience ? experience.stack : undefined)),
-    ).toEqual([['C++', 'Rust', 'Python'], ['NestJS', 'React', 'PostgreSQL'], undefined]);
+    ).toEqual([['C++', 'Rust', 'Python'], ['NestJS', 'React', 'PostgreSQL'], undefined, undefined]);
   });
 
   it('uses unique, kebab-case ids', () => {

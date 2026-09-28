@@ -22,9 +22,9 @@ export type SiteContent = {
   home: { description: string };
   hero: HeroContent;
   journey: JourneyContent;
-  // Told in the journey, most recent first: IT-Finance, INTM, Strattt then GDS Élec.
+  // Told in the journey, most recent first: IT-Finance, INTM, Strattt, GDS Élec.
   experiences: {
-    entries: readonly [Experience, Experience, Experience];
+    entries: readonly [Experience, Experience, Experience, Experience];
     labels: ExperienceLabels;
     // IT-Finance's lab: the implied volatility surface solved in the browser (ADR 0036),
     // and the cycle of ten hours brought to five minutes, raced to scale (ADR 0032).

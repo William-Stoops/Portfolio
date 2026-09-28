@@ -13,12 +13,12 @@ export const JOURNEY_CONTENT = {
       title: 'Epitech',
       note: 'I join Epitech for a Master of Science, Expert in Information Technology: class of 2026.',
     },
-    { id: 'year-2022', year: 2022, label: '2nd year', title: 'Strattt, then GDS Élec' },
+    { id: 'year-2022', year: 2022, label: '2nd year', title: 'GDS Élec' },
     {
       id: 'year-2023',
       year: 2023,
       label: '3rd year',
-      title: 'Launching STAXX, then INTM',
+      title: 'Launching STAXX, Strattt, then INTM',
       note: 'I launch STAXX, my final-year project, which I carry through to my 5th year.',
     },
     {

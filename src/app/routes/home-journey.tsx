@@ -26,16 +26,17 @@ function journeyContent(
   locale: Locale,
 ): ReactNode {
   const noteParagraph = note === undefined ? null : <Statement text={note} />;
-  const [itFinance, intm, strattt] = content.experiences.entries;
+  const [itFinance, intm, strattt, gdsElec] = content.experiences.entries;
   const { labels } = content.experiences;
   switch (year) {
     case 2022: {
-      return <ExperienceCard experience={strattt} labels={labels} />;
+      return <ExperienceCard experience={gdsElec} labels={labels} />;
     }
     case 2023: {
       return (
         <>
           {noteParagraph}
+          <ExperienceCard experience={strattt} labels={labels} />
           <ExperienceCard experience={intm} labels={labels} />
           <div className="@container">
             <RecommendationQuote recommendation={content.experiences.recommendation} />

@@ -28,12 +28,19 @@ export const EXPERIENCES = [
     ],
   },
   {
-    id: 'strattt-gds-elec',
+    id: 'strattt',
     role: 'Full Stack Engineer',
-    company: 'Strattt, then GDS Élec',
-    period: { start: '2022', end: '2024' },
+    company: 'Strattt',
+    period: { start: '2023-09', end: '2024-02' },
+    highlights: ['I automated an accounting pipeline end to end.'],
+  },
+  {
+    id: 'gds-elec',
+    role: 'Full Stack Engineer',
+    company: 'GDS Élec',
+    period: { start: '2022-07', end: '2023-01' },
     highlights: [
-      'I automated an accounting pipeline end to end, and shipped three mobile apps to production.',
+      'I shipped an application to production that manages electric vehicle charging stations remotely, over the **OCPP protocol**.',
     ],
   },
 ] as const satisfies readonly Experience[];

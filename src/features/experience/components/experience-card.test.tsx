@@ -43,10 +43,12 @@ describe('ExperienceCard', () => {
     await expect.element(screen.getByText('Software Engineer')).toHaveAttribute('lang', 'en');
   });
 
-  it('shows the period of the role', async () => {
+  it('shows the period of the role, to the month', async () => {
     const screen = await render(<ExperienceCard experience={STRATTT} labels={EXPERIENCE_LABELS} />);
 
-    await expect.element(screen.getByText('2022 – 2024', { exact: true })).toBeVisible();
+    await expect
+      .element(screen.getByText('sept. 2023 – févr. 2024', { exact: true }))
+      .toBeVisible();
   });
 
   it('emphasises the passages the CV sets in bold, without leaking the markers', async () => {

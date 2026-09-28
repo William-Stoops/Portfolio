@@ -94,6 +94,17 @@ traduite, sur la page anglaise.
 - Automatisé une chaîne comptable de bout en bout, et livré **trois applications mobiles
   en production**.
 
+Précisé par William le 2026-09-29, et c'est ce que dit le site : deux postes distincts, dans
+l'ordre où ils ont eu lieu.
+
+- **GDS Élec**, juillet 2022 – janvier 2023 : une application en production qui gère à
+  distance des bornes de recharge électriques, via le **protocole OCPP**.
+- **Strattt**, septembre 2023 – février 2024 : automatisé une chaîne comptable de bout en
+  bout.
+
+Les « trois applications mobiles » ne sont plus dites. Dans le parcours, GDS Élec est
+l'escale de 2022 ; Strattt ouvre celle de 2023, avant INTM.
+
 ## Projets
 
 ### STAXX — plateforme de commande de matériel pour le BTP · depuis 2024
@@ -178,9 +189,9 @@ Hors CV, donnée par William le 2026-09-26 et confirmée par lui : le fil conduc
 page (le parcours, une escale par année d'Epitech).
 
 - **2021**, 1re année : entrée à Epitech (Master of Science, promo 2026).
-- **2022**, 2e année : Strattt, puis GDS Élec (2022 – 2024).
+- **2022**, 2e année : GDS Élec (juillet 2022 – janvier 2023).
 - **2023**, 3e année : début de STAXX, le projet de fin d'études, développé en 3e, 4e et
-  5e année ; INTM en 2024.
+  5e année ; Strattt (septembre 2023 – février 2024), puis INTM en 2024.
 - **2024**, 4e année : Korea University, en Corée du Sud.
 - **2025**, 5e année : retour en France ; IT-Finance depuis septembre 2025 ; passage sur
   NRJ Lille et 1er au concours Epitech Summit avec STAXX.
@@ -221,7 +232,7 @@ titres du CV sans en changer le fond.
 | Bandeau de technos                         | Mots-clés d'en-tête (TypeScript, Python, C++, Rust, NestJS, React…)        |
 | Services (Website Development…)            | Trois axes : Calcul & performance · Produits full stack · IA, agents & LLM |
 | Stats (120+, 95 %, 10+)                    | Chiffres clés ci-dessus — **réels et sourcés, jamais inventés**            |
-| Projects                                   | Expériences (ProRealTime, INTM, Strattt/GDS Élec) + STAXX + travaux IA     |
+| Projects                                   | Expériences (ProRealTime, INTM, Strattt, GDS Élec) + STAXX + travaux IA    |
 | (absent de la maquette)                    | Parcours / formation, contact, déclaration d'accessibilité                 |
 
 ## Contexte de destination

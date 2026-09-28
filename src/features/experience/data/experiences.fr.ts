@@ -1,6 +1,7 @@
 import { type Experience, type ExperienceLabels } from '@/features/experience/types/experience';
 
-// Source: docs/content/cv-source.md, "Expérience professionnelle", most recent first.
+// Source: docs/content/cv-source.md, "Expérience professionnelle", most recent first; Strattt
+// and GDS Élec as William detailed them on 2026-09-29.
 // **Passages** are those the CV sets in bold.
 export const EXPERIENCES = [
   {
@@ -28,12 +29,19 @@ export const EXPERIENCES = [
     ],
   },
   {
-    id: 'strattt-gds-elec',
+    id: 'strattt',
     role: 'Full Stack Engineer',
-    company: 'Strattt, puis GDS Élec',
-    period: { start: '2022', end: '2024' },
+    company: 'Strattt',
+    period: { start: '2023-09', end: '2024-02' },
+    highlights: ['J’ai automatisé une chaîne comptable de bout en bout.'],
+  },
+  {
+    id: 'gds-elec',
+    role: 'Full Stack Engineer',
+    company: 'GDS Élec',
+    period: { start: '2022-07', end: '2023-01' },
     highlights: [
-      'J’ai automatisé une chaîne comptable de bout en bout, et livré trois applications mobiles en production.',
+      'J’ai livré une application en production qui gère à distance des bornes de recharge électriques, via le **protocole OCPP**.',
     ],
   },
 ] as const satisfies readonly Experience[];

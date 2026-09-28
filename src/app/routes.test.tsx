@@ -27,6 +27,13 @@ function renderSite(path: string) {
   );
 }
 
+// The roles a stop of the journey tells, by their headings.
+function rolesIn(stopId: string): (string | null)[] {
+  return [...(document.getElementById(stopId)?.querySelectorAll('article h4') ?? [])].map(
+    (heading) => heading.textContent,
+  );
+}
+
 describe('application routes', () => {
   it('renders the page shell landmarks in reading order', async () => {
     const screen = await renderSite('/fr');
@@ -60,6 +67,16 @@ describe('application routes', () => {
     expect(document.head.querySelector('meta[name="description"]')?.getAttribute('content')).toBe(
       SITE_CONTENT_FR.home.description,
     );
+  });
+
+  it('tells each role in its year: GDS Élec in 2022, then Strattt before INTM in 2023', async () => {
+    await renderSite('/fr');
+
+    await expect.poll(() => rolesIn('annee-2022')).toEqual(['Full Stack Engineer, GDS Élec']);
+    expect(rolesIn('annee-2023')).toEqual([
+      'Full Stack Engineer, Strattt',
+      'Full Stack Engineer, INTM Groupe',
+    ]);
   });
 
   it('renders the English home page from the English content', async () => {

@@ -2,7 +2,7 @@ import { JOURNEY_ANCHORS, SECTION_IDS } from '@/config/paths';
 import { type JourneyContent } from '@/features/journey/types/journey-stop';
 
 // Source: docs/content/cv-source.md ("Chronologie", given by William on 2026-09-26). The
-// cards of each year (roles, STAXX, Seoul) come from their own sections' data.
+// cards of each year (roles, STAXX, South Korea) come from their own sections' data.
 export const JOURNEY_CONTENT = {
   id: SECTION_IDS.fr.experience,
   title: 'Parcours',
@@ -14,12 +14,12 @@ export const JOURNEY_CONTENT = {
       title: 'Epitech',
       note: 'J’entre à Epitech en Master of Science, Expert en Technologies de l’Information : promo 2026.',
     },
-    { id: 'annee-2022', year: 2022, label: '2e année', title: 'Strattt, puis GDS Élec' },
+    { id: 'annee-2022', year: 2022, label: '2e année', title: 'GDS Élec' },
     {
       id: 'annee-2023',
       year: 2023,
       label: '3e année',
-      title: 'Lancement de STAXX, puis INTM',
+      title: 'Lancement de STAXX, Strattt, puis INTM',
       note: 'Je lance STAXX, mon projet de fin d’études, que je mène jusqu’en 5e année.',
     },
     {

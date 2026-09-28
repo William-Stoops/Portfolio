@@ -25,8 +25,8 @@ describe('journey stops', () => {
   it('names each stop by where it happens', () => {
     expect(JOURNEY_STOPS.map(({ title }) => title)).toEqual([
       'Epitech',
-      'Strattt, puis GDS Élec',
-      'Lancement de STAXX, puis INTM',
+      'GDS Élec',
+      'Lancement de STAXX, Strattt, puis INTM',
       'Corée du Sud, Korea University',
       'Retour en France',
       'Aujourd’hui',
