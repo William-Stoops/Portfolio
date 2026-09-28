@@ -84,7 +84,10 @@ lint-staged and commitlint plugins are auto-enabled from `package.json`. Config:
 - shadcn components are copied **one at a time, when a feature needs them** — never the
   whole catalogue — so Knip never has to ignore `components/ui/`.
 - An export used only by its own test is dead: inline it or test through the public
-  function.
+  function. The one exception: code shared with a build-time script
+  (`scripts/generate-land-dots.ts` and the land-dots grid) is tagged `/** @internal */`,
+  which `--production` skips while plain `knip` still checks it is used; justify each tag
+  in `knip.config.ts`.
 
 ## 3 bis. Dependencies and pnpm
 
@@ -154,13 +157,13 @@ lint, TypeScript capped `<7`). pnpm's own `minimumReleaseAge` (24 h) stays on.
 
 ## 8. Budgets
 
-| Budget                                               | Limit (initial, recalibrate by ADR only)                                                                    |
-| ---------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
-| Initial JS (brotli, entry bundle)                    | 125 kB — `size-limit` (ADR 0017); every lazy chunk has its own budget (scene 4 kB, desktop touches 2 kB)    |
-| CSS (gzip)                                           | 15 kB                                                                                                       |
-| Lighthouse performance / a11y / best practices / SEO | ≥ 0.95 / **1.0** / ≥ 0.95 / ≥ 0.95                                                                          |
-| LCP / CLS / TBT (Lighthouse, mobile)                 | ≤ 2.0 s / ≤ 0.05 / ≤ 150 ms — real (devtools) throttling, median of 3 runs, indexable pages only (ADR 0013) |
-| Coverage (lines / functions / statements / branches) | 90 / 90 / 90 / 85 on `src/`, excluding `main.tsx` and `testing/`                                            |
+| Budget                                               | Limit (initial, recalibrate by ADR only)                                                                     |
+| ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| Initial JS (brotli, entry and the chunks it shares)  | 125 kB — `size-limit` (ADR 0017); each locale's content 9 kB (ADR 0026); every lazy chunk has its own budget |
+| CSS (gzip)                                           | 15 kB                                                                                                        |
+| Lighthouse performance / a11y / best practices / SEO | ≥ 0.95 / **1.0** / ≥ 0.95 / ≥ 0.95                                                                           |
+| LCP / CLS / TBT (Lighthouse, mobile)                 | ≤ 2.0 s / ≤ 0.05 / ≤ 150 ms — real (devtools) throttling, median of 3 runs, indexable pages only (ADR 0013)  |
+| Coverage (lines / functions / statements / branches) | 90 / 90 / 90 / 85 on `src/`, excluding `main.tsx` and `testing/`                                             |
 
 ## 9. Adding a dependency
 

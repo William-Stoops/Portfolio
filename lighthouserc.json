@@ -3,7 +3,7 @@
     "collect": {
       "startServerCommand": "pnpm exec vite preview --port 4173 --strictPort",
       "startServerReadyPattern": "localhost:4173",
-      "url": ["http://localhost:4173/"],
+      "url": ["http://localhost:4173/fr", "http://localhost:4173/en"],
       "numberOfRuns": 3,
       "settings": {
         "throttlingMethod": "devtools"

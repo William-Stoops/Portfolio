@@ -9,9 +9,10 @@ tests, la CI, les ADR et l'historique git. Chaque PR doit pouvoir être montrée
 - Contenu : [docs/content/cv-source.md](docs/content/cv-source.md), **seule source de
   vérité**. On n'affiche rien qui ne figure pas dans le CV sans l'accord explicite de William.
 - Décisions : [docs/adr/](docs/adr/)
-- Maquette de référence : thème sombre bleu nuit, accent orange corail, hero avec portrait
-  dans un anneau, bandeau de technos, « À propos » avec axes et chiffres clés, projets.
-  S'en inspirer, **ne pas la copier**. Zéro esthétique générique « AI slop ».
+- Maquette de référence : thème sombre bleu nuit, hero avec portrait dans un anneau, bandeau de technos, « À propos » avec axes et chiffres clés, projets.
+  S'en inspirer, **ne pas la copier**. Zéro esthétique générique « AI slop ». Son accent
+  orange corail a laissé place à un bleu de confiance (ADR 0025) : l'orange évoquait une
+  alerte.
 
 ## Invariants — non négociables
 
@@ -68,8 +69,9 @@ de composants, E2E et d'accessibilité. Skill `tdd-workflow`.
 ### 7. Accessibilité WCAG 2.2 AA + RGAA 4.1.2
 
 L'accessibilité est un critère d'acceptation testé, pas une finition. Sur le fond
-`#1B1F2A`, **aucun orange ne peut à la fois servir de texte et porter du texte blanc** :
-le bouton primaire est donc orange clair avec un texte foncé. Tous les jetons de couleur
+`#1B1F2A`, **aucun accent (ni orange ni bleu) ne peut à la fois servir de texte et porter
+du texte blanc** : en thème sombre, le bouton primaire est donc bleu clair avec un texte
+foncé. Tous les jetons de couleur
 sont validés. On n'en invente pas d'autres. Skills `accessibility` et `design-system`.
 
 ### 8. Responsive pensé, pas rattrapé
@@ -129,6 +131,7 @@ coder de mémoire**.
 ```
 src/
   app/                 # composition : routes.tsx (table des routes), routes/* (pages, layout, erreur)
+    content/           # SiteContent : le contenu d'une langue (site-content.fr.tsx, .en.tsx), un chunk par langue
   components/
     ui/                # primitives du design system (shadcn adapté), sans métier
     layout/            # skip-link, site-header, site-footer, page-shell
@@ -141,6 +144,7 @@ src/
       types/           # types dérivés
       utils/           # fonctions pures
   hooks/               # hooks génériques (use-media-query, use-page-heading…)
+  i18n/                # locales, contexte de la langue, préférence enregistrée (ADR 0026)
   lib/                 # cn(), adaptateurs externes
   config/              # env.ts (Zod), paths.ts, site.ts
   styles/              # globals.css (@theme), base.css
@@ -163,7 +167,7 @@ pnpm typecheck      # tsc -b
 pnpm test           # vitest (unit + browser)
 pnpm test:coverage  # avec seuils
 pnpm test:e2e       # playwright (build + preview)
-pnpm build          # build de prod + pré-rendu HTML (dist/index.html, dist/404.html)
+pnpm build          # build de prod + pré-rendu HTML des deux langues et de la passerelle `/`
 pnpm knip           # code mort : fichiers, exports, types, dépendances inutilisés
 pnpm knip:production # idem sur le seul code livré, dépendances de prod strictes
 pnpm size           # budget de bundle (size-limit)
@@ -189,20 +193,21 @@ pnpm verify         # tout ce qui précède, identique à la CI
 
 ## Skills du projet
 
-| Skill                  | Charger avant de…                                                      |
-| ---------------------- | ---------------------------------------------------------------------- |
-| `feature-architecture` | créer un fichier, une feature, déplacer du code, ajouter un import     |
-| `react-components`     | écrire ou modifier un composant ou un hook                             |
-| `typescript-standards` | écrire du TypeScript, un type, un schéma Zod                           |
-| `design-system`        | toucher aux couleurs, typo, espacements, composants `ui/`, animations  |
-| `accessibility`        | écrire du markup, un composant interactif, une route, un formulaire    |
-| `responsive-design`    | poser une mise en page, une grille, une image, un comportement tactile |
-| `tdd-workflow`         | écrire la moindre ligne de production (le test vient d'abord)          |
-| `react-performance`    | ajouter une route, une image, une police, une dépendance, une anim     |
-| `state-and-forms`      | ajouter de l'état partagé, un formulaire, une donnée persistée         |
-| `content-data`         | afficher un contenu issu du CV                                         |
-| `quality-gates`        | configurer lint, tests, hooks, CI ; avant d'ouvrir une PR              |
-| `git-workflow`         | créer une branche, committer, ouvrir une PR                            |
+| Skill                  | Charger avant de…                                                         |
+| ---------------------- | ------------------------------------------------------------------------- |
+| `feature-architecture` | créer un fichier, une feature, déplacer du code, ajouter un import        |
+| `react-components`     | écrire ou modifier un composant ou un hook                                |
+| `typescript-standards` | écrire du TypeScript, un type, un schéma Zod                              |
+| `design-system`        | toucher aux couleurs, typo, espacements, composants `ui/`, animations     |
+| `accessibility`        | écrire du markup, un composant interactif, une route, un formulaire       |
+| `responsive-design`    | poser une mise en page, une grille, une image, un comportement tactile    |
+| `tdd-workflow`         | écrire la moindre ligne de production (le test vient d'abord)             |
+| `react-performance`    | ajouter une route, une image, une police, une dépendance, une anim        |
+| `state-and-forms`      | ajouter de l'état partagé, un formulaire, une donnée persistée            |
+| `content-data`         | afficher un contenu issu du CV                                            |
+| `quality-gates`        | configurer lint, tests, hooks, CI ; avant d'ouvrir une PR                 |
+| `i18n`                 | écrire un texte affiché, une page, un chemin, un format de date ou nombre |
+| `git-workflow`         | créer une branche, committer, ouvrir une PR                               |
 
 ## Feuille de route
 
@@ -223,7 +228,21 @@ pnpm verify         # tout ce qui précède, identique à la CI
 | 13  | `william/feat/video-lightbox`                  | Vidéo du pitch en plein écran, jetons de couleur résolus par élément                                                |
 | 14  | `william/feat/motion-design`                   | Refonte animée et ludique, tout en CSS natif (ADR 0015)                                                             |
 | 15  | `william/feat/hero-scene`                      | Surface de volatilité WebGL2 dans le hero, typographie cinétique (ADR 0016)                                         |
-| 16  | `william/perf/lighthouse-budget` + déploiement | Budgets, Open Graph, déploiement sur Cloudflare Pages (ADR 0014)                                                    |
+| 16  | `william/feat/case-study-and-finale`           | STAXX en étude de cas, périodes collantes, chapitres collants, final sur la surface, pied de page intégré           |
+| 17  | `william/feat/about-story`                     | À propos : profil écrit à l'encre au défilement, axes sur filets, registre des chiffres clés                        |
+| 18  | `william/feat/summit-photo`                    | Victoire à l'Epitech Summit et passage sur NRJ Lille dans l'étude STAXX                                             |
+| 19  | `william/feat/korea`                           | Corée du Sud : voyage épinglé, drapeau assemblé, photos entières (ADR 0019, 0020)                                   |
+| 20  | `william/feat/flight-log`                      | La page en parcours : une escale par année d'Epitech, ligne de vol, vol retour (ADR 0021)                           |
+| 21  | `william/feat/one-flight`                      | Toute la page en un seul vol : rail continu, repères, en-têtes d'escale partout (ADR 0022)                          |
+| 22  | `william/feat/site-harmony`                    | La ligne de vol réservée au parcours, chapitres hors du temps en rangées, hiérarchie (ADR 0023)                     |
+| 23  | `william/feat/pitch-stage`                     | Vidéo du pitch sur sa première image, ouverte depuis l'affiche, récit STAXX dans l'ordre (ADR 0024)                 |
+| 24  | `william/feat/trust-blue`                      | Accent bleu de confiance à la place de l'orange corail, jugé alarmant (ADR 0025)                                    |
+| 25  | `william/feat/i18n`                            | Site en français et en anglais : langue dans l'URL, passerelle `/`, un chunk par langue (ADR 0026)                  |
+| 26  | `william/feat/korea-globe`                     | Vol de la Corée au-dessus d'un globe WebGL2, continents Natural Earth, route en grand cercle (ADR 0027)             |
+| 27  | `william/feat/summit-scene`                    | Victoire à l'Epitech Summit en scène épinglée : salle de 300 places, compteur, projecteurs (ADR 0028)               |
+| 28  | `william/feat/departures-board`                | Le parcours sur un tableau des départs : années du rail et titres des escales à palettes (ADR 0029)                 |
+| 29  | `william/feat/cinematic-opening`               | Ouverture : la caméra survole la surface qui s'élève, puis plonge vers À propos au défilement (ADR 0030)            |
+| 30  | `william/perf/lighthouse-budget` + déploiement | Budgets, Open Graph, déploiement sur Cloudflare Pages (ADR 0014)                                                    |
 
 Questions encore ouvertes : un traitement serveur du formulaire de contact (service
-tiers ou fonction serverless) au-delà du `mailto:`, une éventuelle version anglaise.
+tiers ou fonction serverless) au-delà du `mailto:`.

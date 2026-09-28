@@ -1,0 +1,6 @@
+import { INTL_LOCALES, type Locale } from '@/i18n/locales';
+
+// "1 500" in French (narrow no-break space), "1,500" in English.
+export function formatNumber(value: number, locale: Locale): string {
+  return new Intl.NumberFormat(INTL_LOCALES[locale]).format(value);
+}

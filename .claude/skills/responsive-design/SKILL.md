@@ -135,7 +135,7 @@ grid areas that keep that order. Hiding and duplicating content per breakpoint
   for everything else (lazy, `decoding="async"`).
 - Art direction (a tighter crop on small screens) = a second `ResponsivePicture` and a
   `<source media>`, never two `<img>` toggled with CSS.
-- Decorative shapes (the orange ring) are CSS borders, not images.
+- Decorative shapes (the accent ring) are CSS borders, not images.
 
 ## 9. JavaScript is the last resort
 
