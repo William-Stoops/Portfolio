@@ -7,34 +7,30 @@ description: The portfolio's design system — visual direction from the referen
 
 ## Visual direction
 
-From the reference mockup: **dark navy canvas, one accent, a portrait framed by an accent
-ring, geometric sans headings, generous negative space, clear numeric highlights.** We keep
-that identity and make it ours. The mockup's coral orange read as a warning to a recruiter:
-the accent is a **calm, trusted blue** (ADR 0025).
+The reference is [dennissnellenberg.com](https://dennissnellenberg.com), chosen by William
+after a moodboard (ADR 0036): **take its language, never its pieces** (its font, visuals and
+copy are its own).
 
-- The accent is **rare and meaningful**: primary action, key figures, the ring, the
-  reading progress, the peaks of the hero surface, the dots between technologies. No
-  large accent surfaces: a tilted tape and stickers on the portrait read as cheap and
-  were removed. If everything is accented, nothing is.
-- **Playful, not noisy** (ADR 0015): the page reacts — letters rise, the ring zooms in,
-  figures are drawn, cards follow the pointer — but every effect is tied to the content
-  and none competes with reading. Prefer **integrated, editorial** details (a horizon
-  strip, text set on the ring, thin rules) over objects stuck on top of the layout.
-- Content hierarchy comes from type scale and space, not from boxes and borders.
-- Metrics from the CV (10 h → 5 min, −99 %) are the visual heroes of the About section,
-  set in the mono face — they echo "systèmes de calcul".
-- The mockup's placeholder content (fake stats, "Website Hosting" services) is **not**
-  reproduced. Only CV content (`content-data`).
+- **The person first.** A dark hero where the portrait melts into the charcoal, the name set
+  immense and light, sliding with the scroll (never on its own), a place pill and the role.
+  Nothing a stranger would need explained: no chart, no event, no project name up there.
+- **Airy white sections.** Hierarchy comes from type scale and space: very large light
+  titles, regular text, hairlines. Few boxes.
+- **One family, one accent.** Inter Tight for everything; one calm blue (ADR 0025) for
+  what the reader can act on (buttons, links, focus). Colour otherwise comes from the
+  photographs and from the data charts (viridis, inside the charts only).
+- **Premium means restraint.** One interaction per idea: the name that slides, buttons
+  that lean towards the pointer, the work preview that follows it, the footer's curve.
+- Only CV content (`content-data`); never the reference's copy.
 
 ### Anti-"AI slop" rules
 
-No purple/blue gradients, no glassmorphism by default, no glowing blobs (the pointer
-spotlight lights a border, never a background), no emoji as
-icons, no "✨"/sparkle motifs, no gradient text, no 3-column icon-feature grid with
-lorem-like copy, no fake testimonials or logos, no stock illustrations, no centered
-everything. Every decorative element must have a reason tied to the content (the ring
-frames the person; the mono face frames the numbers). Icons: `lucide-react`, one stroke
-width (1.75), sized to the text.
+Rejected on the prototypes (ADR 0036): tile grids tinted in several hues, labels floating
+over a photo, glowing cards, several accents sharing the page, a chart in the hero. Still
+banned: purple/blue gradients, glassmorphism, glowing blobs, emoji as icons, sparkle
+motifs, gradient text, 3-column icon-feature grids, fake testimonials or logos, stock
+illustrations. Every element must have a reason tied to the content. Icons:
+`lucide-react`, one stroke width (1.75), sized to the text.
 
 ## Colour tokens
 
@@ -49,27 +45,27 @@ the stylesheet source, requires `light-dark()` on all of them, and checks every 
 foreground/background pair in both themes (4.5:1 text, 3:1 non-text). **Using a new pair
 in the UI means adding it to that test first.**
 
-| Token            | Light     | Dark      | Role                                                 |
-| ---------------- | --------- | --------- | ---------------------------------------------------- |
-| `canvas`         | `#FAFAF7` | `#1B1F2A` | Page background (html **and** body)                  |
-| `surface`        | `#FFFFFF` | `#242938` | Cards, header on scroll                              |
-| `surface-raised` | `#F1F2F5` | `#2E3446` | Inputs, secondary buttons                            |
-| `fg`             | `#1B1F2A` | `#E6E8EF` | Body text                                            |
-| `fg-muted`       | `#5A6278` | `#A9B0C2` | Secondary text                                       |
-| `fg-subtle`      | `#687083` | `#8B93A7` | Metadata — **never on `surface-raised`**             |
-| `accent`         | `#1D4ED8` | `#6EA8FE` | Primary button fill, portrait ring                   |
-| `accent-hover`   | `#1E40AF` | `#93BEFF` | Primary button hover                                 |
-| `accent-fg`      | `#1D4ED8` | `#7FB2FF` | Accent text, links (underlined)                      |
-| `accent-tint`    | `#E8EEFC` | `#26324A` | Tinted badge background, text selection              |
-| `on-accent`      | `#FFFFFF` | `#12151C` | Text on `accent` / `accent-hover`                    |
-| `focus`          | `#1E40AF` | `#93BEFF` | Focus outline (3 px, offset 2 px)                    |
-| `border`         | `#E2E4EA` | `#3A4052` | Decorative separators only — never a control outline |
-| `border-input`   | `#767D8F` | `#7D869C` | Input and control borders (≥ 3:1)                    |
-| `error`          | `#B91C1C` | `#FCA5A5` | Error text + icon                                    |
-| `success`        | `#166534` | `#4ADE80` | Success text + icon                                  |
+| Token            | Light     | Dark      | Role                                                   |
+| ---------------- | --------- | --------- | ------------------------------------------------------ |
+| `canvas`         | `#FFFFFF` | `#141517` | Page background (html **and** body)                    |
+| `surface`        | `#F4F4F2` | `#1C1D20` | Soft bands, cards; the hero and footer (`scheme-dark`) |
+| `surface-raised` | `#EBEBE8` | `#26272B` | Inputs, secondary buttons                              |
+| `fg`             | `#1C1D20` | `#F0F0EE` | Body text                                              |
+| `fg-muted`       | `#5F6268` | `#A8ABB0` | Secondary text                                         |
+| `fg-subtle`      | `#686B71` | `#8F9298` | Metadata — **never on `surface-raised`**               |
+| `accent`         | `#3D5AF1` | `#4A63FA` | The one accent: button fills, round calls to action    |
+| `accent-hover`   | `#2A44D6` | `#2A44D6` | Button hover                                           |
+| `accent-fg`      | `#2F4CE0` | `#8FA3FF` | Accent text, links (underlined)                        |
+| `accent-tint`    | `#E8ECFE` | `#23294D` | Text selection, tinted badge background                |
+| `on-accent`      | `#FFFFFF` | `#FFFFFF` | Text on `accent` / `accent-hover`                      |
+| `focus`          | `#2A44D6` | `#8FA3FF` | Focus outline (3 px, offset 2 px)                      |
+| `border`         | `#E4E4E1` | `#2C2D31` | Hairlines, decorative only — never a control outline   |
+| `border-input`   | `#7F8288` | `#75787E` | Input and control borders (≥ 3:1)                      |
+| `error`          | `#B3261E` | `#FF8A80` | Error text + icon                                      |
+| `success`        | `#1D7A3C` | `#6FD08C` | Success text + icon                                    |
 
-**Dark theme: text on the accent is dark (`on-accent` `#12151C`), never white** (2.42:1 on
-`#6EA8FE`; no blue is both readable on the canvas and able to carry white text).
+**The accent fill carries white text in both themes** (5.34:1 light, 4.71:1 dark). On the
+dark canvas it is not readable as text (3.88:1): text in the accent uses `accent-fg`.
 
 ### Theming mechanics
 
@@ -93,11 +89,10 @@ in the UI means adding it to that test first.**
 
 ## Typography
 
-| Role               | Family                                            | Status                                                                                                                |
-| ------------------ | ------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| Display / headings | **Sora Variable** (`@fontsource-variable/sora`)   | Installed                                                                                                             |
-| Body / UI          | **Inter Variable** (`@fontsource-variable/inter`) | Installed                                                                                                             |
-| Metrics            | **Sora** with `tabular-nums` (`text-metric`)      | JetBrains Mono dropped: fonts are the main real load cost (ADR 0013), a third family for four numbers is not worth it |
+One family (ADR 0036): **Inter Tight Variable** (`@fontsource-variable/inter-tight`), for
+headings, text and figures. `--font-display` and `--font-sans` both point to it, so the
+heading base style keeps working. Large titles take the light weight (300), text the
+regular one (400), emphasis 500; figures add `tabular-nums`.
 
 - Self-hosted via Fontsource (no third-party request), `font-display: swap`,
   `unicode-range` subsets so only the needed files download. Preloading and metric-matched

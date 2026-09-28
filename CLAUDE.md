@@ -71,11 +71,11 @@ de composants, E2E et d'accessibilité. Skill `tdd-workflow`.
 
 ### 7. Accessibilité WCAG 2.2 AA + RGAA 4.1.2
 
-L'accessibilité est un critère d'acceptation testé, pas une finition. Sur le fond
-`#1B1F2A`, **aucun accent (ni orange ni bleu) ne peut à la fois servir de texte et porter
-du texte blanc** : en thème sombre, le bouton primaire est donc bleu clair avec un texte
-foncé. Tous les jetons de couleur
-sont validés. On n'en invente pas d'autres. Skills `accessibility` et `design-system`.
+L'accessibilité est un critère d'acceptation testé, pas une finition. Sur le fond sombre
+`#141517`, **aucun bleu ne peut à la fois servir de texte et porter du texte blanc** :
+l'accent est donc deux jetons, `accent` pour les aplats (texte blanc) et `accent-fg`, plus
+clair, pour le texte. Tous les jetons de couleur sont validés. On n'en invente pas
+d'autres. Skills `accessibility` et `design-system`.
 
 ### 8. Responsive pensé, pas rattrapé
 

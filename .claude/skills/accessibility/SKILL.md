@@ -79,20 +79,21 @@ and VoiceOver — double announcements are likely. Live regions (`role="status"`
 
 ## 3. Colour and contrast (1.4.3, 1.4.6, 1.4.11, RGAA 3.x)
 
-Hard constraint, proven by computation: on `#1B1F2A`, **no accent — orange then, blue now
-(ADR 0025) — can both be readable text (≥ 4.5:1) and carry white text (≥ 4.5:1)**.
-Therefore, in the dark theme, the primary button is light blue with **dark** text. The validated tokens live in
-`design-system`; never introduce a colour outside them.
+Hard constraint, proven by computation: on the dark canvas `#141517`, **no blue can both be
+readable text (≥ 4.5:1) and carry white text (≥ 4.5:1)**. Therefore the accent is two
+tokens: `accent` fills and carries white text, `accent-fg` is the lighter blue used as text
+on the dark canvas. The validated tokens live in `design-system`; never introduce a colour
+outside them.
 
-| Pair (dark theme)                           | Ratio | Verdict       |
-| ------------------------------------------- | ----- | ------------- |
-| `fg` `#E6E8EF` on `canvas` `#1B1F2A`        | 13.44 | AAA           |
-| `fg-muted` `#A9B0C2` on `canvas`            | 7.58  | AAA           |
-| `accent-fg` `#7FB2FF` on `canvas`           | 7.61  | AAA           |
-| `on-accent` `#12151C` on `accent` `#6EA8FE` | 7.56  | AAA           |
-| `focus` `#93BEFF` on `canvas`               | 8.66  | ≥ 3:1 ✓       |
-| `border-input` `#7D869C` on `surface`       | 3.98  | ≥ 3:1 ✓       |
-| white on `#6EA8FE`                          | 2.42  | **forbidden** |
+| Pair (dark theme)                       | Ratio | Verdict       |
+| --------------------------------------- | ----- | ------------- |
+| `fg` `#F0F0EE` on `canvas` `#141517`    | 16.01 | AAA           |
+| `fg-muted` `#A8ABB0` on `canvas`        | 7.93  | AAA           |
+| `accent-fg` `#8FA3FF` on `canvas`       | 7.70  | AAA           |
+| white `on-accent` on `accent` `#4A63FA` | 4.71  | AA            |
+| `focus` `#8FA3FF` on `canvas`           | 7.70  | ≥ 3:1 ✓       |
+| `border-input` `#75787E` on `surface`   | 3.81  | ≥ 3:1 ✓       |
+| `accent` `#4A63FA` as text on `canvas`  | 3.88  | **forbidden** |
 
 - Any opacity (`/50`), gradient or `backdrop-blur` behind text ⇒ recompute on the
   composited colour, add the pair to the contrast unit test (`design-system` §tests).
