@@ -3,8 +3,21 @@ import { userEvent } from 'vitest/browser';
 import { render } from 'vitest-browser-react';
 
 import { SkipLink } from '@/components/layout/skip-link';
+import { LocaleContext } from '@/i18n/locale-context';
 
 describe('SkipLink', () => {
+  it('speaks the language of the page', async () => {
+    const screen = await render(
+      <LocaleContext value="en">
+        <SkipLink />
+      </LocaleContext>,
+    );
+
+    await expect
+      .element(screen.getByRole('link', { name: 'Skip to main content' }))
+      .toHaveAttribute('href', '#main');
+  });
+
   it('targets the main landmark', async () => {
     const screen = await render(<SkipLink />);
 

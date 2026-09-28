@@ -1,7 +1,7 @@
 import { Check, Copy, ExternalLink } from 'lucide-react';
+import { type ReactNode } from 'react';
 
 import { PageSection } from '@/components/layout/page-section';
-import { SECTION_IDS } from '@/config/paths';
 import { CONTACT_EMAIL, LINKEDIN_URL } from '@/config/site';
 import { ContactForm } from '@/features/contact/components/contact-form';
 import { useCopyToClipboard } from '@/features/contact/hooks/use-copy-to-clipboard';
@@ -12,17 +12,39 @@ type ContactSectionProps = {
   content: ContactContent;
   // Injected so tests can observe the prepared message without leaving the page.
   openMailto?: (url: string) => void;
+  // Drawn behind the section, like the hero's surface closing the page: decoration.
+  backdrop?: ReactNode;
 };
 
-export function ContactSection({ content, openMailto = openInMailClient }: ContactSectionProps) {
-  const { status, announcement, copy } = useCopyToClipboard();
+export function ContactSection({
+  content,
+  openMailto = openInMailClient,
+  backdrop,
+}: ContactSectionProps) {
+  const { status, announcement, copy } = useCopyToClipboard(content.copyAnnouncements);
 
   return (
-    <PageSection id={SECTION_IDS.contact} title="Contact">
-      <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,22rem),1fr))] gap-x-12 gap-y-10">
+    <PageSection
+      id={content.id}
+      title={content.title}
+      lead={
+        <p className="max-w-3xl font-display text-h3 font-medium text-fg">{content.invitation}</p>
+      }
+    >
+      <div className="relative isolate grid grid-cols-[repeat(auto-fit,minmax(min(100%,22rem),1fr))] gap-x-12 gap-y-10">
+        {backdrop === undefined ? null : (
+          // Never catches the pointer, and stays within the section's smallest bottom
+          // padding (4rem): positioned, it would paint over the footer's links.
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute -inset-x-16 -top-24 -bottom-16 -z-10"
+          >
+            {backdrop}
+          </div>
+        )}
         <dl className="flex flex-col gap-5">
           <div className="flex flex-col gap-1">
-            <dt className="text-small font-semibold text-fg-muted">E-mail</dt>
+            <dt className="text-small font-semibold text-fg-muted">{content.labels.email}</dt>
             {/* The address is the point of the section: set large, and copied in one click. */}
             <dd className="flex flex-col items-start gap-3">
               <a
@@ -53,7 +75,7 @@ export function ContactSection({ content, openMailto = openInMailClient }: Conta
                     strokeWidth={1.75}
                   />
                 )}
-                Copier l’adresse e-mail
+                {content.labels.copyEmail}
               </button>
               {/* aria-live is implicit on <output>, but not every screen reader honours it. */}
               <output aria-live="polite" className="text-small text-fg-muted">
@@ -62,7 +84,7 @@ export function ContactSection({ content, openMailto = openInMailClient }: Conta
             </dd>
           </div>
           <div className="flex flex-col gap-1">
-            <dt className="text-small font-semibold text-fg-muted">LinkedIn</dt>
+            <dt className="text-small font-semibold text-fg-muted">{content.labels.linkedIn}</dt>
             <dd>
               <a
                 href={LINKEDIN_URL}
@@ -70,8 +92,8 @@ export function ContactSection({ content, openMailto = openInMailClient }: Conta
                 rel="noopener noreferrer"
                 className="inline-flex min-h-6 items-center gap-1"
               >
-                LinkedIn
-                <span className="sr-only"> (nouvel onglet)</span>
+                {content.labels.linkedIn}
+                <span className="sr-only">{content.labels.newTab}</span>
                 <ExternalLink
                   aria-hidden="true"
                   focusable="false"
@@ -82,11 +104,11 @@ export function ContactSection({ content, openMailto = openInMailClient }: Conta
             </dd>
           </div>
           <div className="flex flex-col gap-1">
-            <dt className="text-small font-semibold text-fg-muted">Localisation</dt>
+            <dt className="text-small font-semibold text-fg-muted">{content.labels.location}</dt>
             <dd>{content.location}</dd>
           </div>
         </dl>
-        <ContactForm openMailto={openMailto} />
+        <ContactForm content={content.form} openMailto={openMailto} />
       </div>
     </PageSection>
   );
