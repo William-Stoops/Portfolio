@@ -13,6 +13,9 @@ export const SITE_TAGLINE = {
 // Where the site is served (Cloudflare Pages, ADR 0031): absolute URLs for crawlers and link
 // previews (canonical, alternates, Open Graph, sitemap).
 export const SITE_ORIGIN = 'https://william-stoops.pages.dev';
+// The site's code, public: linked from the behind-the-scenes page (ADR 0033).
+export const REPOSITORY_URL = 'https://github.com/William-Stoops/Portfolio';
+export const DECISIONS_URL = `${REPOSITORY_URL}/tree/main/docs/adr`;
 export const CONTACT_EMAIL = 'william.stoops@epitech.eu';
 export const LINKEDIN_URL = 'https://www.linkedin.com/in/william-stoops-a1029b233';
 
