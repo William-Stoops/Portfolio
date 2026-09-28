@@ -55,7 +55,7 @@ export function LegalNotice() {
           Les textes et les photographies de ce site ne peuvent être reproduits sans autorisation.
         </p>
         <p>
-          Polices Sora et Inter sous licence SIL Open Font License, icônes Lucide sous licence ISC.
+          Police Inter Tight sous licence SIL Open Font License, icônes Lucide sous licence ISC.
           Continents du globe d’après Natural Earth, dans le domaine public.
         </p>
       </LegalBlock>

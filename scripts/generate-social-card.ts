@@ -10,12 +10,8 @@ import { SOCIAL_CARD } from './page-head.ts';
 // the image: the card a shared link shows (Open Graph), 1200 × 630, dark like the hero.
 // Drawn by the browser with the site's own fonts and colour tokens, so it matches the page.
 const SOURCES = {
-  sora: new URL(
-    '../node_modules/@fontsource-variable/sora/files/sora-latin-wght-normal.woff2',
-    import.meta.url,
-  ),
-  inter: new URL(
-    '../node_modules/@fontsource-variable/inter/files/inter-latin-wght-normal.woff2',
+  interTight: new URL(
+    '../node_modules/@fontsource-variable/inter-tight/files/inter-tight-latin-wght-normal.woff2',
     import.meta.url,
   ),
   portrait: new URL('../docs/content/images/william-stoops-portrait.jpg', import.meta.url),
@@ -40,14 +36,13 @@ async function cardHtml(): Promise<string> {
 <html lang="en">
 <head>
 <style>
-  @font-face { font-family: Sora; src: url(${await dataUrl(SOURCES.sora, 'font/woff2')}) format('woff2'); font-weight: 100 800; }
-  @font-face { font-family: Inter; src: url(${await dataUrl(SOURCES.inter, 'font/woff2')}) format('woff2'); font-weight: 100 900; }
+  @font-face { font-family: 'Inter Tight'; src: url(${await dataUrl(SOURCES.interTight, 'font/woff2')}) format('woff2'); font-weight: 100 900; }
   * { box-sizing: border-box; margin: 0; }
   body { width: ${String(SOCIAL_CARD.width)}px; height: ${String(SOCIAL_CARD.height)}px; overflow: hidden;
-    background: ${color('canvas')}; color: ${color('fg')}; font-family: Inter, sans-serif;
+    background: ${color('canvas')}; color: ${color('fg')}; font-family: 'Inter Tight', sans-serif;
     display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 56px; padding: 0 88px; }
-  h1 { font-family: Sora, sans-serif; font-weight: 700; font-size: 92px; line-height: 1; letter-spacing: -0.02em; }
-  .role { margin-top: 20px; font-family: Sora, sans-serif; font-weight: 600; font-size: 40px; line-height: 1.15; text-wrap: balance; color: ${color('accent-fg')}; }
+  h1 { font-weight: 300; font-size: 96px; line-height: 1; letter-spacing: -0.035em; }
+  .role { margin-top: 20px; font-weight: 400; font-size: 40px; line-height: 1.15; text-wrap: balance; color: ${color('accent-fg')}; }
   .rule { margin-top: 40px; width: 72px; height: 4px; border-radius: 2px; background: ${color('accent')}; }
   .stack { margin-top: 28px; font-size: 28px; color: ${color('fg-muted')}; white-space: pre; }
   .site { position: absolute; left: 88px; bottom: 48px; font-size: 20px; letter-spacing: 0.2em;
