@@ -25,7 +25,14 @@ describe('the lab’s words', () => {
     ]);
     expect(readout.maturity(0.7)).toBe('T 8,4 mois');
     expect(readout.maturity(2)).toBe('T 2,00 ans');
-    expect(VOLATILITY_LAB_EN.readout.maturity(0.7)).toBe('T 8.4 months');
+    const english = VOLATILITY_LAB_EN.readout;
+    expect([english.sigma(0.1994), english.strike(108.26), english.maturity(1.44)]).toEqual([
+      'σ 19.9%',
+      'K 108.3',
+      'T 1.44 year',
+    ]);
+    expect(english.maturity(0.7)).toBe('T 8.4 months');
+    expect(english.maturity(2)).toBe('T 2.00 years');
   });
 
   it('labels the axes in the page’s language', () => {
