@@ -80,18 +80,11 @@ describe('CourseworkBlock', () => {
     await expect.element(screen.getByText(coursework.propagation.backward)).toBeVisible();
   });
 
-  it('sets both passes in their notation, left to the caption for screen readers', async () => {
+  it('says the two passes in words only, without equations', async () => {
     const screen = await renderBlock();
 
-    const equations = [...screen.container.querySelectorAll('[data-equation]')];
-    expect(equations.map((equation) => equation.textContent)).toEqual([
-      'a(ℓ) = σ(W(ℓ)a(ℓ−1) + b(ℓ))',
-      'δ(ℓ) = (W(ℓ+1))⊤δ(ℓ+1) ⊙ σ′(z(ℓ))',
-    ]);
-    expect(equations.map((equation) => equation.getAttribute('aria-hidden'))).toEqual([
-      'true',
-      'true',
-    ]);
+    expect(screen.container.querySelector('[data-equation]')).toBeNull();
+    expect(screen.container.querySelector('figcaption')?.textContent).not.toContain('σ');
   });
 
   it('has no axe violations', async () => {

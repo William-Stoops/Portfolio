@@ -12,19 +12,13 @@ const NETWORK = networkLayout(LAYERS, BOX);
 const FORWARD_START = 12;
 const BACKWARD_START = 50;
 const STEP = 10;
-// Each pass beside its equation on a wide chapter, above it on a narrow one. The line sample
-// sits on the first line of its words when they wrap; the equation is indented to start
-// under the words, past the sample (w-8) and its gap (gap-3).
-const LEGEND_ROW_CLASS_NAME =
-  'flex flex-col gap-1 @2xl:flex-row @2xl:items-center @2xl:justify-between @2xl:gap-8';
-const EQUATION_CLASS_NAME = 'ps-11 text-body whitespace-nowrap text-fg @2xl:ps-0';
+// The line sample sits on the first line of its words when they wrap.
+const LEGEND_ROW_CLASS_NAME = 'flex items-start gap-3';
 
 // A network's two passes, drawn: as the drawing crosses the screen, the signal lights its
 // connections layer by layer to the output (the accent), then the error flows back to the
 // input (dashed). Scroll-driven, so it never moves on its own; still, both passes are
-// drawn. Decoration: the caption says the same in words, then sets each pass in its usual
-// notation, the same in every language (hidden from screen readers, which the words serve
-// better than symbols read one by one).
+// drawn. Decoration: the caption says the same in words.
 export function PropagationDiagram({ propagation }: PropagationDiagramProps) {
   return (
     <figure className="flex flex-col gap-5">
@@ -94,37 +88,17 @@ export function PropagationDiagram({ propagation }: PropagationDiagramProps) {
           />
         ))}
       </svg>
-      <figcaption className="flex flex-col gap-3 text-small text-fg-muted">
+      <figcaption className="flex flex-col gap-2 text-small text-fg-muted">
         <span className={LEGEND_ROW_CLASS_NAME}>
-          <span className="flex items-start gap-3">
-            <span aria-hidden="true" className="mt-2.5 h-0.5 w-8 shrink-0 bg-accent" />
-            {propagation.forward}
-          </span>
-          <span data-equation aria-hidden="true" className={EQUATION_CLASS_NAME}>
-            <var>a</var>
-            <sup>(ℓ)</sup> = σ(<var>W</var>
-            <sup>(ℓ)</sup>
-            <var>a</var>
-            <sup>(ℓ−1)</sup> + <var>b</var>
-            <sup>(ℓ)</sup>)
-          </span>
+          <span aria-hidden="true" className="mt-2.5 h-0.5 w-8 shrink-0 bg-accent" />
+          {propagation.forward}
         </span>
         <span className={LEGEND_ROW_CLASS_NAME}>
-          <span className="flex items-start gap-3">
-            <span
-              aria-hidden="true"
-              className="mt-2.5 w-8 shrink-0 border-t border-dashed border-fg"
-            />
-            {propagation.backward}
-          </span>
-          <span data-equation aria-hidden="true" className={EQUATION_CLASS_NAME}>
-            <var>δ</var>
-            <sup>(ℓ)</sup> = (<var>W</var>
-            <sup>(ℓ+1)</sup>)<sup>⊤</sup>
-            <var>δ</var>
-            <sup>(ℓ+1)</sup> ⊙ σ′(<var>z</var>
-            <sup>(ℓ)</sup>)
-          </span>
+          <span
+            aria-hidden="true"
+            className="mt-2.5 w-8 shrink-0 border-t border-dashed border-fg"
+          />
+          {propagation.backward}
         </span>
       </figcaption>
     </figure>

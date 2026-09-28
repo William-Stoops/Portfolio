@@ -158,8 +158,8 @@ University, il a suivi de l'**algèbre linéaire** sur le manuel de Gilbert Stra
 l'**apprentissage par renforcement**, les architectures **MLP, RNN, LSTM, Transformers**
 (le CNN vient des modèles entraînés ci-dessus). Les thèmes d'algèbre linéaire affichés
 reprennent la table des matières du manuel, à confirmer par William ; l'ACP en est retirée
-à sa demande le même jour. Les deux équations sous le schéma du réseau sont les formules
-usuelles de ces calculs, pas un fait nouveau.
+à sa demande le même jour. Les deux équations d'abord posées sous le schéma du réseau sont
+retirées à sa demande le 2026-09-29 : la légende dit les deux passes en mots seulement.
 
 ## Compétences techniques
 
