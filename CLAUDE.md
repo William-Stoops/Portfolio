@@ -10,12 +10,13 @@ tests, la CI, les ADR et l'historique git. Chaque PR doit pouvoir être montrée
 - Contenu : [docs/content/cv-source.md](docs/content/cv-source.md), **seule source de
   vérité**. On n'affiche rien qui ne figure pas dans le CV sans l'accord explicite de William.
 - Décisions : [docs/adr/](docs/adr/)
-- Référence de niveau : [dennissnellenberg.com](https://dennissnellenberg.com), choisie par
-  William (ADR 0036). Hero sombre centré sur la personne, nom immense et fin qui glisse au
-  défilement, sections blanches aérées, liste des travaux en très grands caractères, une
-  seule famille (Inter Tight), une palette neutre et **un seul accent bleu** (ADR 0025).
-  S'en inspirer, **ne pas la copier**. Zéro esthétique générique « AI slop » : pas de
-  grilles de tuiles teintées, pas d'étiquettes flottantes, pas de scènes empilées.
+- Direction : un hero vivant dans l'esprit de Stripe (ADR 0037), choisi par William après
+  la référence dennissnellenberg.com (ADR 0036). Un champ de couleur qui ondule en haut de
+  l'accueil, la phrase du CV en titre, sa photo en grand dans une carte, des cartes nettes
+  à ombre douce, une seule famille (Inter Tight), une palette neutre et **un seul accent
+  bleu** pour ce sur quoi on agit (ADR 0025). S'en inspirer, **ne pas copier**. Zéro
+  esthétique générique « AI slop » : pas de grilles de tuiles teintées, pas de scènes
+  empilées, pas de photo en plein écran.
 
 ## Invariants — non négociables
 
@@ -255,6 +256,7 @@ pnpm verify         # tout ce qui précède, identique à la CI
 | 35  | `william/feat/command-palette`       | Recherche rapide ⌘K : sections, pages, thème, langue, CV, contact, en éléments natifs (ADR 0034)                    |
 | 36  | `william/feat/discreet-sounds`       | Sons discrets coupés par défaut : tap, ouverture, carillon de cabine, synthétisés (ADR 0035)                        |
 | 37  | `william/docs/premium-direction`     | Direction premium : la personne, la typographie, un seul accent ; scènes et sons retirés (ADR 0036)                 |
+| 38  | `william/feat/premium-hero`          | Hero vivant : champ de couleur WebGL, phrase du CV, photo en carte, barre et menu (ADR 0037)                        |
 
 Questions encore ouvertes : un traitement serveur du formulaire de contact (service
 tiers ou fonction serverless) au-delà du `mailto:`.

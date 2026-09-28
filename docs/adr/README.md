@@ -41,6 +41,7 @@ fois accepté** : on ne le réécrit pas, on le remplace par un nouvel ADR qui l
 | 0033 | [Montrer les coulisses du site, avec des chiffres vérifiés](0033-behind-the-scenes-page.md)                      | Accepté                           |
 | 0034 | [Une recherche rapide (⌘K), en éléments natifs, dans son propre chunk](0034-quick-search.md)                     | Accepté                           |
 | 0035 | [Des sons discrets, synthétisés, coupés par défaut](0035-discreet-sounds.md)                                     | Remplacé par 0036                 |
-| 0036 | [Une direction premium : la personne, la typographie, une seule couleur](0036-premium-direction.md)              | Accepté                           |
+| 0036 | [Une direction premium : la personne, la typographie, une seule couleur](0036-premium-direction.md)              | Remplacé en partie par 0037       |
+| 0037 | [Un hero vivant : une couleur qui ondule, une phrase, la photo en carte](0037-living-hero.md)                    | Accepté                           |
 
 Modèle : copier [template.md](template.md).

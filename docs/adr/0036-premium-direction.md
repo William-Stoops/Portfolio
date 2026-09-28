@@ -1,6 +1,6 @@
 # 0036 — Une direction premium : la personne, la typographie, une seule couleur
 
-- Statut : Accepté
+- Statut : Remplacé en partie par l’[ADR 0037](0037-living-hero.md) (la référence visuelle et le hero)
 - Date : 2026-09-28
 - Remplace : 0016, 0019, 0021, 0022, 0023, 0027, 0028, 0029, 0030, 0035
 - Remplace en partie : 0015 (le principe d'un mouvement expressif ; le CSS natif reste)

@@ -15,5 +15,5 @@ export const SITE_FACTS = {
   },
   coverage: { lines: 90, branches: 85 },
   devices: 5,
-  decisions: 36,
+  decisions: 37,
 } as const satisfies SiteFacts;
