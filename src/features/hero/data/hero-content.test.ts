@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
-import { HERO_CONTENT } from '@/features/hero/data/hero-content';
+import { HERO_CONTENT as HERO_CONTENT_EN } from '@/features/hero/data/hero-content.en';
+import { HERO_CONTENT } from '@/features/hero/data/hero-content.fr';
 import { PORTRAIT_PICTURE } from '@/features/hero/data/portrait-picture';
 
 // Expected values are copied from docs/content/cv-source.md: the CV is the only source.
@@ -39,6 +40,26 @@ describe('hero content', () => {
 
   it('describes the portrait without claiming what the photo does not show', () => {
     expect(HERO_CONTENT.portraitAlt).toBe('William Stoops, souriant, sur scène');
+  });
+
+  it('links the calls to action to the French contact section and the CV', () => {
+    expect(HERO_CONTENT.contact).toEqual({ label: 'Me contacter', href: '/fr#contact' });
+    expect(HERO_CONTENT.cv).toEqual({
+      label: 'Télécharger le CV',
+      details: 'PDF, 56 Ko',
+      href: '/cv/william-stoops-cv-fr.pdf',
+    });
+  });
+
+  it('translates the hero without changing a fact, and says the CV is in French', () => {
+    expect(HERO_CONTENT_EN.technologies).toEqual(HERO_CONTENT.technologies);
+    expect(HERO_CONTENT_EN.highlights.map(({ value }) => value)).toEqual([
+      '1st',
+      'C++ · Rust · TS',
+      'Agents & LLMs',
+    ]);
+    expect(HERO_CONTENT_EN.contact.href).toBe('/en#contact');
+    expect(HERO_CONTENT_EN.cv.details).toBe('PDF in French, 56 KB');
   });
 
   it('declares a square portrait no wider than its 520 px source', () => {

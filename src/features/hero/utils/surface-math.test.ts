@@ -3,12 +3,9 @@ import { describe, expect, it } from 'vitest';
 import {
   buildSurfaceGrid,
   buildWireframeIndices,
-  invertMatrix,
-  lookAt,
-  multiplyMatrices,
-  perspective,
   unprojectToGround,
 } from '@/features/hero/utils/surface-math';
+import { invertMatrix, lookAt, multiplyMatrices, perspective } from '@/utils/matrix4';
 
 // Projects a world point to the screen, independently of the module under test.
 function project(matrix: Float32Array, [x, y, z]: readonly [number, number, number]) {
@@ -39,26 +36,11 @@ describe('buildWireframeIndices', () => {
   });
 });
 
-describe('camera matrices', () => {
+describe('unprojectToGround', () => {
   const projection = perspective(Math.PI / 4, 16 / 9, 0.1, 50);
   // Looking slightly down (13°): the top of the screen sees the sky, the rest the ground.
   const view = lookAt([0, 1.6, 3.4], [0, 0.8, 0], [0, 1, 0]);
   const viewProjection = multiplyMatrices(projection, view);
-
-  it('puts the point looked at in the centre of the screen', () => {
-    const [x, y] = project(viewProjection, [0, 0.8, 0]);
-
-    expect(x).toBeCloseTo(0);
-    expect(y).toBeCloseTo(0);
-  });
-
-  it('inverts a matrix', () => {
-    const identity = multiplyMatrices(viewProjection, invertMatrix(viewProjection));
-
-    [...identity].forEach((value, index) => {
-      expect(value).toBeCloseTo(index % 5 === 0 ? 1 : 0);
-    });
-  });
 
   it('finds the ground point under a screen position, and nothing above the horizon', () => {
     const inverse = invertMatrix(viewProjection);
