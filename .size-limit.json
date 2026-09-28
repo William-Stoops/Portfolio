@@ -15,6 +15,11 @@
     "limit": "2 kB"
   },
   {
+    "name": "Journey (loaded as hydration reaches it)",
+    "path": "dist/assets/home-journey-*.js",
+    "limit": "16 kB"
+  },
+  {
     "name": "CSS",
     "path": "dist/assets/*.css",
     "limit": "15 kB"

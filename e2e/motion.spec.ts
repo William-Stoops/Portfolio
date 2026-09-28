@@ -25,6 +25,24 @@ test.describe('motion', () => {
     await expect(page.getByRole('button', { name: 'Mettre en pause le défilement' })).toBeHidden();
   });
 
+  test('applies every style change at once when the visitor asks for reduced motion', async ({
+    page,
+  }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    // Any page will do, the reset being global: this one stays where it is, never redirected.
+    await page.goto('/404');
+
+    // Any style may change after load (a section rendered late, the theme): none may fade,
+    // not even for a hundredth of a millisecond, or a text would start from black.
+    const transitions = await page.evaluate(() => {
+      document.body.style.color = 'rgb(1, 2, 3)';
+      return document.getAnimations().filter((animation) => animation instanceof CSSTransition)
+        .length;
+    });
+
+    expect(transitions).toBe(0);
+  });
+
   test('scrolls the technology band until the visitor pauses it (WCAG 2.2.2)', async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'no-preference' });
     await page.goto('/');

@@ -8,6 +8,8 @@ const SCOPES = [
   'experience',
   'projects',
   'ai-practice',
+  'korea',
+  'journey',
   'skills',
   'education',
   'contact',
