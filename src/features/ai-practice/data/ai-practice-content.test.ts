@@ -11,29 +11,27 @@ describe('AI practice content', () => {
     expect(AI_PRACTICE_CONTENT.subtitle).toBe('Pratique personnelle et travaux académiques.');
   });
 
-  it('quotes the three items of the CV word for word', () => {
+  it('quotes the CV on agents and LLMs, without naming each MCP server', () => {
     expect(AI_PRACTICE_CONTENT.items).toEqual([
       {
         title: 'Agents et MCP',
-        text: 'J’utilise des agents de code tous les jours : décomposition de tâches, boucles agentiques, conventions de dépôt et garde-fous. J’ai branché des serveurs MCP (Pennylane, outils Google, Context7, 21st.dev) pour automatiser mes propres flux.',
+        text: 'J’utilise des agents de code tous les jours : décomposition de tâches, boucles agentiques, conventions de dépôt et garde-fous. J’ai branché des serveurs MCP pour automatiser mes propres flux.',
       },
       {
         title: 'Intégration de LLM',
         text: 'J’appelle les API OpenAI et Anthropic depuis mon code : function calling avec fonctions déclarées, sorties contraintes par schéma, gestion du contexte et des tokens, arbitrage coût / latence entre modèles.',
       },
-      {
-        title: 'Modèles entraînés à Korea University',
-        text: 'J’ai affiné un BERT (Hugging Face) pour de la classification de texte, entraîné un CNN reconnaissant l’état d’une partie d’échecs sur image du plateau, et déployé un détecteur de gestes temps réel de type YOLO sur flux webcam.',
-      },
     ]);
   });
 
-  it('translates the three practices, under the English anchor', () => {
+  it('translates the two practices, under the English anchor', () => {
     expect(AI_PRACTICE_CONTENT_EN.id).toBe('ai');
     expect(AI_PRACTICE_CONTENT_EN.items.map(({ title }) => title)).toEqual([
       'Agents and MCP',
       'LLM integration',
-      'Models trained at Korea University',
     ]);
+    expect(AI_PRACTICE_CONTENT_EN.items[0].text).toContain(
+      'I connected MCP servers to automate my own workflows.',
+    );
   });
 });

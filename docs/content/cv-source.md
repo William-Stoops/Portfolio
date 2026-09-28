@@ -125,6 +125,11 @@ Légende : « Devant 300 personnes, sur la scène de l'Epitech Summit. »
   pour de la classification de texte ; CNN reconnaissant l'état d'une partie d'échecs sur
   image du plateau ; détecteur de gestes temps réel de type YOLO sur flux webcam.
 
+Sur le site, à la demande de William le 2026-09-28 : la section IA ne cite plus les serveurs
+MCP un à un (Pennylane, outils Google, Context7, 21st.dev), et n'a plus le point « Modèles
+entraînés à Korea University », une redite : ces modèles sont racontés dans le chapitre
+de la Corée du Sud.
+
 Correction de William le 2026-09-28 : Korea University n'était pas à Séoul. Le site dit
 « Korea University » ou « Corée du Sud », jamais « Séoul ».
 

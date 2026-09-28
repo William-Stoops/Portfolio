@@ -29,7 +29,7 @@ describe('AiPracticeSection', () => {
         .map((heading) => heading.textContent),
     ).toEqual(AI_PRACTICE_CONTENT.items.map(({ title }) => title));
     await expect
-      .element(screen.getByText(/Pennylane, outils Google, Context7, 21st.dev/))
+      .element(screen.getByText(/serveurs MCP pour automatiser mes propres flux/))
       .toBeVisible();
   });
 
@@ -40,7 +40,7 @@ describe('AiPracticeSection', () => {
     expect(rows).toHaveLength(AI_PRACTICE_CONTENT.items.length);
     expect(screen.container.querySelector('[data-stop-marker]')).toBeNull();
     const numbers = rows.map((row) => row.querySelector('header p[aria-hidden="true"]'));
-    expect(numbers.map((number) => number?.textContent)).toEqual(['01', '02', '03']);
+    expect(numbers.map((number) => number?.textContent)).toEqual(['01', '02']);
   });
 
   it('has no axe violations', async () => {
