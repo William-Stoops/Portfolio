@@ -54,9 +54,11 @@ export const HERO_CONTENT = {
 
 ## Copy rules
 
-- UI language: **French**, `lang="fr"`. Technical proper nouns stay as is (TypeScript,
-  NestJS, OPRA). English phrases get `lang="en"` (e.g. "Software Engineer & AI Engineer"
-  is a job title in English → wrap in `<span lang="en">`).
+- Languages: **French** (source, from the CV) and **English** (a faithful translation that
+  adds nothing), one data module per locale: `<name>.fr.ts`, `<name>.en.ts`, same export
+  names, assembled by `src/app/content/` (skill `i18n`, ADR 0026). Technical proper nouns
+  stay as is (TypeScript, NestJS, OPRA). A passage in another language than the page's gets
+  `lang` (a job title in English on the French page, "Bonjour." on the English page).
 - First person, direct, same voice as the CV ("J'ai conçu…"). No marketing superlatives
   the CV doesn't use.
 - Typography: French non-breaking spaces before `: ; ! ? %` and inside « » (use
