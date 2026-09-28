@@ -6,7 +6,6 @@
       "!dist/assets/flight-globe-runtime-*.js",
       "!dist/assets/flow-field-runtime-*.js",
       "!dist/assets/webgl-*.js",
-      "!dist/assets/desktop-enhancements-*.js",
       "!dist/assets/home-journey-*.js",
       "!dist/assets/behind-the-scenes-page-*.js",
       "!dist/assets/command-palette-*.js",
@@ -34,11 +33,6 @@
     "name": "Korea globe (WebGL and the map, loaded near the voyage, pinned scenes only), with the shared WebGL helpers",
     "path": ["dist/assets/flight-globe-runtime-*.js", "dist/assets/webgl-*.js"],
     "limit": "6 kB"
-  },
-  {
-    "name": "Desktop touches (cursor, decoding texts; loaded on idle, precise pointers only)",
-    "path": "dist/assets/desktop-enhancements-*.js",
-    "limit": "2 kB"
   },
   {
     "name": "Journey (loaded as hydration reaches it)",

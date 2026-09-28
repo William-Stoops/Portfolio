@@ -167,7 +167,6 @@
     --header-height: 4.5rem;
     /* Stacking order, lowest to highest. No magic numbers in class names. */
     --z-header: 50;
-    --z-cursor: 90;
     --z-skip-link: 100;
   }
 

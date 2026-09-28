@@ -5,7 +5,7 @@ import { waitForHydration } from './support/hydration.ts';
 type ClockAnimation = { name: string; endTime: number; isRunning: boolean };
 
 // The keyframe animations the page plays on its own, on the clock (scroll-driven ones
-// follow the scroll; transitions and the cursor ring answer the visitor): their keyframes,
+// follow the scroll; transitions answer the visitor): their keyframes,
 // when each ends, in milliseconds from the start of the document, and whether it runs.
 async function clockAnimations(page: Page): Promise<ClockAnimation[]> {
   return page.evaluate(() =>

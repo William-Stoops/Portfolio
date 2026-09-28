@@ -6,7 +6,6 @@ import { SiteHeader } from '@/components/layout/site-header';
 import { SkipLink } from '@/components/layout/skip-link';
 import { PAGE_PATHS } from '@/config/paths';
 import { useCommandPaletteShortcut } from '@/hooks/use-command-palette-shortcut';
-import { useDesktopEnhancements } from '@/hooks/use-desktop-enhancements';
 import { usePointerGlow } from '@/hooks/use-pointer-glow';
 import { useLocale } from '@/i18n/locale-context';
 import { isArrivingAtReadingPosition } from '@/lib/reading-position';
@@ -15,7 +14,6 @@ import { useRestoredReadingPosition } from '@/hooks/use-restored-reading-positio
 
 export function RootLayout() {
   usePointerGlow();
-  useDesktopEnhancements();
   useProgressiveRender();
   useRestoredReadingPosition();
   useCommandPaletteShortcut();
