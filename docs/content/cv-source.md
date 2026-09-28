@@ -63,6 +63,11 @@ full stack en TypeScript, et je travaille tous les jours avec des agents et des 
   requêtes. En production, devant **des centaines de milliers d'utilisateurs**. Langage
   appris sur le poste.
 
+Laboratoire de la volatilité implicite (ADR 0036), hors CV, validé par William le 2026-09-28
+sur une capture : l'explication du calcul (« Le prix d'une option dépend de la volatilité
+qu'on attend du sous-jacent… »), la surface résolue dans le navigateur à partir de prix
+simulés, et la course des cycles sous le titre « Un cycle complet, à l'échelle ».
+
 ### Full Stack Engineer — INTM Groupe (ESN) · 2024
 
 - Livré **seul et from scratch** l'outil interne de pilotage d'activité de l'entreprise :

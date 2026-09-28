@@ -75,9 +75,9 @@ test.describe('main navigation', () => {
     await expect(page.getByRole('heading', { level: 2, name: 'À propos' })).toBeInViewport();
     await pressTab(page, browserName);
 
-    // The sections after it hold no control until the race under the IT-Finance role: that
-    // is the next stop.
-    await expect(page.locator(':focus')).toHaveAccessibleName('Lancer la course');
+    // The sections after it hold no control until the lab under the IT-Finance role: its
+    // first button, which turns the surface, is the next stop.
+    await expect(page.locator(':focus')).toHaveAccessibleName('Tourner à gauche');
   });
 });
 

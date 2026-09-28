@@ -5,6 +5,7 @@
       "dist/assets/*.js",
       "!dist/assets/flight-globe-runtime-*.js",
       "!dist/assets/flow-field-runtime-*.js",
+      "!dist/assets/volatility-surface-runtime-*.js",
       "!dist/assets/webgl-*.js",
       "!dist/assets/home-journey-*.js",
       "!dist/assets/behind-the-scenes-page-*.js",
@@ -35,9 +36,14 @@
     "limit": "6 kB"
   },
   {
+    "name": "IT-Finance lab (the solver and the drawing, loaded as the visitor reaches the surface)",
+    "path": "dist/assets/volatility-surface-runtime-*.js",
+    "limit": "5 kB"
+  },
+  {
     "name": "Journey (loaded as hydration reaches it)",
     "path": "dist/assets/home-journey-*.js",
-    "limit": "16 kB"
+    "limit": "18 kB"
   },
   {
     "name": "Quick search (loaded on its first opening, or as its button is aimed at)",
