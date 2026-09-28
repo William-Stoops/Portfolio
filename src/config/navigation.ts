@@ -68,6 +68,10 @@ function footerLinksIn(locale: Locale): readonly PageLink[] {
   ];
 }
 
+function homeLinkIn(locale: Locale): PageLink {
+  return { label: PAGE_LABELS[locale].home, path: PAGE_PATHS[locale].home };
+}
+
 // Where the not-found page sends a visitor who lost their way: back home, into the story,
 // straight to the way to reach William, or to the map of everything.
 function detoursIn(locale: Locale): readonly (NavItem | PageLink)[] {
@@ -76,7 +80,7 @@ function detoursIn(locale: Locale): readonly (NavItem | PageLink)[] {
   const sections = SECTION_LABELS[locale];
   const pages = PAGE_LABELS[locale];
   return [
-    { label: pages.home, path: paths.home },
+    homeLinkIn(locale),
     { label: sections.experience, href: `${paths.home}#${ids.experience}` },
     { label: sections.contact, href: `${paths.home}#${ids.contact}` },
     { label: pages.siteMap, path: paths.siteMap },
@@ -96,4 +100,10 @@ export const FOOTER_LINKS: Localized<readonly PageLink[]> = {
 export const DETOURS: Localized<readonly (NavItem | PageLink)[]> = {
   fr: detoursIn('fr'),
   en: detoursIn('en'),
+};
+
+// The home page, by name: the not-found page and the quick search lead back to it.
+export const HOME_LINK: Localized<PageLink> = {
+  fr: homeLinkIn('fr'),
+  en: homeLinkIn('en'),
 };

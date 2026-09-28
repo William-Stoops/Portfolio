@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { DETOURS, FOOTER_LINKS, NAV_ITEMS } from '@/config/navigation';
+import { DETOURS, FOOTER_LINKS, HOME_LINK, NAV_ITEMS } from '@/config/navigation';
 
 describe('NAV_ITEMS', () => {
   it('links each home section in French, by its French anchor', () => {
@@ -58,6 +58,15 @@ describe('DETOURS', () => {
         { label: 'Contact', href: '/en#contact' },
         { label: 'Site map', path: '/en/site-map' },
       ],
+    });
+  });
+});
+
+describe('HOME_LINK', () => {
+  it('names the home page in each language', () => {
+    expect(HOME_LINK).toEqual({
+      fr: { label: 'Accueil', path: '/fr' },
+      en: { label: 'Home', path: '/en' },
     });
   });
 });
