@@ -1,7 +1,12 @@
 import { useSyncExternalStore } from 'react';
 
 import { type PageVitals } from '@/features/behind-the-scenes/types/page-vitals';
-import { cumulativeLayoutShift, scriptBytes } from '@/features/behind-the-scenes/utils/page-vitals';
+import {
+  cumulativeLayoutShift,
+  firstHiddenTime,
+  paintTime,
+  scriptBytes,
+} from '@/features/behind-the-scenes/utils/page-vitals';
 
 const PENDING: PageVitals = {
   firstContentfulPaint: 'pending',
@@ -57,17 +62,26 @@ function readResources(): void {
   publish({ javascriptBytes: scriptBytes(resources), requests: resources.length + 1 });
 }
 
+// When the page was first hidden: its paints after that measure the wait for its tab.
+function hiddenSince(): number {
+  const entries = PerformanceObserver.supportedEntryTypes.includes('visibility-state')
+    ? performance.getEntriesByType('visibility-state')
+    : [];
+  return firstHiddenTime(entries, document.visibilityState === 'hidden');
+}
+
 function start(): void {
+  const hidden = hiddenSince();
   const paints = watch('paint', (entries) => {
     const firstContentfulPaint = entries.find(({ name }) => name === 'first-contentful-paint');
     if (firstContentfulPaint !== undefined) {
-      publish({ firstContentfulPaint: firstContentfulPaint.startTime });
+      publish({ firstContentfulPaint: paintTime(firstContentfulPaint.startTime, hidden) });
     }
   });
   const largestPaints = watch('largest-contentful-paint', (entries) => {
     const latest = entries.at(-1);
     if (latest !== undefined) {
-      publish({ largestContentfulPaint: latest.startTime });
+      publish({ largestContentfulPaint: paintTime(latest.startTime, hidden) });
     }
   });
   const layoutShifts = watch('layout-shift', (entries) => {

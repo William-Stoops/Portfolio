@@ -23,7 +23,7 @@ Trois pièges :
   - JavaScript téléchargé, compressé ;
   - nombre de fichiers demandés.
 
-  Pré-rendue, la page dit « Mesure en cours ». Un navigateur qui ne prend pas une mesure le dit aussi. Sous le LCP et le CLS, le seuil de la CI.
+  Pré-rendue, la page dit « Mesure en cours ». Un navigateur qui ne prend pas une mesure le dit aussi. Sous le LCP et le CLS, le seuil de la CI. Une page ouverte en arrière-plan ne peint qu'une fois affichée : ses affichages mesureraient l'attente de l'onglet, pas le site. Comme dans la bibliothèque web-vitals, ils sont écartés, et la tuile le dit.
 
 - **Ce que la CI refuse, avec ses vrais seuils** : typage, lint, code mort, tests et couverture, accessibilité, poids et Lighthouse.
   - Les nombres viennent de `SITE_FACTS`.

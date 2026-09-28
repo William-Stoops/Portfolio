@@ -32,6 +32,9 @@ function readValue(vital: Vital, key: VitalKey, content: VitalsContent): string 
   if (vital === 'unsupported') {
     return content.unsupported;
   }
+  if (vital === 'background') {
+    return content.background;
+  }
   return content.format[FORMAT_OF[key]](vital);
 }
 

@@ -45,6 +45,20 @@ describe('vitalReadouts', () => {
     ]);
   });
 
+  it('says a paint was not measured when the page opened in the background', () => {
+    const [firstPaint, largestPaint] = vitalReadouts(
+      { ...MEASURED, firstContentfulPaint: 'background', largestContentfulPaint: 'background' },
+      BEHIND_THE_SCENES.vitals,
+    );
+
+    expect(firstPaint?.value).toBe('Non mesuré\u202F: page ouverte en arrière-plan');
+    expect(largestPaint?.value).toBe('Non mesuré\u202F: page ouverte en arrière-plan');
+    expect(
+      vitalReadouts({ ...MEASURED, firstContentfulPaint: 'background' }, CONTENT_EN.vitals)[0]
+        ?.value,
+    ).toBe('Not measured: page opened in the background');
+  });
+
   it('says a measure is on its way, or that this browser does not take it', () => {
     const values = vitalReadouts(
       {

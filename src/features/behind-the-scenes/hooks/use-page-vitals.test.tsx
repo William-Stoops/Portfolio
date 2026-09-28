@@ -41,6 +41,15 @@ describe('usePageVitals', () => {
     expect(result.current.cumulativeLayoutShift).toBe('unsupported');
   });
 
+  it('leaves out the paints of a page opened in the background', async () => {
+    vi.spyOn(document, 'visibilityState', 'get').mockReturnValue('hidden');
+
+    const { result } = await renderHook(() => usePageVitals(), { wrapper: Painted });
+
+    await expect.poll(() => result.current.firstContentfulPaint).toBe('background');
+    await expect.poll(() => result.current.javascriptBytes).toBeGreaterThan(0);
+  });
+
   it('stops listening when the page leaves, and starts afresh when it comes back', async () => {
     const disconnect = vi.spyOn(PerformanceObserver.prototype, 'disconnect');
     const first = await renderHook(() => usePageVitals(), { wrapper: Painted });

@@ -18,6 +18,7 @@ export type VitalsContent = {
   thresholds: Readonly<Partial<Record<VitalKey, string>>>;
   pending: string;
   unsupported: string;
+  background: string;
   format: VitalFormats;
 };
 

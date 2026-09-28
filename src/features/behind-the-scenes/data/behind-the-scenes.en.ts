@@ -39,6 +39,7 @@ export const BEHIND_THE_SCENES = {
     },
     pending: 'Measuring',
     unsupported: 'Not measured by this browser',
+    background: 'Not measured: page opened in the background',
     format: {
       milliseconds: (value) => `${number(Math.round(value))} ms`,
       score: (value) => SCORE.format(value),
