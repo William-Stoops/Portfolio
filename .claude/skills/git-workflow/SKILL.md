@@ -44,8 +44,8 @@ git switch main && git pull --ff-only && git switch -c william/feat/hero-section
 
 - `type`: same list as branches.
 - `scope`: **required**, from the enum enforced by commitlint (`commitlint.config.ts`):
-  - features: `hero`, `about`, `experience`, `projects`, `ai-practice`, `skills`,
-    `education`, `contact`, `legal`
+  - features: `hero`, `about`, `experience`, `projects`, `ai-practice`, `korea`, `journey`, `skills`,
+    `education`, `contact`, `legal`, `behind-the-scenes`
   - shared / cross-cutting: `app`, `ui`, `layout`, `design-system`, `a11y`, `responsive`,
     `perf`, `seo`, `content`
   - tooling: `test`, `e2e`, `deps`, `config`, `ci`, `docs`, `adr`, `agent`

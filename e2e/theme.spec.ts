@@ -10,7 +10,7 @@ const EXPECTED_COLORS = {
 for (const colorScheme of ['light', 'dark'] as const) {
   test(`follows the ${colorScheme} system preference`, async ({ page }) => {
     await page.emulateMedia({ colorScheme });
-    await page.goto('/');
+    await page.goto('/fr');
 
     const html = page.locator('html');
     await expect(html).toHaveCSS('background-color', EXPECTED_COLORS[colorScheme].canvas);
@@ -35,7 +35,7 @@ test.describe('stored theme preference', () => {
       );
 
       // `domcontentloaded` fires before the React bundle renders: only the inline script ran.
-      await page.goto('/', { waitUntil: 'domcontentloaded' });
+      await page.goto('/fr', { waitUntil: 'domcontentloaded' });
 
       const html = page.locator('html');
       await expect(html).toHaveAttribute('data-theme', storedPreference);
@@ -49,7 +49,7 @@ test.describe('stored theme preference', () => {
       localStorage.setItem('theme-preference', 'sepia');
     });
 
-    await page.goto('/', { waitUntil: 'domcontentloaded' });
+    await page.goto('/fr', { waitUntil: 'domcontentloaded' });
 
     await expect(page.locator('html')).not.toHaveAttribute('data-theme', /.+/);
     await expect(page.locator('html')).toHaveCSS('background-color', EXPECTED_COLORS.dark.canvas);

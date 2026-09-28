@@ -6,18 +6,23 @@ import { expectNoAxeViolations } from '@/testing/expect-no-axe-violations';
 import { renderInRouter } from '@/testing/render-with-router';
 
 const SECTION_LINKS = [
-  { name: 'À propos', href: '/#a-propos' },
-  { name: 'Parcours', href: '/#parcours' },
-  { name: 'Projets', href: '/#projets' },
-  { name: 'IA', href: '/#ia' },
-  { name: 'Compétences', href: '/#competences' },
-  { name: 'Contact', href: '/#contact' },
+  { name: 'À propos', href: '/fr#a-propos' },
+  { name: 'Parcours', href: '/fr#parcours' },
+  { name: 'IA', href: '/fr#ia' },
+  { name: 'Compétences', href: '/fr#competences' },
+  { name: 'Contact', href: '/fr#contact' },
 ];
 
-// Following /#parcours would navigate the test frame away: keep the click, drop the
+// Following /fr#parcours would navigate the test frame away: keep the click, drop the
 // navigation. React's click handler still runs.
 function preventNavigation(event: MouseEvent): void {
   event.preventDefault();
+}
+
+// Where an element's middle sits: elements on one row share it.
+function middleOf(element: Element): number {
+  const { top, height } = element.getBoundingClientRect();
+  return Math.round(top + height / 2);
 }
 
 describe('SiteHeader', () => {
@@ -26,7 +31,26 @@ describe('SiteHeader', () => {
 
     await expect
       .element(screen.getByRole('banner').getByRole('link', { name: 'William Stoops' }))
-      .toHaveAttribute('href', '/');
+      .toHaveAttribute('href', '/fr');
+  });
+
+  it('speaks English on an English page, and offers French', async () => {
+    const screen = await renderInRouter(<SiteHeader />, { path: '/en', locale: 'en' });
+
+    await expect
+      .element(screen.getByRole('link', { name: 'William Stoops' }))
+      .toHaveAttribute('href', '/en');
+    await page.viewport(1024, 800);
+    expect(
+      screen
+        .getByRole('navigation', { name: 'Main navigation' })
+        .getByRole('link')
+        .elements()
+        .map((link) => link.getAttribute('href')),
+    ).toEqual(['/en#about', '/en#journey', '/en#ai', '/en#skills', '/en#contact']);
+    await expect
+      .element(screen.getByRole('link', { name: 'Français' }))
+      .toHaveAttribute('href', '/fr');
   });
 
   describe('on large screens', () => {
@@ -46,6 +70,29 @@ describe('SiteHeader', () => {
       ).toEqual(SECTION_LINKS);
       await expect.element(screen.getByRole('group', { name: 'Thème' })).toBeVisible();
       expect(screen.getByRole('button', { name: 'Menu' }).elements()).toHaveLength(0);
+    });
+
+    it('keeps every section link on one line, from the narrowest large screen', async () => {
+      const screen = await renderInRouter(<SiteHeader />);
+
+      const tops = screen
+        .getByRole('navigation', { name: 'Navigation principale' })
+        .getByRole('link')
+        .elements()
+        .map((link) => link.getBoundingClientRect().top);
+      expect(new Set(tops).size).toBe(1);
+    });
+
+    it('keeps the name, the navigation and every choice on one row, from the narrowest large screen', async () => {
+      const screen = await renderInRouter(<SiteHeader />);
+
+      const middles = [
+        screen.getByRole('link', { name: 'William Stoops' }).element(),
+        screen.getByRole('link', { name: 'Contact' }).element(),
+        screen.getByRole('button', { name: /^Recherche rapide/ }).element(),
+        screen.getByRole('link', { name: 'English' }).element(),
+      ].map((element) => middleOf(element));
+      expect(Math.max(...middles) - Math.min(...middles)).toBeLessThanOrEqual(2);
     });
 
     it('has no axe violations', async () => {
