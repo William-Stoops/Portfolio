@@ -1,4 +1,5 @@
 import { Check, Copy, ExternalLink } from 'lucide-react';
+import { type ReactNode } from 'react';
 
 import { PageSection } from '@/components/layout/page-section';
 import { SECTION_IDS } from '@/config/paths';
@@ -12,14 +13,36 @@ type ContactSectionProps = {
   content: ContactContent;
   // Injected so tests can observe the prepared message without leaving the page.
   openMailto?: (url: string) => void;
+  // Drawn behind the section, like the hero's surface closing the page: decoration.
+  backdrop?: ReactNode;
 };
 
-export function ContactSection({ content, openMailto = openInMailClient }: ContactSectionProps) {
+export function ContactSection({
+  content,
+  openMailto = openInMailClient,
+  backdrop,
+}: ContactSectionProps) {
   const { status, announcement, copy } = useCopyToClipboard();
 
   return (
-    <PageSection id={SECTION_IDS.contact} title="Contact">
-      <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,22rem),1fr))] gap-x-12 gap-y-10">
+    <PageSection
+      id={SECTION_IDS.contact}
+      title="Contact"
+      lead={
+        <p className="max-w-3xl font-display text-h3 font-medium text-fg">{content.invitation}</p>
+      }
+    >
+      <div className="relative isolate grid grid-cols-[repeat(auto-fit,minmax(min(100%,22rem),1fr))] gap-x-12 gap-y-10">
+        {backdrop === undefined ? null : (
+          // Never catches the pointer, and stays within the section's smallest bottom
+          // padding (4rem): positioned, it would paint over the footer's links.
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute -inset-x-16 -top-24 -bottom-16 -z-10"
+          >
+            {backdrop}
+          </div>
+        )}
         <dl className="flex flex-col gap-5">
           <div className="flex flex-col gap-1">
             <dt className="text-small font-semibold text-fg-muted">E-mail</dt>
