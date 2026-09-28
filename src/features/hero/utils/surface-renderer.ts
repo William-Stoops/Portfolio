@@ -1,12 +1,11 @@
 import {
   buildSurfaceGrid,
   buildWireframeIndices,
-  invertMatrix,
-  lookAt,
-  multiplyMatrices,
-  perspective,
   unprojectToGround,
 } from '@/features/hero/utils/surface-math';
+import { createShaderProgram } from '@/lib/webgl-program';
+import { invertMatrix, lookAt, multiplyMatrices, perspective } from '@/utils/matrix4';
+import { type RgbChannels } from '@/utils/parse-rgb-color';
 
 // An implied volatility surface, as William computes them: strikes across, maturities in
 // depth, the volatility "smile" rising on both wings. Drawn in wireframe with raw WebGL2:
@@ -76,8 +75,6 @@ void main() {
   color = vec4(mix(u_low, u_high, heat) * alpha, alpha);
 }`;
 
-type RgbChannels = readonly [number, number, number];
-
 type SurfaceFrame = {
   // Seconds since the scene started.
   time: number;
@@ -105,59 +102,40 @@ export type SurfaceRenderer = {
 // A slow sway, a touch of pointer parallax, and the camera rising as the hero scrolls
 // away. Looking left of the surface centre puts the surface on the right, behind the
 // portrait, away from the text.
-function cameraFor(aspect: number, time: number, calm: number, parallax: number): Float32Array {
+// right: the hero, the surface beside the portrait, away from the text column.
+// centre: the finale, the surface across the width, seen from a little higher.
+export type SurfaceFraming = 'right' | 'centre';
+
+const CAMERA_TARGETS: Readonly<Record<SurfaceFraming, readonly [number, number, number]>> = {
+  right: [-1.6, 0.45, -0.5],
+  centre: [0, 0.2, -0.6],
+};
+
+function cameraFor(
+  framing: SurfaceFraming,
+  aspect: number,
+  time: number,
+  calm: number,
+  parallax: number,
+): Float32Array {
   const eyeX = 0.5 * Math.sin(time * 0.12) + 0.35 * parallax;
   return multiplyMatrices(
     perspective(0.8, aspect, 0.1, 30),
-    lookAt([eyeX, 1.25 + 0.8 * calm, 4.3], [-1.6, 0.45, -0.5], [0, 1, 0]),
+    lookAt([eyeX, 1.25 + 0.8 * calm, 4.3], CAMERA_TARGETS[framing], [0, 1, 0]),
   );
-}
-
-function compileShader(
-  gl: WebGL2RenderingContext,
-  type: GLenum,
-  source: string,
-): WebGLShader | null {
-  const shader = gl.createShader(type);
-  if (shader === null) {
-    return null;
-  }
-  gl.shaderSource(shader, source);
-  gl.compileShader(shader);
-  if (gl.getShaderParameter(shader, gl.COMPILE_STATUS) !== true) {
-    gl.deleteShader(shader);
-    return null;
-  }
-  return shader;
-}
-
-function createProgram(gl: WebGL2RenderingContext): WebGLProgram | null {
-  const vertexShader = compileShader(gl, gl.VERTEX_SHADER, VERTEX_SHADER);
-  const fragmentShader = compileShader(gl, gl.FRAGMENT_SHADER, FRAGMENT_SHADER);
-  const program = gl.createProgram();
-  if (vertexShader === null || fragmentShader === null) {
-    return null;
-  }
-  gl.attachShader(program, vertexShader);
-  gl.attachShader(program, fragmentShader);
-  gl.linkProgram(program);
-  gl.deleteShader(vertexShader);
-  gl.deleteShader(fragmentShader);
-  if (gl.getProgramParameter(program, gl.LINK_STATUS) !== true) {
-    gl.deleteProgram(program);
-    return null;
-  }
-  return program;
 }
 
 // Null when the browser has no WebGL2 or the shaders do not build: the caller keeps the
 // static hero, which is complete on its own.
-export function createSurfaceRenderer(canvas: HTMLCanvasElement): SurfaceRenderer | null {
+export function createSurfaceRenderer(
+  canvas: HTMLCanvasElement,
+  framing: SurfaceFraming,
+): SurfaceRenderer | null {
   const gl = canvas.getContext('webgl2', { antialias: true, alpha: true });
   if (gl === null) {
     return null;
   }
-  const program = createProgram(gl);
+  const program = createShaderProgram(gl, VERTEX_SHADER, FRAGMENT_SHADER);
   if (program === null) {
     return null;
   }
@@ -195,7 +173,7 @@ export function createSurfaceRenderer(canvas: HTMLCanvasElement): SurfaceRendere
   gl.useProgram(program);
   gl.enable(gl.BLEND);
   gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
-  let inverseViewProjection = invertMatrix(cameraFor(1, 0, 0, 0));
+  let inverseViewProjection = invertMatrix(cameraFor(framing, 1, 0, 0, 0));
   let pixelRatio = 1;
 
   return {
@@ -211,7 +189,7 @@ export function createSurfaceRenderer(canvas: HTMLCanvasElement): SurfaceRendere
     },
     draw({ time, pointer, pointerStrength, calm, parallax, ripple }) {
       const aspect = canvas.width / Math.max(canvas.height, 1);
-      const viewProjection = cameraFor(aspect, time, calm, parallax);
+      const viewProjection = cameraFor(framing, aspect, time, calm, parallax);
       inverseViewProjection = invertMatrix(viewProjection);
       gl.clearColor(0, 0, 0, 0);
       gl.clear(gl.COLOR_BUFFER_BIT);

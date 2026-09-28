@@ -1,6 +1,14 @@
 import { describe, expect, it } from 'vitest';
 
-import { PROJECTS } from '@/features/projects/data/projects';
+import { PROJECTS as PROJECTS_EN } from '@/features/projects/data/projects.en';
+import { PROJECTS } from '@/features/projects/data/projects.fr';
+import {
+  NRJ_EXPLANATION_PICTURE,
+  NRJ_INTERVIEW_PICTURE,
+  PITCH_PICTURE,
+  SUMMIT_PICTURE,
+  SUMMIT_SPOTLIGHT,
+} from '@/features/projects/data/staxx-pictures';
 
 // Expected values are copied from docs/content/cv-source.md ("Projets").
 describe('projects', () => {
@@ -23,11 +31,101 @@ describe('projects', () => {
     ]);
   });
 
-  it('points to the pitch video at 1:02:21', () => {
-    expect(PROJECTS[0].video).toEqual({
-      youtubeId: 'K_TsQ0Itoek',
-      startSeconds: 3741,
-      title: 'Pitch de STAXX au concours Epitech Summit',
+  it('films the pitch from 1:02:21, with the frame it opens on as its poster', () => {
+    expect(PROJECTS[0].pitch).toEqual({
+      video: {
+        youtubeId: 'K_TsQ0Itoek',
+        startSeconds: 3741,
+        title: 'Pitch de STAXX au concours Epitech Summit',
+      },
+      poster: PITCH_PICTURE,
+      label: 'Le pitch',
+      caption: 'Devant 300 personnes, sur la scène de l’Epitech Summit.',
     });
+  });
+
+  it('frames the poster exactly like the player, so one grows into the other', () => {
+    expect(PITCH_PICTURE.width / PITCH_PICTURE.height).toBeCloseTo(16 / 9);
+  });
+
+  it('sums up STAXX in three figures drawn from the CV', () => {
+    expect(PROJECTS[0].figures).toEqual([
+      { value: '1er', label: 'au concours Epitech Summit' },
+      { value: '300', label: 'personnes au pitch' },
+      { value: '3', label: 'développeurs, dont deux que j’ai dirigés' },
+    ]);
+  });
+
+  it('shows the Epitech Summit win, described without claiming what the photo does not show', () => {
+    expect(PROJECTS[0].photo).toEqual({
+      picture: SUMMIT_PICTURE,
+      alt: 'William Stoops, le trophée de la première place en main, entouré de six personnes sur la scène de l’Epitech Summit',
+      place: 'Epitech Summit',
+      caption: 'La première place, trophée en main.',
+      // "pitché devant 300 personnes": the room of the Summit, one seat per person.
+      audience: { count: 300, label: 'personnes au pitch' },
+      spotlight: SUMMIT_SPOTLIGHT,
+    });
+  });
+
+  it('counts the audience as the figures do', () => {
+    const audienceFigure = PROJECTS[0].figures.find(({ label }) => label === 'personnes au pitch');
+
+    expect(String(PROJECTS[0].photo.audience.count)).toBe(audienceFigure?.value);
+  });
+
+  it('points the spotlights at the winner, inside the photo', () => {
+    expect(SUMMIT_SPOTLIGHT.x).toBeGreaterThan(0);
+    expect(SUMMIT_SPOTLIGHT.x).toBeLessThan(1);
+    expect(SUMMIT_SPOTLIGHT.y).toBeGreaterThan(0);
+    expect(SUMMIT_SPOTLIGHT.y).toBeLessThan(1);
+  });
+
+  it('tells the NRJ Lille radio appearance, with its two photos described', () => {
+    expect(PROJECTS[0].press).toEqual({
+      label: 'À la radio',
+      outlet: 'NRJ Lille',
+      summary: 'Passage sur NRJ Lille, la radio régionale de NRJ, pour présenter STAXX.',
+      photos: [
+        {
+          picture: NRJ_INTERVIEW_PICTURE,
+          alt: 'William Stoops écoute une question, face au micro NRJ que lui tend un journaliste',
+        },
+        {
+          picture: NRJ_EXPLANATION_PICTURE,
+          alt: 'William Stoops explique STAXX face au micro NRJ, une invitation à l’Epitech Summit posée sur la table',
+        },
+      ],
+    });
+  });
+
+  it('never declares a photo wider than its source', () => {
+    for (const picture of [
+      PITCH_PICTURE,
+      SUMMIT_PICTURE,
+      NRJ_INTERVIEW_PICTURE,
+      NRJ_EXPLANATION_PICTURE,
+    ]) {
+      expect(Math.max(...picture.widths)).toBeLessThanOrEqual(picture.width);
+    }
+  });
+
+  it('translates STAXX without changing a figure, a picture or the video', () => {
+    const [staxx] = PROJECTS;
+    const [english] = PROJECTS_EN;
+
+    expect(english.figures.map(({ value }) => value)).toEqual(['1st', '300', '3']);
+    expect(english.pitch.video.youtubeId).toBe(staxx.pitch.video.youtubeId);
+    expect(english.pitch.video.startSeconds).toBe(staxx.pitch.video.startSeconds);
+    expect([english.pitch.poster, english.photo.picture]).toEqual([
+      staxx.pitch.poster,
+      staxx.photo.picture,
+    ]);
+    expect(english.photo.audience).toEqual({ count: 300, label: 'people at the pitch' });
+    expect(english.photo.spotlight).toBe(staxx.photo.spotlight);
+    expect(english.press.photos.map(({ picture }) => picture)).toEqual(
+      staxx.press.photos.map(({ picture }) => picture),
+    );
+    expect(english.stack).toEqual(staxx.stack);
   });
 });

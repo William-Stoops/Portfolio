@@ -5,12 +5,15 @@ import { SiteHeader } from '@/components/layout/site-header';
 import { SkipLink } from '@/components/layout/skip-link';
 import { useDesktopEnhancements } from '@/hooks/use-desktop-enhancements';
 import { usePointerGlow } from '@/hooks/use-pointer-glow';
+import { isArrivingAtReadingPosition } from '@/lib/reading-position';
 import { useProgressiveRender } from '@/hooks/use-progressive-render';
+import { useRestoredReadingPosition } from '@/hooks/use-restored-reading-position';
 
 export function RootLayout() {
   usePointerGlow();
   useDesktopEnhancements();
   useProgressiveRender();
+  useRestoredReadingPosition();
 
   return (
     <div className="flex min-h-svh flex-col">
@@ -24,9 +27,17 @@ export function RootLayout() {
       {/*
         Keyed by path and fragment: every freshly loaded document shares the router key
         "default", so restoring by key would apply the previous page's scroll position and
-        undo the browser's jump to a fragment such as /#a-propos.
+        undo the browser's jump to a fragment such as /fr#a-propos. A page opened from the
+        other language gets a key never saved: the router then restores nothing, and the
+        place being read wins (useRestoredReadingPosition).
       */}
-      <ScrollRestoration getKey={({ pathname, hash }) => `${pathname}${hash}`} />
+      <ScrollRestoration
+        getKey={({ pathname, hash }) =>
+          isArrivingAtReadingPosition(pathname)
+            ? `${pathname}${hash}:from-the-other-language`
+            : `${pathname}${hash}`
+        }
+      />
     </div>
   );
 }

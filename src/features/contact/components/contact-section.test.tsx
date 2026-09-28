@@ -3,7 +3,8 @@ import { userEvent } from 'vitest/browser';
 import { render } from 'vitest-browser-react';
 
 import { ContactSection } from '@/features/contact/components/contact-section';
-import { CONTACT_CONTENT } from '@/features/contact/data/contact-content';
+import { CONTACT_CONTENT as CONTACT_CONTENT_EN } from '@/features/contact/data/contact-content.en';
+import { CONTACT_CONTENT } from '@/features/contact/data/contact-content.fr';
 import { expectNoAxeViolations } from '@/testing/expect-no-axe-violations';
 
 async function renderSection(openMailto = vi.fn<(url: string) => void>()) {
@@ -105,6 +106,20 @@ describe('ContactSection', () => {
     writeText.mockRestore();
   });
 
+  it('opens with an invitation to write', async () => {
+    const { screen } = await renderSection();
+
+    await expect.element(screen.getByText(CONTACT_CONTENT.invitation)).toBeVisible();
+  });
+
+  it('draws a given backdrop behind its content, as decoration', async () => {
+    const screen = await render(
+      <ContactSection content={CONTACT_CONTENT} backdrop={<span>Décor</span>} />,
+    );
+
+    expect(screen.getByText('Décor').element().closest('[aria-hidden="true"]')).not.toBeNull();
+  });
+
   it('has no axe violations, before and after a failed submission', async () => {
     const { screen } = await renderSection();
     await expectNoAxeViolations(screen.container);
@@ -112,5 +127,31 @@ describe('ContactSection', () => {
     await screen.getByRole('button', { name: 'Préparer l’e-mail' }).click();
 
     await expectNoAxeViolations(screen.container);
+  });
+
+  it('speaks English on the English page, from labels to errors and confirmation', async () => {
+    const openMailto = vi.fn<(url: string) => void>();
+    const screen = await render(
+      <ContactSection content={CONTACT_CONTENT_EN} openMailto={openMailto} />,
+    );
+
+    await screen.getByRole('button', { name: 'Prepare the email' }).click();
+    await expect
+      .element(screen.getByRole('textbox', { name: 'Name' }))
+      .toHaveAccessibleDescription('Error: enter your name.');
+    await screen.getByRole('textbox', { name: 'Name' }).fill('Ada Lovelace');
+    await screen.getByRole('textbox', { name: 'Email' }).fill('ada@example.com');
+    await screen.getByRole('textbox', { name: 'Message' }).fill('Let us talk about the role.');
+    await screen.getByRole('button', { name: 'Prepare the email' }).click();
+
+    expect(new URL(openMailto.mock.calls[0]?.[0] ?? '').searchParams.get('subject')).toBe(
+      'Contact from the portfolio – Ada Lovelace',
+    );
+    await expect
+      .element(screen.getByRole('status').filter({ hasText: 'Your mail app opens' }))
+      .toBeVisible();
+    await expect
+      .element(screen.getByRole('link', { name: 'LinkedIn (new tab)' }))
+      .toHaveAttribute('target', '_blank');
   });
 });

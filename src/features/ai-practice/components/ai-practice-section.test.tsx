@@ -2,7 +2,8 @@ import { describe, expect, it } from 'vitest';
 import { render } from 'vitest-browser-react';
 
 import { AiPracticeSection } from '@/features/ai-practice/components/ai-practice-section';
-import { AI_PRACTICE_CONTENT } from '@/features/ai-practice/data/ai-practice-content';
+import { AI_PRACTICE_CONTENT as AI_PRACTICE_CONTENT_EN } from '@/features/ai-practice/data/ai-practice-content.en';
+import { AI_PRACTICE_CONTENT } from '@/features/ai-practice/data/ai-practice-content.fr';
 import { expectNoAxeViolations } from '@/testing/expect-no-axe-violations';
 
 async function renderSection() {
@@ -21,30 +22,39 @@ describe('AiPracticeSection', () => {
   it('gives each practice a level-3 heading and its CV text', async () => {
     const screen = await renderSection();
 
+    // Each read as one title (its rising letters are hidden from assistive tech).
     expect(
       screen
         .getByRole('heading', { level: 3 })
         .elements()
-        .map((heading) => heading.textContent),
+        .map((heading) => heading.querySelector('.sr-only')?.textContent),
     ).toEqual(AI_PRACTICE_CONTENT.items.map(({ title }) => title));
     await expect
       .element(screen.getByText(/Pennylane, outils Google, Context7, 21st.dev/))
       .toBeVisible();
   });
 
-  it('numbers the items as decoration, hidden from assistive tech', async () => {
-    const screen = await render(<AiPracticeSection content={AI_PRACTICE_CONTENT} />);
+  it('sets each practice as a numbered chapter, off the flight path', async () => {
+    const screen = await renderSection();
 
-    const numbers = [...screen.container.querySelectorAll('[data-item-number]')];
-    expect(numbers.map((number) => number.textContent)).toEqual(['01', '02', '03']);
-    for (const number of numbers) {
-      expect(number.getAttribute('aria-hidden')).toBe('true');
-    }
+    const rows = screen.getByRole('listitem').elements();
+    expect(rows).toHaveLength(AI_PRACTICE_CONTENT.items.length);
+    expect(screen.container.querySelector('[data-stop-marker]')).toBeNull();
+    const numbers = rows.map((row) => row.querySelector('header p[aria-hidden="true"]'));
+    expect(numbers.map((number) => number?.textContent)).toEqual(['01', '02', '03']);
   });
 
   it('has no axe violations', async () => {
     const screen = await renderSection();
 
     await expectNoAxeViolations(screen.container);
+  });
+
+  it('draws the English section under its English anchor', async () => {
+    const screen = await render(<AiPracticeSection content={AI_PRACTICE_CONTENT_EN} />);
+
+    await expect
+      .element(screen.getByRole('region', { name: 'Artificial intelligence' }))
+      .toHaveAttribute('id', 'ai');
   });
 });

@@ -1,20 +1,30 @@
 import { Menu as MenuIcon, X } from 'lucide-react';
 import { Link } from 'react-router';
 
+import { LanguageSwitch } from '@/components/layout/language-switch';
 import { ThemeToggle } from '@/components/layout/theme-toggle';
 import { NAV_ITEMS } from '@/config/navigation';
-import { PATHS } from '@/config/paths';
+import { PAGE_PATHS } from '@/config/paths';
 import { SITE_OWNER } from '@/config/site';
 import { useMobileMenu } from '@/hooks/use-mobile-menu';
+import { useLocale, useLocalized } from '@/i18n/locale-context';
+import { type Localized } from '@/i18n/locales';
 import { cn } from '@/lib/cn';
 
 const MENU_ID = 'menu-principal';
 
-// Below 64rem the navigation and theme choice sit in a disclosure opened by "Menu"; from
-// 64rem (where five links, the name and the theme choice fit on one row) they are shown
-// inline and the button is gone. DOM order = visual order.
+const HEADER_MESSAGES: Localized<{ menu: string; navigation: string }> = {
+  fr: { menu: 'Menu', navigation: 'Navigation principale' },
+  en: { menu: 'Menu', navigation: 'Main navigation' },
+};
+
+// Below 64rem the navigation, the theme choice and the language switch sit in a disclosure
+// opened by "Menu"; from 64rem (where five links, the name and both choices fit on one row)
+// they are shown inline and the button is gone. DOM order = visual order.
 export function SiteHeader() {
   const { isOpen, toggle, close, buttonRef } = useMobileMenu();
+  const locale = useLocale();
+  const messages = useLocalized(HEADER_MESSAGES);
 
   return (
     // Sticky, except on short screens (landscape phones, 400 % zoom) where it would eat the
@@ -30,7 +40,7 @@ export function SiteHeader() {
       />
       <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-x-6 gap-y-2 px-gutter py-4">
         <Link
-          to={PATHS.home}
+          to={PAGE_PATHS[locale].home}
           className="inline-flex min-h-11 items-center font-display text-h3 font-semibold text-fg no-underline"
         >
           {SITE_OWNER}
@@ -48,7 +58,7 @@ export function SiteHeader() {
           ) : (
             <MenuIcon aria-hidden="true" focusable="false" className="size-5" strokeWidth={1.75} />
           )}
-          Menu
+          {messages.menu}
         </button>
         <div
           id={MENU_ID}
@@ -57,9 +67,9 @@ export function SiteHeader() {
             isOpen ? 'flex' : 'hidden',
           )}
         >
-          <nav aria-label="Navigation principale">
+          <nav aria-label={messages.navigation}>
             <ul className="flex flex-col lg:flex-row lg:flex-wrap lg:items-center lg:gap-x-6">
-              {NAV_ITEMS.map(({ label, href }) => (
+              {NAV_ITEMS[locale].map(({ label, href }) => (
                 <li key={href}>
                   <a
                     href={href}
@@ -72,7 +82,10 @@ export function SiteHeader() {
               ))}
             </ul>
           </nav>
-          <ThemeToggle />
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+            <LanguageSwitch />
+          </div>
         </div>
       </div>
     </header>
