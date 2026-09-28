@@ -78,11 +78,15 @@ test.describe('Epitech Summit scene', () => {
     const halfway = await takenSeats(page);
     expect(halfway).toBeGreaterThan(50);
     expect(halfway).toBeLessThan(250);
-    expect(Number(await counterValue(page))).toBeGreaterThanOrEqual(halfway);
+    // A tick of seats counts as taken just before its fade ends, when the counter's digit
+    // steps: the counter keeps pace with the seats within one tick of ten.
+    await expect
+      .poll(async () => Number(await counterValue(page)))
+      .toBeGreaterThanOrEqual(halfway - 10);
 
     await scrollScene(page, 0.5);
-    expect(await takenSeats(page)).toBe(300);
-    expect(await counterValue(page)).toBe('300');
+    await expect.poll(() => takenSeats(page)).toBe(300);
+    await expect.poll(() => counterValue(page)).toBe('300');
 
     await scrollScene(page, 0.85);
     expect(await lightOpacities(page)).toEqual([0, 0, 0]);
