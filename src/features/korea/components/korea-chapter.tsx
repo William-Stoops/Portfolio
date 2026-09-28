@@ -1,4 +1,5 @@
 import { KeyFigures } from '@/components/ui/key-figures';
+import { CourseworkBlock } from '@/features/korea/components/coursework-block';
 import { KoreaBand } from '@/features/korea/components/korea-band';
 import { KoreaPhoto } from '@/features/korea/components/korea-photo';
 import { VoyageStage } from '@/features/korea/components/voyage-stage';
@@ -8,12 +9,12 @@ type KoreaChapterProps = { content: KoreaContent };
 
 const OVERLINE_CLASS_NAME = 'text-small font-semibold tracking-[0.2em] uppercase';
 
-// The Seoul stop of the journey, in two movements after the words of the year drifting in
-// Korean: the voyage (the flight, the flag, the greeting),
-// then the university and what was built there, with the photos set where they tell
-// something: the café where the code was written and the pavilion at night, beside the
-// models. Korean words carry `lang="ko"`, for screen readers
-// and for the browser to pick a font that has their glyphs.
+// The South Korea stop of the journey, in two movements after the words of the year
+// drifting in Korean: the voyage (the flight, the flag, the greeting), then the university,
+// what was learned there (CourseworkBlock) and what was built there, with the photos set
+// where they tell something: the café where the code was written and the pavilion at night,
+// beside the models. Korean words carry `lang="ko"`, for screen readers and for the browser
+// to pick a font that has their glyphs.
 export function KoreaChapter({ content }: KoreaChapterProps) {
   const [cafe, night] = content.photos;
 
@@ -45,6 +46,8 @@ export function KoreaChapter({ content }: KoreaChapterProps) {
           entrance="reveal"
         />
       </div>
+
+      <CourseworkBlock coursework={content.coursework} />
 
       <div className="grid gap-14 @4xl:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] @4xl:gap-16">
         <div className="flex flex-col gap-6 @4xl:order-last @4xl:pt-2">

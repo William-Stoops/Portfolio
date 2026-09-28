@@ -17,6 +17,56 @@ export const KOREA_CONTENT = {
     { value: '1 year', label: 'of courses in English' },
     { value: '3', label: 'models trained' },
   ],
+  coursework: {
+    title: 'What I learned there',
+    lead: 'A year to go from using models to building them: the mathematics first, then how a network learns, computation by computation, and the architectures that came of it.',
+    mathematics: {
+      title: 'The mathematics',
+      course: 'Linear algebra',
+      source: 'On Gilbert Strang’s textbook, Introduction to Linear Algebra',
+      topics: [
+        'Matrices and factorizations',
+        'Vector spaces',
+        'Orthogonality and least squares',
+        'Eigenvalues',
+        'SVD',
+        'Backpropagation and stochastic gradient descent',
+      ],
+    },
+    learning: {
+      title: 'Learning',
+      topics: [
+        {
+          name: 'Forward and backward propagation',
+          detail:
+            'Computed step by step: the output layer by layer, then the error’s gradient carried back by the chain rule.',
+        },
+        {
+          name: 'Supervised learning',
+          detail:
+            'Learning from labelled examples, narrowing the gap between prediction and truth.',
+        },
+        {
+          name: 'Reinforcement learning',
+          detail: 'Learning by acting: an agent, an environment, a reward to maximize.',
+        },
+      ],
+    },
+    architectures: {
+      title: 'The architectures',
+      lineage: [
+        { name: 'MLP', role: 'Dense layers: the basic network.' },
+        { name: 'CNN', role: 'Convolutions, for images.' },
+        { name: 'RNN', role: 'A memory, for sequences.' },
+        { name: 'LSTM', role: 'A long memory, keeping what matters.' },
+        { name: 'Transformer', role: 'Attention, at the heart of LLMs.' },
+      ],
+    },
+    propagation: {
+      forward: 'Forward propagation: the input crosses the network to the prediction.',
+      backward: 'Backpropagation: the error flows back, layer by layer, to correct every weight.',
+    },
+  },
   models: [
     { name: 'Fine-tuned BERT', detail: 'Text classification, with Hugging Face.' },
     { name: 'CNN', detail: 'The state of a chess game, recognized from an image of the board.' },

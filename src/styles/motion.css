@@ -867,3 +867,29 @@
 :root:active-view-transition-type(theme)::view-transition-new(root) {
   animation: theme-reveal 650ms var(--ease-out);
 }
+
+/*
+ * The network of the Korea chapter's coursework (PropagationDiagram): as the drawing
+ * crosses the screen, each group of connections lights up in its own range (`--from` to
+ * `--to`, percent of the crossing): the way forward, then the way back. Scroll-driven, it
+ * never moves on its own; still, or without scroll-driven animations, both passes show.
+ */
+@utility propagation-timeline {
+  view-timeline-name: --propagation;
+}
+
+@utility propagate {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: edge-in linear both;
+      animation-timeline: --propagation;
+      animation-range: cover calc(var(--from) * 1%) cover calc(var(--to) * 1%);
+    }
+  }
+}
+
+@keyframes edge-in {
+  from {
+    opacity: 0;
+  }
+}

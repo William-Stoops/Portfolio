@@ -128,6 +128,16 @@ Légende : « Devant 300 personnes, sur la scène de l'Epitech Summit. »
 Correction de William le 2026-09-28 : Korea University n'était pas à Séoul. Le site dit
 « Korea University » ou « Corée du Sud », jamais « Séoul ».
 
+Hors CV, donné par William le 2026-09-28 pour la section « Ce que j'y ai appris » : à Korea
+University, il a suivi de l'**algèbre linéaire** sur le manuel de Gilbert Strang
+(_Introduction to Linear Algebra_, 6e édition, MIT) et approfondi l'IA : les calculs de
+**propagation avant et de rétropropagation**, l'**apprentissage supervisé** et
+l'**apprentissage par renforcement**, les architectures **MLP, RNN, LSTM, Transformers**
+(le CNN vient des modèles entraînés ci-dessus). Les thèmes d'algèbre linéaire affichés
+reprennent la table des matières du manuel, à confirmer par William ; l'ACP en est retirée
+à sa demande le même jour. Les deux équations sous le schéma du réseau sont les formules
+usuelles de ces calculs, pas un fait nouveau.
+
 ## Compétences techniques
 
 | Catégorie  | Éléments                                                                                                                                               |
