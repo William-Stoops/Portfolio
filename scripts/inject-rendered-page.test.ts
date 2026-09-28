@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { injectRenderedPage } from './inject-rendered-page.ts';
+import { injectRenderedPage, renderedMetadata } from './inject-rendered-page.ts';
 
 const TEMPLATE = `<!doctype html>
 <html lang="fr">
@@ -12,9 +12,15 @@ const TEMPLATE = `<!doctype html>
   </body>
 </html>`;
 
+const FRENCH = { lang: 'fr', preloads: [] } as const;
+
 describe('injectRenderedPage', () => {
   it('places the rendered markup inside the root element', () => {
-    const page = injectRenderedPage(TEMPLATE, '<main id="main"><h1>William Stoops</h1></main>');
+    const page = injectRenderedPage(
+      TEMPLATE,
+      '<main id="main"><h1>William Stoops</h1></main>',
+      FRENCH,
+    );
 
     expect(page).toContain('<div id="root"><main id="main"><h1>William Stoops</h1></main></div>');
   });
@@ -23,6 +29,7 @@ describe('injectRenderedPage', () => {
     const page = injectRenderedPage(
       TEMPLATE,
       '<title>Page introuvable – William Stoops</title><h1>Page introuvable</h1>',
+      FRENCH,
     );
 
     expect(page).toContain('<title>Page introuvable – William Stoops</title>');
@@ -32,14 +39,68 @@ describe('injectRenderedPage', () => {
   });
 
   it('keeps the default title when the page renders none', () => {
-    const page = injectRenderedPage(TEMPLATE, '<h1>Sans titre</h1>');
+    const page = injectRenderedPage(TEMPLATE, '<h1>Sans titre</h1>', FRENCH);
 
     expect(page).toContain('<title>Titre par défaut</title>');
   });
 
+  it('moves the rendered description into the head, after the title', () => {
+    const page = injectRenderedPage(
+      TEMPLATE,
+      '<title>Legal notice – William Stoops</title><meta name="description" content="Publisher, hosting."/><h1>Legal notice</h1>',
+      { lang: 'en', preloads: [] },
+    );
+
+    expect(page).toContain(
+      '<title>Legal notice – William Stoops</title><meta name="description" content="Publisher, hosting."/>',
+    );
+    expect(page).toContain('<div id="root"><h1>Legal notice</h1></div>');
+    expect(page.match(/name="description"/g)).toHaveLength(1);
+  });
+
+  it('declares the language of the page on the document', () => {
+    const page = injectRenderedPage(TEMPLATE, '<h1>Home</h1>', { lang: 'en', preloads: [] });
+
+    expect(page).toContain('<html lang="en">');
+  });
+
+  it('preloads the chunks the page needs before it hydrates', () => {
+    const page = injectRenderedPage(TEMPLATE, '<h1>Home</h1>', {
+      lang: 'en',
+      preloads: ['/assets/site-content.en-abc.js'],
+    });
+
+    expect(page).toContain(
+      '<link rel="modulepreload" crossorigin href="/assets/site-content.en-abc.js">\n  </head>',
+    );
+  });
+
+  it('adds the page’s own head tags (addresses, link preview) before the head closes', () => {
+    const page = injectRenderedPage(TEMPLATE, '<h1>Accueil</h1>', {
+      ...FRENCH,
+      extraHead: '<link rel="canonical" href="https://example.test/fr">',
+    });
+
+    expect(page).toContain('<link rel="canonical" href="https://example.test/fr">  </head>');
+  });
+
   it('fails loudly when the template has no empty root element', () => {
-    expect(() => injectRenderedPage('<html><body></body></html>', '<h1>x</h1>')).toThrow(
+    expect(() => injectRenderedPage('<html><body></body></html>', '<h1>x</h1>', FRENCH)).toThrow(
       /<div id="root"><\/div>/,
     );
+  });
+});
+
+describe('renderedMetadata', () => {
+  it('reads the title and the description a page rendered, as written', () => {
+    expect(
+      renderedMetadata(
+        '<title>Accueil – William Stoops</title><meta name="description" content="Profil &amp; parcours"/><h1>x</h1>',
+      ),
+    ).toEqual({ title: 'Accueil – William Stoops', description: 'Profil &amp; parcours' });
+  });
+
+  it('gives nothing for a page without a title', () => {
+    expect(renderedMetadata('<h1>x</h1>')).toBeUndefined();
   });
 });

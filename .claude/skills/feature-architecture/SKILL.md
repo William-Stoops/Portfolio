@@ -12,7 +12,7 @@ ceremony for a site of this size. Decision: [ADR 0001](../../../docs/adr/0001-ar
 ## The dependency rule
 
 ```
-app  ──►  features/*  ──►  shared (components, hooks, lib, config, types, utils, styles)
+app  ──►  features/*  ──►  shared (components, hooks, i18n, lib, config, types, utils, styles)
  │                               ▲
  └───────────────────────────────┘
 ```
@@ -38,7 +38,9 @@ app  ──►  features/*  ──►  shared (components, hooks, lib, config, t
 | Page chrome (skip link, header, footer, section shell)                               | `src/components/layout/<name>.tsx`                |
 | A component that knows about a CV concept (experience, project, skill)               | `src/features/<f>/components/<name>.tsx`          |
 | Logic of that feature (state, derivations, effects)                                  | `src/features/<f>/hooks/use-<name>.ts`            |
-| Typed content from the CV                                                            | `src/features/<f>/data/<name>.ts`                 |
+| Typed content from the CV, one module per locale (skill `i18n`)                      | `src/features/<f>/data/<name>.{fr,en}.ts`         |
+| One locale's whole content (`SiteContent`), its own chunk                            | `src/app/content/site-content.{fr,en}.tsx`        |
+| Locales, locale context, stored choice                                               | `src/i18n/`                                       |
 | Zod schemas / derived types of that feature                                          | `src/features/<f>/schemas/`, `types/`             |
 | Pure functions of that feature                                                       | `src/features/<f>/utils/<name>.ts`                |
 | A hook useful to any feature (media query, page heading focus)                       | `src/hooks/use-<name>.ts`                         |

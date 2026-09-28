@@ -1,6 +1,18 @@
 import { describe, expect, it } from 'vitest';
 
-import { EXPERIENCES } from '@/features/experience/data/experiences';
+import { EXPERIENCES as EXPERIENCES_EN } from '@/features/experience/data/experiences.en';
+import { EXPERIENCES } from '@/features/experience/data/experiences.fr';
+import { type Experience } from '@/features/experience/types/experience';
+
+// What a translation leaves untouched.
+function neutralFieldsOf({ id, role, period, stack }: Experience) {
+  return { id, role, period, stack };
+}
+
+// How many bold markers each highlight holds: a translation keeps every emphasis.
+function boldPassages(highlights: readonly string[]): number[] {
+  return highlights.map((highlight) => highlight.split('**').length);
+}
 
 // Expected values are copied from docs/content/cv-source.md, with French typography
 // (apostrophes, non-breaking spaces) and **bold** passages as in the CV.
@@ -51,5 +63,21 @@ describe('experiences', () => {
     for (const id of ids) {
       expect(id).toMatch(/^[a-z\d]+(?:-[a-z\d]+)*$/);
     }
+  });
+
+  it('translates the roles without changing a date, a technology or an emphasis', () => {
+    expect(EXPERIENCES_EN.map((experience) => neutralFieldsOf(experience))).toEqual(
+      EXPERIENCES.map((experience) => neutralFieldsOf(experience)),
+    );
+    expect(EXPERIENCES_EN.map(({ highlights }) => boldPassages(highlights))).toEqual(
+      EXPERIENCES.map(({ highlights }) => boldPassages(highlights)),
+    );
+  });
+
+  it('keeps the figures of the CV in English', () => {
+    const [itFinance] = EXPERIENCES_EN;
+
+    expect(itFinance.highlights.join(' ')).toContain('**from 10 hours to 5 minutes**');
+    expect(itFinance.highlights.join(' ')).toContain('**99% lower latency**');
   });
 });
