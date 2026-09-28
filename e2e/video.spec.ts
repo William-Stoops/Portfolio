@@ -19,6 +19,26 @@ test.describe('pitch video', () => {
     expect(youtubeRequests).toEqual([]);
   });
 
+  test('opens on the frame the pitch starts with, served by the site itself', async ({ page }) => {
+    await page.goto('/#projets');
+    const poster = page.getByRole('button', { name: /^Lire la vidéo/ }).locator('img');
+
+    await poster.scrollIntoViewIfNeeded();
+
+    await expect
+      .poll(() =>
+        poster.evaluate(
+          (image) => image instanceof HTMLImageElement && image.complete && image.naturalWidth > 0,
+        ),
+      )
+      .toBe(true);
+    const source = await poster.evaluate((image) =>
+      image instanceof HTMLImageElement ? image.currentSrc : '',
+    );
+    expect(new URL(source).origin).toBe(new URL(page.url()).origin);
+    expect(new URL(source).pathname).toMatch(/^\/images\/staxx-pitch-v1-/);
+  });
+
   test('plays the privacy-enhanced player over the whole screen, until Escape', async ({
     page,
   }) => {

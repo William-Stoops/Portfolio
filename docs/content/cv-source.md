@@ -82,6 +82,14 @@ https://www.youtube.com/watch?v=K_TsQ0Itoek&t=3741s (démarre à 1:02:21).
   catalogue : « 20 colliers Atlas pour du tube de 26 » retrouve la bonne référence malgré
   les fautes, via un dictionnaire d'alias que chaque correction utilisateur enrichit.
 
+Hors CV, fourni par William le 2026-09-26 avec ses photos (`docs/content/images/`) : la
+remise du trophée sur la scène de l'Epitech Summit, et le passage de l'équipe sur
+**NRJ Lille**, la radio régionale de NRJ, pour présenter STAXX.
+
+Affiche de la vidéo, avec l'accord de William le 2026-09-26 : la première image du pitch,
+à 1:02:21, capturée depuis la vidéo en 1920 × 1080 (`docs/content/images/staxx-pitch.jpg`).
+Légende : « Devant 300 personnes, sur la scène de l'Epitech Summit. »
+
 ## IA : pratique personnelle et travaux académiques
 
 - **Agents et MCP.** Agents de code au quotidien : décomposition de tâches, boucles
@@ -106,7 +114,38 @@ https://www.youtube.com/watch?v=K_TsQ0Itoek&t=3741s (démarre à 1:02:21).
 
 - **Epitech** — Master of Science, Expert en Technologies de l'Information, 2021 – 2026.
 - **Korea University** (Séoul) — année suivie en anglais, deep learning et computer vision.
+
+Hors CV, fourni par William le 2026-09-26 pour la section « Corée du Sud » : trois photos
+(`docs/content/images/korea-*.jpg` : au stade de baseball en blouson de Korea University, du
+code dans un café face aux montagnes, un pavillon illuminé de nuit) et quelques mots en
+coréen qui les encadrent (안녕하세요, 고려대학교, 서울, 딥러닝, 컴퓨터 비전, 야구장, 카페, 밤).
+
 - Anglais professionnel, **TOEIC 820**.
+
+## Chronologie
+
+Hors CV, donnée par William le 2026-09-26 et confirmée par lui : le fil conducteur de la
+page (le parcours, une escale par année d'Epitech).
+
+- **2021**, 1re année : entrée à Epitech (Master of Science, promo 2026).
+- **2022**, 2e année : Strattt, puis GDS Élec (2022 – 2024).
+- **2023**, 3e année : début de STAXX, le projet de fin d'études, développé en 3e, 4e et
+  5e année ; INTM en 2024.
+- **2024**, 4e année : Korea University, à Séoul.
+- **2025**, 5e année : retour en France ; IT-Finance depuis septembre 2025 ; passage sur
+  NRJ Lille et 1er au concours Epitech Summit avec STAXX.
+- **2026** : promo 2026.
+
+## Libellés propres au site
+
+Choisis avec William le 2026-09-26 pour des lecteurs recruteurs : ils reformulent des
+titres du CV sans en changer le fond.
+
+- Section IA : « Intelligence artificielle », avec le titre du CV en sous-titre (« Pratique
+  personnelle et travaux académiques »).
+- Familles de compétences : « Plateforme » devient « Frameworks et outils », « IA » devient
+  « IA et data » ; chaque compétence prend une majuscule initiale, sauf les noms qui s'écrivent
+  en minuscules (pandas, numpy, scikit-learn).
 
 ## Correspondance avec la maquette de référence
 

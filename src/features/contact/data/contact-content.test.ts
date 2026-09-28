@@ -7,4 +7,8 @@ describe('contact content', () => {
   it('states where William can work, as in the CV', () => {
     expect(CONTACT_CONTENT.location).toBe('Paris, Lille ou full remote');
   });
+
+  it('invites the visitor to write, without claiming anything the CV does not say', () => {
+    expect(CONTACT_CONTENT.invitation).toBe('Un poste, une mission ou une question ? Écrivez-moi.');
+  });
 });
