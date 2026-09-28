@@ -25,18 +25,37 @@ test.describe('hero scene', () => {
       }
     });
 
-    await page.goto('/');
+    await page.goto('/fr');
 
-    await expect(page.locator('canvas[data-ready]')).toBeAttached({ timeout: 10_000 });
-    await expect(page.locator('canvas')).toHaveAttribute('aria-hidden', 'true');
+    // The hero's scene only: the finale, at the bottom of the page, waits to be neared.
+    await expect(page.locator('canvas[data-ready]')).toHaveCount(1, { timeout: 10_000 });
+    for (const canvas of await page.locator('canvas').all()) {
+      await expect(canvas).toHaveAttribute('aria-hidden', 'true');
+    }
     expect(errors).toEqual([]);
+  });
+
+  test('closes the page with the settled surface once the contact section is neared', async ({
+    page,
+  }) => {
+    test.skip(isMobileLayout(page), 'the scene only runs on large screens');
+    await page.goto('/fr');
+    await expect(page.locator('canvas[data-ready]')).toHaveCount(1, { timeout: 10_000 });
+
+    // As a visitor does: through the navigation, which renders the deferred sections first.
+    await page
+      .getByRole('navigation', { name: 'Navigation principale' })
+      .getByRole('link', { name: 'Contact', exact: true })
+      .click();
+
+    await expect(page.locator('canvas[data-ready]')).toHaveCount(2, { timeout: 10_000 });
   });
 
   test('never loads the scene on a phone', async ({ page }) => {
     test.skip(!isMobileLayout(page), 'phones only');
     const sceneRequests = recordSceneRequests(page);
 
-    await page.goto('/');
+    await page.goto('/fr');
     await page.waitForTimeout(2000);
 
     await expect(page.locator('canvas[data-ready]')).toHaveCount(0);
@@ -47,7 +66,7 @@ test.describe('hero scene', () => {
     const sceneRequests = recordSceneRequests(page);
     await page.emulateMedia({ reducedMotion: 'reduce' });
 
-    await page.goto('/');
+    await page.goto('/fr');
     await page.waitForTimeout(2000);
 
     await expect(page.locator('canvas[data-ready]')).toHaveCount(0);
