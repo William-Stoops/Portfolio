@@ -25,14 +25,16 @@ describe('NAV_ITEMS', () => {
 });
 
 describe('FOOTER_LINKS', () => {
-  it('links the pages outside the home page, in each language', () => {
+  it('links the pages outside the home page, the making of the site first, in each language', () => {
     expect(FOOTER_LINKS).toEqual({
       fr: [
+        { label: 'Coulisses', path: '/fr/coulisses' },
         { label: 'Accessibilité', path: '/fr/accessibilite' },
         { label: 'Mentions légales', path: '/fr/mentions-legales' },
         { label: 'Plan du site', path: '/fr/plan-du-site' },
       ],
       en: [
+        { label: 'Behind the scenes', path: '/en/behind-the-scenes' },
         { label: 'Accessibility', path: '/en/accessibility' },
         { label: 'Legal notice', path: '/en/legal-notice' },
         { label: 'Site map', path: '/en/site-map' },

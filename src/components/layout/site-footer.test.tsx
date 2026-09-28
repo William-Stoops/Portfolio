@@ -38,7 +38,7 @@ describe('SiteFooter', () => {
     }
   });
 
-  it('links to the legal pages and the site map from a labelled navigation', async () => {
+  it('links to the making of the site, the legal pages and the site map from a labelled navigation', async () => {
     const screen = await renderInRouter(<SiteFooter />);
 
     const navigation = screen.getByRole('navigation', { name: 'Pied de page' });
@@ -48,6 +48,7 @@ describe('SiteFooter', () => {
         .elements()
         .map((link) => ({ name: link.textContent, href: link.getAttribute('href') })),
     ).toEqual([
+      { name: 'Coulisses', href: '/fr/coulisses' },
       { name: 'Accessibilité', href: '/fr/accessibilite' },
       { name: 'Mentions légales', href: '/fr/mentions-legales' },
       { name: 'Plan du site', href: '/fr/plan-du-site' },
@@ -130,6 +131,7 @@ describe('SiteFooter', () => {
         .elements()
         .map((link) => ({ name: link.textContent, href: link.getAttribute('href') })),
     ).toEqual([
+      { name: 'Behind the scenes', href: '/en/behind-the-scenes' },
       { name: 'Accessibility', href: '/en/accessibility' },
       { name: 'Legal notice', href: '/en/legal-notice' },
       { name: 'Site map', href: '/en/site-map' },

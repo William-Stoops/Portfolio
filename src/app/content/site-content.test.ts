@@ -50,6 +50,7 @@ describe('site content', () => {
     for (const content of [SITE_CONTENT_FR, SITE_CONTENT_EN]) {
       for (const text of [
         content.home.description,
+        content.behindTheScenes.description,
         content.accessibility.description,
         content.legalNotice.description,
         content.siteMap.description,

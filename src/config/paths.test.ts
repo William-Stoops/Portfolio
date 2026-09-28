@@ -10,12 +10,14 @@ describe('PAGE_PATHS', () => {
     expect(PAGE_PATHS).toEqual({
       fr: {
         home: '/fr',
+        behindTheScenes: '/fr/coulisses',
         accessibility: '/fr/accessibilite',
         legalNotice: '/fr/mentions-legales',
         siteMap: '/fr/plan-du-site',
       },
       en: {
         home: '/en',
+        behindTheScenes: '/en/behind-the-scenes',
         accessibility: '/en/accessibility',
         legalNotice: '/en/legal-notice',
         siteMap: '/en/site-map',
@@ -61,6 +63,7 @@ describe('alternateHref', () => {
     { pathname: '/en', target: 'fr', expected: '/fr' },
     { pathname: '/fr/mentions-legales', target: 'en', expected: '/en/legal-notice' },
     { pathname: '/en/site-map', target: 'fr', expected: '/fr/plan-du-site' },
+    { pathname: '/fr/coulisses', target: 'en', expected: '/en/behind-the-scenes' },
     { pathname: '/fr/accessibilite/', target: 'en', expected: '/en/accessibility' },
   ])(
     'leads from $pathname to the same page in $target: $expected',

@@ -35,10 +35,12 @@ function epitechTitleTop(page: Page): Promise<number> {
 // Every page of both locales, as the prerender writes them (ADR 0026).
 const PAGES = [
   { path: '/fr', lang: 'fr', title: 'William Stoops – Software Engineer & AI Engineer' },
+  { path: '/fr/coulisses', lang: 'fr', title: 'Les coulisses du site – William Stoops' },
   { path: '/fr/accessibilite', lang: 'fr', title: 'Déclaration d’accessibilité – William Stoops' },
   { path: '/fr/mentions-legales', lang: 'fr', title: 'Mentions légales – William Stoops' },
   { path: '/fr/plan-du-site', lang: 'fr', title: 'Plan du site – William Stoops' },
   { path: '/en', lang: 'en', title: 'William Stoops – Software Engineer & AI Engineer' },
+  { path: '/en/behind-the-scenes', lang: 'en', title: 'Behind the scenes – William Stoops' },
   { path: '/en/accessibility', lang: 'en', title: 'Accessibility statement – William Stoops' },
   { path: '/en/legal-notice', lang: 'en', title: 'Legal notice – William Stoops' },
   { path: '/en/site-map', lang: 'en', title: 'Site map – William Stoops' },

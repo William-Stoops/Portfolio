@@ -108,9 +108,11 @@ describe('application routes', () => {
   });
 
   for (const { path, heading } of [
+    { path: '/fr/coulisses', heading: 'Les coulisses du site' },
     { path: '/fr/accessibilite', heading: 'Déclaration d’accessibilité' },
     { path: '/fr/mentions-legales', heading: 'Mentions légales' },
     { path: '/fr/plan-du-site', heading: 'Plan du site' },
+    { path: '/en/behind-the-scenes', heading: 'Behind the scenes' },
     { path: '/en/accessibility', heading: 'Accessibility statement' },
     { path: '/en/legal-notice', heading: 'Legal notice' },
     { path: '/en/site-map', heading: 'Site map' },
@@ -126,6 +128,7 @@ describe('application routes', () => {
   for (const path of [
     '/fr',
     '/fr/page-inexistante',
+    '/fr/coulisses',
     '/fr/accessibilite',
     '/fr/mentions-legales',
     '/fr/plan-du-site',

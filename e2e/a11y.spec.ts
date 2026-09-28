@@ -6,11 +6,13 @@ import { renderEverySection } from './support/hydration.ts';
 const ROUTES = [
   '/fr',
   '/fr/page-inexistante',
+  '/fr/coulisses',
   '/fr/accessibilite',
   '/fr/mentions-legales',
   '/fr/plan-du-site',
   '/en',
   '/en/nowhere',
+  '/en/behind-the-scenes',
   '/en/accessibility',
   '/en/legal-notice',
   '/en/site-map',

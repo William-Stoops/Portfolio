@@ -3,6 +3,7 @@ import { expect, test } from '@playwright/test';
 const ROUTES = [
   '/fr',
   '/fr/page-inexistante',
+  '/fr/coulisses',
   '/fr/accessibilite',
   '/fr/mentions-legales',
   '/fr/plan-du-site',

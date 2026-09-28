@@ -2,6 +2,7 @@ import { type SiteContent } from '@/app/content/site-content';
 import { SECTION_IDS } from '@/config/paths';
 import { ABOUT_CONTENT } from '@/features/about/data/about-content.fr';
 import { AI_PRACTICE_CONTENT } from '@/features/ai-practice/data/ai-practice-content.fr';
+import { BEHIND_THE_SCENES } from '@/features/behind-the-scenes/data/behind-the-scenes.fr';
 import { CONTACT_CONTENT } from '@/features/contact/data/contact-content.fr';
 import { EDUCATION_ENTRIES } from '@/features/education/data/education-entries.fr';
 import { CYCLE_RACE } from '@/features/experience/data/cycle-race.fr';
@@ -34,6 +35,7 @@ export const SITE_CONTENT: SiteContent = {
     education: { title: 'Formation', entries: EDUCATION_ENTRIES },
   },
   contact: CONTACT_CONTENT,
+  behindTheScenes: BEHIND_THE_SCENES,
   accessibility: {
     title: 'Déclaration d’accessibilité',
     description:

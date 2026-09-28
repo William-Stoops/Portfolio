@@ -1,6 +1,7 @@
 import { type RouteObject } from 'react-router';
 
 import { AccessibilityStatementRoute } from '@/app/routes/accessibility-statement';
+import { BehindTheScenesRoute } from '@/app/routes/behind-the-scenes';
 import { HomeRoute } from '@/app/routes/home';
 import { LegalNoticeRoute } from '@/app/routes/legal-notice';
 import { NotFoundRoute } from '@/app/routes/not-found';
@@ -19,6 +20,7 @@ function localeRoutes(locale: Locale): RouteObject {
     ErrorBoundary: RouteErrorBoundary,
     children: [
       { index: true, Component: HomeRoute },
+      { path: paths.behindTheScenes, Component: BehindTheScenesRoute },
       { path: paths.accessibility, Component: AccessibilityStatementRoute },
       { path: paths.legalNotice, Component: LegalNoticeRoute },
       { path: paths.siteMap, Component: SiteMapRoute },

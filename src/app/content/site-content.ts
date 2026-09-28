@@ -2,6 +2,7 @@ import { type ReactNode } from 'react';
 
 import { type AboutContent } from '@/features/about/types/about-content';
 import { type AiPracticeContent } from '@/features/ai-practice/types/ai-practice-content';
+import { type BehindTheScenesContent } from '@/features/behind-the-scenes/types/behind-the-scenes-content';
 import { type ContactContent } from '@/features/contact/types/contact-content';
 import { type EducationEntry } from '@/features/education/types/education-entry';
 import { type CycleRaceContent } from '@/features/experience/types/cycle-race';
@@ -39,6 +40,8 @@ export type SiteContent = {
     education: { title: string; entries: readonly EducationEntry[] };
   };
   contact: ContactContent;
+  // How the site is made, for the readers of its code (ADR 0033).
+  behindTheScenes: BehindTheScenesContent;
   accessibility: PageText & { statement: ReactNode };
   legalNotice: PageText & { notice: ReactNode };
   siteMap: PageText & { homeLabel: string };

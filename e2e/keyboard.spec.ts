@@ -37,6 +37,7 @@ function expectedFocusOrderFor(page: Page): readonly string[] {
     'william.stoops@epitech.eu',
     'LinkedIn (nouvel onglet)',
     'Télécharger le CV (PDF, 56 Ko)',
+    'Coulisses',
     'Accessibilité',
     'Mentions légales',
     'Plan du site',

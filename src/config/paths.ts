@@ -3,7 +3,7 @@
 import { DEFAULT_LOCALE, type Locale, type Localized } from '../i18n/locales.ts';
 import { localeFromPathname } from '../i18n/locale-from-pathname.ts';
 
-const PAGE_KEYS = ['home', 'accessibility', 'legalNotice', 'siteMap'] as const;
+const PAGE_KEYS = ['home', 'behindTheScenes', 'accessibility', 'legalNotice', 'siteMap'] as const;
 
 type PageKey = (typeof PAGE_KEYS)[number];
 
@@ -11,12 +11,14 @@ type PageKey = (typeof PAGE_KEYS)[number];
 export const PAGE_PATHS = {
   fr: {
     home: '/fr',
+    behindTheScenes: '/fr/coulisses',
     accessibility: '/fr/accessibilite',
     legalNotice: '/fr/mentions-legales',
     siteMap: '/fr/plan-du-site',
   },
   en: {
     home: '/en',
+    behindTheScenes: '/en/behind-the-scenes',
     accessibility: '/en/accessibility',
     legalNotice: '/en/legal-notice',
     siteMap: '/en/site-map',
