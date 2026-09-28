@@ -2,15 +2,9 @@ import { useState } from 'react';
 
 type CopyStatus = 'idle' | 'copied' | 'failed';
 
-const COPY_ANNOUNCEMENTS: Readonly<Record<CopyStatus, string>> = {
-  idle: '',
-  copied: 'Adresse e-mail copiée',
-  failed: 'Copie impossible : sélectionnez l’adresse pour la copier',
-};
-
 // The Clipboard API is refused outside secure contexts, without permission, or missing on
 // old browsers: each case ends in a message, never in silence.
-export function useCopyToClipboard(): {
+export function useCopyToClipboard(announcements: { copied: string; failed: string }): {
   status: CopyStatus;
   announcement: string;
   copy: (text: string) => Promise<void>;
@@ -29,5 +23,5 @@ export function useCopyToClipboard(): {
     }
   }
 
-  return { status, announcement: COPY_ANNOUNCEMENTS[status], copy };
+  return { status, announcement: status === 'idle' ? '' : announcements[status], copy };
 }

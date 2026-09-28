@@ -5,7 +5,8 @@ import { cn } from '@/lib/cn';
 type FieldProps = {
   id: string;
   label: string;
-  // French, actionable, starting with "Erreur :" (see the accessibility skill).
+  // In the page's language, actionable, starting with "Erreur :" or "Error:" (see the
+  // accessibility skill).
   error?: string | undefined;
 };
 

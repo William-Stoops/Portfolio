@@ -1,27 +1,33 @@
 import * as z from 'zod/mini';
 
+const MESSAGE_MIN_LENGTH = 10;
 // mailto: links become unreliable past ~2 000 characters in some mail clients.
 const MESSAGE_MAX_LENGTH = 1500;
 
-export const contactFormSchema = z.object({
-  name: z.string().check(z.trim(), z.minLength(1, 'Erreur : saisissez votre nom.')),
-  email: z
-    .string()
-    .check(
-      z.trim(),
-      z.email('Erreur : saisissez une adresse e-mail valide, par exemple nom@domaine.fr.'),
-    ),
-  message: z
-    .string()
-    .check(
-      z.trim(),
-      z.minLength(10, 'Erreur : écrivez un message d’au moins 10 caractères.'),
-      z.maxLength(
-        MESSAGE_MAX_LENGTH,
-        'Erreur : raccourcissez votre message à 1 500 caractères au plus.',
-      ),
-    ),
-});
+// What the form says when a field is wrong, in the page's language: how to fix it, the
+// limits given by the schema itself.
+export type ContactFormErrors = {
+  name: string;
+  email: string;
+  messageTooShort: (minimum: number) => string;
+  messageTooLong: (maximum: number) => string;
+};
 
-export type ContactFormInput = z.input<typeof contactFormSchema>;
-export type ContactFormValues = z.output<typeof contactFormSchema>;
+export function createContactFormSchema(errors: ContactFormErrors) {
+  return z.object({
+    name: z.string().check(z.trim(), z.minLength(1, errors.name)),
+    email: z.string().check(z.trim(), z.email(errors.email)),
+    message: z
+      .string()
+      .check(
+        z.trim(),
+        z.minLength(MESSAGE_MIN_LENGTH, errors.messageTooShort(MESSAGE_MIN_LENGTH)),
+        z.maxLength(MESSAGE_MAX_LENGTH, errors.messageTooLong(MESSAGE_MAX_LENGTH)),
+      ),
+  });
+}
+
+type ContactFormSchema = ReturnType<typeof createContactFormSchema>;
+
+export type ContactFormInput = z.input<ContactFormSchema>;
+export type ContactFormValues = z.output<ContactFormSchema>;

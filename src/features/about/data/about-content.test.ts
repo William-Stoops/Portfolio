@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
-import { ABOUT_CONTENT } from '@/features/about/data/about-content';
+import { ABOUT_CONTENT as ABOUT_CONTENT_EN } from '@/features/about/data/about-content.en';
+import { ABOUT_CONTENT } from '@/features/about/data/about-content.fr';
 
 // Expected values are copied from docs/content/cv-source.md: the CV is the only source.
 describe('about content', () => {
@@ -46,5 +47,23 @@ describe('about content', () => {
       { kind: 'steps', count: 3 },
       { kind: 'podium' },
     ]);
+  });
+
+  it('translates the key figures without changing a number, in English typography', () => {
+    expect(ABOUT_CONTENT_EN.metrics.map(({ value }) => value)).toEqual([
+      '10\u202Fh → 5\u202Fmin',
+      '−99%',
+      '3\u00A0years',
+      '1st',
+    ]);
+    expect(ABOUT_CONTENT_EN.metrics.map(({ visual }) => visual)).toEqual(
+      ABOUT_CONTENT.metrics.map(({ visual }) => visual),
+    );
+    expect(ABOUT_CONTENT_EN.axes).toHaveLength(ABOUT_CONTENT.axes.length);
+  });
+
+  it('anchors the section in the language of its page', () => {
+    expect(ABOUT_CONTENT.id).toBe('a-propos');
+    expect(ABOUT_CONTENT_EN.id).toBe('about');
   });
 });
