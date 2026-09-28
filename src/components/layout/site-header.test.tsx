@@ -161,6 +161,9 @@ describe('SiteHeader', () => {
       await expectNoAxeViolations(screen.container);
 
       await screen.getByRole('button', { name: 'Menu' }).click();
+      // The menu drops in with a fade: its contrast is measured once it has settled.
+      const menu = screen.getByRole('dialog', { name: 'Menu' }).element();
+      await Promise.all(menu.getAnimations().map(async (animation) => animation.finished));
 
       await expectNoAxeViolations(screen.container);
     });
