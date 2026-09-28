@@ -37,5 +37,6 @@ fois accepté** : on ne le réécrit pas, on le remplace par un nouvel ADR qui l
 | 0029 | [Afficher le parcours sur un tableau des départs](0029-journey-departures-board.md)                              | Accepté                           |
 | 0030 | [Ouvrir la page comme un plan de cinéma](0030-cinematic-opening.md)                                              | Accepté                           |
 | 0031 | [Déployer sur Cloudflare Pages](0031-deploy-on-cloudflare-pages.md)                                              | Accepté                           |
+| 0032 | [Faire la course des deux cycles de calcul, à l'échelle](0032-cycle-race-to-scale.md)                            | Accepté                           |
 
 Modèle : copier [template.md](template.md).

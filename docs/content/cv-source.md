@@ -139,6 +139,14 @@ page (le parcours, une escale par année d'Epitech).
   NRJ Lille et 1er au concours Epitech Summit avec STAXX.
 - **2026** : promo 2026.
 
+## La course « 10 h → 5 min »
+
+Demandée par William le 2026-09-28 (ADR 0032) : une maquette à l'échelle du chiffre clé,
+sous le rôle IT-Finance. Elle ne reprend que le CV : le calcul tourne en continu, 10 heures
+par cycle avant la refonte, 5 minutes après, des valeurs de nouveau à jour. Le rapport de
+120 cycles en est déduit (600 minutes divisées par 5) ; l'échelle (une heure = 1,2 seconde)
+est affichée.
+
 ## Libellés propres au site
 
 Choisis avec William le 2026-09-26 pour des lecteurs recruteurs : ils reformulent des
