@@ -11,7 +11,6 @@ import { VOLATILITY_LAB } from '@/features/experience/data/volatility-lab.en';
 import { HERO_CONTENT } from '@/features/hero/data/hero-content.en';
 import { JOURNEY_CONTENT } from '@/features/journey/data/journey-stops.en';
 import { KOREA_CONTENT } from '@/features/korea/data/korea-content.en';
-import { AccessibilityStatement } from '@/features/legal/components/accessibility-statement.en';
 import { LegalNotice } from '@/features/legal/components/legal-notice.en';
 import { PROJECT_LABELS, PROJECTS } from '@/features/projects/data/projects.en';
 import { SKILL_GROUPS } from '@/features/skills/data/skill-groups.en';
@@ -42,12 +41,6 @@ export const SITE_CONTENT: SiteContent = {
   },
   contact: CONTACT_CONTENT,
   behindTheScenes: BEHIND_THE_SCENES,
-  accessibility: {
-    title: 'Accessibility statement',
-    description:
-      'Accessibility statement of William Stoops’s website: target level, checks carried out, contact.',
-    statement: <AccessibilityStatement />,
-  },
   legalNotice: {
     title: 'Legal notice',
     description: 'Legal notice of William Stoops’s website: publisher, hosting, personal data.',

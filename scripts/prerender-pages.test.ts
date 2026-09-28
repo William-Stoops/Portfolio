@@ -16,12 +16,10 @@ describe('prerendered pages', () => {
     expect(PRERENDERED_PAGES).toEqual([
       { path: '/fr', file: 'fr.html' },
       { path: '/fr/coulisses', file: 'fr/coulisses.html' },
-      { path: '/fr/accessibilite', file: 'fr/accessibilite.html' },
       { path: '/fr/mentions-legales', file: 'fr/mentions-legales.html' },
       { path: '/fr/plan-du-site', file: 'fr/plan-du-site.html' },
       { path: '/en', file: 'en.html' },
       { path: '/en/behind-the-scenes', file: 'en/behind-the-scenes.html' },
-      { path: '/en/accessibility', file: 'en/accessibility.html' },
       { path: '/en/legal-notice', file: 'en/legal-notice.html' },
       { path: '/en/site-map', file: 'en/site-map.html' },
     ]);

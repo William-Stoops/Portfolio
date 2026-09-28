@@ -27,14 +27,11 @@ PR ships its axe + keyboard tests (see `tdd-workflow`).
   level for the outline, then style it with tokens — never pick a level for its size.
 - Sections: `<section aria-labelledby="<id-of-h2>">`. Lists of links/tags/skills are `<ul>`.
 - `NavLink` sets `aria-current="page"`; do not re-implement it.
-- Footer on every page: link `Accessibilité` to `/accessibilite` (the declaration). The
-  site is not subject to article 47 of loi 2005-102, so it shows **no conformance status**:
-  under the RGAA, "partiellement" or "totalement conforme" is a result of an audit, and none
-  has been run. **Never claim a status or a rate without an audit grid in `docs/a11y/`**;
-  once there is one, add the status to the link and the declaration together.
-- Declaration (`src/features/legal/components/accessibility-statement.tsx`): lists what was
-  verified and what remains (screen readers, 400 % zoom by hand). Update its list and its
-  date when the checks change.
+- No accessibility statement page: William removed it on 2026-09-29. The site is not
+  subject to article 47 of loi 2005-102, so nothing requires one. Accessibility stays an
+  acceptance criterion, tested (axe in both themes, keyboard order, focus, contrast). **Never
+  claim a conformance status or rate anywhere**: under the RGAA it is the result of an audit,
+  and none has been run.
 
 ## 2. Focus
 

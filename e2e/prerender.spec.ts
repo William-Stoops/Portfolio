@@ -56,7 +56,6 @@ test.describe('prerendered HTML', () => {
 
   for (const { path, heading } of [
     { path: '/fr/coulisses', heading: 'Les coulisses du site' },
-    { path: '/fr/accessibilite', heading: 'Déclaration d’accessibilité' },
     { path: '/fr/mentions-legales', heading: 'Mentions légales' },
     { path: '/fr/plan-du-site', heading: 'Plan du site' },
   ]) {

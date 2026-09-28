@@ -24,14 +24,12 @@ const PAGE_LABELS = {
   fr: {
     home: 'Accueil',
     behindTheScenes: 'Coulisses',
-    accessibility: 'Accessibilité',
     legalNotice: 'Mentions légales',
     siteMap: 'Plan du site',
   },
   en: {
     home: 'Home',
     behindTheScenes: 'Behind the scenes',
-    accessibility: 'Accessibility',
     legalNotice: 'Legal notice',
     siteMap: 'Site map',
   },
@@ -59,7 +57,6 @@ function footerLinksIn(locale: Locale): readonly PageLink[] {
   const labels = PAGE_LABELS[locale];
   return [
     { label: labels.behindTheScenes, path: paths.behindTheScenes },
-    { label: labels.accessibility, path: paths.accessibility },
     { label: labels.legalNotice, path: paths.legalNotice },
     { label: labels.siteMap, path: paths.siteMap },
   ];

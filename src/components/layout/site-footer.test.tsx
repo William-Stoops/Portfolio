@@ -49,7 +49,6 @@ describe('SiteFooter', () => {
         .map((link) => ({ name: link.textContent, href: link.getAttribute('href') })),
     ).toEqual([
       { name: 'Coulisses', href: '/fr/coulisses' },
-      { name: 'Accessibilité', href: '/fr/accessibilite' },
       { name: 'Mentions légales', href: '/fr/mentions-legales' },
       { name: 'Plan du site', href: '/fr/plan-du-site' },
     ]);
@@ -130,7 +129,6 @@ describe('SiteFooter', () => {
         .map((link) => ({ name: link.textContent, href: link.getAttribute('href') })),
     ).toEqual([
       { name: 'Behind the scenes', href: '/en/behind-the-scenes' },
-      { name: 'Accessibility', href: '/en/accessibility' },
       { name: 'Legal notice', href: '/en/legal-notice' },
       { name: 'Site map', href: '/en/site-map' },
     ]);

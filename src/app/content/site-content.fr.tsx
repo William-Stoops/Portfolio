@@ -11,7 +11,6 @@ import { VOLATILITY_LAB } from '@/features/experience/data/volatility-lab.fr';
 import { HERO_CONTENT } from '@/features/hero/data/hero-content.fr';
 import { JOURNEY_CONTENT } from '@/features/journey/data/journey-stops.fr';
 import { KOREA_CONTENT } from '@/features/korea/data/korea-content.fr';
-import { AccessibilityStatement } from '@/features/legal/components/accessibility-statement.fr';
 import { LegalNotice } from '@/features/legal/components/legal-notice.fr';
 import { PROJECT_LABELS, PROJECTS } from '@/features/projects/data/projects.fr';
 import { SKILL_GROUPS } from '@/features/skills/data/skill-groups.fr';
@@ -42,12 +41,6 @@ export const SITE_CONTENT: SiteContent = {
   },
   contact: CONTACT_CONTENT,
   behindTheScenes: BEHIND_THE_SCENES,
-  accessibility: {
-    title: 'Déclaration d’accessibilité',
-    description:
-      'Déclaration d’accessibilité du site de William Stoops : niveau visé, vérifications réalisées, contact.',
-    statement: <AccessibilityStatement />,
-  },
   legalNotice: {
     title: 'Mentions légales',
     description:

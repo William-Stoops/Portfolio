@@ -4,7 +4,6 @@ const ROUTES = [
   '/fr',
   '/fr/page-inexistante',
   '/fr/coulisses',
-  '/fr/accessibilite',
   '/fr/mentions-legales',
   '/fr/plan-du-site',
 ] as const;

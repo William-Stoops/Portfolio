@@ -46,7 +46,6 @@ export type SiteContent = {
   contact: ContactContent;
   // How the site is made, for the readers of its code (ADR 0033).
   behindTheScenes: BehindTheScenesContent;
-  accessibility: PageText & { statement: ReactNode };
   legalNotice: PageText & { notice: ReactNode };
   siteMap: PageText & { homeLabel: string };
 };

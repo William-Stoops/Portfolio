@@ -11,14 +11,12 @@ describe('PAGE_PATHS', () => {
       fr: {
         home: '/fr',
         behindTheScenes: '/fr/coulisses',
-        accessibility: '/fr/accessibilite',
         legalNotice: '/fr/mentions-legales',
         siteMap: '/fr/plan-du-site',
       },
       en: {
         home: '/en',
         behindTheScenes: '/en/behind-the-scenes',
-        accessibility: '/en/accessibility',
         legalNotice: '/en/legal-notice',
         siteMap: '/en/site-map',
       },
@@ -63,7 +61,7 @@ describe('alternateHref', () => {
     { pathname: '/fr/mentions-legales', target: 'en', expected: '/en/legal-notice' },
     { pathname: '/en/site-map', target: 'fr', expected: '/fr/plan-du-site' },
     { pathname: '/fr/coulisses', target: 'en', expected: '/en/behind-the-scenes' },
-    { pathname: '/fr/accessibilite/', target: 'en', expected: '/en/accessibility' },
+    { pathname: '/fr/plan-du-site/', target: 'en', expected: '/en/site-map' },
   ])(
     'leads from $pathname to the same page in $target: $expected',
     ({ pathname, target, expected }) => {

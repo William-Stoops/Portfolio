@@ -236,7 +236,10 @@ titres du CV sans en changer le fond.
 | Services (Website Development…)            | Trois axes : Calcul & performance · Produits full stack · IA, agents & LLM |
 | Stats (120+, 95 %, 10+)                    | Chiffres clés ci-dessus — **réels et sourcés, jamais inventés**            |
 | Projects                                   | Expériences (ProRealTime, INTM, Strattt, GDS Élec) + STAXX + travaux IA    |
-| (absent de la maquette)                    | Parcours / formation, contact, déclaration d'accessibilité                 |
+| (absent de la maquette)                    | Parcours / formation, contact                                              |
+
+La déclaration d'accessibilité est retirée du site à la demande de William le 2026-09-29 :
+rien ne l'impose à un site personnel, et l'accessibilité reste testée.
 
 ## Contexte de destination
 

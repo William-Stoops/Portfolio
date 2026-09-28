@@ -49,7 +49,6 @@ describe('site content', () => {
       for (const text of [
         content.home.description,
         content.behindTheScenes.description,
-        content.accessibility.description,
         content.legalNotice.description,
         content.siteMap.description,
       ]) {
