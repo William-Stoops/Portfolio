@@ -2,6 +2,7 @@ import { ArrowRight, Download } from 'lucide-react';
 import { Fragment, type Ref } from 'react';
 
 import { ButtonLink } from '@/components/ui/button-link';
+import { KeyFigures } from '@/components/ui/key-figures';
 import { PATHS, SECTION_IDS } from '@/config/paths';
 import { CV_FILE, SITE_OWNER } from '@/config/site';
 import { HeroPortrait } from '@/features/hero/components/hero-portrait';
@@ -102,23 +103,7 @@ export function HeroSection({ content, headingRef }: HeroSectionProps) {
             </span>
           </div>
           {/* The profile in three facts, set in the page rather than pinned on the photo. */}
-          <ul
-            aria-label="En bref"
-            className="mt-2 grid gap-5 border-t border-border pt-6 sm:grid-cols-3 sm:gap-0 sm:divide-x sm:divide-border"
-          >
-            {content.highlights.map(({ value, label }, index) => (
-              <li
-                key={value}
-                style={{ '--i': 7 + index }}
-                className="flex enter-slide flex-col gap-1 sm:px-5 sm:first:ps-0 sm:last:pe-0"
-              >
-                <span className="font-display text-lead font-semibold whitespace-nowrap text-fg">
-                  {value}
-                </span>{' '}
-                <span className="text-small text-fg-muted">{label}</span>
-              </li>
-            ))}
-          </ul>
+          <KeyFigures label="En bref" figures={content.highlights} firstIndex={7} />
         </div>
         <HeroPortrait alt={content.portraitAlt} />
       </div>

@@ -7,14 +7,15 @@ description: The portfolio's design system — visual direction from the referen
 
 ## Visual direction
 
-From the reference mockup: **dark navy canvas, one warm coral-orange accent, a portrait
-framed by an orange ring, geometric sans headings, generous negative space, clear
-numeric highlights.** We keep that identity and make it ours:
+From the reference mockup: **dark navy canvas, one accent, a portrait framed by an accent
+ring, geometric sans headings, generous negative space, clear numeric highlights.** We keep
+that identity and make it ours. The mockup's coral orange read as a warning to a recruiter:
+the accent is a **calm, trusted blue** (ADR 0025).
 
 - The accent is **rare and meaningful**: primary action, key figures, the ring, the
   reading progress, the peaks of the hero surface, the dots between technologies. No
-  large orange surfaces: a tilted orange tape and stickers on the portrait read as cheap
-  and were removed. If everything is orange, nothing is.
+  large accent surfaces: a tilted tape and stickers on the portrait read as cheap and
+  were removed. If everything is accented, nothing is.
 - **Playful, not noisy** (ADR 0015): the page reacts — letters rise, the ring zooms in,
   figures are drawn, cards follow the pointer — but every effect is tied to the content
   and none competes with reading. Prefer **integrated, editorial** details (a horizon
@@ -56,18 +57,19 @@ in the UI means adding it to that test first.**
 | `fg`             | `#1B1F2A` | `#E6E8EF` | Body text                                            |
 | `fg-muted`       | `#5A6278` | `#A9B0C2` | Secondary text                                       |
 | `fg-subtle`      | `#687083` | `#8B93A7` | Metadata — **never on `surface-raised`**             |
-| `accent`         | `#B93E0B` | `#FF7A45` | Primary button fill, portrait ring                   |
-| `accent-hover`   | `#9A3412` | `#FF9466` | Primary button hover                                 |
-| `accent-fg`      | `#B93E0B` | `#FF8A5B` | Accent text, links (underlined)                      |
-| `accent-tint`    | `#FCEDE6` | `#3D2D2E` | Tinted badge background, text selection              |
+| `accent`         | `#1D4ED8` | `#6EA8FE` | Primary button fill, portrait ring                   |
+| `accent-hover`   | `#1E40AF` | `#93BEFF` | Primary button hover                                 |
+| `accent-fg`      | `#1D4ED8` | `#7FB2FF` | Accent text, links (underlined)                      |
+| `accent-tint`    | `#E8EEFC` | `#26324A` | Tinted badge background, text selection              |
 | `on-accent`      | `#FFFFFF` | `#12151C` | Text on `accent` / `accent-hover`                    |
-| `focus`          | `#9A3412` | `#FF9466` | Focus outline (3 px, offset 2 px)                    |
+| `focus`          | `#1E40AF` | `#93BEFF` | Focus outline (3 px, offset 2 px)                    |
 | `border`         | `#E2E4EA` | `#3A4052` | Decorative separators only — never a control outline |
 | `border-input`   | `#767D8F` | `#7D869C` | Input and control borders (≥ 3:1)                    |
 | `error`          | `#B91C1C` | `#FCA5A5` | Error text + icon                                    |
 | `success`        | `#166534` | `#4ADE80` | Success text + icon                                  |
 
-**Dark theme: text on orange is dark (`on-accent` `#12151C`), never white** (max 2.59:1).
+**Dark theme: text on the accent is dark (`on-accent` `#12151C`), never white** (2.42:1 on
+`#6EA8FE`; no blue is both readable on the canvas and able to carry white text).
 
 ### Theming mechanics
 
@@ -151,6 +153,73 @@ in the UI means adding it to that test first.**
   grey caption) separated by thin rules, real text read by assistive tech.
 - **Titles and sign-off**: section titles and the footer's giant name have letters that
   rise with the scroll (`reveal-letter`), behind a visually hidden copy.
+- **About**: the profile is a statement **inked in word by word** as it is read
+  (`ink-timeline` on the paragraph with `--n`, `reveal-ink` on each word with `--i`: a
+  canvas-coloured veil in a pseudo-element lifts, the text underneath stays at full
+  contrast). The axes are three columns under a hairline with the accent drawn on it,
+  no icon discs (the kinetic band right after sets them large); the key figures are a
+  **ledger** between hairlines (figure, what it measures, its drawing), not cards.
+- **Section compositions**: STAXX is an editorial case study told in the order it
+  happened (a large figure row from `KeyFigures`, the story, the radio, **the pitch**,
+  then the photo of the win). The pitch video sits on its own first frame, full width,
+  its title cut into the frame like the photos' captions (dropped on a small frame); it
+  opens like a film as it arrives (`letterbox-bar`, `poster-settle` on the frame's
+  `poster-timeline`) and grows into the player when pressed (`video-morph-frame`, typed
+  View Transition `video-morph`, ADR 0024); a striped placeholder poster read as empty
+  and was removed. Each experience period is set large beside the timeline and sticks while its card is read; skills and education are chapters (stops) of one section on the flight path; the contact section
+  closes the page on the same volatility surface, **settled** and centred (`HeroScene
+variant="finale"`, loaded only when near).
+- **Footer**: quiet and integrated. Hairline rules, grey links whose hover draws a
+  hairline, the name in the display face at `h3` size with a round accent dot, and the
+  full-width name in filigree one step above the canvas (`text-surface-raised`). A
+  heavy solid giant wordmark, a square dot and a large tagline read as crude; a
+  one-pixel outline showed the variable font's overlapping contours. Texts that may be
+  on screen at load (the footer of a short page) take `reveal-slide`, never a fade, so
+  axe never measures them half transparent.
+- **Photos** (STAXX): a photo is a moment, not a decoration. The Summit win spans the
+  whole case study, its frame opening up (`reveal-expand`) while the image drifts
+  slower than the page (`scroll-parallax`, enlarged only while it drifts); its caption
+  sits in a notch cut into the photo, on the canvas, so its contrast never depends on
+  the picture. The NRJ Lille pair is set apart in depth (`scroll-float` on the smaller
+  frame). Crops are chosen per container (`object-position`), centred on William.
+  Sources live in `docs/content/images/`, derivatives come from `pnpm images`.
+- **The flight path is for the story only** (ADR 0023): the rail, the plane and the column
+  of waypoints run along the Parcours section alone, from its title to "Aujourd'hui",
+  where the plane lands. Sections that are not told in time (À propos, IA, Compétences,
+  Contact) open like chapters off the rail (`StopHeader` without `onPath`: number in
+  filigree, rising title) and set their chapters as ruled rows (`ChapterRows`: header left,
+  content right). Three title sizes: a section, a stop of the journey, a chapter. Texts
+  written as they are read share `InkText`. Every waypoint's timeline is named after its
+  anchor: anchors must be unique.
+- **The journey** (ADR 0021): the Parcours section tells the years at Epitech, one stop a
+  year (`FlightLog`). The rail is dotted like the flights; behind a plane riding the
+  reading line (40 % down the viewport) it turns into a solid trail, measured against the
+  whole viewport (`view-timeline-inset: 0`). A stop lights up as the plane reaches it:
+  marker fills, a branch draws out, the title rises letter by letter over its year in
+  filigree (a pseudo-element, never page text). What a stop holds comes in from the rail
+  (translate only). Two flights are staged, pinned, in mirror (`FlightScene`): the
+  voyage east to Seoul and the way home west to France, each landing on its flag; the
+  rail's plane steps away during both. Durations that must feel the same whatever a stop's
+  length use fixed ranges (`cover 0% cover 6rem`), not percentages.
+- **Korea** (`features/korea`): the one section pinned as a scene. On a large, tall
+  enough screen the voyage stage sticks while its track scrolls (`voyage-*`, one
+  `--voyage` timeline): the plane flies the arc and lands on the taegeuk, the flag
+  assembles (field unfurls, taegeuk turns and settles, trigrams come in from their
+  corners), then 안녕하세요 rises. Everywhere else each piece runs on its own view, and
+  without scroll-driven animations everything stands in its final place. The flag keeps
+  its official colours (ADR 0019). Korean words carry `lang="ko"` and are never
+  letter-spaced. A pinned scene must be **worth its scroll**: a pinned photo gallery that
+  panned a short strip over a long track felt like scrolling for nothing, and was removed.
+- **Photos are always whole**: framed at their own ratio, never cropped by a frame or by a
+  parallax zoom, and set where they tell something (the stadium beside Korea University),
+  not in a separate gallery. They move as a whole (`reveal-expand`, `scroll-float`).
+- **Nothing covers text being read**: stacked sticky cards cut the previous card's text
+  mid-sentence (AI practice, photo deck) and read as bugs; they were removed. The labels
+  beside the rail follow a **reading line** (`view-timeline-inset`), so only one shows at
+  a time; seen through the whole viewport, two short chapters overlapped. E2E tests guard
+  both (`ai-practice.spec.ts`, `flight-path.spec.ts`).
+- **Kinetic bands** are one primitive, `KineticBand` (`components/ui`): the axes band and
+  the Korean band share it; a line in another language keeps its `lang`.
 - **Desktop touches** (`src/lib/desktop-enhancements.ts`, loaded on idle for a precise
   pointer): a cursor ring that trails the pointer (the native cursor stays) and **gives
   way** over links and buttons, whose own hover answers; `[data-scramble]` texts decode
@@ -189,9 +258,8 @@ a real use case gets the wrong API.
   when a primitive's variants multiply, with the size measured in the PR.
 - Shipped primitives: `button-link` (a link styled as a button: calls to action navigate or
   download, so they stay `<a>`), `badge`, `responsive-image` (hero), `emphasized-text`
-  (CV bold passages), `youtube-facade` (projects). Still expected:
-  `card` (experience), `visually-hidden`. The key-figure markup stays inside the about
-  feature until a second feature needs it (then it moves to `ui/`).
+  (CV bold passages), `youtube-facade` (projects). `key-figures` (hero, STAXX).
+  Still expected: `card` (experience), `visually-hidden`.
 
 ## Tests
 

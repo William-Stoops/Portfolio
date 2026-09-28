@@ -18,7 +18,7 @@ export function RouteErrorBoundary() {
       </p>
       <p>
         <Link to={PATHS.home} className="inline-flex min-h-6 items-center">
-          Retour à l&apos;accueil
+          Retour à l’accueil
         </Link>
       </p>
     </main>
