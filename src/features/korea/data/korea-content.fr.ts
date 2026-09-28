@@ -9,8 +9,8 @@ import { type KoreaContent } from '@/features/korea/types/korea-content';
 // that frame them, come from William (see the same file).
 export const KOREA_CONTENT = {
   greeting: { korean: '안녕하세요', translation: 'bonjour' },
-  lead: 'Une année à Korea University, à Séoul, suivie en anglais : deep learning et computer vision.',
-  route: { origin: { name: 'France' }, destination: { name: 'Séoul', korean: '서울' } },
+  lead: 'Une année à Korea University, en Corée du Sud, suivie en anglais : deep learning et computer vision.',
+  route: { origin: { name: 'France' }, destination: { name: 'Corée du Sud', korean: '한국' } },
   homecoming: {
     farewell: { korean: '안녕히 계세요', translation: 'au revoir' },
     // The page's own language: no `lang`, no translation.
@@ -28,13 +28,13 @@ export const KOREA_CONTENT = {
     { name: 'Détecteur de gestes', detail: 'En temps réel, de type YOLO, sur flux webcam.' },
   ],
   band: {
-    korean: ['고려대학교', '서울', '딥러닝', '컴퓨터 비전'],
-    translation: ['Korea University', 'Séoul', 'Deep learning', 'Computer vision'],
+    korean: ['고려대학교', '한국', '딥러닝', '컴퓨터 비전'],
+    translation: ['Korea University', 'Corée du Sud', 'Deep learning', 'Computer vision'],
   },
   photos: [
     {
       picture: BASEBALL_STADIUM_PICTURE,
-      alt: 'William Stoops, de dos, en blouson de Korea University, agite un drapeau dans les tribunes d’un stade de baseball de Séoul',
+      alt: 'William Stoops, de dos, en blouson de Korea University, agite un drapeau dans les tribunes d’un stade de baseball',
       korean: '야구장',
       caption: 'Au stade, aux couleurs de Korea University.',
     },

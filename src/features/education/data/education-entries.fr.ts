@@ -11,7 +11,7 @@ export const EDUCATION_ENTRIES = [
   },
   {
     id: 'korea-university',
-    title: 'Korea University (Séoul)',
+    title: 'Korea University (Corée du Sud)',
     description: 'Année suivie en anglais, deep learning et computer vision.',
   },
   {

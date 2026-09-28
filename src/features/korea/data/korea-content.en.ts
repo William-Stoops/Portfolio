@@ -9,8 +9,8 @@ import { type KoreaContent } from '@/features/korea/types/korea-content';
 // home, the greeting stays French, marked as such and translated.
 export const KOREA_CONTENT = {
   greeting: { korean: '안녕하세요', translation: 'hello' },
-  lead: 'A year at Korea University, in Seoul, taught in English: deep learning and computer vision.',
-  route: { origin: { name: 'France' }, destination: { name: 'Seoul', korean: '서울' } },
+  lead: 'A year at Korea University, in South Korea, taught in English: deep learning and computer vision.',
+  route: { origin: { name: 'France' }, destination: { name: 'South Korea', korean: '한국' } },
   homecoming: {
     farewell: { korean: '안녕히 계세요', translation: 'goodbye' },
     greeting: { text: 'Bonjour.', lang: 'fr', translation: 'hello' },
@@ -27,13 +27,13 @@ export const KOREA_CONTENT = {
     { name: 'Gesture detector', detail: 'In real time, YOLO-style, on a webcam feed.' },
   ],
   band: {
-    korean: ['고려대학교', '서울', '딥러닝', '컴퓨터 비전'],
-    translation: ['Korea University', 'Seoul', 'Deep learning', 'Computer vision'],
+    korean: ['고려대학교', '한국', '딥러닝', '컴퓨터 비전'],
+    translation: ['Korea University', 'South Korea', 'Deep learning', 'Computer vision'],
   },
   photos: [
     {
       picture: BASEBALL_STADIUM_PICTURE,
-      alt: 'William Stoops, seen from behind in a Korea University jacket, waves a flag in the stands of a Seoul baseball stadium',
+      alt: 'William Stoops, seen from behind in a Korea University jacket, waves a flag in the stands of a baseball stadium',
       korean: '야구장',
       caption: 'At the ballpark, in Korea University colors.',
     },

@@ -26,7 +26,7 @@ export const JOURNEY_CONTENT = {
       id: JOURNEY_ANCHORS.fr.korea,
       year: 2024,
       label: '4e année',
-      title: 'Séoul, Korea University',
+      title: 'Corée du Sud, Korea University',
     },
     {
       id: 'annee-2025',

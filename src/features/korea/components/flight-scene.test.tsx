@@ -47,15 +47,15 @@ describe('FlightScene', () => {
     const origin = screen.container.querySelector('[data-globe-place="origin"]');
     const destination = screen.container.querySelector('[data-globe-place="destination"]');
     expect(origin?.textContent).toBe('France');
-    expect(destination?.textContent).toBe('서울Séoul');
-    expect(destination?.querySelector('[lang="ko"]')?.textContent).toBe('서울');
+    expect(destination?.textContent).toBe('한국Corée du Sud');
+    expect(destination?.querySelector('[lang="ko"]')?.textContent).toBe('한국');
   });
 
   it('flies home from Seoul to France', async () => {
     const screen = await render(<ReturnStage content={KOREA_CONTENT} />);
 
     expect(screen.container.querySelector('[data-globe-place="origin"]')?.textContent).toBe(
-      '서울Séoul',
+      '한국Corée du Sud',
     );
     expect(screen.container.querySelector('[data-globe-place="destination"]')?.textContent).toBe(
       'France',

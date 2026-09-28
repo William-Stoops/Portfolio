@@ -14,7 +14,7 @@ describe('Korea content', () => {
   it('opens on a greeting and the year in Seoul, as in the CV', () => {
     expect(KOREA_CONTENT.greeting).toEqual({ korean: '안녕하세요', translation: 'bonjour' });
     expect(KOREA_CONTENT.lead).toBe(
-      'Une année à Korea University, à Séoul, suivie en anglais : deep learning et computer vision.',
+      'Une année à Korea University, en Corée du Sud, suivie en anglais : deep learning et computer vision.',
     );
   });
 
@@ -45,7 +45,7 @@ describe('Korea content', () => {
   it('flies from France to Seoul', () => {
     expect(KOREA_CONTENT.route).toEqual({
       origin: { name: 'France' },
-      destination: { name: 'Séoul', korean: '서울' },
+      destination: { name: 'Corée du Sud', korean: '한국' },
     });
   });
 
@@ -53,7 +53,7 @@ describe('Korea content', () => {
     expect(KOREA_CONTENT.photos).toEqual([
       {
         picture: BASEBALL_STADIUM_PICTURE,
-        alt: 'William Stoops, de dos, en blouson de Korea University, agite un drapeau dans les tribunes d’un stade de baseball de Séoul',
+        alt: 'William Stoops, de dos, en blouson de Korea University, agite un drapeau dans les tribunes d’un stade de baseball',
         korean: '야구장',
         caption: 'Au stade, aux couleurs de Korea University.',
       },
@@ -80,8 +80,8 @@ describe('Korea content', () => {
 
   it('says the band in Korean, then in translation', () => {
     expect(KOREA_CONTENT.band).toEqual({
-      korean: ['고려대학교', '서울', '딥러닝', '컴퓨터 비전'],
-      translation: ['Korea University', 'Séoul', 'Deep learning', 'Computer vision'],
+      korean: ['고려대학교', '한국', '딥러닝', '컴퓨터 비전'],
+      translation: ['Korea University', 'Corée du Sud', 'Deep learning', 'Computer vision'],
     });
   });
 

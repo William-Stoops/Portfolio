@@ -26,7 +26,7 @@ describe('EducationList', () => {
         .getByRole('heading', { level: 4 })
         .elements()
         .map((heading) => heading.textContent),
-    ).toEqual(['Epitech', 'Korea University (Séoul)', 'Langues']);
+    ).toEqual(['Epitech', 'Korea University (Corée du Sud)', 'Langues']);
   });
 
   it('marks the English degree name and formats the period', async () => {
@@ -46,7 +46,7 @@ describe('EducationList', () => {
 
     const list = screen.getByRole('list', { name: 'Education' });
     await expect
-      .element(list.getByRole('heading', { level: 4, name: 'Korea University (Seoul)' }))
+      .element(list.getByRole('heading', { level: 4, name: 'Korea University (South Korea)' }))
       .toBeVisible();
     await expect.element(list.getByText('2021 – 2026')).toBeVisible();
   });

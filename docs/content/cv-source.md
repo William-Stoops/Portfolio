@@ -120,6 +120,9 @@ Légende : « Devant 300 personnes, sur la scène de l'Epitech Summit. »
   pour de la classification de texte ; CNN reconnaissant l'état d'une partie d'échecs sur
   image du plateau ; détecteur de gestes temps réel de type YOLO sur flux webcam.
 
+Correction de William le 2026-09-28 : Korea University n'était pas à Séoul. Le site dit
+« Korea University » ou « Corée du Sud », jamais « Séoul ».
+
 ## Compétences techniques
 
 | Catégorie  | Éléments                                                                                                                                               |
@@ -135,7 +138,7 @@ rien seule ; la pratique IA reste racontée dans sa section).
 ## Formation
 
 - **Epitech** — Master of Science, Expert en Technologies de l'Information, 2021 – 2026.
-- **Korea University** (Séoul) — année suivie en anglais, deep learning et computer vision.
+- **Korea University** (Corée du Sud) — année suivie en anglais, deep learning et computer vision.
 
 Hors CV, fourni par William le 2026-09-26 pour la section « Corée du Sud » : trois photos
 (`docs/content/images/korea-*.jpg` : au stade de baseball en blouson de Korea University, du
@@ -153,7 +156,7 @@ page (le parcours, une escale par année d'Epitech).
 - **2022**, 2e année : Strattt, puis GDS Élec (2022 – 2024).
 - **2023**, 3e année : début de STAXX, le projet de fin d'études, développé en 3e, 4e et
   5e année ; INTM en 2024.
-- **2024**, 4e année : Korea University, à Séoul.
+- **2024**, 4e année : Korea University, en Corée du Sud.
 - **2025**, 5e année : retour en France ; IT-Finance depuis septembre 2025 ; passage sur
   NRJ Lille et 1er au concours Epitech Summit avec STAXX.
 - **2026** : promo 2026.

@@ -27,7 +27,7 @@ describe('journey stops', () => {
       'Epitech',
       'Strattt, puis GDS Élec',
       'Lancement de STAXX, puis INTM',
-      'Séoul, Korea University',
+      'Corée du Sud, Korea University',
       'Retour en France',
       'Aujourd’hui',
     ]);
