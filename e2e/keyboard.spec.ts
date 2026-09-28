@@ -42,6 +42,7 @@ function expectedFocusOrderFor(page: Page): readonly string[] {
     'Accessibilité',
     'Mentions légales',
     'Plan du site',
+    'Sons',
     'Retour en haut',
   ];
 }

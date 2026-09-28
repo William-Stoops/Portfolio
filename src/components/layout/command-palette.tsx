@@ -47,6 +47,10 @@ const PALETTE_MESSAGES: Localized<PaletteMessages> = {
         system: { label: 'Thème du système', keywords: 'apparence couleurs automatique' },
       },
       languageKeywords: 'langue anglais',
+      sounds: {
+        on: { label: 'Activer les sons', keywords: 'audio bruit' },
+        off: { label: 'Couper les sons', keywords: 'audio silence' },
+      },
       downloadCv: { label: `Télécharger le CV (${CV_FILE.details.fr})`, keywords: 'curriculum' },
       email: { label: 'Écrire un e-mail à William', keywords: 'contact courriel message' },
       linkedin: { label: 'Ouvrir LinkedIn (nouvel onglet)', keywords: 'profil réseau' },
@@ -68,6 +72,10 @@ const PALETTE_MESSAGES: Localized<PaletteMessages> = {
         system: { label: 'System theme', keywords: 'appearance colours automatic' },
       },
       languageKeywords: 'language french',
+      sounds: {
+        on: { label: 'Turn the sounds on', keywords: 'audio noise' },
+        off: { label: 'Turn the sounds off', keywords: 'audio silence mute' },
+      },
       downloadCv: { label: `Download my CV (${CV_FILE.details.en})`, keywords: 'resume' },
       email: { label: 'Email William', keywords: 'contact mail message' },
       linkedin: { label: 'Open LinkedIn (new tab)', keywords: 'profile network' },

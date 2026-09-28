@@ -135,6 +135,19 @@ describe('CommandPalette', () => {
     expect(dialog()).toBeNull();
   });
 
+  it('turns the sounds on and off, as the footer does', async () => {
+    const screen = await renderPage();
+    await openPalette();
+
+    await userEvent.keyboard('sons');
+    await expect.element(screen.getByRole('button', { name: 'Activer les sons' })).toBeVisible();
+    await userEvent.keyboard('{Enter}');
+
+    expect(localStorage.getItem('sound-preference')).toBe('on');
+    await openPalette();
+    await expect.element(screen.getByRole('button', { name: 'Couper les sons' })).toBeVisible();
+  });
+
   it('says so when nothing matches', async () => {
     const screen = await renderPage();
     await openPalette();

@@ -2,6 +2,7 @@ import { ArrowUp, Download, ExternalLink } from 'lucide-react';
 import { Fragment } from 'react';
 import { NavLink } from 'react-router';
 
+import { SoundToggle } from '@/components/layout/sound-toggle';
 import { FOOTER_LINKS } from '@/config/navigation';
 import {
   CONTACT_EMAIL,
@@ -141,6 +142,7 @@ export function SiteFooter() {
         <p>
           © {SITE_OWNER} <span aria-hidden="true">—</span> <span lang="en">{SITE_ROLE}</span>
         </p>
+        <SoundToggle />
         <a href="#main" className={`${LINK_CLASS_NAME} text-small`}>
           {messages.backToTop}
           <span
