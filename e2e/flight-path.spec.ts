@@ -31,6 +31,31 @@ test.describe('flight path', () => {
     }
   });
 
+  test('keeps the plane on the tip of its trail down to the landing', async ({ page }) => {
+    test.skip(isMobileLayout(page), 'The plane rides the rail on large screens only.');
+    await page.emulateMedia({ reducedMotion: 'no-preference' });
+    await page.goto('/fr#parcours');
+    const gap = () =>
+      page.evaluate(() => {
+        const plane = document.querySelector('[data-flight-rail] .plane-heading');
+        const trail = document.querySelector('[data-flight-rail] .flight-log-fill');
+        if (plane === null || trail === null) {
+          return Number.NaN;
+        }
+        const box = plane.getBoundingClientRect();
+        return Math.abs(box.top + box.height / 2 - trail.getBoundingClientRect().bottom);
+      });
+
+    // All the way down, then back up from there: the plane rides the tip at every step.
+    const height = await page.evaluate(() => document.documentElement.scrollHeight);
+    for (const top of [height, height - 300, height - 700]) {
+      await page.evaluate((y) => {
+        window.scrollTo({ top: y, behavior: 'instant' });
+      }, top);
+      await expect.poll(gap, { message: `at ${String(top)} px` }).toBeLessThanOrEqual(2);
+    }
+  });
+
   test('turns the plane around when the reader scrolls back up', async ({ page }) => {
     test.skip(isMobileLayout(page), 'The plane rides the rail on large screens only.');
     await page.emulateMedia({ reducedMotion: 'no-preference' });

@@ -74,8 +74,10 @@ export function FlightPath({ waypoints, children }: FlightPathProps) {
               <span className="absolute -start-[0.6875rem] -bottom-3 size-6 rounded-full border-2 border-accent bg-canvas">
                 <span className="absolute inset-1 rounded-full bg-accent" />
               </span>
-              {/* The plane rides the tip of the trail, on the reading line. */}
-              <div className="absolute inset-0">
+              {/* The plane rides the tip of the trail, on the reading line, down to the
+                  landing: its sticky run reaches past the rail by its own size (size-10),
+                  or it would stop short while the trail goes on. */}
+              <div className="absolute inset-x-0 top-0 -bottom-10">
                 <div
                   style={{ '--away-timeline': '--voyage' }}
                   className="sticky top-[40vh] -ms-[1.1875rem] size-10 -translate-y-1/2 flight-log-plane"
