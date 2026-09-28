@@ -124,6 +124,14 @@ paint on demand, in its own chunk with its own size-limit budget (ADR 0016).
   chunk after it and the initial JS budget counts it. The E2E checks it never loads on a
   phone.
 
+- **Quick search** (ADR 0034): the store, the shortcut, the header button and the host
+  are in the main chunk; the palette is its own chunk, loaded on first opening or as its
+  button is aimed at, and mounted only while open. **Watch the chunk list after adding a
+  lazy chunk**: importing lucide icons straight into the palette's chunk made Rolldown move
+  React itself out of the main chunk into a shared `jsx-runtime-*.js` (+1.06 kB of initial
+  JS); the host passes the icons in instead. `ls dist/assets` must show no unexpected
+  shared chunk.
+
 ## 6b. First render of a long page (ADR 0018)
 
 - Home sections go through `PageSection`, which carries `defer-render`

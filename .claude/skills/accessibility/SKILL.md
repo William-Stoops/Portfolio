@@ -181,6 +181,13 @@ document shares the key `default` and the previous page's position undoes the ju
   dialog. When Escape must run the same closing as the close button (the video morph),
   prevent the `cancel` event and close through that path.
 
+- Quick search (ADR 0034): native elements rather than a combobox. A `type="search"`
+  field, one list per group named by its heading, each result the element it is (link,
+  router link, button). The arrows move the real focus; Enter in the field follows the
+  first result. Escape is stopped at the dialog, so the mobile menu under it stays open.
+  The focus goes back to the button that opened it, passed explicitly: Safari does not
+  focus a button it clicks. `prefer-tag-over-role` rejects listbox/option/group roles.
+
 ## 9. Tests (all mandatory for a feature PR)
 
 | Layer                | Tool                                                                                           | What                                                                                                                     |
