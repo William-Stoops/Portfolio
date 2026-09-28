@@ -15,6 +15,7 @@ const SCOPES = [
   'education',
   'contact',
   'legal',
+  'behind-the-scenes',
   'app',
   'ui',
   'layout',
