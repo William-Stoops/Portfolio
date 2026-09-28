@@ -1,6 +1,6 @@
 # 0027 — Faire voler l'avion de la Corée au-dessus d'un globe
 
-- Statut : Accepté
+- Statut : Remplacé par l’[ADR 0036](0036-premium-direction.md)
 - Date : 2026-09-27
 
 ## Contexte

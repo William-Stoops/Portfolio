@@ -1,6 +1,6 @@
 # 0019 — Ajouter les couleurs du drapeau coréen à la palette fermée
 
-- Statut : Accepté
+- Statut : Remplacé par l’[ADR 0036](0036-premium-direction.md)
 - Date : 2026-09-26
 
 ## Contexte

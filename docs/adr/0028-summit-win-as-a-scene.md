@@ -1,6 +1,6 @@
 # 0028 — Mettre en scène la victoire à l'Epitech Summit
 
-- Statut : Accepté
+- Statut : Remplacé par l’[ADR 0036](0036-premium-direction.md)
 - Date : 2026-09-28
 
 ## Contexte

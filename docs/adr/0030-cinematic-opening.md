@@ -1,6 +1,6 @@
 # 0030 — Ouvrir la page comme un plan de cinéma
 
-- Statut : Accepté
+- Statut : Remplacé par l’[ADR 0036](0036-premium-direction.md)
 - Date : 2026-09-28
 
 ## Contexte

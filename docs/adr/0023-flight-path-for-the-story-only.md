@@ -1,6 +1,6 @@
 # 0023 — Réserver la ligne de vol au récit
 
-- Statut : Accepté
+- Statut : Remplacé par l’[ADR 0036](0036-premium-direction.md)
 - Date : 2026-09-26
 - Remplace en partie : 0022
 

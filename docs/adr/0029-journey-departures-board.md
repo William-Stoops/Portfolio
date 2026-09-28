@@ -1,6 +1,6 @@
 # 0029 — Afficher le parcours sur un tableau des départs
 
-- Statut : Accepté
+- Statut : Remplacé par l’[ADR 0036](0036-premium-direction.md)
 - Date : 2026-09-28
 
 ## Contexte
