@@ -41,6 +41,43 @@ describe('ProjectsSection', () => {
     expect(screen.container.querySelector('iframe')).toBeNull();
   });
 
+  it('opens the case study with the project in three figures', async () => {
+    const screen = await renderSection();
+
+    const figures = screen.getByRole('list', { name: 'STAXX en chiffres' });
+    expect(
+      figures
+        .getByRole('listitem')
+        .elements()
+        .map((item) => item.textContent),
+    ).toEqual(PROJECTS[0].figures.map(({ value, label }) => `${value} ${label}`));
+  });
+
+  it('sets the Epitech Summit photo in the case study, captioned and loaded lazily', async () => {
+    const screen = await renderSection();
+
+    const photo = screen
+      .getByRole('article', { name: 'STAXX' })
+      .getByRole('figure', { name: /Epitech Summit/ });
+    const image = photo.getByRole('img', { name: PROJECTS[0].photo.alt });
+    await expect.element(image).toHaveAttribute('loading', 'lazy');
+    await expect.element(photo.getByText(PROJECTS[0].photo.caption)).toBeVisible();
+  });
+
+  it('shows the NRJ Lille appearance as a captioned pair of photos, loaded lazily', async () => {
+    const screen = await renderSection();
+
+    const press = screen
+      .getByRole('article', { name: 'STAXX' })
+      .getByRole('figure', { name: /NRJ Lille/ });
+    const images = press.getByRole('img').elements();
+    expect(images.map((image) => image.getAttribute('alt'))).toEqual(
+      PROJECTS[0].press.photos.map(({ alt }) => alt),
+    );
+    expect(images.every((image) => image.getAttribute('loading') === 'lazy')).toBe(true);
+    await expect.element(press.getByText(PROJECTS[0].press.summary)).toBeVisible();
+  });
+
   it('has no axe violations', async () => {
     const screen = await renderSection();
 

@@ -37,6 +37,81 @@
   }
 }
 
+@keyframes expand {
+  from {
+    scale: 0.9;
+  }
+}
+
+@keyframes parallax-y {
+  from {
+    translate: 0 -5%;
+  }
+
+  to {
+    translate: 0 5%;
+  }
+}
+
+@keyframes float-up {
+  from {
+    translate: 0 3rem;
+  }
+
+  to {
+    translate: 0 -3rem;
+  }
+}
+
+@keyframes arc-flight {
+  from {
+    rotate: calc(-1 * var(--arc-half-angle, 0deg));
+  }
+
+  to {
+    rotate: var(--arc-half-angle, 0deg);
+  }
+}
+
+@keyframes altitude {
+  0% {
+    scale: 0.7;
+  }
+
+  45% {
+    scale: 1.15;
+  }
+
+  85% {
+    scale: 0.6;
+  }
+
+  /* Landed: the plane gives way to what it flew to. */
+  100% {
+    scale: 0;
+  }
+}
+
+@keyframes settle-turn {
+  from {
+    rotate: -1turn;
+    scale: 0;
+  }
+}
+
+@keyframes unfurl {
+  from {
+    scale: 0 1;
+  }
+}
+
+@keyframes trigram-in {
+  from {
+    opacity: 0;
+    translate: var(--from, 0 0);
+  }
+}
+
 @keyframes grow-x {
   from {
     scale: 0 1;
@@ -70,6 +145,24 @@
 
   to {
     translate: var(--drift-to) 0;
+  }
+}
+
+@keyframes chapter-swap {
+  0% {
+    opacity: 0;
+    translate: 0 2rem;
+  }
+
+  12%,
+  88% {
+    opacity: 1;
+    translate: 0 0;
+  }
+
+  100% {
+    opacity: 0;
+    translate: 0 -2rem;
   }
 }
 
@@ -172,6 +265,189 @@
       animation: letter-rise var(--ease-out) both;
       animation-timeline: view();
       animation-range: entry calc(var(--i, 0) * 1.5%) entry calc(70% + var(--i, 0) * 1.5%);
+    }
+  }
+}
+
+/*
+ * The same rise without the fade, for text that may already be on screen at load (the
+ * footer of a short page): a scroll-linked fade would leave it half transparent, below
+ * its contrast, until the visitor scrolls.
+ */
+@utility reveal-slide {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: slide-up var(--ease-out) both;
+      animation-timeline: view();
+      animation-range: entry calc(var(--i, 0) * 8%) entry calc(90% + var(--i, 0) * 8%);
+    }
+  }
+}
+
+/*
+  A photo that opens up as it arrives: its frame grows to full size while the image
+  inside drifts slower than the page. The image is enlarged just enough for the drift
+  never to show an edge, and only while the drift runs.
+*/
+@utility reveal-expand {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: expand var(--ease-out) both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 40%;
+    }
+  }
+}
+
+@utility scroll-parallax {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      scale: 1.12;
+      animation: parallax-y linear both;
+      animation-timeline: view();
+    }
+  }
+}
+
+/* A photo of a pair that rises faster than the page: the two frames part in depth. */
+@utility scroll-float {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: float-up linear both;
+      animation-timeline: view();
+    }
+  }
+}
+
+/*
+ * The voyage to Seoul (VoyageStage). On a large, tall enough screen the stage is pinned
+ * while its track scrolls by, and one timeline (--voyage) runs the story: the flight,
+ * the flag unfurling at the landing, the greeting. Elsewhere each piece runs on its own
+ * view, and without scroll-driven animations or with reduced motion everything simply
+ * stands in its final place: plane at the top of the arc, flag complete, greeting shown.
+ * The pinned condition, (min-width: 64rem) and (min-height: 40rem), is repeated below.
+ */
+@utility voyage-track {
+  @media (prefers-reduced-motion: no-preference) and (min-width: 64rem) and (min-height: 40rem) {
+    @supports (animation-timeline: view()) {
+      height: 260vh;
+      view-timeline: --voyage;
+    }
+  }
+}
+
+@utility voyage-stage {
+  @media (prefers-reduced-motion: no-preference) and (min-width: 64rem) and (min-height: 40rem) {
+    @supports (animation-timeline: view()) {
+      position: sticky;
+      top: 0;
+      height: 100dvh;
+      justify-content: center;
+      /* Below the sticky header. */
+      padding-top: 5rem;
+    }
+  }
+}
+
+/* The route's own timeline, for the flight on a small screen. */
+@utility flight-timeline {
+  view-timeline: --flight;
+}
+
+/* The arm carrying the plane turns along the arc (`--arc-half-angle` either side). */
+@utility voyage-flight {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: arc-flight ease-in-out both;
+      animation-timeline: --flight;
+      animation-range: cover 15% cover 60%;
+
+      @media (min-width: 64rem) and (min-height: 40rem) {
+        animation-timeline: --voyage;
+        animation-range: contain 5% contain 45%;
+      }
+    }
+  }
+}
+
+/* The plane climbs, comes down, and disappears as it lands. */
+@utility voyage-altitude {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: altitude ease-in-out both;
+      animation-timeline: --flight;
+      animation-range: cover 15% cover 60%;
+
+      @media (min-width: 64rem) and (min-height: 40rem) {
+        animation-timeline: --voyage;
+        animation-range: contain 5% contain 45%;
+      }
+    }
+  }
+}
+
+/* The flag's field opens from the hoist, as the plane comes in. */
+@utility voyage-unfurl {
+  transform-origin: 0 50%;
+
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: unfurl var(--ease-out) both;
+      animation-timeline: view();
+      animation-range: entry 10% cover 35%;
+
+      @media (min-width: 64rem) and (min-height: 40rem) {
+        animation-timeline: --voyage;
+        animation-range: contain 25% contain 42%;
+      }
+    }
+  }
+}
+
+/* The taegeuk grows while turning once, and settles in its exact orientation. */
+@utility voyage-turn {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: settle-turn var(--ease-out) both;
+      animation-timeline: view();
+      animation-range: entry 20% cover 45%;
+
+      @media (min-width: 64rem) and (min-height: 40rem) {
+        animation-timeline: --voyage;
+        animation-range: contain 38% contain 60%;
+      }
+    }
+  }
+}
+
+/* Each trigram comes in from its corner (`--from`), one after the other (`--i`). */
+@utility voyage-trigram {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: trigram-in var(--ease-out) both;
+      animation-timeline: view();
+      animation-range: entry calc(20% + var(--i, 0) * 8%) cover calc(40% + var(--i, 0) * 4%);
+
+      @media (min-width: 64rem) and (min-height: 40rem) {
+        animation-timeline: --voyage;
+        animation-range: contain calc(50% + var(--i, 0) * 4%) contain calc(60% + var(--i, 0) * 4%);
+      }
+    }
+  }
+}
+
+/* The greeting's letters rise out of their line once the flag is up. */
+@utility voyage-letter {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: letter-rise var(--ease-out) both;
+      animation-timeline: view();
+      animation-range: entry calc(var(--i, 0) * 6%) entry calc(80% + var(--i, 0) * 6%);
+
+      @media (min-width: 64rem) and (min-height: 40rem) {
+        animation-timeline: --voyage;
+        animation-range: contain calc(70% + var(--i, 0) * 2%) contain calc(80% + var(--i, 0) * 2%);
+      }
     }
   }
 }
@@ -301,6 +577,75 @@
       animation-timeline: view();
     }
   }
+}
+
+/*
+ * Sticky chapters (StickyChapters): the sticky column exists only on large screens, where
+ * scroll-driven animations and named timeline scopes run and motion is welcome. There,
+ * each chapter's heading is visually hidden (the column shows it); elsewhere the
+ * chapters simply stack with their headings.
+ */
+@utility chapters-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+
+  @media (min-width: 64rem) and (prefers-reduced-motion: no-preference) {
+    @supports (timeline-scope: none) and (animation-timeline: view()) {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+      timeline-scope: var(--scope);
+    }
+  }
+}
+
+@utility chapter-rail {
+  display: none;
+
+  @media (min-width: 64rem) and (prefers-reduced-motion: no-preference) {
+    @supports (timeline-scope: none) and (animation-timeline: view()) {
+      display: block;
+    }
+  }
+}
+
+@utility chapter-heading {
+  @media (min-width: 64rem) and (prefers-reduced-motion: no-preference) {
+    @supports (timeline-scope: none) and (animation-timeline: view()) {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+  }
+}
+
+/*
+ * Chapters are watched through a reading line, 40 % down the viewport, not through the
+ * whole viewport: a line crosses one chapter at a time, so only one title shows. Seen
+ * through the whole viewport, two short chapters were in view together, and their titles
+ * overlapped.
+ */
+@utility chapter-timeline {
+  view-timeline-name: var(--timeline);
+  view-timeline-inset: 40% 59%;
+}
+
+/* The title of the chapter under the reading line rises in, then out as the next comes. */
+@utility chapter-label {
+  opacity: 0;
+  animation: chapter-swap linear both;
+  animation-timeline: var(--timeline);
+  animation-range: cover 0% cover 100%;
+}
+
+@utility chapter-progress {
+  transform-origin: 50% 0;
+  animation: grow-y linear both;
+  animation-timeline: --chapters;
+  animation-range: contain 0% contain 100%;
 }
 
 /*

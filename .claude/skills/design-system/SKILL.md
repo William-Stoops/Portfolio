@@ -151,6 +151,46 @@ in the UI means adding it to that test first.**
   grey caption) separated by thin rules, real text read by assistive tech.
 - **Titles and sign-off**: section titles and the footer's giant name have letters that
   rise with the scroll (`reveal-letter`), behind a visually hidden copy.
+- **Section compositions**: STAXX is an editorial case study (a large figure row from
+  `KeyFigures`, the pitch beside it); each experience period is set large beside the
+  timeline and sticks while its card is read; skills and education are **sticky
+  chapters** (`StickyChapters`: the chapter title stays while its content scrolls,
+  named view timelines, a stacked fallback with real headings); the contact section
+  closes the page on the same volatility surface, **settled** and centred (`HeroScene
+variant="finale"`, loaded only when near).
+- **Footer**: quiet and integrated. Hairline rules, grey links whose hover draws a
+  hairline, the name in the display face at `h3` size with a round accent dot, and the
+  full-width name in filigree one step above the canvas (`text-surface-raised`). A
+  heavy solid giant wordmark, a square dot and a large tagline read as crude; a
+  one-pixel outline showed the variable font's overlapping contours. Texts that may be
+  on screen at load (the footer of a short page) take `reveal-slide`, never a fade, so
+  axe never measures them half transparent.
+- **Photos** (STAXX): a photo is a moment, not a decoration. The Summit win spans the
+  whole case study, its frame opening up (`reveal-expand`) while the image drifts
+  slower than the page (`scroll-parallax`, enlarged only while it drifts); its caption
+  sits in a notch cut into the photo, on the canvas, so its contrast never depends on
+  the picture. The NRJ Lille pair is set apart in depth (`scroll-float` on the smaller
+  frame). Crops are chosen per container (`object-position`), centred on William.
+  Sources live in `docs/content/images/`, derivatives come from `pnpm images`.
+- **Korea** (`features/korea`): the one section pinned as a scene. On a large, tall
+  enough screen the voyage stage sticks while its track scrolls (`voyage-*`, one
+  `--voyage` timeline): the plane flies the arc and lands on the taegeuk, the flag
+  assembles (field unfurls, taegeuk turns and settles, trigrams come in from their
+  corners), then 안녕하세요 rises. Everywhere else each piece runs on its own view, and
+  without scroll-driven animations everything stands in its final place. The flag keeps
+  its official colours (ADR 0019). Korean words carry `lang="ko"` and are never
+  letter-spaced. A pinned scene must be **worth its scroll**: a pinned photo gallery that
+  panned a short strip over a long track felt like scrolling for nothing, and was removed.
+- **Photos are always whole**: framed at their own ratio, never cropped by a frame or by a
+  parallax zoom, and set where they tell something (the stadium beside Korea University),
+  not in a separate gallery. They move as a whole (`reveal-expand`, `scroll-float`).
+- **Nothing covers text being read**: stacked sticky cards cut the previous card's text
+  mid-sentence (AI practice, photo deck) and read as bugs; they were removed. Sticky
+  chapter titles follow a **reading line** (`view-timeline-inset`), so only one shows at a
+  time; seen through the whole viewport, two short chapters overlapped. E2E tests guard
+  both (`ai-practice.spec.ts`, `sticky-chapters.spec.ts`).
+- **Kinetic bands** are one primitive, `KineticBand` (`components/ui`): the axes band and
+  the Korean band share it; a line in another language keeps its `lang`.
 - **Desktop touches** (`src/lib/desktop-enhancements.ts`, loaded on idle for a precise
   pointer): a cursor ring that trails the pointer (the native cursor stays) and **gives
   way** over links and buttons, whose own hover answers; `[data-scramble]` texts decode

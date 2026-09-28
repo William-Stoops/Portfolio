@@ -11,6 +11,7 @@ function expectedFocusOrderFor(page: Page): readonly string[] {
         'Parcours',
         'Projets',
         'IA',
+        'Corée',
         'Compétences',
         'Contact',
         'Thème du système',
@@ -35,9 +36,11 @@ function expectedFocusOrderFor(page: Page): readonly string[] {
     'Préparer l’e-mail',
     'william.stoops@epitech.eu',
     'LinkedIn (nouvel onglet)',
+    'Télécharger le CV (PDF, 56 Ko)',
     'Accessibilité',
     'Mentions légales',
     'Plan du site',
+    'Retour en haut',
   ];
 }
 

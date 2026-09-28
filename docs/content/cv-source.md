@@ -82,6 +82,10 @@ https://www.youtube.com/watch?v=K_TsQ0Itoek&t=3741s (démarre à 1:02:21).
   catalogue : « 20 colliers Atlas pour du tube de 26 » retrouve la bonne référence malgré
   les fautes, via un dictionnaire d'alias que chaque correction utilisateur enrichit.
 
+Hors CV, fourni par William le 2026-09-26 avec ses photos (`docs/content/images/`) : la
+remise du trophée sur la scène de l'Epitech Summit, et le passage de l'équipe sur
+**NRJ Lille**, la radio régionale de NRJ, pour présenter STAXX.
+
 ## IA : pratique personnelle et travaux académiques
 
 - **Agents et MCP.** Agents de code au quotidien : décomposition de tâches, boucles
@@ -106,6 +110,12 @@ https://www.youtube.com/watch?v=K_TsQ0Itoek&t=3741s (démarre à 1:02:21).
 
 - **Epitech** — Master of Science, Expert en Technologies de l'Information, 2021 – 2026.
 - **Korea University** (Séoul) — année suivie en anglais, deep learning et computer vision.
+
+Hors CV, fourni par William le 2026-09-26 pour la section « Corée du Sud » : trois photos
+(`docs/content/images/korea-*.jpg` : au stade de baseball en blouson de Korea University, du
+code dans un café face aux montagnes, un pavillon illuminé de nuit) et quelques mots en
+coréen qui les encadrent (안녕하세요, 고려대학교, 서울, 딥러닝, 컴퓨터 비전, 야구장, 카페, 밤).
+
 - Anglais professionnel, **TOEIC 820**.
 
 ## Correspondance avec la maquette de référence

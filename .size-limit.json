@@ -15,6 +15,11 @@
     "limit": "2 kB"
   },
   {
+    "name": "Korea section (loaded as hydration reaches it)",
+    "path": "dist/assets/korea-section-*.js",
+    "limit": "6 kB"
+  },
+  {
     "name": "CSS",
     "path": "dist/assets/*.css",
     "limit": "15 kB"
