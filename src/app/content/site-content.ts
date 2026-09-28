@@ -6,6 +6,7 @@ import { type BehindTheScenesContent } from '@/features/behind-the-scenes/types/
 import { type ContactContent } from '@/features/contact/types/contact-content';
 import { type EducationEntry } from '@/features/education/types/education-entry';
 import { type CycleRaceContent } from '@/features/experience/types/cycle-race';
+import { type Recommendation } from '@/features/experience/types/recommendation';
 import { type VolatilityLabContent } from '@/features/experience/types/volatility-lab';
 import { type Experience, type ExperienceLabels } from '@/features/experience/types/experience';
 import { type HeroContent } from '@/features/hero/types/hero-content';
@@ -31,6 +32,8 @@ export type SiteContent = {
     // and the cycle of ten hours brought to five minutes, raced to scale (ADR 0032).
     lab: VolatilityLabContent;
     race: CycleRaceContent;
+    // What William's mentor at INTM Groupe wrote about him, under that role.
+    recommendation: Recommendation;
   };
   korea: KoreaContent;
   projects: { entries: readonly [Project]; labels: ProjectLabels };

@@ -8,6 +8,7 @@ import { PageSection } from '@/components/layout/page-section';
 import { Statement } from '@/components/ui/statement';
 import { JOURNEY_ANCHORS } from '@/config/paths';
 import { ExperienceCard } from '@/features/experience/components/experience-card';
+import { RecommendationQuote } from '@/features/experience/components/recommendation-quote';
 import { VolatilityLab } from '@/features/experience/components/volatility-lab';
 import { KoreaChapter } from '@/features/korea/components/korea-chapter';
 import { ReturnStage } from '@/features/korea/components/return-stage';
@@ -17,8 +18,8 @@ import { type Locale } from '@/i18n/locales';
 import { formatSectionNumber } from '@/utils/section-number';
 
 // What each year of the journey holds: its note, then the cards that tell the year (the
-// roles, the year in Seoul, STAXX). Chosen by the year, which no language changes;
-// composing features belongs to the route.
+// roles and what was said of them, the year in South Korea, STAXX). Chosen by the year,
+// which no language changes; composing features belongs to the route.
 function journeyContent(
   year: number,
   note: string | undefined,
@@ -37,6 +38,9 @@ function journeyContent(
         <>
           {noteParagraph}
           <ExperienceCard experience={intm} labels={labels} />
+          <div className="@container">
+            <RecommendationQuote recommendation={content.experiences.recommendation} />
+          </div>
         </>
       );
     }

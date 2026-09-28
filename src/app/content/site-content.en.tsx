@@ -7,6 +7,7 @@ import { CONTACT_CONTENT } from '@/features/contact/data/contact-content.en';
 import { EDUCATION_ENTRIES } from '@/features/education/data/education-entries.en';
 import { CYCLE_RACE } from '@/features/experience/data/cycle-race.en';
 import { EXPERIENCE_LABELS, EXPERIENCES } from '@/features/experience/data/experiences.en';
+import { INTM_RECOMMENDATION } from '@/features/experience/data/recommendation.en';
 import { VOLATILITY_LAB } from '@/features/experience/data/volatility-lab.en';
 import { HERO_CONTENT } from '@/features/hero/data/hero-content.en';
 import { JOURNEY_CONTENT } from '@/features/journey/data/journey-stops.en';
@@ -30,6 +31,7 @@ export const SITE_CONTENT: SiteContent = {
     labels: EXPERIENCE_LABELS,
     lab: VOLATILITY_LAB,
     race: CYCLE_RACE,
+    recommendation: INTM_RECOMMENDATION,
   },
   korea: KOREA_CONTENT,
   projects: { entries: PROJECTS, labels: PROJECT_LABELS },

@@ -80,6 +80,11 @@ simulés, et la course des cycles sous le titre « Un cycle complet, à l'échel
   KPI des business managers, suivi du statut des consultants (en formation, en mission, chez
   quel client). Du schéma PostgreSQL aux écrans React, back NestJS compris.
 
+Recommandation, hors CV, fournie par William le 2026-09-28 : celle que **Paul Plancq**,
+son mentor chez INTM Groupe (aujourd'hui Senior Consultant Craft chez HoppR), a écrite sur
+LinkedIn le 27 juin 2025. Citée mot pour mot sous le poste INTM ; traduite, et dite
+traduite, sur la page anglaise.
+
 ### Full Stack Engineer — Strattt, puis GDS Élec · 2022 – 2024
 
 - Automatisé une chaîne comptable de bout en bout, et livré **trois applications mobiles
