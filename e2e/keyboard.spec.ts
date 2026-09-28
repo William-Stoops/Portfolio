@@ -145,6 +145,6 @@ test.describe('pages', () => {
       'aria-pressed',
       'true',
     );
-    await expect(page.locator('html')).toHaveCSS('background-color', 'rgb(27, 31, 42)');
+    await expect(page.locator('html')).toHaveCSS('background-color', 'rgb(20, 21, 23)');
   });
 });

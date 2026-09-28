@@ -3,8 +3,8 @@ import { expect, test } from '@playwright/test';
 // Guards the production CSS pipeline: Lightning CSS transpiles light-dark() for older
 // browsers, and both colour schemes must still resolve to the validated tokens.
 const EXPECTED_COLORS = {
-  light: { canvas: 'rgb(250, 250, 247)', foreground: 'rgb(27, 31, 42)' },
-  dark: { canvas: 'rgb(27, 31, 42)', foreground: 'rgb(230, 232, 239)' },
+  light: { canvas: 'rgb(255, 255, 255)', foreground: 'rgb(28, 29, 32)' },
+  dark: { canvas: 'rgb(20, 21, 23)', foreground: 'rgb(240, 240, 238)' },
 } as const;
 
 for (const colorScheme of ['light', 'dark'] as const) {

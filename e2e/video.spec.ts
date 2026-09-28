@@ -82,7 +82,7 @@ test.describe('pitch video', () => {
 
     // The dark canvas token: the production CSS transpiles light-dark(), which must still
     // follow the dialog's own colour scheme.
-    await expect(page.getByRole('dialog')).toHaveCSS('background-color', 'rgb(27, 31, 42)');
-    await expect(page.locator('html')).toHaveCSS('background-color', 'rgb(250, 250, 247)');
+    await expect(page.getByRole('dialog')).toHaveCSS('background-color', 'rgb(20, 21, 23)');
+    await expect(page.locator('html')).toHaveCSS('background-color', 'rgb(255, 255, 255)');
   });
 });
