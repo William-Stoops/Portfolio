@@ -23,8 +23,18 @@ const SECTION_LABELS = {
 } as const satisfies Localized<Record<keyof (typeof SECTION_IDS)[Locale], string>>;
 
 const PAGE_LABELS = {
-  fr: { accessibility: 'Accessibilité', legalNotice: 'Mentions légales', siteMap: 'Plan du site' },
-  en: { accessibility: 'Accessibility', legalNotice: 'Legal notice', siteMap: 'Site map' },
+  fr: {
+    home: 'Accueil',
+    accessibility: 'Accessibilité',
+    legalNotice: 'Mentions légales',
+    siteMap: 'Plan du site',
+  },
+  en: {
+    home: 'Home',
+    accessibility: 'Accessibility',
+    legalNotice: 'Legal notice',
+    siteMap: 'Site map',
+  },
 } as const satisfies Localized<Record<string, string>>;
 
 // One link per numbered section of the home page (Seoul and STAXX are stops within the
@@ -54,6 +64,21 @@ function footerLinksIn(locale: Locale): readonly PageLink[] {
   ];
 }
 
+// Where the not-found page sends a visitor who lost their way: back home, into the story,
+// straight to the way to reach William, or to the map of everything.
+function detoursIn(locale: Locale): readonly (NavItem | PageLink)[] {
+  const paths = PAGE_PATHS[locale];
+  const ids = SECTION_IDS[locale];
+  const sections = SECTION_LABELS[locale];
+  const pages = PAGE_LABELS[locale];
+  return [
+    { label: pages.home, path: paths.home },
+    { label: sections.experience, href: `${paths.home}#${ids.experience}` },
+    { label: sections.contact, href: `${paths.home}#${ids.contact}` },
+    { label: pages.siteMap, path: paths.siteMap },
+  ];
+}
+
 export const NAV_ITEMS: Localized<readonly NavItem[]> = {
   fr: navItemsIn('fr'),
   en: navItemsIn('en'),
@@ -62,4 +87,9 @@ export const NAV_ITEMS: Localized<readonly NavItem[]> = {
 export const FOOTER_LINKS: Localized<readonly PageLink[]> = {
   fr: footerLinksIn('fr'),
   en: footerLinksIn('en'),
+};
+
+export const DETOURS: Localized<readonly (NavItem | PageLink)[]> = {
+  fr: detoursIn('fr'),
+  en: detoursIn('en'),
 };

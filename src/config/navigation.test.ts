@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { FOOTER_LINKS, NAV_ITEMS } from '@/config/navigation';
+import { DETOURS, FOOTER_LINKS, NAV_ITEMS } from '@/config/navigation';
 
 describe('NAV_ITEMS', () => {
   it('links each home section in French, by its French anchor', () => {
@@ -35,6 +35,25 @@ describe('FOOTER_LINKS', () => {
       en: [
         { label: 'Accessibility', path: '/en/accessibility' },
         { label: 'Legal notice', path: '/en/legal-notice' },
+        { label: 'Site map', path: '/en/site-map' },
+      ],
+    });
+  });
+});
+
+describe('DETOURS', () => {
+  it('offers a lost visitor the home page, the story, contact and the map, in each language', () => {
+    expect(DETOURS).toEqual({
+      fr: [
+        { label: 'Accueil', path: '/fr' },
+        { label: 'Parcours', href: '/fr#parcours' },
+        { label: 'Contact', href: '/fr#contact' },
+        { label: 'Plan du site', path: '/fr/plan-du-site' },
+      ],
+      en: [
+        { label: 'Home', path: '/en' },
+        { label: 'Journey', href: '/en#journey' },
+        { label: 'Contact', href: '/en#contact' },
         { label: 'Site map', path: '/en/site-map' },
       ],
     });
