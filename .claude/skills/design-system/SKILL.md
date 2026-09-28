@@ -246,6 +246,13 @@ variant="finale"`, loaded only when near).
   stop before the reading line. Cells keep their character's width; the glyphs they turn
   through come from letters of the same kind and about the same width. Other headers keep
   their rising letters: the board belongs to the journey, a flight.
+- **The not-found page is a diverted flight**: "Vol 404 · Dérouté" turns in on the board
+  on its own (`flap-enter`, on the clock), the 404 sits on tiles, and the journey's plane
+  flies two turns of a dotted holding pattern around it (`HoldingPattern`,
+  `holding-orbit`) before waiting at the top. It plays once and rests within five
+  seconds, so it needs no pause control (WCAG 2.2.2; `not-found.spec.ts` measures it).
+  The way out is a board of destinations (`DestinationBoard`): home, the story, contact,
+  the map. On a phone the pattern comes first, in view; the words keep the reading order.
 - **Photos are always whole**: framed at their own ratio, never cropped by a frame or by a
   parallax zoom, and set where they tell something (the stadium beside Korea University),
   not in a separate gallery. They move as a whole (`reveal-expand`, `scroll-float`).

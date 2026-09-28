@@ -247,6 +247,7 @@ pnpm verify         # tout ce qui précède, identique à la CI
 | 29  | `william/feat/cinematic-opening`     | Ouverture : la caméra survole la surface qui s'élève, puis plonge vers À propos au défilement (ADR 0030)            |
 | 30  | `william/test/e2e-hydration-races`   | E2E qui attendent l'hydratation avant d'agir (touche, formulaire)                                                   |
 | 31  | `william/chore/deploy`               | En ligne sur william-stoops.pages.dev : adresses, Open Graph, sitemap, en-têtes, workflow de déploiement (ADR 0031) |
+| 32  | `william/feat/lost-flight-404`       | 404 ludique : le vol 404 dérouté sur le tableau, l'avion en attente autour, d'autres destinations                   |
 
 Questions encore ouvertes : un traitement serveur du formulaire de contact (service
 tiers ou fonction serverless) au-delà du `mailto:`.
