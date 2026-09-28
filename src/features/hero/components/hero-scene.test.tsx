@@ -103,6 +103,25 @@ describe('HeroScene', () => {
     await expect.poll(() => readsDrawnPixels(canvas)).toBe(true);
   });
 
+  it('waits for the page to near it before loading, in its finale variant', async () => {
+    await page.viewport(1280, 800);
+    const screen = await render(
+      <div>
+        <div style={{ height: 3000 }} />
+        <div style={{ position: 'relative', width: 1280, height: 500 }}>
+          <HeroScene variant="finale" />
+        </div>
+      </div>,
+    );
+    const canvas = sceneCanvas(screen.container);
+    await new Promise((resolve) => setTimeout(resolve, 800));
+    expect(canvas.hasAttribute('data-ready')).toBe(false);
+
+    canvas.scrollIntoView();
+
+    await expect.poll(() => canvas.getAttribute('data-ready'), { timeout: 5000 }).toBe('');
+  });
+
   it('stays off on a small screen', async () => {
     await page.viewport(390, 800);
     const screen = await render(<HeroScene />);

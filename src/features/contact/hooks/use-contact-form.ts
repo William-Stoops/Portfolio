@@ -5,13 +5,17 @@ import { type FieldErrors, useForm, type UseFormRegister } from 'react-hook-form
 import {
   type ContactFormInput,
   type ContactFormValues,
-  contactFormSchema,
+  createContactFormSchema,
 } from '@/features/contact/schemas/contact-form-schema';
+import { type ContactFormContent } from '@/features/contact/types/contact-content';
 import { buildContactMailto } from '@/features/contact/utils/build-contact-mailto';
 
 type ContactFormStatus = 'idle' | 'mail-client-opened';
 
-export function useContactForm(openMailto: (url: string) => void): {
+export function useContactForm(
+  openMailto: (url: string) => void,
+  content: ContactFormContent,
+): {
   register: UseFormRegister<ContactFormInput>;
   errors: FieldErrors<ContactFormInput>;
   submit: (event: SubmitEvent<HTMLFormElement>) => void;
@@ -22,7 +26,7 @@ export function useContactForm(openMailto: (url: string) => void): {
     undefined,
     ContactFormValues
   >({
-    resolver: zodResolver(contactFormSchema),
+    resolver: zodResolver(createContactFormSchema(content.errors)),
     // No red fields while typing the first time; re-validate on change once touched.
     mode: 'onTouched',
     defaultValues: { name: '', email: '', message: '' },
@@ -32,7 +36,7 @@ export function useContactForm(openMailto: (url: string) => void): {
   const [status, setStatus] = useState<ContactFormStatus>('idle');
 
   const submitValidForm = handleSubmit((values) => {
-    openMailto(buildContactMailto(values));
+    openMailto(buildContactMailto(values, content.mailSubject));
     setStatus('mail-client-opened');
   });
 
