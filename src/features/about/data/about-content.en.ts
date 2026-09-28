@@ -24,27 +24,5 @@ export const ABOUT_CONTENT = {
         'Coding agents and MCP servers every day, OpenAI and Anthropic APIs with function calling and schema-constrained outputs, models trained at Korea University.',
     },
   ],
-  metrics: [
-    {
-      value: '10 h → 5 min',
-      spokenValue: 'from 10 hours to 5 minutes',
-      label: 'Implied volatility computation cycle, after redesigning the data structure',
-      // 5 minutes out of 10 hours.
-      visual: { kind: 'reduction', remainingShare: 5 / 600 },
-    },
-    {
-      value: '−99%',
-      spokenValue: 'minus 99 percent',
-      label: 'Latency on most requests to the news service migrated to Rust',
-      visual: { kind: 'reduction', remainingShare: 0.01 },
-    },
-    { value: '3 years', label: 'Of industry experience', visual: { kind: 'steps', count: 3 } },
-    {
-      value: '1st',
-      spokenValue: 'first',
-      label: 'At the Epitech Summit competition with STAXX, pitched to 300 people',
-      visual: { kind: 'podium' },
-    },
-  ],
-  labels: { axes: 'Areas of expertise', figures: 'Key figures' },
+  labels: { axes: 'Areas of expertise' },
 } as const satisfies AboutContent;

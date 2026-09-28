@@ -45,6 +45,9 @@ full stack en TypeScript, et je travaille tous les jours avec des agents et des 
 | 3 ans        | D'expérience en entreprise                                   | Profil            |
 | 1er          | Concours Epitech Summit (STAXX), pitché devant 300 personnes | Projets           |
 
+Sur le site, la section « Chiffres clés » d'À propos est retirée à la demande de William le
+2026-09-28 : chaque chiffre reste dit là où il s'est produit (IT-Finance, STAXX).
+
 ## Expérience professionnelle
 
 ### Software Engineer — IT-Finance, éditeur de ProRealTime · depuis sept. 2025

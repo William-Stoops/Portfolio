@@ -45,39 +45,11 @@ describe('AboutSection', () => {
     ).toEqual(ABOUT_CONTENT.axes.map(({ title }) => title));
   });
 
-  it('names the key figures by their visible caption', async () => {
+  it('holds no ledger of key figures: the page proves them where they happened', async () => {
     const screen = await renderAbout();
 
-    const figures = screen.getByRole('list', { name: 'Chiffres clés' });
-    const captionId = figures.element().getAttribute('aria-labelledby') ?? '';
-    expect(document.getElementById(captionId)?.textContent).toBe('Chiffres clés');
-  });
-
-  it('lists the key figures, spoken in words when symbols would be misread', async () => {
-    const screen = await renderAbout();
-
-    const figures = screen.getByRole('list', { name: 'Chiffres clés' });
-    const items = figures.getByRole('listitem').elements();
-    expect(items).toHaveLength(ABOUT_CONTENT.metrics.length);
-    expect(items[0]?.textContent).toMatch(/de 10 heures à 5 minutes/);
-  });
-
-  it('hides the symbolic form of a figure from assistive technologies when a spoken form exists', async () => {
-    const screen = await renderAbout();
-
-    const symbolic = screen.getByText('10 h → 5 min', { exact: true });
-    await expect.element(symbolic).toHaveAttribute('aria-hidden', 'true');
-  });
-
-  it('illustrates every figure with a graphic hidden from assistive technologies', async () => {
-    const screen = await renderAbout();
-
-    for (const item of screen
-      .getByRole('list', { name: 'Chiffres clés' })
-      .getByRole('listitem')
-      .elements()) {
-      expect(item.querySelector('[data-visual][aria-hidden="true"]')).not.toBeNull();
-    }
+    expect(screen.getByRole('list', { name: 'Chiffres clés' }).elements()).toHaveLength(0);
+    expect(screen.container.querySelector('[data-visual]')).toBeNull();
   });
 
   it('has no axe violations', async () => {
@@ -92,6 +64,5 @@ describe('AboutSection', () => {
     const region = screen.getByRole('region', { name: 'About' });
     await expect.element(region).toHaveAttribute('id', 'about');
     await expect.element(screen.getByRole('list', { name: 'Areas of expertise' })).toBeVisible();
-    await expect.element(screen.getByRole('list', { name: 'Key figures' })).toBeVisible();
   });
 });

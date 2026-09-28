@@ -179,12 +179,6 @@
   }
 }
 
-@keyframes shrink-x {
-  to {
-    scale: var(--shrink-to, 0) 1;
-  }
-}
-
 @keyframes pop {
   from {
     opacity: 0;
@@ -594,31 +588,6 @@
       animation: grow-x var(--ease-out) both;
       animation-timeline: view();
       animation-range: entry 20% cover 40%;
-    }
-  }
-}
-
-@utility reveal-pop {
-  @media (prefers-reduced-motion: no-preference) {
-    @supports (animation-timeline: view()) {
-      animation: pop cubic-bezier(0.34, 1.56, 0.64, 1) both;
-      animation-timeline: view();
-      animation-range: entry calc(var(--i, 0) * 4%) entry calc(60% + var(--i, 0) * 4%);
-    }
-  }
-}
-
-/* A bar that shrinks to `--shrink-to` of its length while the figure crosses the view. */
-@utility reveal-shrink-x {
-  transform-origin: 0 50%;
-  scale: var(--shrink-to, 0) 1;
-
-  @media (prefers-reduced-motion: no-preference) {
-    @supports (animation-timeline: view()) {
-      scale: 1 1;
-      animation: shrink-x var(--ease-out) both;
-      animation-timeline: view();
-      animation-range: entry 40% cover 55%;
     }
   }
 }

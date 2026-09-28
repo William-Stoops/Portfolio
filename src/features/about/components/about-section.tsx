@@ -1,11 +1,8 @@
 import { PageSection } from '@/components/layout/page-section';
 import { InkText } from '@/components/ui/ink-text';
-import { MetricVisual } from '@/features/about/components/metric-visual';
 import { type AboutContent } from '@/features/about/types/about-content';
 
 type AboutSectionProps = { content: AboutContent };
-
-const FIGURES_CAPTION_ID = 'a-propos-chiffres';
 
 export function AboutSection({ content }: AboutSectionProps) {
   return (
@@ -30,37 +27,6 @@ export function AboutSection({ content }: AboutSectionProps) {
           </li>
         ))}
       </ul>
-
-      {/* A ledger of measurements rather than cards: the figure, what it measures, its drawing. */}
-      <div className="flex flex-col gap-4">
-        <p
-          id={FIGURES_CAPTION_ID}
-          className="text-small font-semibold tracking-[0.2em] text-fg-subtle uppercase"
-        >
-          {content.labels.figures}
-        </p>
-        <ul aria-labelledby={FIGURES_CAPTION_ID} className="border-b border-border">
-          {content.metrics.map(({ value, spokenValue, label, visual }) => (
-            <li
-              key={value}
-              className="grid reveal-slide gap-x-10 gap-y-3 border-t border-border py-7 md:grid-cols-[minmax(0,5fr)_minmax(0,6fr)_minmax(0,3fr)] md:items-center"
-            >
-              <p className="font-display text-metric font-semibold whitespace-nowrap text-accent-fg tabular-nums">
-                {spokenValue === undefined ? (
-                  value
-                ) : (
-                  <>
-                    <span aria-hidden="true">{value}</span>
-                    <span className="sr-only">{spokenValue}</span>
-                  </>
-                )}
-              </p>
-              <p className="text-fg-muted">{label}</p>
-              <MetricVisual visual={visual} />
-            </li>
-          ))}
-        </ul>
-      </div>
     </PageSection>
   );
 }

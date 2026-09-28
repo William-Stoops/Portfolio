@@ -10,7 +10,6 @@ function structureOf(content: SiteContent) {
   return {
     sections: Object.keys(content),
     heroKeywords: content.hero.keywords,
-    aboutMetrics: content.about.metrics.map(({ visual }) => visual),
     journey: content.journey.stops.map(({ year, note }) => ({ year, hasNote: note !== undefined })),
     experiences: content.experiences.entries.map(({ id, period, stack }) => ({
       id,
