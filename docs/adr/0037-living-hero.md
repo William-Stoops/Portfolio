@@ -42,8 +42,10 @@ grand quand même », à la place du calculateur.
   et « IT-Finance, 10 h → 5 min », qui mène à la section IT-Finance.
 - **Le calculateur** (surface de volatilité implicite, course des cycles) quitte le hero :
   il va dans la section IT-Finance, où il a son contexte.
-- **Sans WebGL**, avec `prefers-reduced-motion` ou l'économie de données, le champ reste un
-  dégradé CSS fixe des mêmes jetons : la page pré-rendue est complète sans JavaScript.
+- **Sans WebGL**, sans processeur graphique pour le dessiner (un rendu logiciel, comme dans
+  un navigateur sans GPU), avec `prefers-reduced-motion` ou l'économie de données, le champ
+  reste un dégradé CSS fixe des mêmes jetons : la page pré-rendue est complète sans
+  JavaScript, et un appareil sans GPU ne paie pas une scène redessinée à chaque image.
 - **Une barre simple** posée sur le champ : le nom, les sections, le CV, et un bouton
   « Menu » à toutes les largeurs (recherche, thème, langue). Le bouton rond flottant de
   0036 disparaît : sur grand écran, il laissait le thème et la langue introuvables à la

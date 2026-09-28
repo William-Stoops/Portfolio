@@ -1,7 +1,11 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { render } from 'vitest-browser-react';
 
 import { FlowField } from '@/features/hero/components/flow-field';
+
+// The test browser may have no graphics processor (a CI machine): the field is asked to
+// run as it would on a visitor's device that has one.
+vi.mock('@/lib/graphics-processor', () => ({ hasGraphicsProcessor: () => true }));
 
 async function renderField() {
   const screen = await render(
