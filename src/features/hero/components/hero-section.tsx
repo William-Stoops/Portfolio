@@ -25,22 +25,24 @@ const CHEVRON = (
   />
 );
 
-// A card floating on the edge of the photo: the site's white, a wide soft shadow. The hero
-// slides in without fading: a picture or a large text at opacity 0 is not counted as
-// painted, and would delay the Largest Contentful Paint.
+// A card astride the photo's lower edge, clear of the face: the site's white, a wide soft
+// shadow. The hero slides in without fading: a picture or a large text at opacity 0 is not
+// counted as painted, and would delay the Largest Contentful Paint.
 const CHIP_CLASS_NAME = 'absolute rounded-md bg-canvas text-fg shadow-card enter-slide';
 
 // The opening of the home page (ADR 0037): a living field of colour behind the sentence of
-// the CV, the ways to act on it, and William's photo, large, framed in a card, with one
-// proof floating on its edge. The field is decoration; everything else is read in order.
+// the CV, the ways to act on it, and William's photo, framed in a card, with one proof
+// floating on its edge. The sentence leads: set large in the wider column, its letters
+// blended into the field. The field is decoration; everything else is read in order.
 export function HeroSection({ content, headingRef, contactHref, proofHref }: HeroSectionProps) {
   return (
     <section className="relative isolate overflow-hidden pt-(--header-height)">
       {/* The field's frame: the content above the keywords, whose foot the field reaches. */}
       <div className="relative">
         <FlowField />
-        <div className="mx-auto grid max-w-6xl gap-x-12 gap-y-14 px-gutter pt-8 pb-16 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] lg:items-center lg:pt-12 lg:pb-24">
-          <div>
+        <div className="mx-auto grid max-w-6xl gap-x-12 gap-y-14 px-gutter pt-8 pb-16 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] lg:items-center lg:pt-12 lg:pb-24">
+          {/* The headline is sized to this column (text-display), whatever the screen. */}
+          <div className="@container">
             <p className="flex items-center gap-2.5 text-small font-medium">
               <span aria-hidden="true" className="size-2 rounded-full bg-fg" />
               {content.eyebrow}
@@ -48,7 +50,7 @@ export function HeroSection({ content, headingRef, contactHref, proofHref }: Her
             <h1
               ref={headingRef}
               tabIndex={-1}
-              className="mt-6 enter-slide text-display font-semibold tracking-tighter focus-visible:outline-hidden"
+              className="mt-6 enter-slide text-display wrap-break-word text-flow-ink mix-blend-hard-light focus-visible:outline-hidden"
             >
               <span className="sr-only">{content.ownerPrefix}</span>
               {content.headline}
@@ -74,12 +76,12 @@ export function HeroSection({ content, headingRef, contactHref, proofHref }: Her
             </p>
           </div>
 
-          <div className="relative mx-3 lg:mx-0 lg:w-[min(100%,31rem)] lg:justify-self-end">
+          <div className="relative mx-3 lg:mx-0 lg:w-[min(100%,28rem)] lg:justify-self-end">
             <div className="aspect-4/5 max-h-[76svh] enter-slide overflow-hidden rounded-lg shadow-card">
               <ResponsiveImage
                 picture={PORTRAIT_PICTURE}
                 alt={content.portraitAlt}
-                sizes="(min-width: 64rem) 31rem, 100vw"
+                sizes="(min-width: 64rem) 28rem, 100vw"
                 loading="critical"
                 className="size-full object-cover object-[50%_30%]"
               />
@@ -87,7 +89,7 @@ export function HeroSection({ content, headingRef, contactHref, proofHref }: Her
             <a
               href={proofHref}
               style={{ '--i': 6 }}
-              className={`${CHIP_CLASS_NAME} group -start-3 bottom-[8%] block w-72 px-5 py-4 no-underline lg:-start-12`}
+              className={`${CHIP_CLASS_NAME} group -start-3 -bottom-9 block w-72 px-5 py-4 no-underline lg:-start-10`}
             >
               <span className="block text-small text-fg-muted">{content.proof.context}</span>
               <span className="mt-1.5 block text-metric font-semibold tracking-tight">

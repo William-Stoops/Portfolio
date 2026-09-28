@@ -81,6 +81,21 @@ function tokenValue(name: string, theme: Theme): string {
   return token[theme];
 }
 
+// The hero's headline is blended into its living field (mix-blend-mode: hard-light, ADR
+// 0037): a dark ink multiplies the field in the light theme, a light ink screens it in the
+// dark theme. What is read is the blend, per channel as the W3C compositing spec defines it.
+function hardLight(source: string, backdrop: string): string {
+  const channels = [1, 3, 5].map((start) => {
+    const top = Number.parseInt(source.slice(start, start + 2), 16) / 255;
+    const bottom = Number.parseInt(backdrop.slice(start, start + 2), 16) / 255;
+    const blended = top <= 0.5 ? bottom * 2 * top : bottom + (2 * top - 1) - bottom * (2 * top - 1);
+    return Math.round(blended * 255)
+      .toString(16)
+      .padStart(2, '0');
+  });
+  return `#${channels.join('')}`;
+}
+
 describe('colour tokens', () => {
   it('disables the default Tailwind palette so only project tokens exist', () => {
     expect(globalsCss).toMatch(/--color-\*:\s*initial;/);
@@ -97,6 +112,18 @@ describe('colour tokens', () => {
 
   for (const theme of ['light', 'dark'] as const) {
     describe(`${theme} theme`, () => {
+      for (const tint of ['flow-sky', 'flow-blue', 'flow-violet', 'flow-peach']) {
+        it(`the headline's ink, blended into ${tint}, reaches ${String(TEXT_CONTRAST)}:1`, () => {
+          const background = tokenValue(tint, theme);
+          const ratio = contrastRatio(
+            hardLight(tokenValue('flow-ink', theme), background),
+            background,
+          );
+
+          expect(ratio).toBeGreaterThanOrEqual(TEXT_CONTRAST);
+        });
+      }
+
       for (const { foreground, background, minimum } of COLOR_PAIRS) {
         it(`${foreground} on ${background} reaches ${String(minimum)}:1`, () => {
           const ratio = contrastRatio(tokenValue(foreground, theme), tokenValue(background, theme));

@@ -73,6 +73,9 @@
   --color-flow-blue: light-dark(#8098ff, #1f2d8a);
   --color-flow-violet: light-dark(#b09cff, #3a2475);
   --color-flow-peach: light-dark(#ffc7ae, #5a2a3e);
+  /* The hero headline's ink, blended into the field (hard-light): the dark one multiplies
+     it, the light one screens it, so the letters take its hues and still read. */
+  --color-flow-ink: light-dark(#15183a, #dcdaff);
   /* Flags (ADR 0019, 0021): their official colours, the same in both themes. The white
      field is shared; South Korea, then France. */
   --color-flag-field: light-dark(#ffffff, #ffffff);
@@ -92,8 +95,15 @@
 
   /* Fluid scale: every clamp() mixes rem and vw so text still grows with browser zoom. */
   --text-*: initial;
-  --text-display: clamp(2.5rem, 1.5rem + 4vw, 4.5rem);
-  --text-display--line-height: 1.05;
+  /* The hero's headline, sized to its text column (cqi) rather than to the screen: its
+     longest unbreakable group ("d’une architecture,") is some eight times its size wide, so
+     at an 8.5th of the column it always fits, and the headline breaks at the same places on
+     a phone and on a desktop. Tracked a little, never tight: Inter Tight is already narrow,
+     and its letters touched at -0.05em. */
+  --text-display: clamp(2rem, 11.8cqi, 4.75rem);
+  --text-display--line-height: 1;
+  --text-display--letter-spacing: -0.025em;
+  --text-display--font-weight: 650;
   --text-h1: clamp(2.25rem, 1.6rem + 2.6vw, 3.5rem);
   --text-h1--line-height: 1.1;
   --text-h2: clamp(1.75rem, 1.25rem + 2vw, 2.75rem);
