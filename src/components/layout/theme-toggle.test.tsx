@@ -3,6 +3,7 @@ import { userEvent } from 'vitest/browser';
 import { render } from 'vitest-browser-react';
 
 import { ThemeToggle } from '@/components/layout/theme-toggle';
+import { LocaleContext } from '@/i18n/locale-context';
 import { expectNoAxeViolations } from '@/testing/expect-no-axe-violations';
 
 afterEach(() => {
@@ -40,6 +41,24 @@ describe('ThemeToggle', () => {
       .toHaveAttribute('aria-pressed', 'true');
     await expect.element(screen.getByRole('status')).toHaveTextContent('Thème sombre activé');
     expect(document.documentElement.getAttribute('data-theme')).toBe('dark');
+  });
+
+  it('names and announces the choices in the language of the page', async () => {
+    const screen = await render(
+      <LocaleContext value="en">
+        <ThemeToggle />
+      </LocaleContext>,
+    );
+
+    const group = screen.getByRole('group', { name: 'Theme' });
+    expect(
+      group
+        .getByRole('button')
+        .elements()
+        .map((button) => button.textContent),
+    ).toEqual(['System theme', 'Light theme', 'Dark theme']);
+    await screen.getByRole('button', { name: 'Light theme' }).click();
+    await expect.element(screen.getByRole('status')).toHaveTextContent('Light theme on');
   });
 
   it('is operable with the keyboard alone', async () => {

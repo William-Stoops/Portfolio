@@ -4,25 +4,42 @@ Format : [MADR](https://adr.github.io/madr/) allégé, en français. Un ADR est 
 fois accepté** : on ne le réécrit pas, on le remplace par un nouvel ADR qui le déclare
 « Remplacé par ADR XXXX ».
 
-| #    | Titre                                                                                                        | Statut            |
-| ---- | ------------------------------------------------------------------------------------------------------------ | ----------------- |
-| 0001 | [Architecture `features/` inspirée de bulletproof-react](0001-architecture-features.md)                      | Accepté           |
-| 0002 | [Oxlint + ESLint, Prettier et Knip](0002-lint-format-dead-code.md)                                           | Accepté           |
-| 0003 | [Stratégie de tests : Vitest browser mode + Playwright](0003-testing-strategy.md)                            | Accepté           |
-| 0004 | [Pas de store global par défaut (Redux Toolkit sur critères)](0004-state-management.md)                      | Accepté           |
-| 0005 | [Cible WCAG 2.2 AA + RGAA 4.1.2, palette contrainte](0005-accessibility-target.md)                           | Accepté           |
-| 0006 | [Stratégie responsive : mobile-first, container queries, tokens fluides](0006-responsive-strategy.md)        | Accepté           |
-| 0007 | [UI : Tailwind v4 + shadcn sur Base UI](0007-ui-kit.md)                                                      | Accepté           |
-| 0008 | [TypeScript 6.0 strict, sans `any` ni `unknown`](0008-typescript-strictness.md)                              | Accepté           |
-| 0009 | [Thèmes par `light-dark()` et palette de couleurs fermée](0009-theme-light-dark-closed-palette.md)           | Accepté           |
-| 0010 | [Budget LCP temporaire à 2,5 s en attendant le pré-rendu](0010-temporary-lcp-budget-before-prerender.md)     | Remplacé par 0011 |
-| 0011 | [Pré-rendre les pages au build, en restant en mode data](0011-build-time-prerendering.md)                    | Accepté           |
-| 0012 | [Générer les images en fichiers statiques, hors du bundler](0012-static-generated-images.md)                 | Accepté           |
-| 0013 | [Mesurer Lighthouse en bridage réel, sur la médiane des passes](0013-lighthouse-devtools-throttling.md)      | Accepté           |
-| 0014 | [Héberger sur Cloudflare Pages, avec un fichier HTML par page](0014-cloudflare-pages-one-html-per-route.md)  | Accepté           |
-| 0015 | [Un mouvement expressif, en CSS natif](0015-expressive-motion-in-native-css.md)                              | Accepté           |
-| 0016 | [Une surface de volatilité en WebGL2 brut derrière le hero](0016-hero-webgl-surface.md)                      | Accepté           |
-| 0017 | [Relever le budget du JS initial à 125 kB](0017-initial-js-budget-125.md)                                    | Accepté           |
-| 0018 | [Différer le rendu hors écran et découper l'hydratation](0018-defer-offscreen-render-and-split-hydration.md) | Accepté           |
+| #    | Titre                                                                                                            | Statut                            |
+| ---- | ---------------------------------------------------------------------------------------------------------------- | --------------------------------- |
+| 0001 | [Architecture `features/` inspirée de bulletproof-react](0001-architecture-features.md)                          | Accepté                           |
+| 0002 | [Oxlint + ESLint, Prettier et Knip](0002-lint-format-dead-code.md)                                               | Accepté                           |
+| 0003 | [Stratégie de tests : Vitest browser mode + Playwright](0003-testing-strategy.md)                                | Accepté                           |
+| 0004 | [Pas de store global par défaut (Redux Toolkit sur critères)](0004-state-management.md)                          | Accepté                           |
+| 0005 | [Cible WCAG 2.2 AA + RGAA 4.1.2, palette contrainte](0005-accessibility-target.md)                               | Accepté, accent remplacé par 0025 |
+| 0006 | [Stratégie responsive : mobile-first, container queries, tokens fluides](0006-responsive-strategy.md)            | Accepté                           |
+| 0007 | [UI : Tailwind v4 + shadcn sur Base UI](0007-ui-kit.md)                                                          | Accepté                           |
+| 0008 | [TypeScript 6.0 strict, sans `any` ni `unknown`](0008-typescript-strictness.md)                                  | Accepté                           |
+| 0009 | [Thèmes par `light-dark()` et palette de couleurs fermée](0009-theme-light-dark-closed-palette.md)               | Accepté                           |
+| 0010 | [Budget LCP temporaire à 2,5 s en attendant le pré-rendu](0010-temporary-lcp-budget-before-prerender.md)         | Remplacé par 0011                 |
+| 0011 | [Pré-rendre les pages au build, en restant en mode data](0011-build-time-prerendering.md)                        | Accepté                           |
+| 0012 | [Générer les images en fichiers statiques, hors du bundler](0012-static-generated-images.md)                     | Accepté                           |
+| 0013 | [Mesurer Lighthouse en bridage réel, sur la médiane des passes](0013-lighthouse-devtools-throttling.md)          | Accepté                           |
+| 0014 | [Héberger sur Cloudflare Pages, avec un fichier HTML par page](0014-cloudflare-pages-one-html-per-route.md)      | Accepté, complété par 0031        |
+| 0015 | [Un mouvement expressif, en CSS natif](0015-expressive-motion-in-native-css.md)                                  | Accepté                           |
+| 0016 | [Une surface de volatilité en WebGL2 brut derrière le hero](0016-hero-webgl-surface.md)                          | Accepté                           |
+| 0017 | [Relever le budget du JS initial à 125 kB](0017-initial-js-budget-125.md)                                        | Accepté                           |
+| 0018 | [Différer le rendu hors écran et découper l'hydratation](0018-defer-offscreen-render-and-split-hydration.md)     | Accepté                           |
+| 0019 | [Ajouter les couleurs du drapeau coréen à la palette fermée](0019-korean-flag-colours.md)                        | Accepté                           |
+| 0020 | [Pré-rendre avec `prerender` et charger la section Corée à la demande](0020-prerender-lazy-sections.md)          | Accepté                           |
+| 0021 | [Raconter la page d'accueil comme un parcours](0021-home-page-as-a-journey.md)                                   | Accepté                           |
+| 0022 | [Faire de toute la page un seul vol](0022-one-flight-for-the-whole-page.md)                                      | Remplacé en partie par 0023       |
+| 0023 | [Réserver la ligne de vol au récit](0023-flight-path-for-the-story-only.md)                                      | Accepté                           |
+| 0024 | [Ouvrir la vidéo du pitch depuis son affiche, sans plein écran forcé](0024-pitch-video-grows-from-its-poster.md) | Accepté                           |
+| 0025 | [Passer l'accent de l'orange corail à un bleu de confiance](0025-trusted-blue-accent.md)                         | Accepté                           |
+| 0026 | [Proposer le site en français et en anglais, la langue dans l'URL](0026-internationalisation.md)                 | Accepté                           |
+| 0027 | [Faire voler l'avion de la Corée au-dessus d'un globe](0027-korea-flight-over-a-globe.md)                        | Accepté                           |
+| 0028 | [Mettre en scène la victoire à l'Epitech Summit](0028-summit-win-as-a-scene.md)                                  | Accepté                           |
+| 0029 | [Afficher le parcours sur un tableau des départs](0029-journey-departures-board.md)                              | Accepté                           |
+| 0030 | [Ouvrir la page comme un plan de cinéma](0030-cinematic-opening.md)                                              | Accepté                           |
+| 0031 | [Déployer sur Cloudflare Pages](0031-deploy-on-cloudflare-pages.md)                                              | Accepté                           |
+| 0032 | [Faire la course des deux cycles de calcul, à l'échelle](0032-cycle-race-to-scale.md)                            | Accepté                           |
+| 0033 | [Montrer les coulisses du site, avec des chiffres vérifiés](0033-behind-the-scenes-page.md)                      | Accepté                           |
+| 0034 | [Une recherche rapide (⌘K), en éléments natifs, dans son propre chunk](0034-quick-search.md)                     | Accepté                           |
+| 0035 | [Des sons discrets, synthétisés, coupés par défaut](0035-discreet-sounds.md)                                     | Accepté                           |
 
 Modèle : copier [template.md](template.md).
