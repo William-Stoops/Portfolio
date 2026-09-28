@@ -37,7 +37,7 @@ describe('usePageHeading', () => {
   });
 
   it('lets an anchor win when the new URL targets a fragment', async () => {
-    const screen = await renderRoutes(ROUTES, '/autre');
+    const screen = await renderRoutes(ROUTES, { path: '/autre' });
 
     await screen.getByRole('link', { name: 'Aller ailleurs' }).click();
 

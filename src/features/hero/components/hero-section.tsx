@@ -2,8 +2,8 @@ import { ArrowRight, Download } from 'lucide-react';
 import { Fragment, type Ref } from 'react';
 
 import { ButtonLink } from '@/components/ui/button-link';
-import { PATHS, SECTION_IDS } from '@/config/paths';
-import { CV_FILE, SITE_OWNER } from '@/config/site';
+import { KeyFigures } from '@/components/ui/key-figures';
+import { SITE_OWNER } from '@/config/site';
 import { HeroPortrait } from '@/features/hero/components/hero-portrait';
 import { HeroScene } from '@/features/hero/components/hero-scene';
 import { TechMarquee } from '@/features/hero/components/tech-marquee';
@@ -22,7 +22,8 @@ export function HeroSection({ content, headingRef }: HeroSectionProps) {
     // horizon (not on short screens, where the content alone may exceed the viewport).
     <section className="relative isolate flex min-h-[calc(100svh-4.75rem)] flex-col overflow-x-clip short:min-h-0">
       <HeroScene />
-      <div className="mx-auto grid w-full max-w-6xl flex-1 items-center gap-x-12 gap-y-16 px-gutter py-section lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
+      {/* Dives towards the reader as the hero scrolls away (hero-dive), with the surface. */}
+      <div className="mx-auto grid w-full max-w-6xl flex-1 hero-dive items-center gap-x-12 gap-y-16 px-gutter py-section lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
         <div className="flex flex-col gap-6">
           <p className="enter-slide font-display text-h3 font-semibold">
             {content.greeting}
@@ -74,12 +75,8 @@ export function HeroSection({ content, headingRef }: HeroSectionProps) {
           <div style={{ '--i': 6 }} className="flex enter-rise flex-wrap gap-3">
             {/* The magnet moves the wrapper: the button keeps its own colour transition. */}
             <span data-pointer className="inline-block pointer-magnet">
-              <ButtonLink
-                variant="primary"
-                href={`${PATHS.home}#${SECTION_IDS.contact}`}
-                className="group"
-              >
-                Me contacter
+              <ButtonLink variant="primary" href={content.contact.href} className="group">
+                {content.contact.label}
                 <ArrowRight
                   aria-hidden="true"
                   focusable="false"
@@ -89,40 +86,28 @@ export function HeroSection({ content, headingRef }: HeroSectionProps) {
               </ButtonLink>
             </span>
             <span data-pointer className="inline-block pointer-magnet">
-              <ButtonLink variant="secondary" href={CV_FILE.href} download className="group">
+              <ButtonLink variant="secondary" href={content.cv.href} download className="group">
                 <Download
                   aria-hidden="true"
                   focusable="false"
                   className="size-5 transition-transform duration-250 ease-out group-hover:translate-y-0.5"
                   strokeWidth={1.75}
                 />
-                Télécharger le CV{' '}
-                <span className="font-normal text-fg-muted">({CV_FILE.formatAndWeight})</span>
+                {content.cv.label}{' '}
+                <span className="font-normal text-fg-muted">({content.cv.details})</span>
               </ButtonLink>
             </span>
           </div>
           {/* The profile in three facts, set in the page rather than pinned on the photo. */}
-          <ul
-            aria-label="En bref"
-            className="mt-2 grid gap-5 border-t border-border pt-6 sm:grid-cols-3 sm:gap-0 sm:divide-x sm:divide-border"
-          >
-            {content.highlights.map(({ value, label }, index) => (
-              <li
-                key={value}
-                style={{ '--i': 7 + index }}
-                className="flex enter-slide flex-col gap-1 sm:px-5 sm:first:ps-0 sm:last:pe-0"
-              >
-                <span className="font-display text-lead font-semibold whitespace-nowrap text-fg">
-                  {value}
-                </span>{' '}
-                <span className="text-small text-fg-muted">{label}</span>
-              </li>
-            ))}
-          </ul>
+          <KeyFigures
+            label={content.labels.highlights}
+            figures={content.highlights}
+            firstIndex={7}
+          />
         </div>
         <HeroPortrait alt={content.portraitAlt} />
       </div>
-      <TechMarquee technologies={content.technologies} />
+      <TechMarquee technologies={content.technologies} labels={content.labels} />
     </section>
   );
 }

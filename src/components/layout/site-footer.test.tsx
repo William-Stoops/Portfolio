@@ -38,7 +38,7 @@ describe('SiteFooter', () => {
     }
   });
 
-  it('links to the legal pages and the site map from a labelled navigation', async () => {
+  it('links to the making of the site, the legal pages and the site map from a labelled navigation', async () => {
     const screen = await renderInRouter(<SiteFooter />);
 
     const navigation = screen.getByRole('navigation', { name: 'Pied de page' });
@@ -48,17 +48,17 @@ describe('SiteFooter', () => {
         .elements()
         .map((link) => ({ name: link.textContent, href: link.getAttribute('href') })),
     ).toEqual([
-      { name: 'Accessibilité', href: '/accessibilite' },
-      { name: 'Mentions légales', href: '/mentions-legales' },
-      { name: 'Plan du site', href: '/plan-du-site' },
+      { name: 'Coulisses', href: '/fr/coulisses' },
+      { name: 'Accessibilité', href: '/fr/accessibilite' },
+      { name: 'Mentions légales', href: '/fr/mentions-legales' },
+      { name: 'Plan du site', href: '/fr/plan-du-site' },
     ]);
   });
 
   it('marks the link to the current page', async () => {
-    const screen = await renderRoutes(
-      [{ path: '*', element: <SiteFooter /> }],
-      '/mentions-legales',
-    );
+    const screen = await renderRoutes([{ path: '*', element: <SiteFooter /> }], {
+      path: '/fr/mentions-legales',
+    });
     const navigation = screen.getByRole('navigation', { name: 'Pied de page' });
 
     await expect
@@ -75,6 +75,68 @@ describe('SiteFooter', () => {
     const wordmark = screen.container.querySelector('[data-wordmark]');
     expect(wordmark?.getAttribute('aria-hidden')).toBe('true');
     expect(wordmark?.textContent.replaceAll(' ', '')).toBe('WilliamStoops');
+  });
+
+  it('signs off with the profile sentence and a way back to the top', async () => {
+    const screen = await renderInRouter(<SiteFooter />);
+
+    await expect
+      .element(screen.getByText('Je décide d’une architecture, je la mesure, je la livre.'))
+      .toBeVisible();
+    await expect
+      .element(screen.getByRole('link', { name: 'Retour en haut' }))
+      .toHaveAttribute('href', '#main');
+  });
+
+  it('groups the ways to reach William, the CV included', async () => {
+    const screen = await renderInRouter(<SiteFooter />);
+
+    const contact = screen.getByRole('list', { name: 'Contact' });
+    expect(
+      contact
+        .getByRole('link')
+        .elements()
+        .map((link) => link.textContent),
+    ).toEqual([
+      'william.stoops@epitech.eu',
+      'LinkedIn (nouvel onglet)',
+      'Télécharger le CV (PDF, 56 Ko)',
+    ]);
+    await expect
+      .element(contact.getByRole('link', { name: 'Télécharger le CV (PDF, 56 Ko)' }))
+      .toHaveAttribute('download');
+  });
+
+  it('speaks English on an English page, and says the CV is in French', async () => {
+    const screen = await renderInRouter(<SiteFooter />, { path: '/en', locale: 'en' });
+
+    await expect
+      .element(screen.getByText('I choose an architecture, I measure it, I ship it.'))
+      .toBeVisible();
+    expect(
+      screen
+        .getByRole('list', { name: 'Contact' })
+        .getByRole('link')
+        .elements()
+        .map((link) => link.textContent),
+    ).toEqual([
+      'william.stoops@epitech.eu',
+      'LinkedIn (new tab)',
+      'Download my CV (PDF in French, 56 KB)',
+    ]);
+    expect(
+      screen
+        .getByRole('navigation', { name: 'Footer' })
+        .getByRole('link')
+        .elements()
+        .map((link) => ({ name: link.textContent, href: link.getAttribute('href') })),
+    ).toEqual([
+      { name: 'Behind the scenes', href: '/en/behind-the-scenes' },
+      { name: 'Accessibility', href: '/en/accessibility' },
+      { name: 'Legal notice', href: '/en/legal-notice' },
+      { name: 'Site map', href: '/en/site-map' },
+    ]);
+    await expect.element(screen.getByRole('link', { name: 'Back to top' })).toBeVisible();
   });
 
   it('has no axe violations', async () => {

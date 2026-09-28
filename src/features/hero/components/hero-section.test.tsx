@@ -3,7 +3,8 @@ import { describe, expect, it } from 'vitest';
 import { render } from 'vitest-browser-react';
 
 import { HeroSection } from '@/features/hero/components/hero-section';
-import { HERO_CONTENT } from '@/features/hero/data/hero-content';
+import { HERO_CONTENT as HERO_CONTENT_EN } from '@/features/hero/data/hero-content.en';
+import { HERO_CONTENT } from '@/features/hero/data/hero-content.fr';
 import { expectNoAxeViolations } from '@/testing/expect-no-axe-violations';
 
 async function renderHero() {
@@ -44,7 +45,22 @@ describe('HeroSection', () => {
 
     await expect
       .element(screen.getByRole('link', { name: 'Me contacter' }))
-      .toHaveAttribute('href', '/#contact');
+      .toHaveAttribute('href', '/fr#contact');
+  });
+
+  it('draws the English page from English content, the CV said to be in French', async () => {
+    const screen = await render(<HeroSection content={HERO_CONTENT_EN} headingRef={createRef()} />);
+
+    await expect
+      .element(screen.getByRole('link', { name: 'Get in touch' }))
+      .toHaveAttribute('href', '/en#contact');
+    await expect
+      .element(screen.getByRole('link', { name: 'Download my CV (PDF in French, 56 KB)' }))
+      .toHaveAttribute('download');
+    await expect.element(screen.getByRole('list', { name: 'At a glance' })).toBeVisible();
+    await expect
+      .element(screen.getByRole('button', { name: 'Pause the scrolling' }))
+      .toBeInTheDocument();
   });
 
   it('offers the CV as a download, stating format and weight', async () => {
