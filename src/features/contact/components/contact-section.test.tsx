@@ -112,14 +112,6 @@ describe('ContactSection', () => {
     await expect.element(screen.getByText(CONTACT_CONTENT.invitation)).toBeVisible();
   });
 
-  it('draws a given backdrop behind its content, as decoration', async () => {
-    const screen = await render(
-      <ContactSection content={CONTACT_CONTENT} backdrop={<span>Décor</span>} />,
-    );
-
-    expect(screen.getByText('Décor').element().closest('[aria-hidden="true"]')).not.toBeNull();
-  });
-
   it('has no axe violations, before and after a failed submission', async () => {
     const { screen } = await renderSection();
     await expectNoAxeViolations(screen.container);

@@ -8,20 +8,20 @@ describe('renderRoute', () => {
 
     expect(html).toContain('<main id="main"');
     expect(html).toMatch(
-      /<h1[^>]*><span class="sr-only">William Stoops<\/span><span aria-hidden="true">/,
+      /<h1[^>]*><span class="sr-only">William Stoops : <\/span>Je décide d’une architecture/,
     );
     expect(html).toContain('<title>William Stoops – Software Engineer &amp; AI Engineer</title>');
     expect(html).toMatch(/<meta name="description" content="William Stoops, [^"]*au quotidien\."/);
-    expect(html).toContain('Me contacter');
+    expect(html).toContain('Basé à Paris · ouvert à Lille ou en full remote');
   });
 
   it('renders the English home page in English, from the English content', async () => {
     const html = await renderRoute('/en');
 
-    expect(html).toContain('Get in touch');
+    expect(html).toContain('Based in Paris · open to Lille or fully remote');
     expect(html).toMatch(/<meta name="description" content="[^"]*every day\."/);
     expect(html).toContain('href="/fr"');
-    expect(html).not.toContain('Me contacter');
+    expect(html).not.toContain('Basé à Paris');
   });
 
   it('renders the not-found page of each locale, French outside both', async () => {

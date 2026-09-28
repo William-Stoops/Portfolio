@@ -52,7 +52,7 @@ describe('application routes', () => {
     const screen = await renderSite('/fr');
 
     await expect
-      .element(screen.getByRole('heading', { level: 1, name: 'William Stoops' }))
+      .element(screen.getByRole('heading', { level: 1, name: /^William Stoops : Je décide/ }))
       .toBeVisible();
     await expect
       .poll(() => document.title)
@@ -65,7 +65,9 @@ describe('application routes', () => {
   it('renders the English home page from the English content', async () => {
     const screen = await renderSite('/en');
 
-    await expect.element(screen.getByRole('link', { name: 'Get in touch' })).toBeVisible();
+    await expect
+      .element(screen.getByRole('heading', { level: 1, name: /^William Stoops: I choose/ }))
+      .toBeVisible();
     await expect
       .element(screen.getByRole('region', { name: 'About' }))
       .toHaveAttribute('id', 'about');
@@ -103,7 +105,7 @@ describe('application routes', () => {
       .click();
 
     await expect
-      .element(screen.getByRole('heading', { level: 1, name: 'William Stoops' }))
+      .element(screen.getByRole('heading', { level: 1, name: /^William Stoops : Je décide/ }))
       .toHaveFocus();
   });
 

@@ -1,27 +1,26 @@
-import { PAGE_PATHS, SECTION_IDS } from '@/config/paths';
-import { CV_FILE, SITE_ROLE, SITE_TAGLINE } from '@/config/site';
-import { HERO_TECHNOLOGIES } from '@/features/hero/data/hero-technologies';
+import { CV_FILE, SITE_OWNER, SITE_ROLE, SITE_TAGLINE } from '@/config/site';
+import { HERO_KEYWORDS } from '@/features/hero/data/hero-keywords';
 import { type HeroContent } from '@/features/hero/types/hero-content';
 
 // Translation of hero-content.fr.ts (ADR 0026): the same facts, nothing added.
 export const HERO_CONTENT = {
-  greeting: 'Hello',
-  role: SITE_ROLE,
-  tagline: SITE_TAGLINE.en,
-  contact: { label: 'Get in touch', href: `${PAGE_PATHS.en.home}#${SECTION_IDS.en.contact}` },
-  cv: { label: 'Download my CV', details: CV_FILE.details.en, href: CV_FILE.href },
-  technologies: HERO_TECHNOLOGIES,
-  highlights: [
-    { value: '1st', label: 'at the Epitech Summit competition' },
-    { value: 'C++ · Rust · TS', label: 'from computation to product' },
-    { value: 'Agents & LLMs', label: 'every day' },
-  ],
-  portraitAlt: 'William Stoops, smiling, on stage',
-  labels: {
-    highlights: 'At a glance',
-    technologies: 'Technologies',
-    stack: 'Stack',
-    pauseBand: 'Pause the scrolling',
-    resumeBand: 'Resume the scrolling',
+  eyebrow: `${SITE_ROLE} · Paris`,
+  ownerPrefix: `${SITE_OWNER}: `,
+  headline: SITE_TAGLINE.en,
+  lead: 'I come from computing and performance, I build full stack products in TypeScript, and I work with agents and LLMs every day.',
+  actions: {
+    contact: 'Get in touch',
+    downloadCv: 'Download my CV',
+    cvDetails: CV_FILE.details.en,
   },
+  place: 'Based in Paris · open to Lille or fully remote',
+  proof: {
+    context: 'IT-Finance · implied volatility computation',
+    before: '10 h',
+    after: '5 min',
+    link: 'See the computation',
+  },
+  keywordsLabel: 'Technologies',
+  keywords: HERO_KEYWORDS,
+  portraitAlt: 'Portrait of William Stoops in a dark jacket, in the sunlight',
 } as const satisfies HeroContent;

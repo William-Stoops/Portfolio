@@ -25,6 +25,16 @@ describe('ExperienceCard', () => {
     await expect.element(screen.getByRole('article', { name: /IT-Finance/ })).toBeInTheDocument();
   });
 
+  it('can be linked to by the id of its role, as the hero does', async () => {
+    const screen = await render(
+      <ExperienceCard experience={IT_FINANCE} labels={EXPERIENCE_LABELS} />,
+    );
+
+    await expect
+      .element(screen.getByRole('article'))
+      .toHaveAttribute('id', 'it-finance-prorealtime');
+  });
+
   it('marks the English job title', async () => {
     const screen = await render(
       <ExperienceCard experience={IT_FINANCE} labels={EXPERIENCE_LABELS} />,

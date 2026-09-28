@@ -28,9 +28,9 @@ test.describe('prerendered HTML', () => {
 
     expect(response.status()).toBe(200);
     const html = await response.text();
-    // The name is read as one text; the letters that rise one by one are aria-hidden.
+    // The sentence of the CV heads the page, and says whose it is.
     expect(html).toMatch(
-      /<h1[^>]*><span class="sr-only">William Stoops<\/span><span aria-hidden="true">/,
+      /<h1[^>]*><span class="sr-only">William Stoops : <\/span>Je décide d’une architecture/,
     );
     expect(html).toContain('<title>William Stoops – Software Engineer &amp; AI Engineer</title>');
   });

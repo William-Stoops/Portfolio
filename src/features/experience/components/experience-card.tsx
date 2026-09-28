@@ -16,6 +16,7 @@ export function ExperienceCard({ experience, labels }: ExperienceCardProps) {
 
   return (
     <article
+      id={experience.id}
       aria-labelledby={headingId}
       data-pointer
       className="pointer-spotlight flex flex-col gap-4 rounded-lg border border-border bg-surface p-6"

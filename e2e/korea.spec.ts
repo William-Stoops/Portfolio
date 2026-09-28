@@ -141,8 +141,8 @@ test.describe('Korea globe', () => {
 
   test('keeps the flat arc on a phone or a tablet', async ({ page }) => {
     test.skip(!isMobileLayout(page), 'small screens only');
+    // Only the globe's own chunk: the shared WebGL helpers also draw the hero's field.
     const globeRequests = recordRequests(page, GLOBE_CHUNK);
-    const webglRequests = recordRequests(page, WEBGL_CHUNK);
     await page.emulateMedia({ reducedMotion: 'no-preference' });
 
     await page.goto('/fr#coree');
@@ -150,7 +150,7 @@ test.describe('Korea globe', () => {
 
     await expect(page.locator('#coree [data-flight-route]')).toBeVisible();
     await expect(page.locator('#coree [data-globe]')).toHaveCount(0);
-    expect([...globeRequests, ...webglRequests]).toEqual([]);
+    expect(globeRequests).toEqual([]);
   });
 
   test('keeps the flat arc, at rest, when the visitor asks for reduced motion', async ({

@@ -26,6 +26,10 @@
 Mots-clés d'en-tête : TypeScript · Python · C++ · Rust · NestJS · React · PostgreSQL ·
 Docker · LLM · Agents · MCP
 
+Portrait, hors CV, fourni par William le 2026-09-28 (`docs/content/images/william-stoops-portrait.jpg`) :
+en veste sombre, dans la lumière du soleil. Il est montré en grand dans une carte du hero
+(ADR 0037) et sur la carte des aperçus de liens.
+
 ## Profil
 
 Software Engineer, 3 ans d'expérience en entreprise. Je décide d'une architecture, je la

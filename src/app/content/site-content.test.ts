@@ -9,7 +9,7 @@ import { SITE_CONTENT as SITE_CONTENT_FR } from '@/app/content/site-content.fr';
 function structureOf(content: SiteContent) {
   return {
     sections: Object.keys(content),
-    heroHighlights: content.hero.highlights.length,
+    heroKeywords: content.hero.keywords,
     aboutMetrics: content.about.metrics.map(({ visual }) => visual),
     journey: content.journey.stops.map(({ year, note }) => ({ year, hasNote: note !== undefined })),
     experiences: content.experiences.entries.map(({ id, period, stack }) => ({

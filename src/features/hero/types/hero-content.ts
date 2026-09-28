@@ -1,23 +1,17 @@
-import { type KeyFigure } from '@/components/ui/key-figures';
-
-type HeroLink = { label: string; href: string };
-
+// The hero (ADR 0037): what William does in one sentence of his CV, the two ways to act on
+// it, his photo, where he works from, and one proof with its figure.
 export type HeroContent = {
-  greeting: string;
-  role: string;
-  tagline: string;
-  contact: HeroLink;
-  // The CV exists in one language: `details` says which, with its format and weight.
-  cv: HeroLink & { details: string };
-  technologies: readonly string[];
-  // Three facts that sum up the profile under the calls to action: a strong value, a caption.
-  highlights: readonly KeyFigure[];
+  eyebrow: string;
+  // Read before the headline by assistive tech only: whose sentence it is.
+  ownerPrefix: string;
+  headline: string;
+  lead: string;
+  // The CV's format and weight complete its link's name.
+  actions: { contact: string; downloadCv: string; cvDetails: string };
+  place: string;
+  // The IT-Finance rework, the figure a stranger reads at once, and the way to its story.
+  proof: { context: string; before: string; after: string; link: string };
+  keywordsLabel: string;
+  keywords: readonly string[];
   portraitAlt: string;
-  labels: {
-    highlights: string;
-    technologies: string;
-    stack: string;
-    pauseBand: string;
-    resumeBand: string;
-  };
 };

@@ -22,7 +22,6 @@ test.describe('motion', () => {
         ),
       )
       .toBe(0);
-    await expect(page.getByRole('button', { name: 'Mettre en pause le défilement' })).toBeHidden();
   });
 
   test('applies every style change at once when the visitor asks for reduced motion', async ({
@@ -41,23 +40,6 @@ test.describe('motion', () => {
     });
 
     expect(transitions).toBe(0);
-  });
-
-  test('scrolls the technology band until the visitor pauses it (WCAG 2.2.2)', async ({ page }) => {
-    await page.emulateMedia({ reducedMotion: 'no-preference' });
-    await page.goto('/fr');
-    const band = page.getByRole('list', { name: 'Technologies', exact: true }).locator('..');
-    const playStates = () =>
-      band.evaluate((track) => track.getAnimations().map((animation) => animation.playState));
-
-    await expect.poll(playStates).toEqual(['running']);
-    // Away from the band: hovering it pauses it too.
-    await page.mouse.move(0, 0);
-    await page.getByRole('button', { name: 'Mettre en pause le défilement' }).click();
-
-    await expect.poll(playStates).toEqual(['paused']);
-    await page.getByRole('button', { name: 'Reprendre le défilement' }).click();
-    await expect.poll(playStates).toEqual(['running']);
   });
 
   test('keeps the header in view while the page scrolls', async ({ page }) => {

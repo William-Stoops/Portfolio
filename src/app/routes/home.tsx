@@ -10,7 +10,6 @@ import { AxisBand } from '@/features/about/components/axis-band';
 import { AiPracticeSection } from '@/features/ai-practice/components/ai-practice-section';
 import { ContactSection } from '@/features/contact/components/contact-section';
 import { EducationList } from '@/features/education/components/education-list';
-import { HeroScene } from '@/features/hero/components/hero-scene';
 import { HeroSection } from '@/features/hero/components/hero-section';
 import { SkillList } from '@/features/skills/components/skill-list';
 import { usePageHeading } from '@/hooks/use-page-heading';
@@ -29,6 +28,8 @@ export function HomeRoute() {
   const headingRef = usePageHeading();
   const content = useSiteContent();
   const { skills } = content;
+  // The hero's proof leads to the IT-Finance role, the first of the journey.
+  const [itFinance] = content.experiences.entries;
 
   // The skills, one group a chapter, then the education.
   const skillChapters = [
@@ -54,7 +55,12 @@ export function HomeRoute() {
   return (
     <>
       <PageMetadata title={SITE_TITLE} description={content.home.description} />
-      <HeroSection content={content.hero} headingRef={headingRef} />
+      <HeroSection
+        content={content.hero}
+        headingRef={headingRef}
+        contactHref={`#${content.contact.id}`}
+        proofHref={`#${itFinance.id}`}
+      />
       {/*
         Each section below the hero is its own Suspense boundary, hydrated as a separate
         unit of work after the hero: React yields to the browser between them instead of
@@ -80,7 +86,7 @@ export function HomeRoute() {
         </PageSection>
       </Suspense>
       <Suspense>
-        <ContactSection content={content.contact} backdrop={<HeroScene variant="finale" />} />
+        <ContactSection content={content.contact} />
       </Suspense>
     </>
   );

@@ -17,7 +17,7 @@ const IS_VITEST = process.env['VITEST'] === 'true';
 
 const FILE_EXTENSION_PATTERN = /\.[\da-z]+$/i;
 
-// What the two WebGL scenes share (the hero's surface, the Korea globe): one chunk, loaded
+// What the two WebGL scenes share (the hero's field, the Korea globe): one chunk, loaded
 // with whichever scene comes first, under a stable name its budgets can target
 // (.size-limit.json), instead of a name Rolldown would take from one of its modules.
 const WEBGL_SHARED_MODULES =

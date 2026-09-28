@@ -32,7 +32,7 @@ export function perspective(
   );
 }
 
-export function subtract(a: Vector3, b: Vector3): Vector3 {
+function subtract(a: Vector3, b: Vector3): Vector3 {
   return [a[0] - b[0], a[1] - b[1], a[2] - b[2]];
 }
 
@@ -89,112 +89,6 @@ export function multiplyMatrices(a: Matrix4, b: Matrix4): Matrix4 {
     }
   }
   return product;
-}
-
-// General 4 × 4 inverse by cofactors (the view-projection is not orthogonal).
-export function invertMatrix(matrix: Matrix4): Matrix4 {
-  const m = (index: number): number => at(matrix, index);
-  const inverse = Float32Array.of(
-    m(5) * m(10) * m(15) -
-      m(5) * m(11) * m(14) -
-      m(9) * m(6) * m(15) +
-      m(9) * m(7) * m(14) +
-      m(13) * m(6) * m(11) -
-      m(13) * m(7) * m(10),
-    -m(1) * m(10) * m(15) +
-      m(1) * m(11) * m(14) +
-      m(9) * m(2) * m(15) -
-      m(9) * m(3) * m(14) -
-      m(13) * m(2) * m(11) +
-      m(13) * m(3) * m(10),
-    m(1) * m(6) * m(15) -
-      m(1) * m(7) * m(14) -
-      m(5) * m(2) * m(15) +
-      m(5) * m(3) * m(14) +
-      m(13) * m(2) * m(7) -
-      m(13) * m(3) * m(6),
-    -m(1) * m(6) * m(11) +
-      m(1) * m(7) * m(10) +
-      m(5) * m(2) * m(11) -
-      m(5) * m(3) * m(10) -
-      m(9) * m(2) * m(7) +
-      m(9) * m(3) * m(6),
-    -m(4) * m(10) * m(15) +
-      m(4) * m(11) * m(14) +
-      m(8) * m(6) * m(15) -
-      m(8) * m(7) * m(14) -
-      m(12) * m(6) * m(11) +
-      m(12) * m(7) * m(10),
-    m(0) * m(10) * m(15) -
-      m(0) * m(11) * m(14) -
-      m(8) * m(2) * m(15) +
-      m(8) * m(3) * m(14) +
-      m(12) * m(2) * m(11) -
-      m(12) * m(3) * m(10),
-    -m(0) * m(6) * m(15) +
-      m(0) * m(7) * m(14) +
-      m(4) * m(2) * m(15) -
-      m(4) * m(3) * m(14) -
-      m(12) * m(2) * m(7) +
-      m(12) * m(3) * m(6),
-    m(0) * m(6) * m(11) -
-      m(0) * m(7) * m(10) -
-      m(4) * m(2) * m(11) +
-      m(4) * m(3) * m(10) +
-      m(8) * m(2) * m(7) -
-      m(8) * m(3) * m(6),
-    m(4) * m(9) * m(15) -
-      m(4) * m(11) * m(13) -
-      m(8) * m(5) * m(15) +
-      m(8) * m(7) * m(13) +
-      m(12) * m(5) * m(11) -
-      m(12) * m(7) * m(9),
-    -m(0) * m(9) * m(15) +
-      m(0) * m(11) * m(13) +
-      m(8) * m(1) * m(15) -
-      m(8) * m(3) * m(13) -
-      m(12) * m(1) * m(11) +
-      m(12) * m(3) * m(9),
-    m(0) * m(5) * m(15) -
-      m(0) * m(7) * m(13) -
-      m(4) * m(1) * m(15) +
-      m(4) * m(3) * m(13) +
-      m(12) * m(1) * m(7) -
-      m(12) * m(3) * m(5),
-    -m(0) * m(5) * m(11) +
-      m(0) * m(7) * m(9) +
-      m(4) * m(1) * m(11) -
-      m(4) * m(3) * m(9) -
-      m(8) * m(1) * m(7) +
-      m(8) * m(3) * m(5),
-    -m(4) * m(9) * m(14) +
-      m(4) * m(10) * m(13) +
-      m(8) * m(5) * m(14) -
-      m(8) * m(6) * m(13) -
-      m(12) * m(5) * m(10) +
-      m(12) * m(6) * m(9),
-    m(0) * m(9) * m(14) -
-      m(0) * m(10) * m(13) -
-      m(8) * m(1) * m(14) +
-      m(8) * m(2) * m(13) +
-      m(12) * m(1) * m(10) -
-      m(12) * m(2) * m(9),
-    -m(0) * m(5) * m(14) +
-      m(0) * m(6) * m(13) +
-      m(4) * m(1) * m(14) -
-      m(4) * m(2) * m(13) -
-      m(12) * m(1) * m(6) +
-      m(12) * m(2) * m(5),
-    m(0) * m(5) * m(10) -
-      m(0) * m(6) * m(9) -
-      m(4) * m(1) * m(10) +
-      m(4) * m(2) * m(9) +
-      m(8) * m(1) * m(6) -
-      m(8) * m(2) * m(5),
-  );
-  const determinant =
-    m(0) * at(inverse, 0) + m(1) * at(inverse, 4) + m(2) * at(inverse, 8) + m(3) * at(inverse, 12);
-  return inverse.map((value) => value / determinant);
 }
 
 // A world point through the matrix, divided by w: normalised device coordinates.

@@ -1,12 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import {
-  invertMatrix,
-  lookAt,
-  multiplyMatrices,
-  perspective,
-  transformPoint,
-} from '@/utils/matrix4';
+import { lookAt, multiplyMatrices, perspective, transformPoint } from '@/utils/matrix4';
 
 // Projects a world point to the screen, independently of the module under test.
 function project(matrix: Float32Array, [x, y, z]: readonly [number, number, number]) {
@@ -28,14 +22,6 @@ describe('camera matrices', () => {
 
     expect(x).toBeCloseTo(0);
     expect(y).toBeCloseTo(0);
-  });
-
-  it('inverts a matrix', () => {
-    const identity = multiplyMatrices(viewProjection, invertMatrix(viewProjection));
-
-    [...identity].forEach((value, index) => {
-      expect(value).toBeCloseTo(index % 5 === 0 ? 1 : 0);
-    });
   });
 
   it('transforms a point as the GPU does, divided by w', () => {
