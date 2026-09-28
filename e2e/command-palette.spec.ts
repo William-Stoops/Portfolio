@@ -1,7 +1,7 @@
 import { expect, type Page, test } from '@playwright/test';
 
 import { waitForHydration } from './support/hydration.ts';
-import { openMenuIfCollapsed } from './support/interactions.ts';
+import { openMenuIfCollapsed, pressQuickSearchShortcut } from './support/interactions.ts';
 
 // The requests for the quick search's own chunk, as they happen.
 function paletteChunkRequests(page: Page): string[] {
@@ -58,8 +58,7 @@ test.describe('the quick search', () => {
     await page.goto('/fr/mentions-legales');
     await waitForHydration(page);
 
-    await page.keyboard.press('ControlOrMeta+k');
-    await expect(page.getByRole('searchbox')).toBeFocused();
+    await pressQuickSearchShortcut(page);
     await page.keyboard.type('parcours');
     await page.keyboard.press('Enter');
 
@@ -71,8 +70,7 @@ test.describe('the quick search', () => {
     await page.goto('/en');
     await waitForHydration(page);
 
-    await page.keyboard.press('ControlOrMeta+k');
-    await expect(page.getByRole('searchbox')).toBeFocused();
+    await pressQuickSearchShortcut(page);
     await page.keyboard.type('behind');
 
     await expect(
