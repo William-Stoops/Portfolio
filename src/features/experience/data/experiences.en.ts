@@ -24,7 +24,7 @@ export const EXPERIENCES = [
     period: { start: '2024', end: '2024' },
     stack: ['NestJS', 'React', 'PostgreSQL'],
     highlights: [
-      'I delivered **alone and from scratch** the company’s internal activity management tool: business managers’ KPIs, consultant status tracking (in training, on assignment, at which client). From the PostgreSQL schema to the React screens, NestJS back end included.',
+      'I delivered **alone and from scratch** the company’s internal activity management tool: business managers’ KPIs, consultant status tracking (in training, on assignment, at which client).',
     ],
   },
   {

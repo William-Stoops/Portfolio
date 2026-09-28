@@ -45,7 +45,7 @@ describe('experiences', () => {
 
   it('quotes the INTM, Strattt and GDS Élec highlights word for word', () => {
     expect(EXPERIENCES[1].highlights).toEqual([
-      'J’ai livré **seul et from scratch** l’outil interne de pilotage d’activité de l’entreprise : KPI des business managers, suivi du statut des consultants (en formation, en mission, chez quel client). Du schéma PostgreSQL aux écrans React, back NestJS compris.',
+      'J’ai livré **seul et from scratch** l’outil interne de pilotage d’activité de l’entreprise : KPI des business managers, suivi du statut des consultants (en formation, en mission, chez quel client).',
     ]);
     expect(EXPERIENCES[2].highlights).toEqual([
       'J’ai automatisé une chaîne comptable de bout en bout.',
@@ -53,6 +53,11 @@ describe('experiences', () => {
     expect(EXPERIENCES[3].highlights).toEqual([
       'J’ai livré une application en production qui gère à distance des bornes de recharge électriques, via le **protocole OCPP**.',
     ]);
+  });
+
+  it('names the INTM stack in its badges only, not in a sentence as well', () => {
+    expect(EXPERIENCES[1].highlights.join(' ')).not.toContain('PostgreSQL');
+    expect(EXPERIENCES_EN[1].highlights.join(' ')).not.toContain('PostgreSQL');
   });
 
   it('lists a stack only where the CV names one', () => {

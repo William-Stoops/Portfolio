@@ -84,6 +84,9 @@ simulés, et la course des cycles sous le titre « Un cycle complet, à l'échel
   KPI des business managers, suivi du statut des consultants (en formation, en mission, chez
   quel client). Du schéma PostgreSQL aux écrans React, back NestJS compris.
 
+Sur le site, à la demande de William le 2026-09-29 : la dernière phrase (« Du schéma
+PostgreSQL aux écrans React… ») est retirée ; la stack reste dite par les badges du poste.
+
 Recommandation, hors CV, fournie par William le 2026-09-28 : celle que **Paul Plancq**,
 son mentor chez INTM Groupe (aujourd'hui Senior Consultant Craft chez HoppR), a écrite sur
 LinkedIn le 27 juin 2025. Citée mot pour mot sous le poste INTM ; traduite, et dite

@@ -25,7 +25,7 @@ export const EXPERIENCES = [
     period: { start: '2024', end: '2024' },
     stack: ['NestJS', 'React', 'PostgreSQL'],
     highlights: [
-      'J’ai livré **seul et from scratch** l’outil interne de pilotage d’activité de l’entreprise : KPI des business managers, suivi du statut des consultants (en formation, en mission, chez quel client). Du schéma PostgreSQL aux écrans React, back NestJS compris.',
+      'J’ai livré **seul et from scratch** l’outil interne de pilotage d’activité de l’entreprise : KPI des business managers, suivi du statut des consultants (en formation, en mission, chez quel client).',
     ],
   },
   {
