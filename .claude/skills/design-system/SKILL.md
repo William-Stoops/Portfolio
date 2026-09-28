@@ -246,6 +246,11 @@ variant="finale"`, loaded only when near).
   stop before the reading line. Cells keep their character's width; the glyphs they turn
   through come from letters of the same kind and about the same width. Other headers keep
   their rising letters: the board belongs to the journey, a flight.
+- **The cycle race** (ADR 0032), under the IT-Finance role: the CV's 10 h → 5 min as a
+  scale model the visitor starts (an hour lasts 1.2 s). The old bar crawls, the new one is
+  full at once and counts its cycles: never a bar refilling ten times a second, which
+  would flash (WCAG 2.3.1). A result that appears later keeps its place from the start (an
+  invisible copy under it), so nothing moves. With reduced motion, the result at once.
 - **The not-found page is a diverted flight**: "Vol 404 · Dérouté" turns in on the board
   on its own (`flap-enter`, on the clock), the 404 sits on tiles, and the journey's plane
   flies two turns of a dotted holding pattern around it (`HoldingPattern`,
