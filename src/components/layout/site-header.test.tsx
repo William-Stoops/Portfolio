@@ -6,7 +6,6 @@ import { expectNoAxeViolations } from '@/testing/expect-no-axe-violations';
 import { renderInRouter } from '@/testing/render-with-router';
 
 const SECTION_LINKS = [
-  { name: 'À propos', href: '/fr#a-propos' },
   { name: 'Parcours', href: '/fr#parcours' },
   { name: 'IA', href: '/fr#ia' },
   { name: 'Compétences', href: '/fr#competences' },
@@ -185,7 +184,7 @@ describe('SiteHeader', () => {
         .getByRole('link')
         .elements()
         .map((link) => link.getAttribute('href')),
-    ).toEqual(['/en#about', '/en#journey', '/en#ai', '/en#skills', '/en#contact']);
+    ).toEqual(['/en#journey', '/en#ai', '/en#skills', '/en#contact']);
     await expect
       .element(screen.getByRole('link', { name: 'Download my CV (PDF in French, 56 KB)' }))
       .toBeVisible();

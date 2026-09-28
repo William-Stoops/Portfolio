@@ -4,9 +4,7 @@ import { isMobileLayout, openSiteMenu, pressTab } from './support/interactions.t
 
 // Every focusable stop of the home page, in DOM order (= visual order).
 function expectedFocusOrderFor(page: Page): readonly (string | RegExp)[] {
-  const sections = isMobileLayout(page)
-    ? []
-    : ['À propos', 'Parcours', 'IA', 'Compétences', 'Contact'];
+  const sections = isMobileLayout(page) ? [] : ['Parcours', 'IA', 'Compétences', 'Contact'];
   return [
     'Aller au contenu principal',
     'William Stoops',

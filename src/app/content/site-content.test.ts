@@ -33,15 +33,14 @@ describe('site content', () => {
   it('anchors every section in the language of its page', () => {
     expect(
       [SITE_CONTENT_FR, SITE_CONTENT_EN].map((content) => [
-        content.about.id,
         content.journey.id,
         content.aiPractice.id,
         content.skills.id,
         content.contact.id,
       ]),
     ).toEqual([
-      ['a-propos', 'parcours', 'ia', 'competences', 'contact'],
-      ['about', 'journey', 'ai', 'skills', 'contact'],
+      ['parcours', 'ia', 'competences', 'contact'],
+      ['journey', 'ai', 'skills', 'contact'],
     ]);
   });
 

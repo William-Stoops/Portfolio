@@ -5,8 +5,6 @@ import { ChapterRows } from '@/components/layout/chapter-rows';
 import { PageMetadata } from '@/components/layout/page-metadata';
 import { PageSection } from '@/components/layout/page-section';
 import { SITE_TITLE } from '@/config/site';
-import { AboutSection } from '@/features/about/components/about-section';
-import { AxisBand } from '@/features/about/components/axis-band';
 import { AiPracticeSection } from '@/features/ai-practice/components/ai-practice-section';
 import { ContactSection } from '@/features/contact/components/contact-section';
 import { EducationList } from '@/features/education/components/education-list';
@@ -67,12 +65,6 @@ export function HomeRoute() {
         hydrating the whole page in one long task. Only the journey suspends, for its code;
         the other boundaries only split the hydration (ADR 0018).
       */}
-      <Suspense>
-        <AboutSection content={content.about} />
-      </Suspense>
-      <Suspense>
-        <AxisBand axes={content.about.axes} />
-      </Suspense>
       <Suspense>
         <HomeJourney />
       </Suspense>

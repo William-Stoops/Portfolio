@@ -3,19 +3,6 @@ import { expect, test } from '@playwright/test';
 import { openMenuIfCollapsed, pressTab } from './support/interactions.ts';
 
 test.describe('main navigation', () => {
-  test('brings the about section into view', async ({ page }) => {
-    await page.goto('/fr');
-    await openMenuIfCollapsed(page);
-
-    await page
-      .getByRole('navigation', { name: 'Navigation principale' })
-      .getByRole('link', { name: 'À propos' })
-      .click();
-
-    await expect(page).toHaveURL(/\/fr#a-propos$/);
-    await expect(page.getByRole('heading', { level: 2, name: 'À propos' })).toBeInViewport();
-  });
-
   test('brings the experience section into view', async ({ page }) => {
     await page.goto('/fr');
     await openMenuIfCollapsed(page);
@@ -26,7 +13,7 @@ test.describe('main navigation', () => {
       .click();
 
     await expect(page).toHaveURL(/\/fr#parcours$/);
-    await expect(page.getByRole('heading', { level: 2, name: 'Parcours' })).toBeInViewport();
+    await expect(page.getByRole('region', { name: 'Parcours' })).toBeInViewport();
   });
 
   for (const { link, heading, level, hash } of [
@@ -53,13 +40,16 @@ test.describe('main navigation', () => {
     });
   }
 
-  test('reaches the about section from another page', async ({ page }) => {
+  test('reaches the journey from another page', async ({ page }) => {
     await page.goto('/fr/page-inexistante');
     await openMenuIfCollapsed(page);
 
-    await page.getByRole('link', { name: 'À propos' }).click();
+    await page
+      .getByRole('navigation', { name: 'Navigation principale' })
+      .getByRole('link', { name: 'Parcours' })
+      .click();
 
-    await expect(page.getByRole('heading', { level: 2, name: 'À propos' })).toBeInViewport();
+    await expect(page.getByRole('region', { name: 'Parcours' })).toBeInViewport();
   });
 
   test('continues keyboard navigation from the section, not from the top', async ({
@@ -68,14 +58,16 @@ test.describe('main navigation', () => {
   }) => {
     await page.goto('/fr');
     await openMenuIfCollapsed(page);
-    const aboutLink = page.getByRole('link', { name: 'À propos' });
-    await aboutLink.focus();
+    const journeyLink = page
+      .getByRole('navigation', { name: 'Navigation principale' })
+      .getByRole('link', { name: 'Parcours' });
+    await journeyLink.focus();
 
     await page.keyboard.press('Enter');
-    await expect(page.getByRole('heading', { level: 2, name: 'À propos' })).toBeInViewport();
+    await expect(page.getByRole('region', { name: 'Parcours' })).toBeInViewport();
     await pressTab(page, browserName);
 
-    // The sections after it hold no control until the lab under the IT-Finance role: its
+    // The journey holds no control until the lab under the IT-Finance role: its
     // first button, which turns the surface, is the next stop.
     await expect(page.locator(':focus')).toHaveAccessibleName('Tourner à gauche');
   });
@@ -101,6 +93,6 @@ test.describe('footer navigation', () => {
     await page.getByRole('main').getByRole('link', { name: 'Parcours' }).click();
 
     await expect(page).toHaveURL(/\/fr#parcours$/);
-    await expect(page.getByRole('heading', { level: 2, name: 'Parcours' })).toBeInViewport();
+    await expect(page.getByRole('region', { name: 'Parcours' })).toBeInViewport();
   });
 });

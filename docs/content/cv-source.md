@@ -50,6 +50,10 @@ full stack en TypeScript, et je travaille tous les jours avec des agents et des 
 
 Sur le site, la section « Chiffres clés » d'À propos est retirée à la demande de William le
 2026-09-28 : chaque chiffre reste dit là où il s'est produit (IT-Finance, STAXX).
+La section À propos elle-même est retirée à la demande de William le même jour, avec ses
+trois axes et le bandeau qui les répétait en grands caractères : le hero porte déjà la phrase
+d'accroche et la suite du profil. « 3 ans d'expérience en entreprise » n'est donc plus dit
+sur le site.
 
 ## Expérience professionnelle
 

@@ -69,8 +69,8 @@ describe('application routes', () => {
       .element(screen.getByRole('heading', { level: 1, name: /^William Stoops: I choose/ }))
       .toBeVisible();
     await expect
-      .element(screen.getByRole('region', { name: 'About' }))
-      .toHaveAttribute('id', 'about');
+      .element(screen.getByRole('region', { name: 'Journey' }))
+      .toHaveAttribute('id', 'journey');
   });
 
   it('renders a not-found page for unknown URLs, in the locale of the address', async () => {

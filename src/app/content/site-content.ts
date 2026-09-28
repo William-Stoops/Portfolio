@@ -1,6 +1,5 @@
 import { type ReactNode } from 'react';
 
-import { type AboutContent } from '@/features/about/types/about-content';
 import { type AiPracticeContent } from '@/features/ai-practice/types/ai-practice-content';
 import { type BehindTheScenesContent } from '@/features/behind-the-scenes/types/behind-the-scenes-content';
 import { type ContactContent } from '@/features/contact/types/contact-content';
@@ -22,7 +21,6 @@ type PageText = { title: string; description: string };
 export type SiteContent = {
   home: { description: string };
   hero: HeroContent;
-  about: AboutContent;
   journey: JourneyContent;
   // Told in the journey, most recent first: IT-Finance, INTM, Strattt then GDS Élec.
   experiences: {

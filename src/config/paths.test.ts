@@ -33,7 +33,6 @@ describe('PAGE_PATHS', () => {
 describe('anchors', () => {
   it('translates the section and journey anchors, the same keys in each locale', () => {
     expect(SECTION_IDS.en).toEqual({
-      about: 'about',
       experience: 'journey',
       aiPractice: 'ai',
       skills: 'skills',
@@ -74,7 +73,6 @@ describe('alternateHref', () => {
 
   it.each([
     ['#parcours', '#journey'],
-    ['#a-propos', '#about'],
     ['#coree', '#korea'],
     ['#projets', '#projects'],
     ['#contact', '#contact'],

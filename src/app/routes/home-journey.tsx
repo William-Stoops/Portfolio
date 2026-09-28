@@ -15,7 +15,6 @@ import { ReturnStage } from '@/features/korea/components/return-stage';
 import { ProjectCard } from '@/features/projects/components/project-card';
 import { useLocale } from '@/i18n/locale-context';
 import { type Locale } from '@/i18n/locales';
-import { formatSectionNumber } from '@/utils/section-number';
 
 // What each year of the journey holds: its note, then the cards that tell the year (the
 // roles and what was said of them, the year in South Korea, STAXX). Chosen by the year,
@@ -70,21 +69,23 @@ function journeyContent(
 }
 
 // The thread of the page: the years at Epitech, from 2021 to the promo 2026, each stop
-// holding the cards that tell it. The only section on the flight path: the only story.
+// holding the cards that tell it. The only section on the flight path: the only story. It
+// opens straight on its first year, the rail naming each year beside it.
 export function HomeJourney() {
   const content = useSiteContent();
   const locale = useLocale();
   const { journey } = content;
 
-  // Beside the rail, where the reader is: the section, then each year.
-  const waypoints = [
-    { id: journey.id, value: formatSectionNumber(journey.id) ?? '', label: journey.title },
-    ...journey.stops.map(({ id, year, label }) => ({ id, value: String(year), label })),
-  ];
+  // Beside the rail, where the reader is: each year.
+  const waypoints = journey.stops.map(({ id, year, label }) => ({
+    id,
+    value: String(year),
+    label,
+  }));
 
   return (
     <FlightPath waypoints={waypoints}>
-      <PageSection id={journey.id} title={journey.title} hasListedStops onPath>
+      <PageSection id={journey.id} title={journey.title} isTitleHidden>
         <FlightLog
           stops={journey.stops.map(({ id, year, label, title, note }) => ({
             id,

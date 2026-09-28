@@ -66,7 +66,7 @@ test.describe('the quick search', () => {
     await page.keyboard.press('Enter');
 
     await expect(page).toHaveURL(/\/fr#parcours$/);
-    await expect(page.getByRole('heading', { level: 2, name: 'Parcours' })).toBeInViewport();
+    await expect(page.getByRole('region', { name: 'Parcours' })).toBeInViewport();
   });
 
   test('searches in English on the English page', async ({ page }) => {

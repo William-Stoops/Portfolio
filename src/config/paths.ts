@@ -25,7 +25,7 @@ export const PAGE_PATHS = {
   },
 } as const satisfies Localized<Record<PageKey, string>>;
 
-const SECTION_KEYS = ['about', 'experience', 'aiPractice', 'skills', 'contact'] as const;
+const SECTION_KEYS = ['experience', 'aiPractice', 'skills', 'contact'] as const;
 
 const JOURNEY_KEYS = ['korea', 'projects'] as const;
 
@@ -33,14 +33,12 @@ const JOURNEY_KEYS = ['korea', 'projects'] as const;
 // order is the page order, and it numbers them.
 export const SECTION_IDS = {
   fr: {
-    about: 'a-propos',
     experience: 'parcours',
     aiPractice: 'ia',
     skills: 'competences',
     contact: 'contact',
   },
   en: {
-    about: 'about',
     experience: 'journey',
     aiPractice: 'ai',
     skills: 'skills',

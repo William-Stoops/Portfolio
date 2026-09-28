@@ -1,6 +1,5 @@
 import { type SiteContent } from '@/app/content/site-content';
 import { SECTION_IDS } from '@/config/paths';
-import { ABOUT_CONTENT } from '@/features/about/data/about-content.fr';
 import { AI_PRACTICE_CONTENT } from '@/features/ai-practice/data/ai-practice-content.fr';
 import { BEHIND_THE_SCENES } from '@/features/behind-the-scenes/data/behind-the-scenes.fr';
 import { CONTACT_CONTENT } from '@/features/contact/data/contact-content.fr';
@@ -24,7 +23,6 @@ export const SITE_CONTENT: SiteContent = {
       'William Stoops, Software Engineer & AI Engineer : systèmes de calcul en C++ et Rust, produits full stack en TypeScript, agents et LLM au quotidien.',
   },
   hero: HERO_CONTENT,
-  about: ABOUT_CONTENT,
   journey: JOURNEY_CONTENT,
   experiences: {
     entries: EXPERIENCES,

@@ -33,7 +33,7 @@ export function RootLayout() {
       {/*
         Keyed by path and fragment: every freshly loaded document shares the router key
         "default", so restoring by key would apply the previous page's scroll position and
-        undo the browser's jump to a fragment such as /fr#a-propos. A page opened from the
+        undo the browser's jump to a fragment such as /fr#parcours. A page opened from the
         other language gets a key never saved: the router then restores nothing, and the
         place being read wins (useRestoredReadingPosition).
       */}

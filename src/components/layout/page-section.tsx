@@ -10,24 +10,21 @@ type PageSectionProps = {
   title: string;
   // Optional introduction, kept close to the heading.
   lead?: ReactNode;
-  // When the section holds stops the flight path lists (the years of the journey), its
-  // own waypoint covers its header only, so one label shows at a time beside the rail.
-  hasListedStops?: boolean;
-  // The section the flight path runs through (the journey): its header marks the rail.
-  onPath?: boolean;
+  // The journey opens straight on its first year: its title is left to assistive tech,
+  // the menu and the years on the rail already saying where the reader is.
+  isTitleHidden?: boolean;
   children: ReactNode;
 };
 
 // Every home page section: a region named by its h2, reachable by its anchor, on the
 // shared content column and vertical rhythm, opened like a chapter: its number in filigree,
-// its title rising letter by letter (StopHeader). The journey's section runs on the flight
-// path (FlightPath): its header marks the rail, and its content starts where the path says.
+// its title whole from the first paint (StopHeader). The journey's content starts where the
+// flight path says (--content-x), on its first year.
 export function PageSection({
   id,
   title,
   lead,
-  hasListedStops = false,
-  onPath = false,
+  isTitleHidden = false,
   children,
 }: PageSectionProps) {
   const headingId = `${id}-titre`;
@@ -41,26 +38,28 @@ export function PageSection({
       className="mx-auto w-full max-w-6xl px-gutter py-section defer-render"
     >
       <div
-        style={hasListedStops ? undefined : waypoint}
-        className={`relative flex flex-col gap-12 ps-[var(--content-x,0rem)] ${hasListedStops ? '' : 'chapter-timeline'}`}
+        style={waypoint}
+        className="relative flex flex-col gap-12 ps-[var(--content-x,0rem)] chapter-timeline"
       >
-        <div
-          // Positioned (for the filigree), inside the content's inset: the rail is that far back.
-          style={{ '--stop-inset': 'var(--content-x, 0rem)', ...(hasListedStops ? waypoint : {}) }}
-          className={`relative isolate flex flex-col gap-5 ${hasListedStops ? 'chapter-timeline' : ''}`}
-        >
-          <StopHeader
-            level={2}
-            headingId={headingId}
-            title={title}
-            {...(sectionNumber === undefined
-              ? {}
-              : { overline: sectionNumber, filigree: sectionNumber })}
-            isOverlineDecoration
-            onPath={onPath}
-          />
-          {lead}
-        </div>
+        {isTitleHidden ? (
+          <h2 id={headingId} className="sr-only">
+            {title}
+          </h2>
+        ) : (
+          // Positioned, for the filigree.
+          <div className="relative isolate flex flex-col gap-5">
+            <StopHeader
+              level={2}
+              headingId={headingId}
+              title={title}
+              {...(sectionNumber === undefined
+                ? {}
+                : { overline: sectionNumber, filigree: sectionNumber })}
+              isOverlineDecoration
+            />
+            {lead}
+          </div>
+        )}
         {children}
       </div>
     </section>

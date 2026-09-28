@@ -30,16 +30,31 @@ describe('PageSection', () => {
 
   it('numbers a home section, as decoration only', async () => {
     const screen = await render(
-      <PageSection id="parcours" title="Parcours">
+      <PageSection id="ia" title="Intelligence artificielle">
         <p>Contenu</p>
       </PageSection>,
     );
 
-    const number = screen.getByText('02', { exact: true });
+    const number = screen.getByText('01', { exact: true });
     expect(number.element().closest('[aria-hidden="true"]')).not.toBeNull();
     await expect
       .element(screen.getByRole('heading', { level: 2 }))
-      .toHaveAccessibleName('Parcours');
+      .toHaveAccessibleName('Intelligence artificielle');
+  });
+
+  it('can keep its title for assistive tech only, opening straight on its content', async () => {
+    const screen = await render(
+      <PageSection id="parcours" title="Parcours" isTitleHidden>
+        <p>Contenu</p>
+      </PageSection>,
+    );
+
+    const region = screen.getByRole('region', { name: 'Parcours' });
+    await expect.element(region).toHaveAttribute('id', 'parcours');
+    await expect
+      .element(region.getByRole('heading', { level: 2, name: 'Parcours' }))
+      .toHaveClass('sr-only');
+    expect(screen.container.querySelector('[aria-hidden="true"]')).toBeNull();
   });
 
   it('sets the title whole, from the first paint', async () => {

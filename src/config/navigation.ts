@@ -7,14 +7,12 @@ export type PageLink = { label: string; path: string };
 
 const SECTION_LABELS = {
   fr: {
-    about: 'À propos',
     experience: 'Parcours',
     aiPractice: 'IA',
     skills: 'Compétences',
     contact: 'Contact',
   },
   en: {
-    about: 'About',
     experience: 'Journey',
     aiPractice: 'AI',
     skills: 'Skills',
@@ -47,7 +45,6 @@ function navItemsIn(locale: Locale): readonly NavItem[] {
   const ids = SECTION_IDS[locale];
   const labels = SECTION_LABELS[locale];
   return [
-    { label: labels.about, href: `${home}#${ids.about}` },
     { label: labels.experience, href: `${home}#${ids.experience}` },
     { label: labels.aiPractice, href: `${home}#${ids.aiPractice}` },
     { label: labels.skills, href: `${home}#${ids.skills}` },

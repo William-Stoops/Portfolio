@@ -5,7 +5,6 @@ import { DETOURS, FOOTER_LINKS, HOME_LINK, NAV_ITEMS } from '@/config/navigation
 describe('NAV_ITEMS', () => {
   it('links each home section in French, by its French anchor', () => {
     expect(NAV_ITEMS.fr).toEqual([
-      { label: 'À propos', href: '/fr#a-propos' },
       { label: 'Parcours', href: '/fr#parcours' },
       { label: 'IA', href: '/fr#ia' },
       { label: 'Compétences', href: '/fr#competences' },
@@ -15,7 +14,6 @@ describe('NAV_ITEMS', () => {
 
   it('links each home section in English, by its English anchor', () => {
     expect(NAV_ITEMS.en).toEqual([
-      { label: 'About', href: '/en#about' },
       { label: 'Journey', href: '/en#journey' },
       { label: 'AI', href: '/en#ai' },
       { label: 'Skills', href: '/en#skills' },
