@@ -184,7 +184,11 @@
     *::after {
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
+      /* None at all, not a short one: transition-property defaults to all, so a 0.01 ms
+         duration made every element transition every property it changed, and WebKit
+         started a section's text, rendered late, from black. */
+      transition-duration: 0s !important;
+      transition-delay: 0s !important;
       scroll-behavior: auto !important;
     }
   }
