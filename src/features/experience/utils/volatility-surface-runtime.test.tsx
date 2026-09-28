@@ -147,4 +147,80 @@ describe('startVolatilitySurface', () => {
 
     await expect.poll(() => pixels(canvas).join() === before).toBe(false);
   });
+
+  it('turns as the pointer drags it, and lets the reading go when the pointer leaves', async () => {
+    const canvas = labCanvas();
+    const readings: (SurfaceReading | null)[] = [];
+    stop = startVolatilitySurface(canvas, {
+      axes: AXES,
+      controls: canvas,
+      isStill: true,
+      onMeasured: () => undefined,
+      onReadout: (reading) => {
+        readings.push(reading);
+      },
+    });
+    await expect.poll(() => hasViridisTeal(canvas)).toBe(true);
+    const before = pixels(canvas).join();
+    const box = canvas.getBoundingClientRect();
+    const at = (x: number): PointerEventInit => ({
+      pointerId: 1,
+      pointerType: 'mouse',
+      clientX: box.left + x,
+      clientY: box.top + box.height / 2,
+    });
+
+    canvas.dispatchEvent(new PointerEvent('pointerdown', at(200)));
+    canvas.dispatchEvent(new PointerEvent('pointermove', at(320)));
+    canvas.dispatchEvent(new PointerEvent('pointerup', at(320)));
+
+    await expect.poll(() => pixels(canvas).join() === before).toBe(false);
+    canvas.dispatchEvent(new PointerEvent('pointermove', at(320)));
+    expect(readings.at(-1)).not.toBeNull();
+    canvas.dispatchEvent(new PointerEvent('pointerleave', at(700)));
+    expect(readings.at(-1)).toBeNull();
+  });
+
+  it('reads the point a finger taps, where there is no hover', async () => {
+    const canvas = labCanvas();
+    const readings: (SurfaceReading | null)[] = [];
+    stop = startVolatilitySurface(canvas, {
+      axes: AXES,
+      controls: canvas,
+      isStill: true,
+      onMeasured: () => undefined,
+      onReadout: (reading) => {
+        readings.push(reading);
+      },
+    });
+    await expect.poll(() => hasViridisTeal(canvas)).toBe(true);
+    const box = canvas.getBoundingClientRect();
+
+    canvas.dispatchEvent(
+      new MouseEvent('click', {
+        clientX: box.left + box.width / 2,
+        clientY: box.top + box.height / 2,
+      }),
+    );
+    canvas.dispatchEvent(new MouseEvent('click', { clientX: box.left + 2, clientY: box.top + 2 }));
+
+    expect(readings).toHaveLength(1);
+    expect(readings[0]?.sigma).toBeGreaterThan(0.15);
+  });
+
+  it('leaves other keys to the page', () => {
+    const canvas = labCanvas();
+    stop = startVolatilitySurface(canvas, {
+      axes: AXES,
+      controls: canvas,
+      isStill: true,
+      onMeasured: () => undefined,
+      onReadout: () => undefined,
+    });
+
+    const event = new KeyboardEvent('keydown', { key: 'Enter', cancelable: true });
+    canvas.dispatchEvent(event);
+
+    expect(event.defaultPrevented).toBe(false);
+  });
 });
