@@ -109,6 +109,23 @@ describe('ProjectCard', () => {
     expect(pitch.compareDocumentPosition(win) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
   });
 
+  it('tells a project that has no radio, pitch or photo with its words alone', async () => {
+    const words = {
+      id: STAXX.id,
+      name: STAXX.name,
+      tagline: STAXX.tagline,
+      period: STAXX.period,
+      context: STAXX.context,
+      stack: STAXX.stack,
+      highlights: STAXX.highlights,
+      figures: STAXX.figures,
+    };
+    const screen = await render(<ProjectCard project={words} labels={PROJECT_LABELS} />);
+
+    await expect.element(screen.getByRole('heading', { level: 4, name: 'STAXX' })).toBeVisible();
+    expect(screen.getByRole('figure').elements()).toHaveLength(0);
+  });
+
   it('shows the NRJ Lille appearance as a captioned pair of photos, loaded lazily', async () => {
     const screen = await renderSection();
 
