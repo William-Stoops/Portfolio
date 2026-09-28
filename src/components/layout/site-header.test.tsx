@@ -19,6 +19,12 @@ function preventNavigation(event: MouseEvent): void {
   event.preventDefault();
 }
 
+// Where an element's middle sits: elements on one row share it.
+function middleOf(element: Element): number {
+  const { top, height } = element.getBoundingClientRect();
+  return Math.round(top + height / 2);
+}
+
 describe('SiteHeader', () => {
   it('is the banner landmark with a home link named after the site owner', async () => {
     const screen = await renderInRouter(<SiteHeader />);
@@ -75,6 +81,18 @@ describe('SiteHeader', () => {
         .elements()
         .map((link) => link.getBoundingClientRect().top);
       expect(new Set(tops).size).toBe(1);
+    });
+
+    it('keeps the name, the navigation and every choice on one row, from the narrowest large screen', async () => {
+      const screen = await renderInRouter(<SiteHeader />);
+
+      const middles = [
+        screen.getByRole('link', { name: 'William Stoops' }).element(),
+        screen.getByRole('link', { name: 'Contact' }).element(),
+        screen.getByRole('button', { name: /^Recherche rapide/ }).element(),
+        screen.getByRole('link', { name: 'English' }).element(),
+      ].map((element) => middleOf(element));
+      expect(Math.max(...middles) - Math.min(...middles)).toBeLessThanOrEqual(2);
     });
 
     it('has no axe violations', async () => {

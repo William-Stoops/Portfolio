@@ -1,6 +1,7 @@
 import { Menu as MenuIcon, X } from 'lucide-react';
 import { Link } from 'react-router';
 
+import { CommandPaletteTrigger } from '@/components/layout/command-palette-trigger';
 import { LanguageSwitch } from '@/components/layout/language-switch';
 import { ThemeToggle } from '@/components/layout/theme-toggle';
 import { NAV_ITEMS } from '@/config/navigation';
@@ -18,9 +19,10 @@ const HEADER_MESSAGES: Localized<{ menu: string; navigation: string }> = {
   en: { menu: 'Menu', navigation: 'Main navigation' },
 };
 
-// Below 64rem the navigation, the theme choice and the language switch sit in a disclosure
-// opened by "Menu"; from 64rem (where five links, the name and both choices fit on one row)
-// they are shown inline and the button is gone. DOM order = visual order.
+// Below 64rem the navigation, the quick search, the theme choice and the language switch sit
+// in a disclosure opened by "Menu"; from 64rem (where five links, the name and every choice
+// fit on one row, a little closer until 80rem) they are shown inline and the
+// button is gone. DOM order = visual order.
 export function SiteHeader() {
   const { isOpen, toggle, close, buttonRef } = useMobileMenu();
   const locale = useLocale();
@@ -38,7 +40,7 @@ export function SiteHeader() {
         aria-hidden="true"
         className="absolute inset-x-0 -bottom-px scroll-progress h-0.5 bg-accent"
       />
-      <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-x-6 gap-y-2 px-gutter py-4">
+      <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-x-4 gap-y-2 px-gutter py-4 xl:gap-x-6">
         <Link
           to={PAGE_PATHS[locale].home}
           className="inline-flex min-h-11 items-center font-display text-h3 font-semibold text-fg no-underline"
@@ -63,12 +65,12 @@ export function SiteHeader() {
         <div
           id={MENU_ID}
           className={cn(
-            'basis-full flex-col items-start gap-2 pb-2 lg:flex lg:basis-auto lg:flex-row lg:items-center lg:gap-6 lg:pb-0',
+            'basis-full flex-col items-start gap-2 pb-2 lg:flex lg:basis-auto lg:flex-row lg:items-center lg:gap-4 lg:pb-0 xl:gap-6',
             isOpen ? 'flex' : 'hidden',
           )}
         >
           <nav aria-label={messages.navigation}>
-            <ul className="flex flex-col lg:flex-row lg:flex-wrap lg:items-center lg:gap-x-6">
+            <ul className="flex flex-col lg:flex-row lg:flex-wrap lg:items-center lg:gap-x-4 xl:gap-x-6">
               {NAV_ITEMS[locale].map(({ label, href }) => (
                 <li key={href}>
                   <a
@@ -83,6 +85,7 @@ export function SiteHeader() {
             </ul>
           </nav>
           <div className="flex items-center gap-2">
+            <CommandPaletteTrigger />
             <ThemeToggle />
             <LanguageSwitch />
           </div>

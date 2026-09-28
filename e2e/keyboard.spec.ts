@@ -12,6 +12,7 @@ function expectedFocusOrderFor(page: Page): readonly string[] {
         'IA',
         'Compétences',
         'Contact',
+        'Recherche rapide (Ctrl K)',
         'Thème du système',
         'Thème clair',
         'Thème sombre',

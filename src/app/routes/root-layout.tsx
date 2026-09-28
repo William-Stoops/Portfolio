@@ -1,8 +1,10 @@
 import { Outlet, ScrollRestoration } from 'react-router';
 
+import { CommandPaletteHost } from '@/components/layout/command-palette-host';
 import { SiteFooter } from '@/components/layout/site-footer';
 import { SiteHeader } from '@/components/layout/site-header';
 import { SkipLink } from '@/components/layout/skip-link';
+import { useCommandPaletteShortcut } from '@/hooks/use-command-palette-shortcut';
 import { useDesktopEnhancements } from '@/hooks/use-desktop-enhancements';
 import { usePointerGlow } from '@/hooks/use-pointer-glow';
 import { isArrivingAtReadingPosition } from '@/lib/reading-position';
@@ -14,6 +16,7 @@ export function RootLayout() {
   useDesktopEnhancements();
   useProgressiveRender();
   useRestoredReadingPosition();
+  useCommandPaletteShortcut();
 
   return (
     <div className="flex min-h-svh flex-col">
@@ -24,6 +27,7 @@ export function RootLayout() {
         <Outlet />
       </main>
       <SiteFooter />
+      <CommandPaletteHost />
       {/*
         Keyed by path and fragment: every freshly loaded document shares the router key
         "default", so restoring by key would apply the previous page's scroll position and
