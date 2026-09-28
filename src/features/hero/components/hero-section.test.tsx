@@ -20,6 +20,29 @@ async function renderHero(content: HeroContent = HERO_CONTENT) {
   );
 }
 
+// Every line of text laid out in an element, as the boxes of its glyphs.
+function textLinesOf(element: Element): DOMRect[] {
+  const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
+  const lines: DOMRect[] = [];
+  for (let node = walker.nextNode(); node !== null; node = walker.nextNode()) {
+    const range = document.createRange();
+    range.selectNodeContents(node);
+    lines.push(...[...range.getClientRects()].filter(({ width }) => width > 0));
+  }
+  return lines;
+}
+
+// Where the slanted lower edge of the field runs, at a given x of the viewport.
+function fieldEdgeAt(field: HTMLElement, x: number): number {
+  const box = field.offsetParent?.getBoundingClientRect();
+  const style = getComputedStyle(field);
+  const slant = new DOMMatrix(style.transform).b;
+  const [originX = 0] = style.transformOrigin.split(' ').map((value) => Number.parseFloat(value));
+  const left = (box?.left ?? 0) + field.offsetLeft;
+  const bottom = (box?.top ?? 0) + field.offsetTop + field.offsetHeight;
+  return bottom + slant * (x - left - originX);
+}
+
 describe('HeroSection', () => {
   it('heads the page with the sentence of the CV, and says whose it is', async () => {
     const screen = await renderHero();
@@ -108,6 +131,24 @@ describe('HeroSection', () => {
       .toBeVisible();
     await expect.element(screen.getByRole('link', { name: /See the computation/ })).toBeVisible();
   });
+
+  it.each([375, 1024, 1280])(
+    'lays the field under the whole text column, its slant never crossing a line, at %i px',
+    async (width) => {
+      await page.viewport(width, 800);
+      const screen = await renderHero();
+      await document.fonts.ready;
+
+      const field = screen.container.querySelector<HTMLElement>('[data-flow-field]');
+      const column = screen.getByRole('heading', { level: 1 }).element().parentElement;
+      if (field === null || column === null) {
+        throw new Error('The hero has no field or no text column');
+      }
+      for (const line of textLinesOf(column)) {
+        expect(fieldEdgeAt(field, line.right)).toBeGreaterThan(line.bottom);
+      }
+    },
+  );
 
   it('has no axe violations', async () => {
     const screen = await renderHero();

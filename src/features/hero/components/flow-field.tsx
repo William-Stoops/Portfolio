@@ -8,7 +8,11 @@ export function FlowField() {
   const { canvasRef, isLive } = useFlowField();
 
   return (
-    <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 flow-band -z-10">
+    <div
+      data-flow-field
+      aria-hidden="true"
+      className="pointer-events-none absolute inset-x-0 flow-band -z-10"
+    >
       <canvas
         ref={canvasRef}
         data-live={isLive ? '' : undefined}

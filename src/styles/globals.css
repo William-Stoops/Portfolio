@@ -144,13 +144,15 @@
 }
 
 /*
- * The living field of the hero (ADR 0037): a band from above the page to just under the
- * headline, cut on a slant that rises to the right. Its still gradient blends the four
- * tokens the shader blends, so the page is whole without it.
+ * The living field of the hero (ADR 0037): a band from above the page to the foot of the
+ * hero's content, cut on a slant that rises to the right. Tied to the content rather than
+ * to the screen's height, it runs under the whole text column at any size: its slant never
+ * crosses a line. Its still gradient blends the four tokens the shader blends, so the page
+ * is whole without it.
  */
 @utility flow-band {
-  top: -30svh;
-  height: calc(30svh + min(58svh, 36rem));
+  top: calc(-1 * (var(--header-height) + 30svh));
+  bottom: 0;
   transform: skewY(-9deg);
   transform-origin: 0 100%;
   background-color: --theme(--color-flow-blue);
