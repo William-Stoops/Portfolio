@@ -994,6 +994,21 @@
   }
 }
 
+/*
+ * A board that turns in on its own as the page opens (the diverted flight of the
+ * not-found page), on the clock rather than the scroll: one glyph every 90 ms, the cells
+ * one after the other, all at rest within a second and a half.
+ */
+@utility flap-enter {
+  translate: 0 calc(var(--steps) * -1lh);
+
+  @media (prefers-reduced-motion: no-preference) {
+    animation: roll-up steps(var(--steps), jump-end) both;
+    animation-duration: calc(var(--steps) * 90ms);
+    animation-delay: calc(var(--i, 0) * 120ms + 200ms);
+  }
+}
+
 /* The rail's board changes line as its waypoint crosses the reading line. */
 @utility flap-board {
   translate: 0 calc(var(--steps) * -1lh);

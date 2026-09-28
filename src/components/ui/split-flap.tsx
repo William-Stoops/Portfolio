@@ -6,9 +6,10 @@ import { splitIntoLetters } from '@/utils/split-text';
 
 type SplitFlapProps = {
   cells: readonly FlapCell[];
-  // How the cells turn (motion.css): as a journey stop's title comes up (flap-title), or
-  // as the rail's board changes line, on its waypoint's timeline (flap-board).
-  motion: 'flap-title' | 'flap-board';
+  // How the cells turn (motion.css): as a journey stop's title comes up (flap-title), as
+  // the rail's board changes line, on its waypoint's timeline (flap-board), or on their own
+  // as the page opens (flap-enter).
+  motion: 'flap-title' | 'flap-board' | 'flap-enter';
   // Where this run of cells starts in the stagger of its line (a word of a title).
   firstIndex?: number;
   // Each cell on its own tile, split by its hinge, as on an airport's board.

@@ -53,6 +53,23 @@ describe('SplitFlap', () => {
     expect(screen.container.firstElementChild?.getAttribute('aria-hidden')).toBe('true');
   });
 
+  it('turns in on its own as the page opens, and rests long before five seconds', async () => {
+    const screen = await render(
+      <SplitFlap cells={flapLine('404', { flips: 5, key: 'lost' })} motion="flap-enter" tiles />,
+    );
+
+    const animations = [...screen.container.querySelectorAll('[data-flap-character] + span')]
+      .flatMap((strip) => strip.getAnimations())
+      .filter((animation) => animation.timeline === document.timeline);
+    const endTimes = animations.map((animation) => {
+      const endTime = animation.effect?.getComputedTiming().endTime;
+      return typeof endTime === 'number' ? endTime : Number.POSITIVE_INFINITY;
+    });
+    // On the clock, not on the scroll: one run per cell, all at rest well within 5 s.
+    expect(animations).toHaveLength(3);
+    expect(Math.max(...endTimes)).toBeLessThan(2000);
+  });
+
   it('keeps each cell the width of its character, whatever it turns through', async () => {
     const screen = await render(
       <p style={{ fontSize: '40px' }}>
