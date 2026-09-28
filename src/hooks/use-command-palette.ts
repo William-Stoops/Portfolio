@@ -1,7 +1,5 @@
 import { useSyncExternalStore } from 'react';
 
-import { playSound } from '@/lib/play-sound';
-
 // Whether the quick search is open (ADR 0034): one state for the page, set by its header
 // button and by ⌘K / Ctrl+K, read by the host that loads and shows it.
 let isOpen = false;
@@ -25,7 +23,6 @@ export function openCommandPalette(from?: HTMLElement): void {
   }
   opener = from ?? (document.activeElement instanceof HTMLElement ? document.activeElement : null);
   publish(true);
-  playSound('open');
 }
 
 export function closeCommandPalette(): void {

@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { type ThemePreference, useThemePreference } from '@/hooks/use-theme-preference';
 import { useLocalized } from '@/i18n/locale-context';
 import { type Localized } from '@/i18n/locales';
-import { playSound } from '@/lib/play-sound';
 import { runViewTransition } from '@/lib/view-transition';
 
 const THEME_ANNOUNCEMENTS: Localized<Readonly<Record<ThemePreference, string>>> = {
@@ -51,7 +50,6 @@ export function useThemeToggle(): {
       setThemePreference(nextThemePreference);
     }, trigger);
     setAnnouncement(announcements[nextThemePreference]);
-    playSound('tap');
   }
 
   return { themePreference, selectThemePreference, announcement };

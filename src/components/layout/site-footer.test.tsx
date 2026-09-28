@@ -144,12 +144,4 @@ describe('SiteFooter', () => {
 
     await expectNoAxeViolations(screen.container);
   });
-
-  it('offers the sounds, off until the visitor turns them on', async () => {
-    const screen = await renderInRouter(<SiteFooter />);
-
-    await expect
-      .element(screen.getByRole('contentinfo').getByRole('button', { name: 'Sons' }))
-      .toHaveAttribute('aria-pressed', 'false');
-  });
 });

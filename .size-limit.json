@@ -10,7 +10,6 @@
       "!dist/assets/home-journey-*.js",
       "!dist/assets/behind-the-scenes-page-*.js",
       "!dist/assets/command-palette-*.js",
-      "!dist/assets/sound-engine-*.js",
       "!dist/assets/site-content.*.js"
     ],
     "limit": "125 kB"
@@ -49,11 +48,6 @@
     "name": "Quick search (loaded on its first opening, or as its button is aimed at)",
     "path": "dist/assets/command-palette-*.js",
     "limit": "4 kB"
-  },
-  {
-    "name": "Sound synthesiser (loaded with the first sound, once the visitor turned them on)",
-    "path": "dist/assets/sound-engine-*.js",
-    "limit": "1 kB"
   },
   {
     "name": "Behind the scenes (the page's body, loaded with it)",

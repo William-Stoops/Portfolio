@@ -1,5 +1,4 @@
-import { afterEach, describe, expect, it, vi } from 'vitest';
-import { page, userEvent } from 'vitest/browser';
+import { afterEach, describe, expect, it } from 'vitest';
 import { renderHook } from 'vitest-browser-react';
 
 import {
@@ -8,7 +7,6 @@ import {
   toggleCommandPalette,
   useCommandPalette,
 } from '@/hooks/use-command-palette';
-import { setSoundOn } from '@/lib/sound-preference';
 
 afterEach(() => {
   closeCommandPalette();
@@ -62,21 +60,5 @@ describe('useCommandPalette', () => {
     });
 
     expect(document.activeElement).toBe(button);
-  });
-
-  it('opens on two quick notes, once the visitor turned the sounds on', async () => {
-    // A gesture of the visitor's first: before one, a browser plays nothing.
-    await userEvent.click(page.elementLocator(document.body));
-    const started = vi.spyOn(OscillatorNode.prototype, 'start');
-    setSoundOn(true);
-    const { act } = await renderHook(() => useCommandPalette());
-
-    await act(() => {
-      openCommandPalette();
-    });
-
-    await expect.poll(() => started.mock.calls.length).toBe(2);
-    setSoundOn(false);
-    vi.restoreAllMocks();
   });
 });

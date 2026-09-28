@@ -1,9 +1,7 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { page, userEvent } from 'vitest/browser';
 import { renderHook } from 'vitest-browser-react';
 
 import { useThemeToggle } from '@/hooks/use-theme-toggle';
-import { setSoundOn } from '@/lib/sound-preference';
 
 afterEach(() => {
   vi.restoreAllMocks();
@@ -91,19 +89,5 @@ describe('useThemeToggle', () => {
     await expect.poll(() => document.documentElement.getAttribute('data-theme')).toBe('light');
     await new Promise((resolve) => setTimeout(resolve, 300));
     button.remove();
-  });
-
-  it('taps as the theme changes, once the visitor turned the sounds on', async () => {
-    // A gesture of the visitor's first: before one, a browser plays nothing.
-    await userEvent.click(page.elementLocator(document.body));
-    const started = vi.spyOn(OscillatorNode.prototype, 'start');
-    setSoundOn(true);
-    const { result, act } = await renderHook(() => useThemeToggle());
-
-    await act(() => {
-      result.current.selectThemePreference('dark');
-    });
-
-    await expect.poll(() => started.mock.calls.length).toBe(1);
   });
 });

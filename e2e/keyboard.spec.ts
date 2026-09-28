@@ -37,7 +37,6 @@ function expectedFocusOrderFor(page: Page): readonly (string | RegExp)[] {
     'Accessibilité',
     'Mentions légales',
     'Plan du site',
-    'Sons',
     'Retour en haut',
   ];
 }

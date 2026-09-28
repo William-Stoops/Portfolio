@@ -1,11 +1,9 @@
 import { FOOTER_LINKS, HOME_LINK, NAV_ITEMS } from '@/config/navigation';
 import { CONTACT_EMAIL, CV_FILE, LINKEDIN_URL } from '@/config/site';
 import { useLanguageSwitch } from '@/hooks/use-language-switch';
-import { useSoundPreference } from '@/hooks/use-sound-preference';
 import { type ThemePreference, useThemePreference } from '@/hooks/use-theme-preference';
 import { useLocale } from '@/i18n/locale-context';
 import { type Locale } from '@/i18n/locales';
-import { playSound } from '@/lib/play-sound';
 
 export type PaletteGroup = 'sections' | 'pages' | 'actions';
 
@@ -42,8 +40,6 @@ export type PaletteActions = {
   themes: Readonly<Record<ThemePreference, ActionText>>;
   // The switch is named in the other language; only the words that find it are needed.
   languageKeywords: string;
-  // Named by what it would do: turn the sounds on, or off.
-  sounds: Readonly<Record<'on' | 'off', ActionText>>;
   downloadCv: ActionText;
   email: ActionText;
   linkedin: ActionText;
@@ -57,7 +53,6 @@ export function usePaletteCommands(actions: PaletteActions): PaletteEntry[] {
   const locale = useLocale();
   const { setThemePreference } = useThemePreference();
   const languages = useLanguageSwitch();
-  const { isSoundOn, setSoundOn } = useSoundPreference();
 
   // Sections are plain fragment links, like the main navigation's: the browser scrolls to
   // the anchor and moves the focus starting point there, from any page.
@@ -101,24 +96,11 @@ export function usePaletteCommands(actions: PaletteActions): PaletteEntry[] {
     onFollow: select,
   }));
 
-  // As the footer's switch does: turned on, it plays a tap.
-  const sounds: PaletteEntry = {
-    kind: 'action',
-    id: 'sounds',
-    group: 'actions',
-    ...actions.sounds[isSoundOn ? 'off' : 'on'],
-    run: () => {
-      setSoundOn(!isSoundOn);
-      playSound('tap');
-    },
-  };
-
   return [
     ...sections,
     ...pages,
     ...themes,
     ...switches,
-    sounds,
     {
       kind: 'link',
       id: 'cv',
