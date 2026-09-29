@@ -20,6 +20,25 @@
   line-gap-override: 0%;
 }
 
+/*
+ * Its bold, for the heavy weights (the hero's headline, at 650). Without it the browser
+ * thickened Arial's regular letters, keeping their width: 6 % narrower than Inter Tight's
+ * heavy ones, the headline wrapped otherwise and the photo under it moved at the swap.
+ * Inter Tight at 650 is 5.8 % narrower than Arial Bold (fontTools); the overrides keep the
+ * same line box as the regular face.
+ */
+@font-face {
+  font-family: 'Inter Tight Fallback';
+  src:
+    local('Arial Bold'), local('Arial-BoldMT'), local('Liberation Sans Bold'),
+    local('LiberationSans-Bold'), local('Helvetica Bold');
+  font-weight: 600 900;
+  size-adjust: 94.2%;
+  ascent-override: 102.84%;
+  descent-override: 25.61%;
+  line-gap-override: 0%;
+}
+
 /* Short screens (landscape phones, 400 % zoom): see the responsive-design skill. */
 @custom-variant short (@media (max-height: 30rem));
 
