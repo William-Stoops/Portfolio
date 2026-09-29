@@ -111,7 +111,7 @@ export function ProjectCard({ project, labels }: ProjectCardProps) {
       )}
 
       {project.photo === undefined ? null : (
-        <figure className="relative overflow-clip rounded-lg">
+        <figure className="relative">
           <ResponsiveImage
             picture={project.photo.picture}
             alt={project.photo.alt}
@@ -119,10 +119,11 @@ export function ProjectCard({ project, labels }: ProjectCardProps) {
             sizes="(min-width: 72rem) 67rem, 94vw"
             loading="lazy"
             // On a narrow frame, centred on William and the trophy rather than the group.
-            className="block aspect-4/5 w-full object-cover object-[35%_20%] sm:aspect-3/2 sm:object-[50%_20%] @4xl:aspect-video"
+            className="block aspect-4/5 w-full rounded-lg object-cover object-[35%_20%] sm:aspect-3/2 sm:object-[50%_20%] @4xl:aspect-video"
           />
           {/* In a notch cut into the photo, on the page's own background: its contrast never
-              depends on the picture. */}
+              depends on the picture. The photo is rounded, not the figure: a figure that
+              clipped its overflow cut the caption's first letters in its corner. */}
           <figcaption className="absolute start-0 bottom-0 flex flex-col gap-1 rounded-se-lg bg-canvas pe-6 pt-4 sm:pe-10 sm:pt-5">
             <span className="text-small font-semibold tracking-[0.2em] text-accent-fg uppercase">
               {project.photo.place}

@@ -73,6 +73,25 @@ describe('ProjectCard', () => {
     await expect.element(photo.getByText(PROJECTS[0].photo.caption)).toBeVisible();
   });
 
+  it('clips nothing around the caption cut into the photo, whose letters stay whole', async () => {
+    const screen = await renderSection();
+
+    const photo = screen
+      .getByRole('article', { name: 'STAXX' })
+      .getByRole('figure', { name: /^Epitech Summit/ });
+    const caption = photo.getByText(PROJECTS[0].photo.caption).element();
+    const image = photo.getByRole('img', { name: PROJECTS[0].photo.alt }).element();
+    const clippingFrames: Element[] = [];
+    for (let frame = caption.parentElement; frame !== null && frame !== screen.container;) {
+      if (getComputedStyle(frame).overflow !== 'visible') {
+        clippingFrames.push(frame);
+      }
+      frame = frame.parentElement;
+    }
+    expect(clippingFrames).toEqual([]);
+    expect(getComputedStyle(image).borderRadius).not.toBe('0px');
+  });
+
   it('shows the win as the photo itself: no room, no spotlights, no veil', async () => {
     const screen = await renderSection();
 
