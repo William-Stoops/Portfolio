@@ -20,7 +20,7 @@ describe('FLIGHT_ARC', () => {
 
   it('places the end labels under the two ends of the arc', () => {
     expect(FLIGHT_ARC.startLeft).toBe('8%');
-    expect(FLIGHT_ARC.endLeft).toBe('92%');
+    expect(FLIGHT_ARC.endRight).toBe('8%');
     expect(FLIGHT_ARC.labelTop).toBe('calc(86.667% + 1rem)');
   });
 });

@@ -36,8 +36,9 @@ export const FLIGHT_ARC = {
   // The plane (2.5rem) centred on the arc, one radius above the pivot.
   planeTop: `calc(-${toContainerUnits(RADIUS)} - 1.25rem)`,
   halfAngle: `${HALF_ANGLE.toFixed(1)}deg`,
+  // Where the place names hang: from the start's left, from the end's right.
   startLeft: toWidthPercent(START_X),
-  endLeft: toWidthPercent(END_X),
+  endRight: toWidthPercent(VIEW_WIDTH - END_X),
   // Under the ends of the arc, a little below them.
   labelTop: `calc(${((BASE_Y * 100) / VIEW_HEIGHT).toFixed(3)}% + 1rem)`,
 } as const;

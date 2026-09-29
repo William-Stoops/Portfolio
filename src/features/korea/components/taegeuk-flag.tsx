@@ -2,11 +2,13 @@ import { TAEGEUK_ROTATION, TRIGRAMS } from '@/features/korea/utils/taegeuk-geome
 
 // The flag of South Korea, to its official construction (taegeuk-geometry.ts), assembled
 // as it arrives: the field unfurls from the hoist, the taegeuk turns once and settles in
-// its exact orientation, the four trigrams come in from their corners. Each piece is its
-// own element, so all of it runs on the compositor. Decoration: the section says Korea.
+// its exact orientation, the four trigrams come in from their corners, clipped to the
+// flag: waiting beyond it, on a tablet where the flag spans the column, they pushed the
+// page past the screen's edge. Each piece is its own element, so all of it runs on the
+// compositor. Decoration: the section says Korea.
 export function TaegeukFlag() {
   return (
-    <div data-flag aria-hidden="true" className="relative aspect-[3/2]">
+    <div data-flag aria-hidden="true" className="relative aspect-[3/2] overflow-clip rounded-md">
       {/* The destination, outlined while the plane is on its way; the field covers it. */}
       <div className="absolute inset-0 rounded-md border border-dashed border-border-input" />
       <div className="absolute inset-0 voyage-unfurl rounded-md border border-border bg-flag-field" />

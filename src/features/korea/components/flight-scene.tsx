@@ -152,7 +152,12 @@ export function FlightScene({
                 )}
               </p>
             </div>
-            <FlightGlobe ref={globeRef} route={route} className={parts.globe} />
+            <FlightGlobe
+              ref={globeRef}
+              route={route}
+              direction={direction}
+              className={parts.globe}
+            />
           </div>
         </div>
       </div>

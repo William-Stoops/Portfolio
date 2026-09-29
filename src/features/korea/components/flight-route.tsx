@@ -7,15 +7,26 @@ import { SCENE_LAYOUTS } from '@/features/korea/utils/voyage-layout';
 
 type FlightRouteProps = { route: KoreaRoute; direction: FlightDirection };
 
-type PlaceLabelProps = { place: KoreaRoute['origin']; left: string; isDestination: boolean };
+type PlaceLabelProps = {
+  place: KoreaRoute['origin'];
+  // The end of the arc the name hangs under: it grows from there toward the middle.
+  end: 'start' | 'end';
+  isDestination: boolean;
+};
 
-// On a large screen the flag stands at the destination: its label gives way to it.
-function PlaceLabel({ place, left, isDestination }: PlaceLabelProps) {
+// Under each end of the arc, a little past its point, and growing inward: a long name
+// ("Corée du Sud") never leaves the scene, even on the narrowest phone. On a large screen
+// the flag stands at the destination: its label gives way to it.
+function PlaceLabel({ place, end, isDestination }: PlaceLabelProps) {
   return (
     <span
       data-place
-      style={{ left, top: FLIGHT_ARC.labelTop }}
-      className={`absolute flex -translate-x-1/2 items-baseline gap-2 whitespace-nowrap ${isDestination ? 'lg:hidden' : ''}`}
+      style={
+        end === 'start'
+          ? { left: FLIGHT_ARC.startLeft, top: FLIGHT_ARC.labelTop }
+          : { right: FLIGHT_ARC.endRight, top: FLIGHT_ARC.labelTop }
+      }
+      className={`absolute flex items-baseline gap-2 whitespace-nowrap ${end === 'start' ? '-ms-3' : '-me-3'} ${isDestination ? 'lg:hidden' : ''}`}
     >
       {place.korean === undefined ? null : (
         <span lang="ko" className="font-display text-h3 font-semibold text-accent-fg">
@@ -45,7 +56,9 @@ export function FlightRoute({ route, direction }: FlightRouteProps) {
       data-flight-route
       data-direction={direction}
       aria-hidden="true"
-      className="@container pb-12 select-none lg:pb-0"
+      // Clipped across only: the contrail, fading anyway, never pushes the page past the
+      // screen's edge near the ends of the arc; the plane keeps its height.
+      className="@container overflow-x-clip pb-12 select-none lg:pb-0"
     >
       <div className="relative aspect-[10/3] flight-timeline">
         <svg viewBox={FLIGHT_ARC.viewBox} className="absolute inset-0 size-full overflow-visible">
@@ -103,8 +116,8 @@ export function FlightRoute({ route, direction }: FlightRouteProps) {
             />
           </div>
         </div>
-        <PlaceLabel place={left} left={FLIGHT_ARC.startLeft} isDestination={!isEast} />
-        <PlaceLabel place={right} left={FLIGHT_ARC.endLeft} isDestination={isEast} />
+        <PlaceLabel place={left} end="start" isDestination={!isEast} />
+        <PlaceLabel place={right} end="end" isDestination={isEast} />
       </div>
     </div>
   );
