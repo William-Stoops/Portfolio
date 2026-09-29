@@ -1,5 +1,6 @@
 import { expect, type Page, test } from '@playwright/test';
 
+import { waitForHydration } from './support/hydration.ts';
 import { openSiteMenu } from './support/interactions.ts';
 
 // Collects console errors and uncaught exceptions. When a not-found document is expected,
@@ -166,5 +167,25 @@ test.describe('hydration', () => {
 
     await expect(page.locator('title')).toHaveCount(1);
     await expect(page).toHaveTitle('William Stoops – Software Engineer & AI Engineer');
+  });
+
+  test('rewrites nothing on the prerendered root as it hydrates, which restyles the page', async ({
+    page,
+  }) => {
+    // An attribute set on <html>, even to its own value, recomputed the style of the whole
+    // page in one long task. Watched from the document: the root does not exist yet.
+    await page.addInitScript(() => {
+      new MutationObserver((records) => {
+        for (const record of records.filter(({ target }) => target === document.documentElement)) {
+          const changes = sessionStorage.getItem('root-changes') ?? '';
+          sessionStorage.setItem('root-changes', `${changes} ${record.attributeName ?? ''}`);
+        }
+      }).observe(document, { attributes: true, subtree: true });
+    });
+
+    await page.goto('/fr');
+    await waitForHydration(page);
+
+    expect(await page.evaluate(() => sessionStorage.getItem('root-changes'))).toBeNull();
   });
 });

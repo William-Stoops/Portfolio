@@ -26,7 +26,10 @@ const PAGE_LOCALE = localeFromPathname(window.location.pathname) ?? DEFAULT_LOCA
 async function boot(root: HTMLElement): Promise<void> {
   const content = await loadSiteContent(PAGE_LOCALE);
   // Prerendered pages already carry it; the dev server serves one template for every locale.
-  document.documentElement.lang = PAGE_LOCALE;
+  // Set only where it differs: rewritten, even to its own value, it restyled the whole page.
+  if (document.documentElement.lang !== PAGE_LOCALE) {
+    document.documentElement.lang = PAGE_LOCALE;
+  }
 
   const app = (
     <StrictMode>
