@@ -95,15 +95,36 @@ test.describe('keyboard navigation', () => {
           visibleBottom > visibleTop
             ? document.elementFromPoint(box.left + box.width / 2, (visibleTop + visibleBottom) / 2)
             : null;
+        // The outline is drawn outside the control: a frame around it that clips its
+        // overflow must leave room for the whole ring, or the ring is cut away.
+        const ring = Number.parseFloat(style.outlineWidth) + Number.parseFloat(style.outlineOffset);
+        let clippingFrame: Element | null = null;
+        for (
+          let frame = element.parentElement;
+          frame !== null && frame !== document.documentElement && clippingFrame === null;
+          frame = frame.parentElement
+        ) {
+          const frameStyle = getComputedStyle(frame);
+          const frameBox = frame.getBoundingClientRect();
+          const cutsAcross =
+            frameStyle.overflowX !== 'visible' &&
+            (box.left - ring < frameBox.left - 0.5 || box.right + ring > frameBox.right + 0.5);
+          const cutsDown =
+            frameStyle.overflowY !== 'visible' &&
+            (box.top - ring < frameBox.top - 0.5 || box.bottom + ring > frameBox.bottom + 0.5);
+          clippingFrame = cutsAcross || cutsDown ? frame : null;
+        }
         return {
           name: element.textContent,
           hasOutline: style.outlineStyle === 'solid' && Number.parseFloat(style.outlineWidth) >= 2,
+          isUnclipped: clippingFrame === null,
           isUnobscured: topElement !== null && element.contains(topElement),
         };
       });
 
       expect(focusState, `nothing focused at step ${String(step)}`).not.toBeNull();
       expect.soft(focusState?.hasOutline, `no outline on ${focusState?.name ?? ''}`).toBe(true);
+      expect.soft(focusState?.isUnclipped, `outline cut: ${focusState?.name ?? ''}`).toBe(true);
       expect.soft(focusState?.isUnobscured, `obscured: ${focusState?.name ?? ''}`).toBe(true);
     }
   });

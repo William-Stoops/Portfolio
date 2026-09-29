@@ -22,6 +22,18 @@ const POSTER = {
   sizes: '100vw',
 } as const;
 
+// The frames around an element, up to the rendered tree, that clip what overflows them.
+function clippingFramesOf(element: Element, root: Element): Element[] {
+  const frames: Element[] = [];
+  for (let frame = element.parentElement; frame !== null && frame !== root;) {
+    if (getComputedStyle(frame).overflow !== 'visible') {
+      frames.push(frame);
+    }
+    frame = frame.parentElement;
+  }
+  return frames;
+}
+
 describe('YouTubeFacade', () => {
   it('loads nothing from YouTube until the visitor asks for the video', async () => {
     const screen = await render(<YouTubeFacade video={VIDEO} poster={POSTER} />);
@@ -87,6 +99,18 @@ describe('YouTubeFacade', () => {
     );
 
     await expect.element(screen.getByText('Lire la vidéo', { exact: true })).toBeVisible();
+  });
+
+  it('clips nothing around the play button: its focus ring and the title stay whole', async () => {
+    const screen = await render(
+      <div style={{ width: '50rem' }}>
+        <YouTubeFacade video={VIDEO} poster={POSTER} />
+      </div>,
+    );
+    const button = screen.getByRole('button').element();
+
+    expect(clippingFramesOf(button, screen.container)).toEqual([]);
+    expect(getComputedStyle(button).borderRadius).not.toBe('0px');
   });
 
   it('keeps a small frame to its picture and its play button, still named', async () => {

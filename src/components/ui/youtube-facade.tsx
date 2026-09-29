@@ -34,12 +34,14 @@ export function YouTubeFacade({ video, poster }: YouTubeFacadeProps) {
   const { isPlaying, play, playerRef } = useInlinePlayer();
   const messages = useLocalized(FACADE_MESSAGES);
 
+  // The pictures are rounded, not the frame: a frame that clipped its overflow cut away the
+  // button's focus ring and the first letters of the title in its corner.
   return (
-    <div className="@container relative isolate aspect-video w-full overflow-clip rounded-lg bg-surface-raised">
+    <div className="@container relative isolate aspect-video w-full rounded-lg bg-surface-raised">
       {isPlaying ? (
         <>
           {/* The file the button showed, there at once while the player loads over it. */}
-          <span aria-hidden="true" className="absolute inset-0 -z-10">
+          <span aria-hidden="true" className="absolute inset-0 -z-10 overflow-clip rounded-lg">
             <ResponsiveImage
               picture={poster.picture}
               alt=""
@@ -56,12 +58,16 @@ export function YouTubeFacade({ video, poster }: YouTubeFacadeProps) {
             // Only what the player needs: its scripts on its own origin, fullscreen, and the
             // "watch on YouTube" link it opens in a new tab.
             sandbox="allow-scripts allow-same-origin allow-presentation allow-popups"
-            className="absolute inset-0 size-full"
+            className="absolute inset-0 size-full rounded-lg"
           />
         </>
       ) : (
-        <button type="button" onClick={play} className="group absolute inset-0 block text-start">
-          <span aria-hidden="true" className="absolute inset-0 -z-10">
+        <button
+          type="button"
+          onClick={play}
+          className="group absolute inset-0 block rounded-lg text-start"
+        >
+          <span aria-hidden="true" className="absolute inset-0 -z-10 overflow-clip rounded-lg">
             <ResponsiveImage
               picture={poster.picture}
               alt=""
