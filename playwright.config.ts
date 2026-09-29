@@ -11,6 +11,8 @@ export default defineConfig({
   reporter: IS_CI ? [['github'], ['html', { open: 'never' }]] : 'list',
   use: {
     baseURL: `http://localhost:${String(PORT)}`,
+    // The site's main audience; English journeys opt in with test.use({ locale: 'en-US' }).
+    locale: 'fr-FR',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',

@@ -1,80 +1,150 @@
-import { Menu as MenuIcon, X } from 'lucide-react';
+import { ArrowDown, Menu as MenuIcon, X } from 'lucide-react';
 import { Link } from 'react-router';
 
+import { CommandPaletteTrigger } from '@/components/layout/command-palette-trigger';
+import { LanguageSwitch } from '@/components/layout/language-switch';
 import { ThemeToggle } from '@/components/layout/theme-toggle';
 import { NAV_ITEMS } from '@/config/navigation';
-import { PATHS } from '@/config/paths';
-import { SITE_OWNER } from '@/config/site';
-import { useMobileMenu } from '@/hooks/use-mobile-menu';
+import { PAGE_PATHS } from '@/config/paths';
+import { CV_FILE, SITE_OWNER } from '@/config/site';
+import { useMenuDialog } from '@/hooks/use-menu-dialog';
+import { useLocale, useLocalized } from '@/i18n/locale-context';
+import { type Localized } from '@/i18n/locales';
 import { cn } from '@/lib/cn';
 
-const MENU_ID = 'menu-principal';
+type HeaderMessages = {
+  menu: string;
+  closeMenu: string;
+  navigation: string;
+  downloadCv: string;
+};
 
-// Below 64rem the navigation and theme choice sit in a disclosure opened by "Menu"; from
-// 64rem (where five links, the name and the theme choice fit on one row) they are shown
-// inline and the button is gone. DOM order = visual order.
-export function SiteHeader() {
-  const { isOpen, toggle, close, buttonRef } = useMobileMenu();
+const HEADER_MESSAGES: Localized<HeaderMessages> = {
+  fr: {
+    menu: 'Menu',
+    closeMenu: 'Fermer le menu',
+    navigation: 'Navigation principale',
+    downloadCv: `Télécharger le CV (${CV_FILE.details.fr})`,
+  },
+  en: {
+    menu: 'Menu',
+    closeMenu: 'Close the menu',
+    navigation: 'Main navigation',
+    downloadCv: `Download my CV (${CV_FILE.details.en})`,
+  },
+};
+
+type SiteHeaderProps = {
+  // On the home page the bar lies over the hero's living field (ADR 0037); elsewhere it
+  // opens the page on its own background.
+  tone: 'page' | 'hero';
+};
+
+const TONE_CLASS_NAMES: Readonly<Record<SiteHeaderProps['tone'], string>> = {
+  page: 'bg-canvas',
+  hero: 'absolute inset-x-0 top-0 z-(--z-header)',
+};
+
+const BAR_LINK_CLASS_NAME =
+  'inline-flex min-h-11 items-center font-medium text-fg no-underline decoration-1 underline-offset-4 hover:underline';
+
+// White rounds on the field: the CV and the menu, the two things the bar lets you act on.
+const PILL_CLASS_NAME =
+  'inline-flex min-h-11 items-center gap-1.5 rounded-full bg-canvas font-medium text-fg no-underline transition-colors duration-250 hover:bg-accent hover:text-on-accent';
+
+// A quiet bar that scrolls away with the page: the name, the sections on wide screens, the
+// CV and the menu at every width. The menu holds the sections again for small screens, and
+// the quick search, the theme and the other language for all.
+export function SiteHeader({ tone }: SiteHeaderProps) {
+  const locale = useLocale();
+  const messages = useLocalized(HEADER_MESSAGES);
+  const { isOpen, buttonRef, dialogRef, open, close, leave, handleClose } = useMenuDialog();
 
   return (
-    // Sticky, except on short screens (landscape phones, 400 % zoom) where it would eat the
-    // viewport. The rule under it and the reading progress are scroll-driven (motion.css).
-    <header className="sticky top-0 z-(--z-header) bg-canvas short:static">
-      <div
-        aria-hidden="true"
-        className="absolute inset-x-0 bottom-0 h-px scroll-settle bg-border"
-      />
-      <div
-        aria-hidden="true"
-        className="absolute inset-x-0 -bottom-px scroll-progress h-0.5 bg-accent"
-      />
-      <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-x-6 gap-y-2 px-gutter py-4">
+    <header className={cn('px-gutter', TONE_CLASS_NAMES[tone])}>
+      <div className="mx-auto flex h-(--header-height) max-w-6xl items-center gap-8">
         <Link
-          to={PATHS.home}
-          className="inline-flex min-h-11 items-center font-display text-h3 font-semibold text-fg no-underline"
+          to={PAGE_PATHS[locale].home}
+          className="me-auto inline-flex min-h-11 items-center font-semibold tracking-tight text-fg no-underline"
         >
           {SITE_OWNER}
         </Link>
-        <button
-          ref={buttonRef}
-          type="button"
-          aria-expanded={isOpen}
-          aria-controls={MENU_ID}
-          onClick={toggle}
-          className="inline-flex min-h-11 items-center gap-2 rounded-md px-3 font-semibold lg:hidden"
-        >
-          {isOpen ? (
-            <X aria-hidden="true" focusable="false" className="size-5" strokeWidth={1.75} />
-          ) : (
-            <MenuIcon aria-hidden="true" focusable="false" className="size-5" strokeWidth={1.75} />
-          )}
-          Menu
-        </button>
-        <div
-          id={MENU_ID}
-          className={cn(
-            'basis-full flex-col items-start gap-2 pb-2 lg:flex lg:basis-auto lg:flex-row lg:items-center lg:gap-6 lg:pb-0',
-            isOpen ? 'flex' : 'hidden',
-          )}
-        >
-          <nav aria-label="Navigation principale">
-            <ul className="flex flex-col lg:flex-row lg:flex-wrap lg:items-center lg:gap-x-6">
-              {NAV_ITEMS.map(({ label, href }) => (
-                <li key={href}>
-                  <a
-                    href={href}
-                    onClick={close}
-                    className="relative inline-flex min-h-11 items-center font-semibold text-fg no-underline after:absolute after:inset-x-0 after:bottom-2 after:h-0.5 after:origin-left after:scale-x-0 after:bg-accent after:transition-transform after:duration-250 after:ease-out hover:text-accent-fg hover:after:scale-x-100"
-                  >
-                    {label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </nav>
-          <ThemeToggle />
+        <nav aria-label={messages.navigation} className="hidden lg:block">
+          <ul className="flex items-center gap-8">
+            {NAV_ITEMS[locale].map(({ label, href }) => (
+              <li key={href}>
+                <a href={href} className={BAR_LINK_CLASS_NAME}>
+                  {label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+        <div className="flex items-center gap-2">
+          <a
+            href={CV_FILE.href}
+            download
+            aria-label={messages.downloadCv}
+            className={cn(PILL_CLASS_NAME, 'px-4')}
+          >
+            CV
+            <ArrowDown aria-hidden="true" focusable="false" className="size-4" strokeWidth={2} />
+          </a>
+          <button
+            ref={buttonRef}
+            type="button"
+            aria-haspopup="dialog"
+            aria-expanded={isOpen}
+            onClick={open}
+            className={cn(PILL_CLASS_NAME, 'size-11 justify-center')}
+          >
+            <MenuIcon aria-hidden="true" focusable="false" className="size-5" strokeWidth={2} />
+            <span className="sr-only">{messages.menu}</span>
+          </button>
         </div>
       </div>
+
+      <dialog
+        ref={dialogRef}
+        aria-label={messages.menu}
+        onClose={handleClose}
+        closedby="any"
+        className="m-3 ms-auto w-[min(24rem,calc(100%-1.5rem))] menu-panel rounded-lg bg-canvas p-6 text-fg shadow-card backdrop:bg-canvas/60"
+      >
+        <div className="flex items-center justify-between gap-4">
+          <p aria-hidden="true" className="text-small text-fg-muted">
+            {messages.menu}
+          </p>
+          <button
+            type="button"
+            onClick={close}
+            className="inline-grid size-11 place-items-center rounded-full text-fg transition-colors duration-250 hover:bg-surface-raised"
+          >
+            <X aria-hidden="true" focusable="false" className="size-5" strokeWidth={2} />
+            <span className="sr-only">{messages.closeMenu}</span>
+          </button>
+        </div>
+        <nav aria-label={messages.navigation} className="mt-2">
+          <ul className="flex flex-col">
+            {NAV_ITEMS[locale].map(({ label, href }) => (
+              <li key={href}>
+                <a
+                  href={href}
+                  onClick={leave}
+                  className="inline-flex min-h-12 items-center text-h3 font-medium text-fg no-underline hover:text-accent-fg"
+                >
+                  {label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+        <div className="mt-6 flex flex-wrap items-center gap-2 border-t border-border pt-5">
+          <CommandPaletteTrigger onOpen={leave} returnFocusTo={buttonRef} />
+          <ThemeToggle />
+          <LanguageSwitch />
+        </div>
+      </dialog>
     </header>
   );
 }

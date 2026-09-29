@@ -40,3 +40,15 @@ describe('splitIntoLetters', () => {
     ).toEqual(['É', 't', 'é']);
   });
 });
+
+describe('the words splitIntoLetters finds', () => {
+  it('numbers the words, skipping repeated spaces and keeping non-breaking ones inside', () => {
+    expect(
+      splitIntoLetters('Je  la 10\u00A0h').map(({ text, index }) => ({ text, index })),
+    ).toEqual([
+      { text: 'Je', index: 0 },
+      { text: 'la', index: 1 },
+      { text: '10\u00A0h', index: 2 },
+    ]);
+  });
+});

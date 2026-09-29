@@ -2,8 +2,9 @@ import { expect, test } from '@playwright/test';
 
 test.describe('hero', () => {
   test('states the real weight of the downloadable CV', async ({ page, request }) => {
-    await page.goto('/');
-    const link = page.getByRole('link', { name: /^Télécharger le CV/ });
+    await page.goto('/fr');
+    // The bar's link (the hero and the footer offer the same file).
+    const link = page.getByRole('link', { name: /^Télécharger le CV/ }).first();
     const href = await link.getAttribute('href');
     expect(href).not.toBeNull();
 
@@ -15,34 +16,53 @@ test.describe('hero', () => {
     await expect(link).toHaveAccessibleName(`Télécharger le CV (PDF, ${String(kilobytes)} Ko)`);
   });
 
-  test('serves every portrait file the page declares, with the right type', async ({
+  test('packs the technology strip to the start while it wraps, and spreads it on one line', async ({
     page,
-    request,
   }) => {
-    await page.goto('/');
-    const declaredFiles = await page.locator('picture').evaluate((picture) =>
-      [...picture.querySelectorAll('source, img')].flatMap((element) =>
-        (element.getAttribute('srcset') ?? '')
-          .split(',')
-          .map((candidate) => candidate.trim().split(' ')[0] ?? '')
-          .filter((url) => url !== ''),
-      ),
-    );
+    await page.goto('/fr');
+    const strip = page.getByRole('list', { name: 'Technologies', exact: true });
 
-    expect(declaredFiles.length).toBeGreaterThan(0);
-    for (const url of new Set(declaredFiles)) {
-      const response = await request.get(url);
-      const extension = url.split('.').at(-1);
-      const expectedType = extension === 'jpg' ? 'image/jpeg' : `image/${extension ?? ''}`;
+    // Where each line starts, the gaps between its words, and the room left at its end.
+    const linesAt = async (width: number) => {
+      await page.setViewportSize({ width, height: 900 });
+      return strip.evaluate((list) => {
+        const style = getComputedStyle(list);
+        const box = list.getBoundingClientRect();
+        const start = box.left + Number.parseFloat(style.paddingLeft);
+        const end = box.right - Number.parseFloat(style.paddingRight);
+        const lines = new Map<number, DOMRect[]>();
+        for (const item of list.children) {
+          const rect = item.getBoundingClientRect();
+          lines.set(rect.top, [...(lines.get(rect.top) ?? []), rect]);
+        }
+        return [...lines.values()].map((words) => ({
+          indent: (words[0]?.left ?? start) - start,
+          gaps: words.slice(1).map((word, index) => word.left - (words[index]?.right ?? 0)),
+          room: end - (words.at(-1)?.right ?? end),
+          columnGap: Number.parseFloat(style.columnGap),
+        }));
+      });
+    };
 
-      expect.soft(response.status(), url).toBe(200);
-      expect.soft(response.headers()['content-type'], url).toBe(expectedType);
+    for (const width of [375, 768]) {
+      const lines = await linesAt(width);
+      expect(lines.length, `${String(width)} px`).toBeGreaterThan(1);
+      for (const { indent, gaps, columnGap } of lines) {
+        expect(Math.abs(indent)).toBeLessThanOrEqual(1);
+        expect(gaps.every((gap) => Math.abs(gap - columnGap) <= 1)).toBe(true);
+      }
     }
+    const [line, ...others] = await linesAt(1440);
+    expect(others).toHaveLength(0);
+    expect(Math.abs(line?.indent ?? Number.NaN)).toBeLessThanOrEqual(1);
+    expect(Math.abs(line?.room ?? Number.NaN)).toBeLessThanOrEqual(1);
   });
 
-  test('displays the portrait fully loaded', async ({ page }) => {
-    await page.goto('/');
-    const portrait = page.getByRole('img', { name: 'William Stoops, souriant, sur scène' });
+  test('displays the photo fully loaded', async ({ page }) => {
+    await page.goto('/fr');
+    const portrait = page.getByRole('img', {
+      name: 'Portrait de William Stoops, en veste sombre, dans la lumière du soleil',
+    });
 
     await expect(portrait).toBeVisible();
     await expect

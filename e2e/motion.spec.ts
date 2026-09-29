@@ -1,13 +1,11 @@
 import { expect, test } from '@playwright/test';
 
-import { isMobileLayout } from './support/interactions.ts';
-
 test.describe('motion', () => {
   test('keeps the whole home page still when the visitor asks for reduced motion', async ({
     page,
   }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' });
-    await page.goto('/');
+    await page.goto('/fr');
 
     // Scroll through every section: scroll-driven animations would start on the way.
     await page.keyboard.press('End');
@@ -22,35 +20,29 @@ test.describe('motion', () => {
         ),
       )
       .toBe(0);
-    await expect(page.getByRole('button', { name: 'Mettre en pause le défilement' })).toBeHidden();
   });
 
-  test('scrolls the technology band until the visitor pauses it (WCAG 2.2.2)', async ({ page }) => {
-    await page.emulateMedia({ reducedMotion: 'no-preference' });
-    await page.goto('/');
-    const band = page.getByRole('list', { name: 'Technologies', exact: true }).locator('..');
-    const playStates = () =>
-      band.evaluate((track) => track.getAnimations().map((animation) => animation.playState));
+  test('applies every style change at once when the visitor asks for reduced motion', async ({
+    page,
+  }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    // Any page will do, the reset being global: this one stays where it is, never redirected.
+    await page.goto('/404');
 
-    await expect.poll(playStates).toEqual(['running']);
-    // Away from the band: hovering it pauses it too.
-    await page.mouse.move(0, 0);
-    await page.getByRole('button', { name: 'Mettre en pause le défilement' }).click();
+    // Any style may change after load (a section rendered late, the theme): none may fade,
+    // not even for a hundredth of a millisecond, or a text would start from black.
+    const transitions = await page.evaluate(() => {
+      document.body.style.color = 'rgb(1, 2, 3)';
+      return document.getAnimations().filter((animation) => animation instanceof CSSTransition)
+        .length;
+    });
 
-    await expect.poll(playStates).toEqual(['paused']);
-    await page.getByRole('button', { name: 'Reprendre le défilement' }).click();
-    await expect.poll(playStates).toEqual(['running']);
-  });
-
-  test('keeps the header in view while the page scrolls', async ({ page }) => {
-    await page.goto('/#contact');
-
-    await expect(page.getByRole('banner')).toBeInViewport();
+    expect(transitions).toBe(0);
   });
 
   test('animates only what the compositor can run off the main thread', async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'no-preference' });
-    await page.goto('/');
+    await page.goto('/fr');
     await page.keyboard.press('End');
 
     // Anything else (colour, clip-path, stroke…) is recomputed on the main thread at every
@@ -80,29 +72,9 @@ test.describe('motion', () => {
     expect(animatedProperties.length).toBeGreaterThan(0);
   });
 
-  test('adds the cursor ring for a precise pointer only', async ({ page }) => {
-    const chunkRequests: string[] = [];
-    page.on('request', (request) => {
-      if (/desktop-enhancements-[\w-]+\.js$/.test(request.url())) {
-        chunkRequests.push(request.url());
-      }
-    });
-
-    await page.goto('/');
-    await page.mouse.move(400, 300);
-
-    if (isMobileLayout(page)) {
-      await page.waitForTimeout(2000);
-      expect(chunkRequests).toEqual([]);
-      await expect(page.locator('[data-cursor-follower]')).toHaveCount(0);
-    } else {
-      await expect(page.locator('[data-cursor-follower]')).toHaveAttribute('aria-hidden', 'true');
-    }
-  });
-
   test('keeps the large texts of the hero visible from the first paint (LCP)', async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'no-preference' });
-    await page.goto('/');
+    await page.goto('/fr');
 
     // A large text fading in from opacity 0 is not counted as painted until a later repaint
     // (after hydration): it pushed the Largest Contentful Paint past its budget.

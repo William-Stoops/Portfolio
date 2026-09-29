@@ -1,8 +1,8 @@
-import { afterEach, describe, expect, it, vi } from 'vitest';
-import { userEvent } from 'vitest/browser';
+import { describe, expect, it } from 'vitest';
 import { render } from 'vitest-browser-react';
 
 import { YouTubeFacade } from '@/components/ui/youtube-facade';
+import { LocaleContext } from '@/i18n/locale-context';
 import { expectNoAxeViolations } from '@/testing/expect-no-axe-violations';
 
 const VIDEO = {
@@ -11,13 +11,32 @@ const VIDEO = {
   title: 'Pitch de STAXX au concours Epitech Summit',
 };
 
-describe('YouTubeFacade', () => {
-  afterEach(() => {
-    vi.restoreAllMocks();
-  });
+const POSTER = {
+  picture: {
+    basePath: '/images/staxx-pitch-v1',
+    widths: [640],
+    formats: ['jpg'],
+    width: 1920,
+    height: 1080,
+  },
+  sizes: '100vw',
+} as const;
 
+// The frames around an element, up to the rendered tree, that clip what overflows them.
+function clippingFramesOf(element: Element, root: Element): Element[] {
+  const frames: Element[] = [];
+  for (let frame = element.parentElement; frame !== null && frame !== root;) {
+    if (getComputedStyle(frame).overflow !== 'visible') {
+      frames.push(frame);
+    }
+    frame = frame.parentElement;
+  }
+  return frames;
+}
+
+describe('YouTubeFacade', () => {
   it('loads nothing from YouTube until the visitor asks for the video', async () => {
-    const screen = await render(<YouTubeFacade video={VIDEO} />);
+    const screen = await render(<YouTubeFacade video={VIDEO} poster={POSTER} />);
 
     expect(screen.container.querySelector('iframe')).toBeNull();
     await expect
@@ -25,113 +44,102 @@ describe('YouTubeFacade', () => {
       .toBeVisible();
   });
 
-  it('opens the privacy-enhanced player at the start time, in a dialog covering the viewport', async () => {
-    const screen = await render(<YouTubeFacade video={VIDEO} />);
+  it('draws the poster behind the play button, as decoration', async () => {
+    const screen = await render(<YouTubeFacade video={VIDEO} poster={POSTER} />);
 
-    await screen.getByRole('button', { name: `Lire la vidéo : ${VIDEO.title}` }).click();
+    const button = screen.getByRole('button', { name: `Lire la vidéo : ${VIDEO.title}` });
+    const poster = button.element().querySelector('img');
+    expect(poster?.getAttribute('src')).toBe('/images/staxx-pitch-v1-640.jpg');
+    expect(poster?.getAttribute('alt')).toBe('');
+    expect(poster?.getAttribute('loading')).toBe('lazy');
+  });
 
-    const dialog = screen.getByRole('dialog', { name: VIDEO.title });
-    await expect.element(dialog).toBeVisible();
-    const { width, height } = dialog.element().getBoundingClientRect();
-    expect({ width, height }).toEqual({ width: window.innerWidth, height: window.innerHeight });
-    const player = dialog.getByTitle(VIDEO.title);
+  it('plays the privacy-enhanced player right where the poster was, at its start time', async () => {
+    const screen = await render(
+      <div style={{ width: '40rem' }}>
+        <YouTubeFacade video={VIDEO} poster={POSTER} />
+      </div>,
+    );
+    const button = screen.getByRole('button', { name: `Lire la vidéo : ${VIDEO.title}` });
+    const posterBox = button.element().getBoundingClientRect();
+
+    await button.click();
+
+    const player = screen.getByTitle(VIDEO.title);
     await expect
       .element(player)
       .toHaveAttribute(
         'src',
         'https://www.youtube-nocookie.com/embed/K_TsQ0Itoek?start=3741&autoplay=1',
       );
-    await expect.element(dialog.getByRole('button', { name: 'Fermer la vidéo' })).toHaveFocus();
-    await expect
-      .element(player)
-      .toHaveAttribute(
-        'sandbox',
-        'allow-scripts allow-same-origin allow-presentation allow-popups',
-      );
+    const playerBox = player.element().getBoundingClientRect();
+    expect([playerBox.left, playerBox.top, playerBox.width, playerBox.height]).toEqual([
+      posterBox.left,
+      posterBox.top,
+      posterBox.width,
+      posterBox.height,
+    ]);
+    expect(screen.container.querySelector('dialog')).toBeNull();
+    expect(screen.getByRole('button').elements()).toHaveLength(0);
   });
 
-  it('stops the video when closed and gives focus back to the play button', async () => {
-    const screen = await render(<YouTubeFacade video={VIDEO} />);
-    const playButton = screen.getByRole('button', { name: `Lire la vidéo : ${VIDEO.title}` });
-    await playButton.click();
+  it('gives the focus to the player, which the play button has left', async () => {
+    const screen = await render(<YouTubeFacade video={VIDEO} poster={POSTER} />);
 
-    await screen.getByRole('button', { name: 'Fermer la vidéo' }).click();
-
-    // The dialog's close event arrives asynchronously: wait for the player to go.
-    await expect.poll(() => screen.getByRole('dialog').elements()).toHaveLength(0);
-    await expect.poll(() => screen.container.querySelector('iframe')).toBeNull();
-    await expect.element(playButton).toHaveFocus();
-  });
-
-  it('closes on Escape', async () => {
-    const screen = await render(<YouTubeFacade video={VIDEO} />);
     await screen.getByRole('button', { name: `Lire la vidéo : ${VIDEO.title}` }).click();
-    await expect.element(screen.getByRole('dialog')).toBeVisible();
 
-    await userEvent.keyboard('{Escape}');
-
-    // The dialog's close event arrives asynchronously: wait for the player to go.
-    await expect.poll(() => screen.getByRole('dialog').elements()).toHaveLength(0);
-    await expect.poll(() => screen.container.querySelector('iframe')).toBeNull();
+    await expect.element(screen.getByTitle(VIDEO.title)).toHaveFocus();
   });
 
-  it('shows an optional backdrop behind the play button, as decoration', async () => {
-    const screen = await render(<YouTubeFacade video={VIDEO} backdrop={<span>STAXX</span>} />);
+  it('cuts the title into the frame when the picture keeps room for it', async () => {
+    const screen = await render(
+      <div style={{ width: '50rem' }}>
+        <YouTubeFacade video={VIDEO} poster={POSTER} />
+      </div>,
+    );
 
-    const button = screen.getByRole('button', { name: `Lire la vidéo : ${VIDEO.title}` });
-    await expect.element(button).toHaveAccessibleName(`Lire la vidéo : ${VIDEO.title}`);
-    expect(screen.getByText('STAXX').element().closest('[aria-hidden="true"]')).not.toBeNull();
+    await expect.element(screen.getByText('Lire la vidéo', { exact: true })).toBeVisible();
   });
 
-  it('always offers the video on YouTube, announced as opening a new tab', async () => {
-    const screen = await render(<YouTubeFacade video={VIDEO} />);
+  it('clips nothing around the play button: its focus ring and the title stay whole', async () => {
+    const screen = await render(
+      <div style={{ width: '50rem' }}>
+        <YouTubeFacade video={VIDEO} poster={POSTER} />
+      </div>,
+    );
+    const button = screen.getByRole('button').element();
 
-    const link = screen.getByRole('link', { name: 'Ouvrir la vidéo sur YouTube (nouvel onglet)' });
+    expect(clippingFramesOf(button, screen.container)).toEqual([]);
+    expect(getComputedStyle(button).borderRadius).not.toBe('0px');
+  });
+
+  it('keeps a small frame to its picture and its play button, still named', async () => {
+    const screen = await render(
+      <div style={{ width: '20rem' }}>
+        <YouTubeFacade video={VIDEO} poster={POSTER} />
+      </div>,
+    );
+
+    await expect.element(screen.getByText('Lire la vidéo', { exact: true })).not.toBeVisible();
     await expect
-      .element(link)
-      .toHaveAttribute('href', 'https://www.youtube.com/watch?v=K_TsQ0Itoek&t=3741s');
-    await expect.element(link).toHaveAttribute('target', '_blank');
+      .element(screen.getByRole('button'))
+      .toHaveAccessibleName(`Lire la vidéo : ${VIDEO.title}`);
   });
 
-  it('goes fullscreen where allowed, and closes when fullscreen ends', async () => {
-    const screen = await render(<YouTubeFacade video={VIDEO} />);
-    await screen.getByRole('button', { name: `Lire la vidéo : ${VIDEO.title}` }).click();
-    await expect.poll(() => document.fullscreenElement).not.toBeNull();
+  it('speaks the language of the page', async () => {
+    const screen = await render(
+      <LocaleContext value="en">
+        <YouTubeFacade video={VIDEO} poster={POSTER} />
+      </LocaleContext>,
+    );
 
-    await document.exitFullscreen();
-
-    await expect.poll(() => screen.getByRole('dialog').elements()).toHaveLength(0);
+    await expect
+      .element(screen.getByRole('button', { name: `Play the video: ${VIDEO.title}` }))
+      .toBeVisible();
   });
 
-  for (const { browser, refuse } of [
-    {
-      browser: 'without the Fullscreen API (iPhone)',
-      refuse: () => vi.spyOn(Document.prototype, 'fullscreenEnabled', 'get').mockReturnValue(false),
-    },
-    {
-      browser: 'that refuses fullscreen',
-      refuse: () =>
-        vi
-          .spyOn(Element.prototype, 'requestFullscreen')
-          .mockRejectedValue(new TypeError('Permissions check failed')),
-    },
-  ]) {
-    it(`still covers the viewport in a browser ${browser}`, async () => {
-      refuse();
-      const screen = await render(<YouTubeFacade video={VIDEO} />);
-
-      await screen.getByRole('button', { name: `Lire la vidéo : ${VIDEO.title}` }).click();
-
-      const dialog = screen.getByRole('dialog', { name: VIDEO.title });
-      await expect.element(dialog.getByTitle(VIDEO.title)).toBeVisible();
-      const { width, height } = dialog.element().getBoundingClientRect();
-      expect({ width, height }).toEqual({ width: window.innerWidth, height: window.innerHeight });
-      expect(document.fullscreenElement).toBeNull();
-    });
-  }
-
-  it('has no axe violations, closed or open', async () => {
-    const screen = await render(<YouTubeFacade video={VIDEO} />);
+  it('has no axe violations, before and while playing', async () => {
+    const screen = await render(<YouTubeFacade video={VIDEO} poster={POSTER} />);
     await expectNoAxeViolations(screen.container);
 
     await screen.getByRole('button', { name: `Lire la vidéo : ${VIDEO.title}` }).click();
