@@ -2,7 +2,8 @@ import { describe, expect, it } from 'vitest';
 import { render } from 'vitest-browser-react';
 
 import { AboutSection } from '@/features/about/components/about-section';
-import { ABOUT_CONTENT } from '@/features/about/data/about-content';
+import { ABOUT_CONTENT as ABOUT_CONTENT_EN } from '@/features/about/data/about-content.en';
+import { ABOUT_CONTENT } from '@/features/about/data/about-content.fr';
 import { expectNoAxeViolations } from '@/testing/expect-no-axe-violations';
 
 async function renderAbout() {
@@ -24,10 +25,17 @@ describe('AboutSection', () => {
     await expect.element(screen.getByText(ABOUT_CONTENT.profile)).toBeVisible();
   });
 
+  it('writes the profile whole, from the first paint', async () => {
+    const screen = await renderAbout();
+
+    const profile = screen.getByText(ABOUT_CONTENT.profile).element();
+    expect(profile.children).toHaveLength(0);
+  });
+
   it('lists the three axes with level-3 headings', async () => {
     const screen = await renderAbout();
 
-    const axes = screen.getByRole('list', { name: 'Axes' });
+    const axes = screen.getByRole('list', { name: 'Domaines d’expertise' });
     expect(
       axes
         .getByRole('heading', { level: 3 })
@@ -36,36 +44,24 @@ describe('AboutSection', () => {
     ).toEqual(ABOUT_CONTENT.axes.map(({ title }) => title));
   });
 
-  it('lists the key figures, spoken in words when symbols would be misread', async () => {
+  it('holds no ledger of key figures: the page proves them where they happened', async () => {
     const screen = await renderAbout();
 
-    const figures = screen.getByRole('list', { name: 'Chiffres clés' });
-    const items = figures.getByRole('listitem').elements();
-    expect(items).toHaveLength(ABOUT_CONTENT.metrics.length);
-    expect(items[0]?.textContent).toMatch(/de 10 heures à 5 minutes/);
-  });
-
-  it('hides the symbolic form of a figure from assistive technologies when a spoken form exists', async () => {
-    const screen = await renderAbout();
-
-    const symbolic = screen.getByText('10 h → 5 min', { exact: true });
-    await expect.element(symbolic).toHaveAttribute('aria-hidden', 'true');
-  });
-
-  it('illustrates every figure with a graphic hidden from assistive technologies', async () => {
-    const screen = await renderAbout();
-
-    for (const item of screen
-      .getByRole('list', { name: 'Chiffres clés' })
-      .getByRole('listitem')
-      .elements()) {
-      expect(item.querySelector('[data-visual][aria-hidden="true"]')).not.toBeNull();
-    }
+    expect(screen.getByRole('list', { name: 'Chiffres clés' }).elements()).toHaveLength(0);
+    expect(screen.container.querySelector('[data-visual]')).toBeNull();
   });
 
   it('has no axe violations', async () => {
     const screen = await renderAbout();
 
     await expectNoAxeViolations(screen.container);
+  });
+
+  it('draws the English section from English content, under its English anchor', async () => {
+    const screen = await render(<AboutSection content={ABOUT_CONTENT_EN} />);
+
+    const region = screen.getByRole('region', { name: 'About' });
+    await expect.element(region).toHaveAttribute('id', 'about');
+    await expect.element(screen.getByRole('list', { name: 'Areas of expertise' })).toBeVisible();
   });
 });

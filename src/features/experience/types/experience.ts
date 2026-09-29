@@ -1,5 +1,8 @@
 import { type Period } from '@/types/period';
 
+// Interface text of the experience cards, in the page's language.
+export type ExperienceLabels = { technologies: string };
+
 export type Experience = {
   id: string;
   role: string;

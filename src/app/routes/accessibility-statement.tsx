@@ -1,16 +1,21 @@
+import { useSiteContent } from '@/app/content/site-content-context';
 import { DocumentPage } from '@/components/layout/document-page';
-import { AccessibilityStatement } from '@/features/legal/components/accessibility-statement';
+import { PageMetadata } from '@/components/layout/page-metadata';
 import { usePageHeading } from '@/hooks/use-page-heading';
 import { formatPageTitle } from '@/utils/format-page-title';
 
 export function AccessibilityStatementRoute() {
   const headingRef = usePageHeading();
+  const { accessibility } = useSiteContent();
 
   return (
     <>
-      <title>{formatPageTitle('Déclaration d’accessibilité')}</title>
-      <DocumentPage title="Déclaration d’accessibilité" headingRef={headingRef}>
-        <AccessibilityStatement />
+      <PageMetadata
+        title={formatPageTitle(accessibility.title)}
+        description={accessibility.description}
+      />
+      <DocumentPage title={accessibility.title} headingRef={headingRef}>
+        {accessibility.statement}
       </DocumentPage>
     </>
   );
