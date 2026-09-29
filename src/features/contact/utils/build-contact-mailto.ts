@@ -4,8 +4,12 @@ import { type ContactFormValues } from '@/features/contact/schemas/contact-form-
 // RFC 6068: line breaks are CRLF, spaces are %20 (encodeURIComponent, never "+").
 const LINE_BREAK = '\r\n';
 
-export function buildContactMailto({ name, email, message }: ContactFormValues): string {
-  const subject = `Contact depuis le portfolio – ${name}`;
+// The subject is written by the page's content, in its language, around the sender's name.
+export function buildContactMailto(
+  { name, email, message }: ContactFormValues,
+  subjectFor: (senderName: string) => string,
+): string {
+  const subject = subjectFor(name);
   const body = [message.replaceAll(/\r?\n/g, LINE_BREAK), '', name, email].join(LINE_BREAK);
   return `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 }

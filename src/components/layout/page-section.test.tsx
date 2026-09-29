@@ -24,28 +24,40 @@ describe('PageSection', () => {
       </PageSection>,
     );
 
-    // The heading's text as read: its visually hidden copy (the rising letters are hidden).
-    const texts = [...screen.container.querySelectorAll('h2 .sr-only, p')].map(
-      (node) => node.textContent,
-    );
-    expect(texts).toEqual(['Exemple', 'Introduction', 'Contenu']);
+    const texts = [...screen.container.querySelectorAll('h2, p')].map((node) => node.textContent);
+    expect(texts.filter((text) => text !== '')).toEqual(['Exemple', 'Introduction', 'Contenu']);
   });
 
   it('numbers a home section, as decoration only', async () => {
     const screen = await render(
-      <PageSection id="parcours" title="Parcours">
+      <PageSection id="ia" title="Intelligence artificielle">
         <p>Contenu</p>
       </PageSection>,
     );
 
-    const number = screen.getByText('02', { exact: true });
+    const number = screen.getByText('01', { exact: true });
     expect(number.element().closest('[aria-hidden="true"]')).not.toBeNull();
     await expect
       .element(screen.getByRole('heading', { level: 2 }))
-      .toHaveAccessibleName('Parcours');
+      .toHaveAccessibleName('Intelligence artificielle');
   });
 
-  it('reads the title as one word group while its letters rise for the eyes only', async () => {
+  it('can keep its title for assistive tech only, opening straight on its content', async () => {
+    const screen = await render(
+      <PageSection id="parcours" title="Parcours" isTitleHidden>
+        <p>Contenu</p>
+      </PageSection>,
+    );
+
+    const region = screen.getByRole('region', { name: 'Parcours' });
+    await expect.element(region).toHaveAttribute('id', 'parcours');
+    await expect
+      .element(region.getByRole('heading', { level: 2, name: 'Parcours' }))
+      .toHaveClass('sr-only');
+    expect(screen.container.querySelector('[aria-hidden="true"]')).toBeNull();
+  });
+
+  it('sets the title whole, from the first paint', async () => {
     const screen = await render(
       <PageSection id="parcours" title="Mon parcours">
         <p>Contenu</p>
@@ -54,7 +66,6 @@ describe('PageSection', () => {
 
     const heading = screen.getByRole('heading', { level: 2 });
     await expect.element(heading).toHaveAccessibleName('Mon parcours');
-    const letters = heading.element().querySelectorAll('[aria-hidden="true"] [style*="--i"]');
-    expect([...letters].map((letter) => letter.textContent).join('')).toBe('Monparcours');
+    expect(heading.element().textContent).toBe('Mon parcours');
   });
 });

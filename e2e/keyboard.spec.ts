@@ -1,31 +1,25 @@
 import { expect, type Page, test } from '@playwright/test';
 
-import { isMobileLayout, openMenuIfCollapsed, pressTab } from './support/interactions.ts';
+import { isMobileLayout, openSiteMenu, pressTab } from './support/interactions.ts';
 
 // Every focusable stop of the home page, in DOM order (= visual order).
-function expectedFocusOrderFor(page: Page): readonly string[] {
-  const header = isMobileLayout(page)
-    ? ['Menu']
-    : [
-        'À propos',
-        'Parcours',
-        'Projets',
-        'IA',
-        'Compétences',
-        'Contact',
-        'Thème du système',
-        'Thème clair',
-        'Thème sombre',
-      ];
+function expectedFocusOrderFor(page: Page): readonly (string | RegExp)[] {
+  const sections = isMobileLayout(page) ? [] : ['Parcours', 'IA', 'Compétences', 'Contact'];
   return [
     'Aller au contenu principal',
     'William Stoops',
-    ...header,
+    ...sections,
+    'Télécharger le CV (PDF, 56 Ko)',
+    'Menu',
     'Me contacter',
     'Télécharger le CV (PDF, 56 Ko)',
-    'Mettre en pause le défilement',
+    /^IT-Finance · calcul de volatilité implicite.*Voir le calcul$/,
+    'Tourner à gauche',
+    'Tourner à droite',
+    'Incliner vers le haut',
+    'Incliner vers le bas',
+    'Lancer les deux calculs',
     'Lire la vidéo : Pitch de STAXX au concours Epitech Summit',
-    'Ouvrir la vidéo sur YouTube (nouvel onglet)',
     'william.stoops@epitech.eu',
     'Copier l’adresse e-mail',
     'LinkedIn (nouvel onglet)',
@@ -35,9 +29,11 @@ function expectedFocusOrderFor(page: Page): readonly string[] {
     'Préparer l’e-mail',
     'william.stoops@epitech.eu',
     'LinkedIn (nouvel onglet)',
-    'Accessibilité',
+    'Télécharger le CV (PDF, 56 Ko)',
+    'Coulisses',
     'Mentions légales',
     'Plan du site',
+    'Retour en haut',
   ];
 }
 
@@ -46,7 +42,7 @@ test.describe('keyboard navigation', () => {
     page,
     browserName,
   }) => {
-    await page.goto('/');
+    await page.goto('/fr');
 
     await pressTab(page, browserName);
     const skipLink = page.getByRole('link', { name: 'Aller au contenu principal' });
@@ -61,7 +57,7 @@ test.describe('keyboard navigation', () => {
     page,
     browserName,
   }) => {
-    await page.goto('/');
+    await page.goto('/fr');
 
     const expectedFocusOrder = expectedFocusOrderFor(page);
     for (const name of expectedFocusOrder) {
@@ -74,7 +70,7 @@ test.describe('keyboard navigation', () => {
     page,
     browserName,
   }) => {
-    await page.goto('/');
+    await page.goto('/fr');
 
     for (let step = 0; step < expectedFocusOrderFor(page).length; step += 1) {
       await pressTab(page, browserName);
@@ -115,7 +111,7 @@ test.describe('keyboard navigation', () => {
 
 test.describe('pages', () => {
   test('serves the not-found page for an unknown URL', async ({ page }) => {
-    await page.goto('/page-inexistante');
+    await page.goto('/fr/page-inexistante');
 
     await expect(page.getByRole('heading', { level: 1, name: 'Page introuvable' })).toBeVisible();
     await expect(page).toHaveTitle('Page introuvable – William Stoops');
@@ -123,8 +119,8 @@ test.describe('pages', () => {
 
   test('remembers the chosen theme across reloads', async ({ page }) => {
     await page.emulateMedia({ colorScheme: 'light' });
-    await page.goto('/');
-    await openMenuIfCollapsed(page);
+    await page.goto('/fr');
+    await openSiteMenu(page);
 
     await page.getByRole('button', { name: 'Thème sombre' }).click();
     // The new theme spreads through a view transition: reload once it is applied.
@@ -133,12 +129,12 @@ test.describe('pages', () => {
       'true',
     );
     await page.reload();
-    await openMenuIfCollapsed(page);
+    await openSiteMenu(page);
 
     await expect(page.getByRole('button', { name: 'Thème sombre' })).toHaveAttribute(
       'aria-pressed',
       'true',
     );
-    await expect(page.locator('html')).toHaveCSS('background-color', 'rgb(27, 31, 42)');
+    await expect(page.locator('html')).toHaveCSS('background-color', 'rgb(20, 21, 23)');
   });
 });

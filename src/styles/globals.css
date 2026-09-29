@@ -1,10 +1,57 @@
 @import 'tailwindcss';
-@import '@fontsource-variable/inter';
-@import '@fontsource-variable/sora';
+@import '@fontsource-variable/inter-tight';
 @import './motion.css';
+
+/*
+ * A local stand-in for Inter Tight while it loads, sized to it: its letters are 3.65 %
+ * narrower than Arial's, its line box as tall. A text wraps the same before and after the
+ * swap, so what follows it does not move: the hero's photo, under its text on a phone,
+ * shifted by 0.053 (CLS) when the fallback was DejaVu Sans, on Linux. Liberation Sans shares
+ * Arial's metrics there. Values measured from the font files (fontTools, at weight 400).
+ */
+@font-face {
+  font-family: 'Inter Tight Fallback';
+  src:
+    local('Arial'), local('ArialMT'), local('Liberation Sans'), local('LiberationSans'),
+    local('Helvetica');
+  size-adjust: 96.35%;
+  ascent-override: 100.55%;
+  descent-override: 25.04%;
+  line-gap-override: 0%;
+}
+
+/*
+ * Its bold, for the heavy weights (the hero's headline, at 650). Without it the browser
+ * thickened Arial's regular letters, keeping their width: 6 % narrower than Inter Tight's
+ * heavy ones, the headline wrapped otherwise and the photo under it moved at the swap.
+ * Inter Tight at 650 is 5.8 % narrower than Arial Bold (fontTools); the overrides keep the
+ * same line box as the regular face.
+ */
+@font-face {
+  font-family: 'Inter Tight Fallback';
+  src:
+    local('Arial Bold'), local('Arial-BoldMT'), local('Liberation Sans Bold'),
+    local('LiberationSans-Bold'), local('Helvetica Bold');
+  font-weight: 600 900;
+  size-adjust: 94.2%;
+  ascent-override: 102.84%;
+  descent-override: 25.61%;
+  line-gap-override: 0%;
+}
 
 /* Short screens (landscape phones, 400 % zoom): see the responsive-design skill. */
 @custom-variant short (@media (max-height: 30rem));
+
+/* Where a scene is pinned while its track scrolls by (motion.css, scene-track): motion
+   allowed, a large and tall enough screen, scroll-driven animations. For the layout a
+   pinned scene takes there. */
+@custom-variant pinned {
+  @media (prefers-reduced-motion: no-preference) and (min-width: 64rem) and (min-height: 40rem) {
+    @supports (animation-timeline: view()) {
+      @slot;
+    }
+  }
+}
 
 /*
  * Closed palette. Tailwind's default colours are removed: a utility such as `bg-red-500`
@@ -19,33 +66,63 @@
  */
 @theme inline {
   --color-*: initial;
-  --color-canvas: light-dark(#fafaf7, #1b1f2a);
-  --color-surface: light-dark(#ffffff, #242938);
-  --color-surface-raised: light-dark(#f1f2f5, #2e3446);
-  --color-fg: light-dark(#1b1f2a, #e6e8ef);
-  --color-fg-muted: light-dark(#5a6278, #a9b0c2);
-  --color-fg-subtle: light-dark(#687083, #8b93a7);
-  --color-accent: light-dark(#b93e0b, #ff7a45);
-  --color-accent-hover: light-dark(#9a3412, #ff9466);
-  --color-accent-fg: light-dark(#b93e0b, #ff8a5b);
-  --color-accent-tint: light-dark(#fcede6, #3d2d2e);
-  --color-on-accent: light-dark(#ffffff, #12151c);
-  --color-focus: light-dark(#9a3412, #ff9466);
-  --color-border: light-dark(#e2e4ea, #3a4052);
-  --color-border-input: light-dark(#767d8f, #7d869c);
-  --color-error: light-dark(#b91c1c, #fca5a5);
-  --color-success: light-dark(#166534, #4ade80);
+  /* Neutral and closed (ADR 0036): white, a light grey and a deep charcoal. Colour comes
+     from the photographs and the charts; one blue marks what the reader can act on. */
+  --color-canvas: light-dark(#ffffff, #141517);
+  --color-surface: light-dark(#f4f4f2, #1c1d20);
+  --color-surface-raised: light-dark(#ebebe8, #26272b);
+  --color-fg: light-dark(#1c1d20, #f0f0ee);
+  --color-fg-muted: light-dark(#5f6268, #a8abb0);
+  --color-fg-subtle: light-dark(#686b71, #8f9298);
+  /* The one accent, a calm blue (ADR 0025). As a fill it carries white text in both themes;
+     as text on the dark canvas it takes a lighter tint (accent-fg). */
+  --color-accent: light-dark(#3d5af1, #4a63fa);
+  --color-accent-hover: light-dark(#2a44d6, #2a44d6);
+  --color-accent-fg: light-dark(#2f4ce0, #8fa3ff);
+  --color-accent-tint: light-dark(#e8ecfe, #23294d);
+  --color-on-accent: light-dark(#ffffff, #ffffff);
+  --color-focus: light-dark(#2a44d6, #8fa3ff);
+  --color-border: light-dark(#e4e4e1, #2c2d31);
+  --color-border-input: light-dark(#7f8288, #75787e);
+  --color-error: light-dark(#b3261e, #ff8a80);
+  --color-success: light-dark(#1d7a3c, #6fd08c);
+  /* The living field of the hero (ADR 0037): decoration only, like viridis in the charts.
+     Light tints in the light theme, deep ones in the dark, the text readable on each. */
+  --color-flow-sky: light-dark(#78d2ff, #0f3d66);
+  --color-flow-blue: light-dark(#8098ff, #1f2d8a);
+  --color-flow-violet: light-dark(#b09cff, #3a2475);
+  --color-flow-peach: light-dark(#ffc7ae, #5a2a3e);
+  /* The hero headline's ink, blended into the field (hard-light): the dark one multiplies
+     it, the light one screens it, so the letters take its hues and still read. */
+  --color-flow-ink: light-dark(#15183a, #dcdaff);
+  /* Flags (ADR 0019, 0021): their official colours, the same in both themes. The white
+     field is shared; South Korea, then France. */
+  --color-flag-field: light-dark(#ffffff, #ffffff);
+  --color-taegeuk-red: light-dark(#cd2e3a, #cd2e3a);
+  --color-taegeuk-blue: light-dark(#0047a0, #0047a0);
+  --color-taegeuk-ink: light-dark(#000000, #000000);
+  --color-tricolore-blue: light-dark(#000091, #000091);
+  --color-tricolore-red: light-dark(#e1000f, #e1000f);
 }
 
 @theme {
   --font-*: initial;
-  --font-display: 'Sora Variable', ui-sans-serif, system-ui, sans-serif;
-  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+  /* One family for everything (ADR 0036): light for the large titles, regular for text. */
+  --font-display:
+    'Inter Tight Variable', 'Inter Tight Fallback', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'Inter Tight Variable', 'Inter Tight Fallback', ui-sans-serif, system-ui, sans-serif;
 
   /* Fluid scale: every clamp() mixes rem and vw so text still grows with browser zoom. */
   --text-*: initial;
-  --text-display: clamp(2.5rem, 1.5rem + 4vw, 4.5rem);
-  --text-display--line-height: 1.05;
+  /* The hero's headline, sized to its text column (cqi) rather than to the screen: its
+     longest unbreakable group ("d’une architecture,") is some eight times its size wide, so
+     at an 8.5th of the column it always fits, and the headline breaks at the same places on
+     a phone and on a desktop. Tracked a little, never tight: Inter Tight is already narrow,
+     and its letters touched at -0.05em. */
+  --text-display: clamp(2rem, 11.8cqi, 4.75rem);
+  --text-display--line-height: 1;
+  --text-display--letter-spacing: -0.025em;
+  --text-display--font-weight: 650;
   --text-h1: clamp(2.25rem, 1.6rem + 2.6vw, 3.5rem);
   --text-h1--line-height: 1.1;
   --text-h2: clamp(1.75rem, 1.25rem + 2vw, 2.75rem);
@@ -69,9 +146,12 @@
   --radius-md: 0.75rem;
   --radius-lg: 1.25rem;
 
-  /* On a dark canvas elevation comes from lighter surfaces; one shadow for overlays only. */
+  /* Two shadows only: overlays, and the cards that float over the page. */
   --shadow-*: initial;
   --shadow-overlay: 0 1.5rem 3rem -1rem rgb(0 0 0 / 0.45);
+  /* Cards that float over the page (ADR 0037): a wide, soft shadow tinted with the blue. */
+  --shadow-card:
+    0 3rem 6rem -1.25rem rgb(50 50 93 / 0.25), 0 1.75rem 3.5rem -1.75rem rgb(0 0 0 / 0.3);
 
   --ease-*: initial;
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
@@ -92,21 +172,32 @@
   }
 }
 
-/* Building-site stripes (STAXX video poster): tinted, never behind body text. */
-@utility hazard-stripes {
-  background-image: repeating-linear-gradient(
-    -45deg,
-    --theme(--color-accent-tint) 0 1.25rem,
-    transparent 1.25rem 2.5rem
-  );
+/*
+ * The living field of the hero (ADR 0037): a band from above the page to the foot of the
+ * hero's content, cut on a slant that rises to the right. Tied to the content rather than
+ * to the screen's height, it runs under the whole text column at any size: its slant never
+ * crosses a line. Its still gradient blends the four tokens the shader blends, so the page
+ * is whole without it.
+ */
+@utility flow-band {
+  top: calc(-1 * (var(--header-height) + 30svh));
+  bottom: 0;
+  transform: skewY(-9deg);
+  transform-origin: 0 100%;
+  background-color: --theme(--color-flow-blue);
+  background-image:
+    radial-gradient(60% 80% at 15% 30%, --theme(--color-flow-sky), transparent 70%),
+    radial-gradient(55% 70% at 85% 35%, --theme(--color-flow-violet), transparent 70%),
+    radial-gradient(60% 70% at 55% 95%, --theme(--color-flow-peach), transparent 70%);
 }
 
 @layer base {
   :root {
     color-scheme: light dark;
+    /* The bar's height: the hero, under the bar lying over it, leaves it this room. */
+    --header-height: 4.5rem;
     /* Stacking order, lowest to highest. No magic numbers in class names. */
     --z-header: 50;
-    --z-cursor: 90;
     --z-skip-link: 100;
   }
 
@@ -124,7 +215,7 @@
     color: --theme(--color-fg);
     font-family: var(--font-sans);
     text-size-adjust: 100%;
-    /* Anchors and focused controls land below the sticky header (WCAG 2.4.11). */
+    /* A section reached by its link lands with room above its title, not against the edge. */
     scroll-padding-top: 6rem;
 
     @variant short {
@@ -179,7 +270,11 @@
     *::after {
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
+      /* None at all, not a short one: transition-property defaults to all, so a 0.01 ms
+         duration made every element transition every property it changed, and WebKit
+         started a section's text, rendered late, from black. */
+      transition-duration: 0s !important;
+      transition-delay: 0s !important;
       scroll-behavior: auto !important;
     }
   }
