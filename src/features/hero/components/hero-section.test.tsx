@@ -182,6 +182,31 @@ describe('HeroSection', () => {
     );
   }
 
+  it.each([
+    [360, 'fr', 'stacked', HERO_CONTENT],
+    [480, 'fr', 'side by side', HERO_CONTENT],
+    [360, 'en', 'stacked', HERO_CONTENT_EN],
+    [480, 'en', 'side by side', HERO_CONTENT_EN],
+  ] as const)(
+    'sets the two actions by the column’s width, not the font’s: at %i px (%s), %s',
+    async (width, _locale, layout, content) => {
+      await page.viewport(width, 900);
+      const screen = await renderHero(content);
+
+      const [contact, cv] = screen
+        .getByRole('link')
+        .elements()
+        .filter((link) => link.closest('p') !== null)
+        .map((link) => link.getBoundingClientRect());
+      const isStacked =
+        contact !== undefined &&
+        cv !== undefined &&
+        cv.top >= contact.bottom &&
+        cv.left === contact.left;
+      expect(isStacked ? 'stacked' : 'side by side').toBe(layout);
+    },
+  );
+
   it('spaces the headline’s letters lightly, so they never touch', async () => {
     const screen = await renderHero();
 

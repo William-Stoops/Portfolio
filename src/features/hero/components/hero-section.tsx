@@ -56,7 +56,9 @@ export function HeroSection({ content, headingRef, contactHref, proofHref }: Her
               {content.headline}
             </h1>
             <p className="mt-6 max-w-xl text-lead">{content.lead}</p>
-            <p className="mt-9 flex flex-wrap items-center gap-x-7 gap-y-4 font-medium">
+            {/* Stacked in a narrow column, side by side from 22rem: set by the column's width,
+                not by a few pixels of a face, the row no longer flipped when the font came. */}
+            <p className="mt-9 flex flex-col items-start gap-4 font-medium @min-[22rem]:flex-row @min-[22rem]:flex-wrap @min-[22rem]:items-center @min-[22rem]:gap-x-7">
               <a
                 href={contactHref}
                 className="group inline-flex min-h-11 items-center gap-1.5 rounded-full bg-fg px-5 text-canvas no-underline transition-colors duration-250 hover:bg-accent hover:text-on-accent"
