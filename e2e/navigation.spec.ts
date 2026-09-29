@@ -4,7 +4,7 @@ import { openMenuIfCollapsed, pressTab } from './support/interactions.ts';
 
 test.describe('main navigation', () => {
   test('brings the about section into view', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/fr');
     await openMenuIfCollapsed(page);
 
     await page
@@ -12,12 +12,12 @@ test.describe('main navigation', () => {
       .getByRole('link', { name: 'À propos' })
       .click();
 
-    await expect(page).toHaveURL(/\/#a-propos$/);
+    await expect(page).toHaveURL(/\/fr#a-propos$/);
     await expect(page.getByRole('heading', { level: 2, name: 'À propos' })).toBeInViewport();
   });
 
   test('brings the experience section into view', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/fr');
     await openMenuIfCollapsed(page);
 
     await page
@@ -25,18 +25,22 @@ test.describe('main navigation', () => {
       .getByRole('link', { name: 'Parcours' })
       .click();
 
-    await expect(page).toHaveURL(/\/#parcours$/);
+    await expect(page).toHaveURL(/\/fr#parcours$/);
     await expect(page.getByRole('heading', { level: 2, name: 'Parcours' })).toBeInViewport();
   });
 
-  for (const { link, heading, hash } of [
-    { link: 'Projets', heading: 'Projets', hash: 'projets' },
-    { link: 'IA', heading: 'IA\u00A0: pratique personnelle et travaux académiques', hash: 'ia' },
-    { link: 'Compétences', heading: 'Compétences et formation', hash: 'competences' },
-    { link: 'Contact', heading: 'Contact', hash: 'contact' },
+  for (const { link, heading, level, hash } of [
+    {
+      link: 'IA',
+      heading: 'Intelligence artificielle',
+      level: 2,
+      hash: 'ia',
+    },
+    { link: 'Compétences', heading: 'Compétences et formation', level: 2, hash: 'competences' },
+    { link: 'Contact', heading: 'Contact', level: 2, hash: 'contact' },
   ]) {
     test(`brings the ${link} section into view`, async ({ page }) => {
-      await page.goto('/');
+      await page.goto('/fr');
       await openMenuIfCollapsed(page);
 
       await page
@@ -44,13 +48,13 @@ test.describe('main navigation', () => {
         .getByRole('link', { name: link, exact: true })
         .click();
 
-      await expect(page).toHaveURL(new RegExp(`/#${hash}$`));
-      await expect(page.getByRole('heading', { level: 2, name: heading })).toBeInViewport();
+      await expect(page).toHaveURL(new RegExp(`/fr#${hash}$`));
+      await expect(page.getByRole('heading', { level, name: heading })).toBeInViewport();
     });
   }
 
   test('reaches the about section from another page', async ({ page }) => {
-    await page.goto('/page-inexistante');
+    await page.goto('/fr/page-inexistante');
     await openMenuIfCollapsed(page);
 
     await page.getByRole('link', { name: 'À propos' }).click();
@@ -62,7 +66,7 @@ test.describe('main navigation', () => {
     page,
     browserName,
   }) => {
-    await page.goto('/');
+    await page.goto('/fr');
     await openMenuIfCollapsed(page);
     const aboutLink = page.getByRole('link', { name: 'À propos' });
     await aboutLink.focus();
@@ -71,33 +75,32 @@ test.describe('main navigation', () => {
     await expect(page.getByRole('heading', { level: 2, name: 'À propos' })).toBeInViewport();
     await pressTab(page, browserName);
 
-    // The sections after it hold no control until the projects' video: that is the next stop.
-    await expect(page.locator(':focus')).toHaveAccessibleName(
-      'Lire la vidéo : Pitch de STAXX au concours Epitech Summit',
-    );
+    // The sections after it hold no control until the lab under the IT-Finance role: its
+    // first button, which turns the surface, is the next stop.
+    await expect(page.locator(':focus')).toHaveAccessibleName('Tourner à gauche');
   });
 });
 
 test.describe('footer navigation', () => {
   test('opens a legal page with its heading focused', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/fr');
 
     await page
       .getByRole('navigation', { name: 'Pied de page' })
       .getByRole('link', { name: 'Mentions légales' })
       .click();
 
-    await expect(page).toHaveURL(/\/mentions-legales$/);
+    await expect(page).toHaveURL(/\/fr\/mentions-legales$/);
     await expect(page).toHaveTitle('Mentions légales – William Stoops');
     await expect(page.getByRole('heading', { level: 1, name: 'Mentions légales' })).toBeFocused();
   });
 
   test('leads from the site map back to a home section', async ({ page }) => {
-    await page.goto('/plan-du-site');
+    await page.goto('/fr/plan-du-site');
 
     await page.getByRole('main').getByRole('link', { name: 'Parcours' }).click();
 
-    await expect(page).toHaveURL(/\/#parcours$/);
+    await expect(page).toHaveURL(/\/fr#parcours$/);
     await expect(page.getByRole('heading', { level: 2, name: 'Parcours' })).toBeInViewport();
   });
 });

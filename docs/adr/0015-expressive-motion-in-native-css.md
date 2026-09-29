@@ -1,6 +1,6 @@
 # 0015 — Un mouvement expressif, en CSS natif
 
-- Statut : Accepté
+- Statut : Remplacé en partie par l’[ADR 0036](0036-premium-direction.md)
 - Date : 2026-09-26
 
 ## Contexte

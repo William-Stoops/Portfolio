@@ -1,6 +1,6 @@
 # 0005 — Viser WCAG 2.2 AA + RGAA 4.1.2 ; palette sombre contrainte par les contrastes
 
-- Statut : Accepté
+- Statut : Accepté ; valeurs de l'accent remplacées par 0025
 - Date : 2026-09-25
 
 ## Contexte

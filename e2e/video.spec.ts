@@ -13,10 +13,30 @@ test.describe('pitch video', () => {
       }
     });
 
-    await page.goto('/#projets');
+    await page.goto('/fr#projets');
     await expect(page.getByRole('button', { name: /^Lire la vidéo/ })).toBeVisible();
 
     expect(youtubeRequests).toEqual([]);
+  });
+
+  test('opens on the frame the pitch starts with, served by the site itself', async ({ page }) => {
+    await page.goto('/fr#projets');
+    const poster = page.getByRole('button', { name: /^Lire la vidéo/ }).locator('img');
+
+    await poster.scrollIntoViewIfNeeded();
+
+    await expect
+      .poll(() =>
+        poster.evaluate(
+          (image) => image instanceof HTMLImageElement && image.complete && image.naturalWidth > 0,
+        ),
+      )
+      .toBe(true);
+    const source = await poster.evaluate((image) =>
+      image instanceof HTMLImageElement ? image.currentSrc : '',
+    );
+    expect(new URL(source).origin).toBe(new URL(page.url()).origin);
+    expect(new URL(source).pathname).toMatch(/^\/images\/staxx-pitch-v1-/);
   });
 
   test('plays the privacy-enhanced player over the whole screen, until Escape', async ({
@@ -24,7 +44,7 @@ test.describe('pitch video', () => {
   }) => {
     // The player's own network traffic is not what this test is about.
     await page.route(/youtube-nocookie\.com/, (route) => route.fulfill({ status: 204 }));
-    await page.goto('/#projets');
+    await page.goto('/fr#projets');
     const playButton = page.getByRole('button', { name: /^Lire la vidéo/ });
 
     await playButton.click();
@@ -56,13 +76,13 @@ test.describe('pitch video', () => {
   test('stays dark in the light theme', async ({ page }) => {
     await page.route(/youtube-nocookie\.com/, (route) => route.fulfill({ status: 204 }));
     await page.emulateMedia({ colorScheme: 'light' });
-    await page.goto('/#projets');
+    await page.goto('/fr#projets');
 
     await page.getByRole('button', { name: /^Lire la vidéo/ }).click();
 
     // The dark canvas token: the production CSS transpiles light-dark(), which must still
     // follow the dialog's own colour scheme.
-    await expect(page.getByRole('dialog')).toHaveCSS('background-color', 'rgb(27, 31, 42)');
-    await expect(page.locator('html')).toHaveCSS('background-color', 'rgb(250, 250, 247)');
+    await expect(page.getByRole('dialog')).toHaveCSS('background-color', 'rgb(20, 21, 23)');
+    await expect(page.locator('html')).toHaveCSS('background-color', 'rgb(255, 255, 255)');
   });
 });
