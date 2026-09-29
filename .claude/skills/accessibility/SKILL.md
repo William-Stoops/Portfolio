@@ -27,14 +27,11 @@ PR ships its axe + keyboard tests (see `tdd-workflow`).
   level for the outline, then style it with tokens — never pick a level for its size.
 - Sections: `<section aria-labelledby="<id-of-h2>">`. Lists of links/tags/skills are `<ul>`.
 - `NavLink` sets `aria-current="page"`; do not re-implement it.
-- Footer on every page: link `Accessibilité` to `/accessibilite` (the declaration). The
-  site is not subject to article 47 of loi 2005-102, so it shows **no conformance status**:
-  under the RGAA, "partiellement" or "totalement conforme" is a result of an audit, and none
-  has been run. **Never claim a status or a rate without an audit grid in `docs/a11y/`**;
-  once there is one, add the status to the link and the declaration together.
-- Declaration (`src/features/legal/components/accessibility-statement.tsx`): lists what was
-  verified and what remains (screen readers, 400 % zoom by hand). Update its list and its
-  date when the checks change.
+- No accessibility statement page: William removed it on 2026-09-29. The site is not
+  subject to article 47 of loi 2005-102, so nothing requires one. Accessibility stays an
+  acceptance criterion, tested (axe in both themes, keyboard order, focus, contrast). **Never
+  claim a conformance status or rate anywhere**: under the RGAA it is the result of an audit,
+  and none has been run.
 
 ## 2. Focus
 
@@ -73,31 +70,32 @@ and VoiceOver — double announcements are likely. Live regions (`role="status"`
   shadcn's default `ring-ring/50` measures 2.5–2.9:1 — a failure.
 - `outline-hidden` (transparent, survives forced colours), never `outline-none`, when a
   custom indicator replaces the outline.
-- The offset is mandatory: focus `#FF9466` touching an `#FF7A45` button is 1.19:1.
+- The offset is mandatory: focus `#93BEFF` touching a `#6EA8FE` button is 1.27:1.
 - `html { scroll-padding-top }` ≥ sticky header height so a focused element is never hidden
   (2.4.11). Header becomes `position: static` under `@media (max-height: 30rem)`.
 
 ## 3. Colour and contrast (1.4.3, 1.4.6, 1.4.11, RGAA 3.x)
 
-Hard constraint, proven by computation: on `#1B1F2A`, **no orange can both be readable
-text (≥ 4.5:1) and carry white text (≥ 4.5:1)**. Therefore, in the dark theme, the
-primary button is light orange with **dark** text. The validated tokens live in
-`design-system`; never introduce a colour outside them.
+Hard constraint, proven by computation: on the dark canvas `#141517`, **no blue can both be
+readable text (≥ 4.5:1) and carry white text (≥ 4.5:1)**. Therefore the accent is two
+tokens: `accent` fills and carries white text, `accent-fg` is the lighter blue used as text
+on the dark canvas. The validated tokens live in `design-system`; never introduce a colour
+outside them.
 
-| Pair (dark theme)                           | Ratio | Verdict       |
-| ------------------------------------------- | ----- | ------------- |
-| `fg` `#E6E8EF` on `canvas` `#1B1F2A`        | 13.44 | AAA           |
-| `fg-muted` `#A9B0C2` on `canvas`            | 7.58  | AAA           |
-| `accent-fg` `#FF8A5B` on `canvas`           | 7.08  | AAA           |
-| `on-accent` `#12151C` on `accent` `#FF7A45` | 7.06  | AAA           |
-| `focus` `#FF9466` on `canvas`               | 7.59  | ≥ 3:1 ✓       |
-| `border-input` `#7D869C` on `surface`       | 3.98  | ≥ 3:1 ✓       |
-| white on `#FF7A45`                          | 2.59  | **forbidden** |
+| Pair (dark theme)                       | Ratio | Verdict       |
+| --------------------------------------- | ----- | ------------- |
+| `fg` `#F0F0EE` on `canvas` `#141517`    | 16.01 | AAA           |
+| `fg-muted` `#A8ABB0` on `canvas`        | 7.93  | AAA           |
+| `accent-fg` `#8FA3FF` on `canvas`       | 7.70  | AAA           |
+| white `on-accent` on `accent` `#4A63FA` | 4.71  | AA            |
+| `focus` `#8FA3FF` on `canvas`           | 7.70  | ≥ 3:1 ✓       |
+| `border-input` `#75787E` on `surface`   | 3.81  | ≥ 3:1 ✓       |
+| `accent` `#4A63FA` as text on `canvas`  | 3.88  | **forbidden** |
 
 - Any opacity (`/50`), gradient or `backdrop-blur` behind text ⇒ recompute on the
   composited colour, add the pair to the contrast unit test (`design-system` §tests).
 - Links inside prose are **always underlined** (1.4.1). Errors = icon + "Erreur :" prefix
-  - colour — the accent orange is too close to red to carry meaning alone.
+  - colour — colour alone never carries meaning (1.4.1).
 - Both themes must pass: axe runs per route × `light`/`dark` in Playwright.
 
 ## 4. Sizing, zoom, spacing
@@ -175,10 +173,23 @@ document shares the key `default` and the previous page's position undoes the ju
   mandatory (visually hidden if not shown) — the primitive handles the focus trap, Escape
   and focus return; verify it in the keyboard E2E spec anyway.
 - Custom modal: native `<dialog>.showModal()`; never hand-roll a focus trap. Give the
-  focus back to the opener on close yourself (`useFullscreenDialog`): not every browser
-  does, and none can while an element is fullscreen (Chrome makes the rest inert). Keep
-  the first focus on a control of the page, not in a cross-origin iframe: keys pressed
-  inside the iframe never reach the page, so Escape would no longer close the dialog.
+  focus back to the opener on close yourself (`useVideoDialog`): not every browser does.
+  Keep the first focus on a control of the page, not in a cross-origin iframe: keys
+  pressed inside the iframe never reach the page, so Escape would no longer close the
+  dialog. When Escape must run the same closing as the close button (the video morph),
+  prevent the `cancel` event and close through that path.
+
+- Quick search (ADR 0034): native elements rather than a combobox. A `type="search"`
+  field, one list per group named by its heading, each result the element it is (link,
+  router link, button). The arrows move the real focus; Enter in the field follows the
+  first result. Escape is stopped at the dialog, so the mobile menu under it stays open.
+  The focus goes back to the button that opened it, passed explicitly: Safari does not
+  focus a button it clicks. `prefer-tag-over-role` rejects listbox/option/group roles.
+
+- Sounds (ADR 0035): off by default, turned on by a toggle with `aria-pressed` (footer)
+  or the quick search. Only after the visitor's first gesture
+  (`navigator.userActivation.hasBeenActive`), short and quiet, never longer than three
+  seconds (WCAG 1.4.2), never tied to the scroll.
 
 ## 9. Tests (all mandatory for a feature PR)
 

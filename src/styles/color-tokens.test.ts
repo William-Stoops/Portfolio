@@ -41,6 +41,20 @@ const COLOR_PAIRS: readonly ColorPair[] = [
       minimum: NON_TEXT_CONTRAST,
     })),
   ),
+  // The living field of the hero (ADR 0037): its text must read on every tint it blends.
+  ...['flow-sky', 'flow-blue', 'flow-violet', 'flow-peach'].map((background) => ({
+    foreground: 'fg',
+    background,
+    minimum: TEXT_CONTRAST,
+  })),
+  // Flags (ADR 0019, 0021): fixed colours, drawn on their own white field.
+  ...['taegeuk-red', 'taegeuk-blue', 'taegeuk-ink', 'tricolore-blue', 'tricolore-red'].map(
+    (foreground) => ({
+      foreground,
+      background: 'flag-field',
+      minimum: NON_TEXT_CONTRAST,
+    }),
+  ),
   ...['canvas', 'surface', 'surface-raised'].map((background) => ({
     foreground: 'focus',
     background,

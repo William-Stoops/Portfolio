@@ -7,7 +7,7 @@ type DocumentPageProps = {
   children: ReactNode;
 };
 
-// Text pages (legal notice, accessibility statement, site map): one readable column.
+// Text pages (legal notice, site map): one readable column.
 export function DocumentPage({ title, headingRef, children }: DocumentPageProps) {
   return (
     <article className="mx-auto flex w-full max-w-3xl flex-col gap-8 px-gutter py-section">
