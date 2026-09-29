@@ -14,6 +14,17 @@ const TEMPLATE = `<!doctype html>
 
 const FRENCH = { lang: 'fr', preloads: [] } as const;
 
+// The built template: the entry script comes first in the head, with its own preloads.
+const BUILT_TEMPLATE = TEMPLATE.replace(
+  '  </head>',
+  '    <script type="module" crossorigin src="/assets/index.js"></script>\n  </head>',
+);
+
+// A picture as React renders it: its modern formats first, then the image itself.
+function renderedPicture(fetchPriority: 'high' | 'auto'): string {
+  return `<picture><source type="image/avif" srcSet="/p-480.avif 480w, /p-800.avif 800w" sizes="(min-width: 64rem) 28rem, 100vw"/><source type="image/webp" srcSet="/p-480.webp 480w" sizes="100vw"/><img src="/p-800.jpg" alt="Portrait" fetchPriority="${fetchPriority}"/></picture>`;
+}
+
 describe('injectRenderedPage', () => {
   it('places the rendered markup inside the root element', () => {
     const page = injectRenderedPage(
@@ -82,6 +93,32 @@ describe('injectRenderedPage', () => {
     });
 
     expect(page).toContain('<link rel="canonical" href="https://example.test/fr">  </head>');
+  });
+
+  it('asks for the picture painted first before any script, in its most modern format', () => {
+    const page = injectRenderedPage(
+      BUILT_TEMPLATE,
+      `<h1>Accueil</h1>${renderedPicture('high')}`,
+      FRENCH,
+    );
+
+    const preload =
+      '<link rel="preload" as="image" type="image/avif" imagesrcset="/p-480.avif 480w, /p-800.avif 800w" imagesizes="(min-width: 64rem) 28rem, 100vw" fetchpriority="high">';
+    expect(page).toContain(preload);
+    expect(page.indexOf(preload)).toBeLessThan(page.indexOf('<script type="module"'));
+    expect(page.match(/rel="preload" as="image"/g)).toHaveLength(1);
+  });
+
+  it('asks for it before the head closes where the template has no script', () => {
+    const page = injectRenderedPage(TEMPLATE, renderedPicture('high'), FRENCH);
+
+    expect(page).toMatch(/<link rel="preload" as="image"[^>]*>\s*<\/head>/);
+  });
+
+  it('preloads no picture where none is marked as the one painted first', () => {
+    const page = injectRenderedPage(BUILT_TEMPLATE, renderedPicture('auto'), FRENCH);
+
+    expect(page).not.toContain('rel="preload" as="image"');
   });
 
   it('fails loudly when the template has no empty root element', () => {

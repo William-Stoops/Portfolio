@@ -80,6 +80,32 @@ test.describe('prerendered HTML', () => {
     expect(html).toMatch(/<h1[^>]*>Page introuvable<\/h1>/);
     expect(html).toContain('<title>Page introuvable – William Stoops</title>');
   });
+
+  test('asks for the portrait, painted first, before any script of the head', async ({
+    request,
+  }) => {
+    for (const path of ['/fr', '/en']) {
+      const html = await (await request.get(path)).text();
+      const head = html.slice(0, html.indexOf('</head>'));
+      const preload = head.search(/<link rel="preload" as="image"[^>]*william-stoops-portrait/);
+
+      expect(preload, path).toBeGreaterThan(-1);
+      expect(preload, path).toBeLessThan(head.indexOf('<script'));
+    }
+  });
+
+  test('downloads the portrait once, the preload serving the picture', async ({ page }) => {
+    const portraits: string[] = [];
+    page.on('request', (request) => {
+      if (request.url().includes('william-stoops-portrait')) {
+        portraits.push(request.url());
+      }
+    });
+
+    await page.goto('/fr', { waitUntil: 'load' });
+
+    expect(portraits).toHaveLength(1);
+  });
 });
 
 test.describe('without JavaScript', () => {
