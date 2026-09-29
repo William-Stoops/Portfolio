@@ -41,7 +41,12 @@ describe('FlowField', () => {
     const canvas = await renderField();
 
     await expect.poll(() => canvas.hasAttribute('data-live'), { timeout: 5000 }).toBe(true);
-    await expect.poll(() => getComputedStyle(canvas).opacity).toBe('1');
+    // Its fade in is a transition: finished at once, it ends fully opaque, whatever the pace
+    // of the machine (a slow one was still at 0.98 when the poll gave up).
+    for (const fade of canvas.getAnimations()) {
+      fade.finish();
+    }
+    expect(getComputedStyle(canvas).opacity).toBe('1');
   });
 
   it('carries the four tints of the field for the shader to read', async () => {
