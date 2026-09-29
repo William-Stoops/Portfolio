@@ -1,18 +1,58 @@
 [
   {
-    "name": "Initial JS",
-    "path": "dist/assets/index-*.js",
+    "name": "Initial JS (entry and the chunks it shares with the content)",
+    "path": [
+      "dist/assets/*.js",
+      "!dist/assets/flight-globe-runtime-*.js",
+      "!dist/assets/flow-field-runtime-*.js",
+      "!dist/assets/webgl-*.js",
+      "!dist/assets/home-journey-*.js",
+      "!dist/assets/behind-the-scenes-page-*.js",
+      "!dist/assets/command-palette-*.js",
+      "!dist/assets/sound-engine-*.js",
+      "!dist/assets/site-content.*.js"
+    ],
     "limit": "125 kB"
   },
   {
-    "name": "Hero scene (WebGL, loaded on idle, large screens only)",
-    "path": "dist/assets/hero-scene-runtime-*.js",
+    "name": "French content (preloaded, awaited before hydration)",
+    "path": "dist/assets/site-content.fr-*.js",
+    "limit": "9 kB"
+  },
+  {
+    "name": "English content (preloaded, awaited before hydration)",
+    "path": "dist/assets/site-content.en-*.js",
+    "limit": "9 kB"
+  },
+  {
+    "name": "Hero field (WebGL, loaded once the page is idle, motion welcome), with the shared WebGL helpers",
+    "path": ["dist/assets/flow-field-runtime-*.js", "dist/assets/webgl-*.js"],
+    "limit": "3 kB"
+  },
+  {
+    "name": "Korea globe (WebGL and the map, loaded near the voyage, pinned scenes only), with the shared WebGL helpers",
+    "path": ["dist/assets/flight-globe-runtime-*.js", "dist/assets/webgl-*.js"],
+    "limit": "6 kB"
+  },
+  {
+    "name": "Journey (loaded as hydration reaches it)",
+    "path": "dist/assets/home-journey-*.js",
+    "limit": "16 kB"
+  },
+  {
+    "name": "Quick search (loaded on its first opening, or as its button is aimed at)",
+    "path": "dist/assets/command-palette-*.js",
     "limit": "4 kB"
   },
   {
-    "name": "Desktop touches (cursor, decoding texts; loaded on idle, precise pointers only)",
-    "path": "dist/assets/desktop-enhancements-*.js",
-    "limit": "2 kB"
+    "name": "Sound synthesiser (loaded with the first sound, once the visitor turned them on)",
+    "path": "dist/assets/sound-engine-*.js",
+    "limit": "1 kB"
+  },
+  {
+    "name": "Behind the scenes (the page's body, loaded with it)",
+    "path": "dist/assets/behind-the-scenes-page-*.js",
+    "limit": "3 kB"
   },
   {
     "name": "CSS",
