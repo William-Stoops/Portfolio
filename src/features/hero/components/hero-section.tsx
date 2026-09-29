@@ -107,9 +107,11 @@ export function HeroSection({ content, headingRef, contactHref, proofHref }: Her
         </div>
       </div>
 
+      {/* Spread across the page only from lg, where the words hold on one line: a wrapped
+          line spread edge to edge scattered its last words. */}
       <ul
         aria-label={content.keywordsLabel}
-        className="mx-auto flex max-w-6xl flex-wrap justify-between gap-x-8 gap-y-3 border-t border-border px-gutter py-6 font-medium text-fg-subtle"
+        className="mx-auto flex max-w-6xl flex-wrap gap-x-8 gap-y-3 border-t border-border px-gutter py-6 font-medium text-fg-subtle lg:justify-between"
       >
         {content.keywords.map((keyword) => (
           <li key={keyword}>{keyword}</li>
