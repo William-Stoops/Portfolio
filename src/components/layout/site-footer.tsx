@@ -100,16 +100,20 @@ export function SiteFooter() {
             </li>
             <li>
               <a href={CV_FILE.href} download className={LINK_CLASS_NAME}>
-                <span className="whitespace-nowrap">
+                {/* Its details and icon held together, not the whole label: on the narrowest
+                    phone, it ran past the column. */}
+                <span>
                   {messages.downloadCv}{' '}
-                  <span className="text-fg-subtle">({CV_FILE.details[locale]})</span>
+                  <span className="whitespace-nowrap">
+                    <span className="text-fg-subtle">({CV_FILE.details[locale]})</span>
+                    <Download
+                      aria-hidden="true"
+                      focusable="false"
+                      className={`ms-2 inline align-middle ${ICON_CLASS_NAME}`}
+                      strokeWidth={1.75}
+                    />
+                  </span>
                 </span>
-                <Download
-                  aria-hidden="true"
-                  focusable="false"
-                  className={ICON_CLASS_NAME}
-                  strokeWidth={1.75}
-                />
               </a>
             </li>
           </ul>

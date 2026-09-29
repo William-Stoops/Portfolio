@@ -135,6 +135,30 @@ describe('SiteFooter', () => {
     await expect.element(screen.getByRole('link', { name: 'Back to top' })).toBeVisible();
   });
 
+  it.each(['fr', 'en'] as const)(
+    'keeps every link within the narrowest phone, the CV details included (%s)',
+    async (locale) => {
+      const screen = await renderInRouter(
+        <div style={{ width: '320px' }}>
+          <SiteFooter />
+        </div>,
+        { path: `/${locale}`, locale },
+      );
+      const footer = screen.getByRole('contentinfo').element();
+      const contentEnd =
+        footer.getBoundingClientRect().right -
+        Number.parseFloat(getComputedStyle(footer).paddingRight);
+
+      expect(
+        screen
+          .getByRole('link')
+          .elements()
+          .filter((link) => link.getBoundingClientRect().right > contentEnd + 0.5)
+          .map((link) => link.textContent),
+      ).toEqual([]);
+    },
+  );
+
   it('has no axe violations', async () => {
     const screen = await renderInRouter(<SiteFooter />);
 
