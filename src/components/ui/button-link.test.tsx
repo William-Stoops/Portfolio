@@ -25,8 +25,8 @@ describe('ButtonLink', () => {
     );
 
     const style = getComputedStyle(screen.getByRole('link').element());
-    // Light scheme in the test browser: accent #B93E0B, on-accent #FFFFFF (5.59:1).
-    expect(style.backgroundColor).toBe('rgb(185, 62, 11)');
+    // Light scheme in the test browser: accent #1D4ED8, on-accent #FFFFFF (6.70:1).
+    expect(style.backgroundColor).toBe('rgb(61, 90, 241)');
     expect(style.color).toBe('rgb(255, 255, 255)');
     expect(style.textDecorationLine).toBe('none');
   });
@@ -39,7 +39,7 @@ describe('ButtonLink', () => {
     );
 
     const style = getComputedStyle(screen.getByRole('link').element());
-    expect(style.borderTopColor).toBe('rgb(118, 125, 143)');
+    expect(style.borderTopColor).toBe('rgb(127, 130, 136)');
   });
 
   it('offers a target at least 44 px high', async () => {

@@ -1,4 +1,4 @@
-import { type BrowserType, type Page } from '@playwright/test';
+import { type BrowserType, expect, type Page } from '@playwright/test';
 
 // Below 64rem the header navigation and theme choice sit behind the "Menu" disclosure.
 const MOBILE_LAYOUT_MAX_WIDTH = 1023;
@@ -20,4 +20,13 @@ export async function pressTab(
   browserName: ReturnType<BrowserType['name']>,
 ): Promise<void> {
   await page.keyboard.press(browserName === 'webkit' ? 'Alt+Tab' : 'Tab');
+}
+
+// Opens the quick search with its shortcut. The page listens for it from an effect, just
+// after hydration: a press that comes before is lost, so press again until it answers.
+export async function pressQuickSearchShortcut(page: Page): Promise<void> {
+  await expect(async () => {
+    await page.keyboard.press('ControlOrMeta+k');
+    await expect(page.getByRole('searchbox')).toBeFocused({ timeout: 3000 });
+  }).toPass();
 }

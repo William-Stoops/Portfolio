@@ -1,10 +1,38 @@
 @import 'tailwindcss';
-@import '@fontsource-variable/inter';
-@import '@fontsource-variable/sora';
+@import '@fontsource-variable/inter-tight';
 @import './motion.css';
+
+/*
+ * A local stand-in for Inter Tight while it loads, sized to it: its letters are 3.65 %
+ * narrower than Arial's, its line box as tall. A text wraps the same before and after the
+ * swap, so what follows it does not move: the hero's photo, under its text on a phone,
+ * shifted by 0.053 (CLS) when the fallback was DejaVu Sans, on Linux. Liberation Sans shares
+ * Arial's metrics there. Values measured from the font files (fontTools, at weight 400).
+ */
+@font-face {
+  font-family: 'Inter Tight Fallback';
+  src:
+    local('Arial'), local('ArialMT'), local('Liberation Sans'), local('LiberationSans'),
+    local('Helvetica');
+  size-adjust: 96.35%;
+  ascent-override: 100.55%;
+  descent-override: 25.04%;
+  line-gap-override: 0%;
+}
 
 /* Short screens (landscape phones, 400 % zoom): see the responsive-design skill. */
 @custom-variant short (@media (max-height: 30rem));
+
+/* Where a scene is pinned while its track scrolls by (motion.css, scene-track): motion
+   allowed, a large and tall enough screen, scroll-driven animations. For the layout a
+   pinned scene takes there. */
+@custom-variant pinned {
+  @media (prefers-reduced-motion: no-preference) and (min-width: 64rem) and (min-height: 40rem) {
+    @supports (animation-timeline: view()) {
+      @slot;
+    }
+  }
+}
 
 /*
  * Closed palette. Tailwind's default colours are removed: a utility such as `bg-red-500`
@@ -19,28 +47,42 @@
  */
 @theme inline {
   --color-*: initial;
-  --color-canvas: light-dark(#fafaf7, #1b1f2a);
-  --color-surface: light-dark(#ffffff, #242938);
-  --color-surface-raised: light-dark(#f1f2f5, #2e3446);
-  --color-fg: light-dark(#1b1f2a, #e6e8ef);
-  --color-fg-muted: light-dark(#5a6278, #a9b0c2);
-  --color-fg-subtle: light-dark(#687083, #8b93a7);
-  --color-accent: light-dark(#b93e0b, #ff7a45);
-  --color-accent-hover: light-dark(#9a3412, #ff9466);
-  --color-accent-fg: light-dark(#b93e0b, #ff8a5b);
-  --color-accent-tint: light-dark(#fcede6, #3d2d2e);
-  --color-on-accent: light-dark(#ffffff, #12151c);
-  --color-focus: light-dark(#9a3412, #ff9466);
-  --color-border: light-dark(#e2e4ea, #3a4052);
-  --color-border-input: light-dark(#767d8f, #7d869c);
-  --color-error: light-dark(#b91c1c, #fca5a5);
-  --color-success: light-dark(#166534, #4ade80);
+  /* Neutral and closed (ADR 0036): white, a light grey and a deep charcoal. Colour comes
+     from the photographs and the charts; one blue marks what the reader can act on. */
+  --color-canvas: light-dark(#ffffff, #141517);
+  --color-surface: light-dark(#f4f4f2, #1c1d20);
+  --color-surface-raised: light-dark(#ebebe8, #26272b);
+  --color-fg: light-dark(#1c1d20, #f0f0ee);
+  --color-fg-muted: light-dark(#5f6268, #a8abb0);
+  --color-fg-subtle: light-dark(#686b71, #8f9298);
+  /* The one accent, a calm blue (ADR 0025). As a fill it carries white text in both themes;
+     as text on the dark canvas it takes a lighter tint (accent-fg). */
+  --color-accent: light-dark(#3d5af1, #4a63fa);
+  --color-accent-hover: light-dark(#2a44d6, #2a44d6);
+  --color-accent-fg: light-dark(#2f4ce0, #8fa3ff);
+  --color-accent-tint: light-dark(#e8ecfe, #23294d);
+  --color-on-accent: light-dark(#ffffff, #ffffff);
+  --color-focus: light-dark(#2a44d6, #8fa3ff);
+  --color-border: light-dark(#e4e4e1, #2c2d31);
+  --color-border-input: light-dark(#7f8288, #75787e);
+  --color-error: light-dark(#b3261e, #ff8a80);
+  --color-success: light-dark(#1d7a3c, #6fd08c);
+  /* Flags (ADR 0019, 0021): their official colours, the same in both themes. The white
+     field is shared; South Korea, then France. */
+  --color-flag-field: light-dark(#ffffff, #ffffff);
+  --color-taegeuk-red: light-dark(#cd2e3a, #cd2e3a);
+  --color-taegeuk-blue: light-dark(#0047a0, #0047a0);
+  --color-taegeuk-ink: light-dark(#000000, #000000);
+  --color-tricolore-blue: light-dark(#000091, #000091);
+  --color-tricolore-red: light-dark(#e1000f, #e1000f);
 }
 
 @theme {
   --font-*: initial;
-  --font-display: 'Sora Variable', ui-sans-serif, system-ui, sans-serif;
-  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+  /* One family for everything (ADR 0036): light for the large titles, regular for text. */
+  --font-display:
+    'Inter Tight Variable', 'Inter Tight Fallback', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'Inter Tight Variable', 'Inter Tight Fallback', ui-sans-serif, system-ui, sans-serif;
 
   /* Fluid scale: every clamp() mixes rem and vw so text still grows with browser zoom. */
   --text-*: initial;
@@ -90,15 +132,6 @@
     content-visibility: auto;
     contain-intrinsic-size: auto 60rem;
   }
-}
-
-/* Building-site stripes (STAXX video poster): tinted, never behind body text. */
-@utility hazard-stripes {
-  background-image: repeating-linear-gradient(
-    -45deg,
-    --theme(--color-accent-tint) 0 1.25rem,
-    transparent 1.25rem 2.5rem
-  );
 }
 
 @layer base {
@@ -179,7 +212,11 @@
     *::after {
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
+      /* None at all, not a short one: transition-property defaults to all, so a 0.01 ms
+         duration made every element transition every property it changed, and WebKit
+         started a section's text, rendered late, from black. */
+      transition-duration: 0s !important;
+      transition-delay: 0s !important;
       scroll-behavior: auto !important;
     }
   }
