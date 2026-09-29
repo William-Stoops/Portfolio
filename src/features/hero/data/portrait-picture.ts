@@ -2,11 +2,12 @@
 // cannot resolve the `@/` alias at runtime.
 import type { ResponsivePicture } from '@/types/responsive-picture';
 
-// Generated from docs/content/images/william-stoops-portrait.jpg (520 × 520 crop).
+// Generated from docs/content/images/william-stoops-portrait.jpg: the portrait William gave
+// on 2026-09-28, 1254 × 1254, framed in a card of the hero (ADR 0037).
 export const PORTRAIT_PICTURE = {
-  basePath: '/images/william-stoops-portrait-v1',
-  widths: [256, 384, 520],
+  basePath: '/images/william-stoops-portrait-v2',
+  widths: [480, 800, 1254],
   formats: ['avif', 'webp', 'jpg'],
-  width: 520,
-  height: 520,
+  width: 1254,
+  height: 1254,
 } as const satisfies ResponsivePicture;

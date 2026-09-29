@@ -37,6 +37,136 @@
   }
 }
 
+@keyframes expand {
+  from {
+    scale: 0.9;
+  }
+}
+
+@keyframes parallax-y {
+  from {
+    translate: 0 -5%;
+  }
+
+  to {
+    translate: 0 5%;
+  }
+}
+
+@keyframes float-up {
+  from {
+    translate: 0 3rem;
+  }
+
+  to {
+    translate: 0 -3rem;
+  }
+}
+
+@keyframes arc-flight {
+  from {
+    rotate: calc(-1 * var(--arc-half-angle, 0deg));
+  }
+
+  to {
+    rotate: var(--arc-half-angle, 0deg);
+  }
+}
+
+@keyframes altitude {
+  0% {
+    scale: 0.7;
+  }
+
+  45% {
+    scale: 1.15;
+  }
+
+  85% {
+    scale: 0.6;
+  }
+
+  /* Landed: the plane gives way to what it flew to. */
+  100% {
+    scale: 0;
+  }
+}
+
+@keyframes settle-turn {
+  from {
+    rotate: -1turn;
+    scale: 0;
+  }
+}
+
+@keyframes unfurl {
+  from {
+    scale: 0 1;
+  }
+}
+
+@keyframes trigram-in {
+  from {
+    opacity: 0;
+    translate: var(--from, 0 0);
+  }
+}
+
+@keyframes ink-lift {
+  from {
+    opacity: 0.78;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes plane-away {
+  0%,
+  100% {
+    scale: 1;
+  }
+
+  6%,
+  94% {
+    scale: 0;
+  }
+}
+
+@keyframes label-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes label-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes year-float {
+  from {
+    translate: 0 -2.5rem;
+  }
+
+  to {
+    translate: 0 2.5rem;
+  }
+}
+
+@keyframes from-rail {
+  from {
+    translate: -2.5rem 0;
+    scale: 0.97;
+  }
+}
+
 @keyframes grow-x {
   from {
     scale: 0 1;
@@ -79,16 +209,25 @@
   }
 }
 
-@keyframes fade-in {
-  from {
-    opacity: 0;
+/* The hero's content comes towards the reader and past them: a dive into the page. */
+@keyframes dive-through {
+  to {
+    scale: 1.12;
+    translate: 0 -12vh;
   }
 }
 
-@keyframes zoom-in {
+/* Two turns clockwise, ending where the plane started. */
+@keyframes holding {
   from {
-    opacity: 0;
-    scale: 0.9;
+    rotate: -2turn;
+  }
+}
+
+/* A strip of glyphs, from the first up to the one it shows at rest (the split-flaps). */
+@keyframes roll-up {
+  from {
+    translate: 0 0;
   }
 }
 
@@ -144,6 +283,17 @@
   }
 }
 
+/*
+ * A plane in a holding pattern (HoldingPattern): two turns of its circuit as the page
+ * opens, slowing into its wait at the top, where it started. It runs once and rests before
+ * five seconds, so it needs no pause control (WCAG 2.2.2).
+ */
+@utility holding-orbit {
+  @media (prefers-reduced-motion: no-preference) {
+    animation: holding 4.4s cubic-bezier(0.45, 0, 0.15, 1) both 300ms;
+  }
+}
+
 @utility enter-pop {
   @media (prefers-reduced-motion: no-preference) {
     animation: pop-scale 600ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
@@ -172,6 +322,266 @@
       animation: letter-rise var(--ease-out) both;
       animation-timeline: view();
       animation-range: entry calc(var(--i, 0) * 1.5%) entry calc(70% + var(--i, 0) * 1.5%);
+    }
+  }
+}
+
+/*
+ * The same rise without the fade, for text that may already be on screen at load (the
+ * footer of a short page): a scroll-linked fade would leave it half transparent, below
+ * its contrast, until the visitor scrolls.
+ */
+@utility reveal-slide {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: slide-up var(--ease-out) both;
+      animation-timeline: view();
+      animation-range: entry calc(var(--i, 0) * 8%) entry calc(90% + var(--i, 0) * 8%);
+    }
+  }
+}
+
+/*
+  A photo that opens up as it arrives: its frame grows to full size while the image
+  inside drifts slower than the page. The image is enlarged just enough for the drift
+  never to show an edge, and only while the drift runs.
+*/
+@utility reveal-expand {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: expand var(--ease-out) both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 40%;
+    }
+  }
+}
+
+@utility scroll-parallax {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      scale: 1.12;
+      animation: parallax-y linear both;
+      animation-timeline: view();
+    }
+  }
+}
+
+/* A photo of a pair that rises faster than the page: the two frames part in depth. */
+@utility scroll-float {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: float-up linear both;
+      animation-timeline: view();
+    }
+  }
+}
+
+/*
+ * A pinned scene: the voyage to Seoul and the way home. On a large,
+ * tall enough screen the stage is pinned while its track scrolls by, and the track's
+ * timeline, named by --scene-timeline, runs the story. Elsewhere each piece runs on its
+ * own view, and without scroll-driven animations or with reduced motion everything simply
+ * stands in its final place. The pinned condition, (min-width: 64rem) and
+ * (min-height: 40rem), is repeated below and in the `pinned` variant (globals.css).
+ */
+@utility scene-track {
+  @media (prefers-reduced-motion: no-preference) and (min-width: 64rem) and (min-height: 40rem) {
+    @supports (animation-timeline: view()) {
+      height: 260vh;
+      view-timeline-name: var(--scene-timeline);
+      /* The story starts when the stage pins (its top at the top of the viewport), not
+         once past the header's scroll padding, which the default inset (auto) would
+         take: the globe reads the same timeline in script (flight-timeline.ts). */
+      view-timeline-inset: 0;
+    }
+  }
+}
+
+@utility scene-stage {
+  @media (prefers-reduced-motion: no-preference) and (min-width: 64rem) and (min-height: 40rem) {
+    @supports (animation-timeline: view()) {
+      position: sticky;
+      top: 0;
+      height: 100dvh;
+      justify-content: center;
+      /* Below the sticky header. */
+      padding-top: 5rem;
+    }
+  }
+}
+
+/*
+ * The voyage to Seoul (VoyageStage) runs on --voyage, the way home on --homecoming: the
+ * flight, the flag unfurling at the landing, the greeting. Still, the plane rests at the
+ * top of the arc, the flag is complete and the greeting shown.
+ */
+
+/* The route's own timeline, for the flight on a small screen. */
+@utility flight-timeline {
+  view-timeline: --flight;
+}
+
+/* The arm carrying the plane turns along the arc (`--arc-half-angle` either side). */
+@utility voyage-flight {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: arc-flight ease-in-out both;
+      animation-timeline: --flight;
+      animation-range: cover 15% cover 60%;
+
+      @media (min-width: 64rem) and (min-height: 40rem) {
+        animation-timeline: var(--scene-timeline, --voyage);
+        animation-range: contain 5% contain 45%;
+      }
+    }
+  }
+}
+
+/* The plane climbs, comes down, and disappears as it lands. */
+@utility voyage-altitude {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: altitude ease-in-out both;
+      animation-timeline: --flight;
+      animation-range: cover 15% cover 60%;
+
+      @media (min-width: 64rem) and (min-height: 40rem) {
+        animation-timeline: var(--scene-timeline, --voyage);
+        animation-range: contain 5% contain 45%;
+      }
+    }
+  }
+}
+
+/* The flag's field opens from the hoist, as the plane comes in. */
+@utility voyage-unfurl {
+  transform-origin: 0 50%;
+
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: unfurl var(--ease-out) both;
+      animation-timeline: view();
+      animation-range: entry 10% cover 35%;
+
+      @media (min-width: 64rem) and (min-height: 40rem) {
+        animation-timeline: var(--scene-timeline, --voyage);
+        animation-range: contain 25% contain 42%;
+      }
+    }
+  }
+}
+
+/* The French flag's bands unfold from the top, one after the other (`--i`). */
+@utility band-unfurl {
+  transform-origin: 50% 0;
+
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: grow-y var(--ease-out) both;
+      animation-timeline: view();
+      animation-range: entry calc(10% + var(--i, 0) * 10%) cover calc(35% + var(--i, 0) * 5%);
+
+      @media (min-width: 64rem) and (min-height: 40rem) {
+        animation-timeline: var(--scene-timeline, --voyage);
+        animation-range: contain calc(25% + var(--i, 0) * 7%) contain calc(40% + var(--i, 0) * 7%);
+      }
+    }
+  }
+}
+
+/* The taegeuk grows while turning once, and settles in its exact orientation. */
+@utility voyage-turn {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: settle-turn var(--ease-out) both;
+      animation-timeline: view();
+      animation-range: entry 20% cover 45%;
+
+      @media (min-width: 64rem) and (min-height: 40rem) {
+        animation-timeline: var(--scene-timeline, --voyage);
+        animation-range: contain 38% contain 60%;
+      }
+    }
+  }
+}
+
+/* Each trigram comes in from its corner (`--from`), one after the other (`--i`). */
+@utility voyage-trigram {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: trigram-in var(--ease-out) both;
+      animation-timeline: view();
+      animation-range: entry calc(20% + var(--i, 0) * 8%) cover calc(40% + var(--i, 0) * 4%);
+
+      @media (min-width: 64rem) and (min-height: 40rem) {
+        animation-timeline: var(--scene-timeline, --voyage);
+        animation-range: contain calc(50% + var(--i, 0) * 4%) contain calc(60% + var(--i, 0) * 4%);
+      }
+    }
+  }
+}
+
+/* The greeting's letters rise out of their line once the flag is up. */
+@utility voyage-letter {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: letter-rise var(--ease-out) both;
+      animation-timeline: view();
+      animation-range: entry calc(var(--i, 0) * 6%) entry calc(80% + var(--i, 0) * 6%);
+
+      @media (min-width: 64rem) and (min-height: 40rem) {
+        animation-timeline: var(--scene-timeline, --voyage);
+        animation-range: contain calc(70% + var(--i, 0) * 2%) contain calc(80% + var(--i, 0) * 2%);
+      }
+    }
+  }
+}
+
+/*
+ * The hero's dive (ADR 0030): as the hero scrolls away, its content comes towards the
+ * reader and past them while the camera of the surface dives among the waves. Transforms
+ * only: the hero's texts keep their first paint (LCP), and nothing fades.
+ */
+@utility hero-dive {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: dive-through linear both;
+      /* Inset 0: the dive starts as the content leaves the top of the screen, not at load
+         (the default inset would take the header's scroll padding). */
+      animation-timeline: view(block 0px);
+      animation-range: exit 0% exit 100%;
+    }
+  }
+}
+
+/*
+  A statement written as it is read: each word lies under a veil of the canvas colour
+  that lifts, one word after the other, while the paragraph crosses the screen. The
+  veil is a pseudo-element over real text at full contrast, and only its opacity
+  moves; without scroll-driven animations there is no veil at all. The paragraph
+  (`ink-timeline`) gives the timeline and its word count (`--n`); each word its index
+  (`--i`).
+*/
+@utility ink-timeline {
+  view-timeline: --ink;
+}
+
+@utility reveal-ink {
+  position: relative;
+
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      &::after {
+        content: '';
+        position: absolute;
+        inset: -0.1em 0;
+        background: --theme(--color-canvas);
+        pointer-events: none;
+        animation: ink-lift linear both;
+        animation-timeline: --ink;
+        animation-range: cover calc(15% + var(--i, 0) * 35% / var(--n, 1)) cover
+          calc(15% + (var(--i, 0) + 1) * 35% / var(--n, 1));
+      }
     }
   }
 }
@@ -239,6 +649,9 @@
 /* A rail filling while the element holding `rail-timeline` crosses the viewport. */
 @utility rail-timeline {
   view-timeline-name: --rail;
+  /* Measured against the whole viewport: by default a view timeline takes the document's
+     scroll padding (6rem for the sticky header) off it, and the trail overshot the plane. */
+  view-timeline-inset: 0;
 }
 
 @utility rail-fill {
@@ -253,26 +666,196 @@
   }
 }
 
-/* The header's bottom rule fades in once the page has scrolled under it. */
-@utility scroll-settle {
-  @media (prefers-reduced-motion: no-preference) {
-    @supports (animation-timeline: scroll()) {
-      animation: fade-in linear both;
-      animation-timeline: scroll(root);
-      animation-range: 0 8rem;
+/*
+ * The flight path (FlightPath): the whole page below the hero along one rail. It shares
+ * the timelines of its waypoints and flights with every section (timeline-scope), and
+ * places the rail and the content: --rail-x (the rail's centre) and --content-x (where
+ * content starts), from the column's left edge. On large screens the column of waypoints
+ * takes the left; without it (no scroll-driven animations, or reduced motion) the rail
+ * stays near the edge, as on smaller screens.
+ */
+@utility flight-path-layout {
+  timeline-scope: var(--scope);
+  --rail-x: 0.5rem;
+  --content-x: 2.5rem;
+
+  @media (min-width: 48rem) {
+    --content-x: 4rem;
+  }
+
+  @media (min-width: 64rem) and (prefers-reduced-motion: no-preference) {
+    @supports (timeline-scope: none) and (animation-timeline: view()) {
+      --rail-x: 13.5rem;
+      --content-x: 17rem;
     }
   }
 }
 
-@utility scroll-progress {
-  display: none;
+/* The rail's path, dotted like the flight to Seoul. */
+@utility flight-path {
+  background-image: radial-gradient(circle, --theme(--color-border-input) 1px, transparent 1.5px);
+  background-size: 2px 10px;
+  background-position: center top;
+}
+
+/* The trail fills the path down to the reading line, 40 % down the viewport, where the
+   plane rides: from the rail's top reaching the line to its bottom reaching it. */
+@utility flight-log-fill {
+  transform-origin: 50% 0;
+
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: grow-y linear both;
+      animation-timeline: --rail;
+      animation-range: cover 60vh cover calc(100% - 40vh);
+    }
+  }
+}
+
+/*
+ * A waypoint's label beside the rail: it rises in as its section or stop reaches the reading
+ * line and
+ * leaves as the stop ends, each over a fixed distance whatever the stop's length (two
+ * elements, one animation each: a single keyframe set would stretch with long stops).
+ */
+@utility stop-label-in {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      /* Hidden until its waypoint's timeline brings it in: never shown by default. The line
+         takes over at once, its cells turning from the characters of the line before. */
+      opacity: 0;
+      animation: label-in linear both;
+      animation-timeline: var(--timeline);
+      animation-range: cover 0% cover 0.25rem;
+    }
+  }
+}
+
+@utility stop-label-out {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: label-out linear both;
+      animation-timeline: var(--timeline);
+      animation-range: cover calc(100% - 0.25rem) cover 100%;
+    }
+  }
+}
+
+/*
+ * A split-flap cell (SplitFlap): a strip of the glyphs it turns through, one per line. At
+ * rest it shows its character, the last line; it turns one glyph per step (`--steps` in
+ * all), after the cells before it (`--i`). A cell that keeps its character never moves.
+ */
+@utility flap-title {
+  translate: 0 calc(var(--steps) * -1lh);
+
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: roll-up steps(var(--steps), jump-end) both;
+      animation-timeline: view();
+      animation-range: cover calc(6% + var(--i, 0) * 0.5%) cover calc(14% + var(--i, 0) * 0.5%);
+    }
+  }
+}
+
+/*
+ * A board that turns in on its own as the page opens (the diverted flight of the
+ * not-found page), on the clock rather than the scroll: one glyph every 90 ms, the cells
+ * one after the other, all at rest within a second and a half.
+ */
+@utility flap-enter {
+  translate: 0 calc(var(--steps) * -1lh);
+
+  @media (prefers-reduced-motion: no-preference) {
+    animation: roll-up steps(var(--steps), jump-end) both;
+    animation-duration: calc(var(--steps) * 90ms);
+    animation-delay: calc(var(--i, 0) * 120ms + 200ms);
+  }
+}
+
+/* The rail's board changes line as its waypoint crosses the reading line. */
+@utility flap-board {
+  translate: 0 calc(var(--steps) * -1lh);
+
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: roll-up steps(var(--steps), jump-end) both;
+      animation-timeline: var(--timeline);
+      animation-range: cover calc(0.25rem + var(--i, 0) * 0.35rem) cover
+        calc(3rem + var(--i, 0) * 0.35rem);
+    }
+  }
+}
+
+/* A stop's marker fills as the plane reaches it, on the stop's own reading-line timeline. */
+@utility stop-reached {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: fill-in var(--ease-out) both;
+      animation-timeline: var(--timeline);
+      animation-range: cover 0% cover 3rem;
+    }
+  }
+}
+
+/* Then a branch draws out from the rail to the stop. */
+@utility stop-branch {
   transform-origin: 0 50%;
 
   @media (prefers-reduced-motion: no-preference) {
-    @supports (animation-timeline: scroll()) {
-      display: block;
-      animation: grow-x linear both;
-      animation-timeline: scroll(root);
+    @supports (animation-timeline: view()) {
+      animation: grow-x var(--ease-out) both;
+      animation-timeline: var(--timeline);
+      animation-range: cover 0% cover 6rem;
+    }
+  }
+}
+
+/* The stop's year, in filigree, drifts slower than the page: a layer behind the title. */
+@utility year-drift {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: year-float linear both;
+      animation-timeline: view();
+    }
+  }
+}
+
+/* What a stop holds comes in from the rail's side as it enters (translate only: its text
+   keeps its contrast at every frame). */
+@utility reveal-from-rail {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: from-rail var(--ease-out) both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 70%;
+    }
+  }
+}
+
+/* While a flight scene flies its own plane, the rail's plane steps away (the timeline of
+   the scene is set on it: the voyage to Seoul, then the way home). */
+@utility flight-log-plane {
+  @media (prefers-reduced-motion: no-preference) and (min-width: 64rem) and (min-height: 40rem) {
+    @supports (animation-timeline: view()) {
+      animation: plane-away linear both;
+      animation-timeline: var(--away-timeline);
+      animation-range: contain 0% contain 100%;
+    }
+  }
+}
+
+/* The site menu (ADR 0037) settles into place, a card dropping from the bar. Closing is
+   immediate: the page is what the visitor asked for. */
+@utility menu-panel {
+  @media (prefers-reduced-motion: no-preference) {
+    transition:
+      translate 350ms var(--ease-out),
+      opacity 350ms var(--ease-out);
+
+    @starting-style {
+      translate: 0 -0.5rem;
+      opacity: 0;
     }
   }
 }
@@ -303,6 +886,40 @@
   }
 }
 
+@utility chapter-rail {
+  display: none;
+
+  @media (min-width: 64rem) and (prefers-reduced-motion: no-preference) {
+    @supports (timeline-scope: none) and (animation-timeline: view()) {
+      display: block;
+    }
+  }
+}
+
+@utility chapter-heading {
+  @media (min-width: 64rem) and (prefers-reduced-motion: no-preference) {
+    @supports (timeline-scope: none) and (animation-timeline: view()) {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+  }
+}
+
+/*
+ * Chapters are watched through a reading line, 40 % down the viewport, not through the
+ * whole viewport: a line crosses one chapter at a time, so only one title shows. Seen
+ * through the whole viewport, two short chapters were in view together, and their titles
+ * overlapped.
+ */
+@utility chapter-timeline {
+  view-timeline-name: var(--timeline);
+  view-timeline-inset: 40% 59%;
+}
+
 /*
  * Infinite, so it comes with its pause control (WCAG 2.2.2): paused by the button
  * (`data-paused` on an ancestor), on hover, and absent with reduced motion.
@@ -327,13 +944,6 @@
     transform: perspective(60rem) rotateX(calc(var(--pointer-ry, 0) * -4deg))
       rotateY(calc(var(--pointer-rx, 0) * 4deg));
     transition: transform 450ms var(--ease-out);
-  }
-}
-
-@utility pointer-magnet {
-  @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
-    transform: translate(calc(var(--pointer-rx, 0) * 0.4rem), calc(var(--pointer-ry, 0) * 0.4rem));
-    transition: transform 250ms var(--ease-out);
   }
 }
 
@@ -373,13 +983,23 @@
   }
 }
 
+/*
+ * From one page to another (the language switch, a section link from a legal page): the
+ * browser's own cross-fade between documents, both opting in. Nothing with reduced motion.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+}
+
 /* Theme switch: the new theme spreads from the pressed button (useThemeToggle). */
-::view-transition-old(root),
-::view-transition-new(root) {
+:root:active-view-transition-type(theme)::view-transition-old(root),
+:root:active-view-transition-type(theme)::view-transition-new(root) {
   animation: none;
   mix-blend-mode: normal;
 }
 
-::view-transition-new(root) {
+:root:active-view-transition-type(theme)::view-transition-new(root) {
   animation: theme-reveal 650ms var(--ease-out);
 }

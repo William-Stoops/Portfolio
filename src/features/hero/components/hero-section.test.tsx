@@ -1,28 +1,46 @@
 import { createRef } from 'react';
 import { describe, expect, it } from 'vitest';
+import { page } from 'vitest/browser';
 import { render } from 'vitest-browser-react';
 
 import { HeroSection } from '@/features/hero/components/hero-section';
-import { HERO_CONTENT } from '@/features/hero/data/hero-content';
+import { HERO_CONTENT as HERO_CONTENT_EN } from '@/features/hero/data/hero-content.en';
+import { HERO_CONTENT } from '@/features/hero/data/hero-content.fr';
+import { type HeroContent } from '@/features/hero/types/hero-content';
 import { expectNoAxeViolations } from '@/testing/expect-no-axe-violations';
 
-async function renderHero() {
-  return render(<HeroSection content={HERO_CONTENT} headingRef={createRef()} />);
+async function renderHero(content: HeroContent = HERO_CONTENT) {
+  return render(
+    <HeroSection
+      content={content}
+      headingRef={createRef()}
+      contactHref="/fr#contact"
+      proofHref="#it-finance-prorealtime"
+    />,
+  );
 }
 
 describe('HeroSection', () => {
-  it('greets the visitor and names William Stoops as the page heading', async () => {
+  it('heads the page with the sentence of the CV, and says whose it is', async () => {
     const screen = await renderHero();
 
-    await expect.element(screen.getByText('Bonjour.')).toBeVisible();
     await expect
-      .element(screen.getByRole('heading', { level: 1, name: 'William Stoops' }))
-      .toBeVisible();
+      .element(screen.getByRole('heading', { level: 1 }))
+      .toHaveAccessibleName(`William Stoops : ${HERO_CONTENT.headline}`);
+    await expect.element(screen.getByText(HERO_CONTENT.lead)).toBeVisible();
+    await expect.element(screen.getByText(HERO_CONTENT.eyebrow)).toBeVisible();
   });
 
   it('exposes the heading to route focus management', async () => {
     const headingRef = createRef<HTMLHeadingElement>();
-    const screen = await render(<HeroSection content={HERO_CONTENT} headingRef={headingRef} />);
+    const screen = await render(
+      <HeroSection
+        content={HERO_CONTENT}
+        headingRef={headingRef}
+        contactHref="/fr#contact"
+        proofHref="#it-finance-prorealtime"
+      />,
+    );
 
     expect(headingRef.current).toBe(screen.getByRole('heading', { level: 1 }).element());
     await expect
@@ -30,75 +48,65 @@ describe('HeroSection', () => {
       .toHaveAttribute('tabindex', '-1');
   });
 
-  it('marks the English job title and states the profile', async () => {
-    const screen = await renderHero();
-
-    const role = screen.container.querySelector('[lang="en"]');
-    expect(role?.querySelector('.sr-only')?.textContent).toBe('Software Engineer & AI Engineer');
-    expect(role?.querySelector('[data-scramble]')?.getAttribute('aria-hidden')).toBe('true');
-    await expect.element(screen.getByText(HERO_CONTENT.tagline)).toBeVisible();
-  });
-
-  it('leads to the contact section', async () => {
+  it('offers to get in touch and to download the CV, with its format and weight', async () => {
     const screen = await renderHero();
 
     await expect
       .element(screen.getByRole('link', { name: 'Me contacter' }))
-      .toHaveAttribute('href', '/#contact');
+      .toHaveAttribute('href', '/fr#contact');
+    const cv = screen.getByRole('link', { name: 'Télécharger le CV (PDF, 56 Ko)' });
+    await expect.element(cv).toHaveAttribute('href', '/cv/william-stoops-cv-fr.pdf');
+    await expect.element(cv).toHaveAttribute('download');
   });
 
-  it('offers the CV as a download, stating format and weight', async () => {
+  it('shows the photo large, first, as the image the page is judged on', async () => {
+    await page.viewport(1280, 800);
     const screen = await renderHero();
 
-    const link = screen.getByRole('link', { name: 'Télécharger le CV (PDF, 56 Ko)' });
-    await expect.element(link).toHaveAttribute('href', '/cv/william-stoops-cv-fr.pdf');
-    await expect.element(link).toHaveAttribute('download');
+    const photo = screen.getByRole('img', { name: HERO_CONTENT.portraitAlt });
+    await expect.element(photo).toBeVisible();
+    await expect.element(photo).toHaveAttribute('loading', 'eager');
+    await expect.element(photo).toHaveAttribute('fetchpriority', 'high');
+    expect(photo.element().getBoundingClientRect().height).toBeGreaterThan(450);
   });
 
-  it('lists the core technologies', async () => {
+  it('says where William works from, beside the photo', async () => {
     const screen = await renderHero();
 
-    const list = screen.getByRole('list', { name: 'Technologies' });
-    expect(list.getByRole('listitem').elements()).toHaveLength(HERO_CONTENT.technologies.length);
+    await expect.element(screen.getByText(HERO_CONTENT.place)).toBeVisible();
   });
 
-  it('lets the visitor pause the scrolling technology band (WCAG 2.2.2)', async () => {
+  it('leads to the IT-Finance rework with its figure', async () => {
     const screen = await renderHero();
 
-    await screen.getByRole('button', { name: 'Mettre en pause le défilement' }).click();
+    const proof = screen.getByRole('link', { name: /Voir le calcul/ });
+    await expect.element(proof).toHaveAttribute('href', '#it-finance-prorealtime');
+    expect(proof.element().textContent).toContain('10 h → 5 min');
+  });
 
-    await expect
-      .element(screen.getByRole('button', { name: 'Reprendre le défilement' }))
-      .toBeVisible();
+  it('lists the keywords of the CV', async () => {
+    const screen = await renderHero();
+
     expect(
-      screen.getByRole('list', { name: 'Technologies' }).element().closest('[data-paused]'),
-    ).not.toBeNull();
-  });
-
-  it('keeps the band copy that makes the loop seamless away from assistive tech', async () => {
-    const screen = await renderHero();
-
-    expect(screen.getByRole('list', { name: 'Technologies' }).elements()).toHaveLength(1);
-    expect(screen.container.querySelectorAll('[data-marquee] ul')).toHaveLength(2);
-  });
-
-  it('sums up three highlights under the calls to action, read as text', async () => {
-    const screen = await renderHero();
-
-    const highlights = screen.getByRole('list', { name: 'En bref' });
-    expect(
-      highlights
+      screen
+        .getByRole('list', { name: 'Technologies' })
         .getByRole('listitem')
         .elements()
         .map((item) => item.textContent),
-    ).toEqual(HERO_CONTENT.highlights.map(({ value, label }) => `${value} ${label}`));
+    ).toEqual(HERO_CONTENT.keywords);
   });
 
-  it('shows the portrait as a critical image', async () => {
-    const screen = await renderHero();
+  it('speaks English on the English page', async () => {
+    const screen = await renderHero(HERO_CONTENT_EN);
 
-    const portrait = screen.getByRole('img', { name: HERO_CONTENT.portraitAlt });
-    await expect.element(portrait).toHaveAttribute('fetchpriority', 'high');
+    await expect
+      .element(screen.getByRole('heading', { level: 1 }))
+      .toHaveAccessibleName(`William Stoops: ${HERO_CONTENT_EN.headline}`);
+    await expect.element(screen.getByRole('link', { name: 'Get in touch' })).toBeVisible();
+    await expect
+      .element(screen.getByRole('link', { name: 'Download my CV (PDF in French, 56 KB)' }))
+      .toBeVisible();
+    await expect.element(screen.getByRole('link', { name: /See the computation/ })).toBeVisible();
   });
 
   it('has no axe violations', async () => {

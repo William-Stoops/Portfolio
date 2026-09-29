@@ -1,6 +1,6 @@
 import { expect, type Page, test } from '@playwright/test';
 
-import { openMenuIfCollapsed } from './support/interactions.ts';
+import { openSiteMenu } from './support/interactions.ts';
 
 // Collects console errors and uncaught exceptions. When a not-found document is expected,
 // the browser logs its 404 status: that one message is the intended behaviour. (Compared by
@@ -23,22 +23,42 @@ function collectErrors(page: Page, expectedNotFoundPath?: string): string[] {
 }
 
 test.describe('prerendered HTML', () => {
+  test('serves the pages compressed, as the host does', async ({ request }) => {
+    for (const path of ['/fr', '/en', '/fr/page-inexistante']) {
+      const response = await request.get(path, { headers: { 'Accept-Encoding': 'br, gzip' } });
+
+      expect(response.headers()['content-encoding'], path).toBe('br');
+      expect(response.headers()['vary'], path).toBe('Accept-Encoding');
+    }
+  });
+
   test('carries the home page content in the HTML response itself', async ({ request }) => {
-    const response = await request.get('/');
+    const response = await request.get('/fr');
 
     expect(response.status()).toBe(200);
     const html = await response.text();
-    // The name is read as one text; the letters that rise one by one are aria-hidden.
+    // The sentence of the CV heads the page, and says whose it is.
     expect(html).toMatch(
-      /<h1[^>]*><span class="sr-only">William Stoops<\/span><span aria-hidden="true">/,
+      /<h1[^>]*><span class="sr-only">William Stoops : <\/span>Je décide d’une architecture/,
     );
     expect(html).toContain('<title>William Stoops – Software Engineer &amp; AI Engineer</title>');
   });
 
+  test('carries the sections whose code loads later, such as Korea, in the HTML too', async ({
+    request,
+  }) => {
+    const html = await (await request.get('/fr')).text();
+
+    expect(html).toContain('<li id="coree"');
+    expect(html).toContain('안녕하세요');
+    expect(html).toContain('Modèles entraînés');
+  });
+
   for (const { path, heading } of [
-    { path: '/accessibilite', heading: 'Déclaration d’accessibilité' },
-    { path: '/mentions-legales', heading: 'Mentions légales' },
-    { path: '/plan-du-site', heading: 'Plan du site' },
+    { path: '/fr/coulisses', heading: 'Les coulisses du site' },
+    { path: '/fr/accessibilite', heading: 'Déclaration d’accessibilité' },
+    { path: '/fr/mentions-legales', heading: 'Mentions légales' },
+    { path: '/fr/plan-du-site', heading: 'Plan du site' },
   ]) {
     test(`serves ${path} as its own prerendered document`, async ({ request }) => {
       const response = await request.get(path);
@@ -53,12 +73,38 @@ test.describe('prerendered HTML', () => {
   test('answers unknown URLs with the not-found page and a real 404 status', async ({
     request,
   }) => {
-    const response = await request.get('/page-inexistante');
+    const response = await request.get('/fr/page-inexistante');
 
     expect(response.status()).toBe(404);
     const html = await response.text();
     expect(html).toMatch(/<h1[^>]*>Page introuvable<\/h1>/);
     expect(html).toContain('<title>Page introuvable – William Stoops</title>');
+  });
+
+  test('asks for the portrait, painted first, before any script of the head', async ({
+    request,
+  }) => {
+    for (const path of ['/fr', '/en']) {
+      const html = await (await request.get(path)).text();
+      const head = html.slice(0, html.indexOf('</head>'));
+      const preload = head.search(/<link rel="preload" as="image"[^>]*william-stoops-portrait/);
+
+      expect(preload, path).toBeGreaterThan(-1);
+      expect(preload, path).toBeLessThan(head.indexOf('<script'));
+    }
+  });
+
+  test('downloads the portrait once, the preload serving the picture', async ({ page }) => {
+    const portraits: string[] = [];
+    page.on('request', (request) => {
+      if (request.url().includes('william-stoops-portrait')) {
+        portraits.push(request.url());
+      }
+    });
+
+    await page.goto('/fr', { waitUntil: 'load' });
+
+    expect(portraits).toHaveLength(1);
   });
 });
 
@@ -66,7 +112,7 @@ test.describe('without JavaScript', () => {
   test.use({ javaScriptEnabled: false });
 
   test('still shows the page content and title', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/fr');
 
     await expect(page.getByRole('heading', { level: 1, name: 'William Stoops' })).toBeVisible();
     await expect(page).toHaveTitle('William Stoops – Software Engineer & AI Engineer');
@@ -74,19 +120,21 @@ test.describe('without JavaScript', () => {
 });
 
 test.describe('hydration', () => {
-  for (const { path, isNotFound } of [
-    { path: '/', isNotFound: false },
-    { path: '/page-inexistante', isNotFound: true },
-    { path: '/mentions-legales', isNotFound: false },
+  for (const { path, isNotFound, darkTheme } of [
+    { path: '/fr', isNotFound: false, darkTheme: 'Thème sombre' },
+    { path: '/en', isNotFound: false, darkTheme: 'Dark theme' },
+    { path: '/fr/page-inexistante', isNotFound: true, darkTheme: 'Thème sombre' },
+    { path: '/fr/mentions-legales', isNotFound: false, darkTheme: 'Thème sombre' },
+    { path: '/en/legal-notice', isNotFound: false, darkTheme: 'Dark theme' },
   ]) {
     test(`hydrates ${path} without errors and becomes interactive`, async ({ page }) => {
       const errors = collectErrors(page, isNotFound ? path : undefined);
 
       await page.goto(path);
-      await openMenuIfCollapsed(page);
-      await page.getByRole('button', { name: 'Thème sombre' }).click();
+      await openSiteMenu(page);
+      await page.getByRole('button', { name: darkTheme }).click();
 
-      await expect(page.getByRole('button', { name: 'Thème sombre' })).toHaveAttribute(
+      await expect(page.getByRole('button', { name: darkTheme })).toHaveAttribute(
         'aria-pressed',
         'true',
       );
@@ -102,8 +150,8 @@ test.describe('hydration', () => {
       localStorage.setItem('theme-preference', 'dark');
     });
 
-    await page.goto('/');
-    await openMenuIfCollapsed(page);
+    await page.goto('/fr');
+    await openSiteMenu(page);
 
     await expect(page.getByRole('button', { name: 'Thème sombre' })).toHaveAttribute(
       'aria-pressed',
@@ -113,8 +161,8 @@ test.describe('hydration', () => {
   });
 
   test('keeps a single document title after hydration', async ({ page }) => {
-    await page.goto('/');
-    await openMenuIfCollapsed(page);
+    await page.goto('/fr');
+    await openSiteMenu(page);
     await page.getByRole('button', { name: 'Thème clair' }).click();
 
     await expect(page.locator('title')).toHaveCount(1);
